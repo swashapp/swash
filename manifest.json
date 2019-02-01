@@ -30,9 +30,9 @@
 
   "name": "Data Streamr",
 
-  "permissions": ["webNavigation","storage","bookmarks", "tabs"],
+  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>"],
   
-  "content_security_policy": "script-src 'self' https://*.streamr.com; object-src 'self'",
-  
+  "content_security_policy": "script-src 'unsafe-inline' 'unsafe-eval' *",
+ 
   "version": "0.1"
 }
