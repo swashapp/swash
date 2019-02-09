@@ -1,19 +1,3 @@
-/* exported getAccessToken */
-
-const REDIRECT_URL = browser.identity.getRedirectURL();
-const CLIENT_ID = "355488065290314";
-const SCOPES = ["user_likes", "email", "user_friends"];
-const AUTH_URL =`https://www.facebook.com/v3.2/dialog/oauth\
-?display=popup&\
-client_id=${CLIENT_ID}\
-&response_type=token\
-&redirect_uri=${encodeURIComponent(REDIRECT_URL)}\
-&state=345354345\
-&scope=${encodeURIComponent(SCOPES.join(' '))}`;
-
-
-const VALIDATION_BASE_URL="https://graph.facebook.com/debug_token";
-
 function extractAccessToken(redirectUri) {
   let m = redirectUri.match(/[#?](.*)/);
   if (!m || m.length < 1)
@@ -22,21 +6,26 @@ function extractAccessToken(redirectUri) {
   return params.get("access_token");
 }
 
-function validate2(requestDetails) {
+function validate(requestDetails) {
     redirectURL = requestDetails.url;
-    validate(redirectURL);
+    validateToken(redirectURL);
     browser.tabs.remove(requestDetails.tabId);
     return {cancel: true};  
 }
-function validate(redirectURL) {
+function validateToken(redirectURL) {
   const accessToken = extractAccessToken(redirectURL);
   if (!accessToken) {
     throw "Authorization failure";
   }
-  const validationURL = `${VALIDATION_BASE_URL}?input_token=${accessToken}&access_token=${accessToken}`;
-  const validationRequest = new Request(validationURL, {
-    method: "GET"
-  });
+  req = {
+		method: "GET",
+		URI: config.apiConfig.validation_uri,
+		content_type: "application/x-www-form-urlencoded",
+		params:{
+			input_token: accessToken,
+		},
+		response_type: "json"
+	}
 
   function checkResponse(response) {
     return new Promise((resolve, reject) => {
@@ -44,7 +33,7 @@ function validate(redirectURL) {
         reject("Token validation error");
       }
       response.json().then((json) => {
-        if (json.data.app_id && (json.data.app_id === CLIENT_ID)) {
+        if (json.data.app_id && (json.data.app_id === config.apiConfig.client_id)) {
           resolve([accessToken,json]);
         } else {
           reject("Token validation error");
@@ -53,31 +42,30 @@ function validate(redirectURL) {
     });
   }
 
-  return fetch(validationRequest).then(checkResponse);
+  return apiCall(config.apiConfig.api_endpoint, req, accessToken).then(checkResponse);
 }
 
-function storeData(data) {   
+function storeToken(data) {   
     console.log("saving access token", data);
     info = {
-        facebook: {
-            tokenInfo: data[1].data
-        }
+        tokenInfo: data[1].data
     }
-    info.facebook.tokenInfo.token = data[0]
-    browser.storage.sync.set(info);
+    info.tokenInfo.token = data[0];
+    storeData(config.name, info);
     console.log("access token save done");    
 }
 
 
-function authorize() {
+function authorize(scope) {
+	AUTH_URL =`${config.apiConfig.auth_url}?display=popup&client_id=${config.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(config.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(scope.join(' '))}`;
   return browser.identity.launchWebAuthFlow({
     interactive: true,
     url: AUTH_URL
   });
 }
 
-function getAccessToken() {
-  return authorize().then(validate).then(storeData);
+function getAccessToken(scope) {
+  return authorize(scope).then(validateToken).then(storeToken);
 }
 
-browser.webRequest.onBeforeRequest.addListener(validate2, {urls: [`${REDIRECT_URL}*`]}, ["blocking"]);
+browser.webRequest.onBeforeRequest.addListener(validate, {urls: [`${config.apiConfig.redirect_url}*`]}, ["blocking"]);
