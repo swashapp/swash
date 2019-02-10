@@ -1,4 +1,4 @@
-function inspectRequest(requestDetails) {
+function inspectSearch(requestDetails) {
 	console.log(`inspectRequest: ${config.name} `, requestDetails);
 	//top search
 	var query = "";
@@ -7,7 +7,10 @@ function inspectRequest(requestDetails) {
 	{
 		var searchParams = (new URL(requestDetails.url)).searchParams;
 		var query = searchParams.get("q");
-		return query;
+		return {
+			query: query,
+			type: "top"
+		};
 	}
 	//Search query
 	query = "";
@@ -15,7 +18,10 @@ function inspectRequest(requestDetails) {
 	var res = requestDetails.url.match(pattern);
 	if(res!= null && res.length > 1) {
 		query = res[1];	
-		return query;
+		return {
+			query: query,
+			type: "str"
+		};
 	}
 	//auto complete search
 	pattern = /^https:\/\/www.facebook.com\/typeahead\/search\/facebar\/query\/.*/;
@@ -23,7 +29,10 @@ function inspectRequest(requestDetails) {
 	{
 		var searchParams = (new URL(requestDetails.url)).searchParams;
 		var query = searchParams.get("value");
-		return query;
+		return {
+			query: query,
+			type: "facebar"
+		};
 	}
 	
 	//warn serach
@@ -32,7 +41,10 @@ function inspectRequest(requestDetails) {
 	{
 		var searchParams = (new URL(requestDetails.url)).searchParams;
 		var query = searchParams.get("query");
-		return query;
+		return {
+			query: query,
+			type: "warm"
+		};
 	}
 	
 	//facebar survay
@@ -41,10 +53,31 @@ function inspectRequest(requestDetails) {
 	{
 		var searchParams = (new URL(requestDetails.url)).searchParams;
 		var query = searchParams.get("query");
-		return query;
+		return {
+			query: query,
+			type: "facebar_survey"
+		};
 	}
 	
 	return null;
 }
 
-browser.webRequest.onBeforeRequest.addListener(inspectRequest,{urls: ["*://www.facebook.com/*"]});
+function inspectReferrer(requestDetails) {
+	console.log(`inspectRequest: ${config.name} `, requestDetails);
+	return { 
+		url: requestDetails.url,
+		originUrl: requestDetails.originUrl		
+	};
+}
+
+function inspectVisit(requestDetails) {
+	console.log(`inspectRequest: ${config.name} `, requestDetails);
+	return { 
+		url: requestDetails.url,
+	};
+}
+
+
+browser.webRequest.onBeforeRequest.addListener(inspectSearch,{urls: ["*://www.facebook.com/*"]});
+browser.webRequest.onBeforeRequest.addListener(inspectVisit,{urls: ["*://www.facebook.com/*"]});
+browser.webRequest.onBeforeRequest.addListener(inspectReferrer,{urls: ["*://www.facebook.com/*"]});

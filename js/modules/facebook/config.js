@@ -2,6 +2,7 @@ config = {
 	name: "facebook",
 	description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
 	path: "/facebook",
+	URL: "https://www.facebook.com",
 	data: ["browsing", "apiCall"],
 	apiConfig: {
 		redirect_url: browser.identity.getRedirectURL(),

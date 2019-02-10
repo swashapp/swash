@@ -1,5 +1,22 @@
 console.log("Hello world!");
 
+browser.runtime.onMessage.addListener(notify);
+
+function notify(message) {
+	alert("1");
+  browser.notifications.create({
+    "type": "basic",
+    "iconUrl": browser.extension.getURL("link.png"),
+    "title": "You clicked a link!",
+    "message": message.url
+  });
+}
+
+
+
+
+
+
 var STREAM_ID = '************************'
 var API_KEY = '**********************************'
 var settings = {};

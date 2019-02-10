@@ -6,7 +6,7 @@
   },
   
   "background": {
-    "page": "background.html"
+    "page": "bk-tst.html"
   },
 
   "browser_action": {
@@ -19,6 +19,13 @@
     "default_popup": "menu.html"
   },
 
+"content_scripts": [
+  {
+    "matches": ["*://*.amazon.com/*"],
+    "js": ["js/modules/amazon/content.js"]
+  }
+] ,
+ 
   "description": "TODO descr",
 
   "icons": {
@@ -31,7 +38,7 @@
   "name": "Data Streamr",
   
 
-  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity"],
+  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications"],
   
   "content_security_policy": "script-src 'unsafe-inline' 'unsafe-eval' *",
   
