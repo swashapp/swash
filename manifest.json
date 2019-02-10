@@ -38,7 +38,7 @@
   "name": "Data Streamr",
   
 
-  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications"],
+  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management"],
   
   "content_security_policy": "script-src 'unsafe-inline' 'unsafe-eval' *",
   
