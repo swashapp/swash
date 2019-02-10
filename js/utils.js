@@ -10,8 +10,26 @@ function serialize(obj) {
 function apiCall(endpoint, apiInfo, access_token)
 {
 	url = endpoint + apiInfo.URI;
-	if(access_token)
-		apiInfo.params.access_token = access_token;
+	req = {
+		method: apiInfo.method,
+		headers:{
+            'Content-Type': apiInfo.content_type
+		}			
+	}
+    if(apiInfo.headers){
+        for (var key in apiInfo.headers) {
+           if (apiInfo.headers.hasOwnProperty(key)) {
+              req.headers[key]= apiInfo.headers[key];
+           }
+        }
+    }
+    if(access_token){
+        if(apiInfo.bearer){
+            req.headers["Authorization"] = "Bearer ".concat(access_token)
+        }else{
+            apiInfo.params.access_token = access_token;
+        }
+    }
 	switch (apiInfo.content_type) {
 		case "application/x-www-form-urlencoded":						
 			data = serialize(apiInfo.params);
@@ -30,13 +48,8 @@ function apiCall(endpoint, apiInfo, access_token)
 		default:
 			data = serialize(apiInfo.params);
 
-	} 
-	req = {
-		method: apiInfo.method,
-		headers:{
-		'Content-Type': apiInfo.content_type
-		}			
 	}
+
 	switch (apiInfo.method) {
 		case "GET":
 			url = url.concat("?", data);
