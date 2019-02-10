@@ -1,15 +1,16 @@
 console.log("Hello world!");
+	browser.runtime.onMessage.addListener(notify);
 
-browser.runtime.onMessage.addListener(notify);
 
-function notify(message) {
-	alert("1");
+function notify(message,sender, sendResponse) {
   browser.notifications.create({
     "type": "basic",
     "iconUrl": browser.extension.getURL("link.png"),
-    "title": "You clicked a link!",
-    "message": message.url
+    "title": message.type,
+    "message": JSON.stringify(message)
   });
+    sendResponse({response: "Response from background script"});
+
 }
 
 
