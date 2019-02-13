@@ -1,13 +1,4 @@
 
-function getVideoStatus(){
-    var duration = document.getElementsByClassName("ytp-time-duration")[0].innerHTML
-    var current = document.getElementsByClassName("ytp-time-current")[0].innerHTML
-    return {
-        duration: duration,
-        current: current
-    }
-}
-
 function inspectAjax(requestDetails) {
 	console.log(`inspectRequest: ${config.name} `, requestDetails);
 	var query = "";
@@ -19,8 +10,7 @@ function inspectAjax(requestDetails) {
         var query = requestDetails.requestBody.formData.sej
 		return {
 			query: query,
-			type: name,
-            videoStatus: getVideoStatus()
+			type: name
 		};
 	}
 	
@@ -41,8 +31,7 @@ function inspectSearch(requestDetails) {
         }
 		return {
 			query: query,
-			type: type,
-            videoStatus: getVideoStatus()
+			type: type
 		};
 	}
 	
