@@ -1,17 +1,49 @@
-
-function getVideoStatus(){
-    var duration = document.getElementsByClassName("ytp-time-duration")[0].innerHTML
-    var current = document.getElementsByClassName("ytp-time-current")[0].innerHTML
-    return {
-        duration: duration,
-        current: current
-    }
-}
-
-function uninstall(){
-    object.removeEventListener("unload", getVideoStatus);
-}
-
-function install(){
-    object.addEventListener("unload", getVideoStatus);
-}
+Youtube.content = [
+//    {
+//        name: "",
+//        description: "",
+//        title: "",
+//        events: [
+//            {
+//                selector: "",
+//                event_name: ""
+//           }
+//        ],
+//        objects: [
+//            {
+//                selector:"",
+//                property: "value",
+//                name: ""
+//            }
+//        ]
+//    },
+    {
+        name: "",
+        description: "",
+        title: "",
+        events: [
+            {
+                selector: "",   // object
+                event_name: "unload"
+            }
+        ],
+        objects: [
+            {
+                selector:".ytp-time-duration",
+                property: "innerHTML",
+                name: "duration"
+            },
+            {
+                selector:".ytp-time-current",
+                property: "innerHTML",
+                name: "current"
+            },
+            {
+                selector:"title",
+                property: "innerHTML",
+                name: "page_title"
+            }
+        ]
+    },
+    
+];

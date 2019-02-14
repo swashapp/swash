@@ -1,4 +1,4 @@
-api_list = [
+Youtube.apiCall = [
 	{
 		name: "recentActivities",
 		description: "",
@@ -167,14 +167,10 @@ api_list = [
 				});
 			});
 		}
-	},
+	}
+];
 
-
-
-    
-    
-]
-
+/*
 
 function gCall(apiInfo)
 {
@@ -249,3 +245,4 @@ function verifyBatchResponse(response) {
 		});
 	});	
 }
+*/

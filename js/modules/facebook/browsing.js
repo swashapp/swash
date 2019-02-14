@@ -1,89 +1,91 @@
-function inspectSearch(requestDetails) {
-	console.log(`inspectRequest: ${config.name} `, requestDetails);
-	//top search
-	var query = "";
-	var pattern = /^https:\/\/www\.facebook\.com\/search\/top\/.*/;
-	if(pattern.test(requestDetails.url))
-	{
-		var searchParams = (new URL(requestDetails.url)).searchParams;
-		var query = searchParams.get("q");
-		return {
-			query: query,
-			type: "top"
-		};
-	}
-	//Search query
-	query = "";
-	var pattern = /^https:\/\/www\.facebook\.com\/search\/str\/([^\/]*)\/.*/;
-	var res = requestDetails.url.match(pattern);
-	if(res!= null && res.length > 1) {
-		query = res[1];	
-		return {
-			query: query,
-			type: "str"
-		};
-	}
-	//auto complete search
-	pattern = /^https:\/\/www.facebook.com\/typeahead\/search\/facebar\/query\/.*/;
-	if(pattern.test(requestDetails.url))
-	{
-		var searchParams = (new URL(requestDetails.url)).searchParams;
-		var query = searchParams.get("value");
-		return {
-			query: query,
-			type: "facebar"
-		};
-	}
-	
-	//warn serach
-	pattern = /^https:\/\/www\.facebook\.com\/search\/browse\/warm\/requestargs\/.*/;
-	if(pattern.test(requestDetails.url))
-	{
-		var searchParams = (new URL(requestDetails.url)).searchParams;
-		var query = searchParams.get("query");
-		return {
-			query: query,
-			type: "warm"
-		};
-	}
-	
-	//facebar survay
-	pattern = /^https:\/\/www\.facebook\.com\/search\/facebar_survey\/.*/;
-	if(pattern.test(requestDetails.url))
-	{
-		var searchParams = (new URL(requestDetails.url)).searchParams;
-		var query = searchParams.get("query");
-		return {
-			query: query,
-			type: "facebar_survey"
-		};
-	}
-	
-	return null;
-}
+Facebook.browsing = [
+    {
+        name: "search_top",
+        title: "",
+        description: "",
+        
+        method: "GET",
+        url_pattern: /^https:\/\/www\.facebook\.com\/search\/top\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "q",
+                name: "query"
+            }
+        ]
+    },
+    {
+        name: "search_str",
+        title: "",
+        description: "",
+        
+        method: "GET",
+        url_pattern: /^https:\/\/www\.facebook\.com\/search\/str\/([^\/]*)\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "regex",
+                group: 1,
+                name: "query"
+            }
+        ]
+    },
+    {
+        name: "search_facebar",
+        title: "",
+        description: "",
+        
+        method: "GET",
+        url_pattern: /^https:\/\/www.facebook.com\/typeahead\/search\/facebar\/query\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "value",
+                name: "query"
+            }
+        ]
+    },
+    {
+        name: "search_warm",
+        title: "",
+        description: "",
+        
+        method: "GET",
+        url_pattern: /^https:\/\/www\.facebook\.com\/search\/browse\/warm\/requestargs\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "query",
+                name: "query"
+            }
+        ]
+    },
+    {
+        name: "search_survey",
+        title: "",
+        description: "",
+        
+        method: "GET",
+        url_pattern: /^https:\/\/www\.facebook\.com\/search\/facebar_survey\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "query",
+                name: "query"
+            }
+        ]
+    },
+    {
+        name: "inspectVisit",
+        target_listener: "inspectVisit"
+    },
+    {
+        name: "inspectReferrer",
+        target_listener: "inspectReferrer"
+    }
 
-
-function inspectReferrer(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
-		return;
-	console.log(requestDetails.url, requestDetails.originUrl);
-
-	return { 
-		url: requestDetails.url,
-		originUrl: requestDetails.originUrl		
-	};
-}
-
-function inspectVisit(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	console.log(requestDetails.url)
-	return { 
-		url: requestDetails.url
-	};
-}
-
-
-browser.webRequest.onBeforeRequest.addListener(inspectSearch,{urls: ["*://www.facebook.com/*"]});
-browser.webNavigation.onBeforeNavigate.addListener(inspectVisit,{url: [{hostContains: "www.facebook.com"}]});
-browser.webRequest.onBeforeRequest.addListener(inspectReferrer,{urls: ["*://www.facebook.com/*"]});
+];

@@ -1,47 +1,47 @@
+Amazon.browsing = [
+    {
+        name: "search1",
+        method: "GET",
+        url_pattern: /^https:\/\/www\.amazon\.com\/s\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "field-keywords",
+                name: "query"
+            },
+            {
+                type: "query",
+                key: "url",
+                name: "url"
+            }
+        ]
+    },
+    {
+        name: "search2",
+        method: "GET",
+        url_pattern: /^https:\/\/www\.amazon\.com\/s\/.*/,
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "k",
+                name: "query"
+            },
+            {
+                type: "query",
+                key: "url",
+                name: "url"
+            }
+        ]
+    },
+    {
+        name: "inspectVisit",
+        target_listener: "inspectVisit"
+    },
+    {
+        name: "inspectReferrer",
+        target_listener: "inspectReferrer"
+    }
 
-function inspectSearch(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	//top search
-	var query = "";
-	var pattern = /^https:\/\/www\.amazon\.com\/s\/.*/;
-	if(pattern.test(requestDetails.url))
-	{
-		var searchParams = (new URL(requestDetails.url)).searchParams;
-		var query = searchParams.get("field-keywords");
-		if(!query)
-			query = searchParams.get("k");
-		if(!query)
-			return;
-		var url = searchParams.get("url");
-		console.log(query, url);
-		return {
-			query: query,
-			category: url
-		}
-	}
-	return null;
-}
-
-function inspectReferrer(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
-		return;
-	console.log(requestDetails.url, requestDetails.originUrl);
-
-	return { 
-		url: requestDetails.url,
-		originUrl: requestDetails.originUrl		
-	};
-}
-
-function inspectVisit(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	console.log(requestDetails.url)
-	return { 
-		url: requestDetails.url
-	};
-}
-
-browser.webNavigation.onBeforeNavigate.addListener(inspectSearch,{url: [{hostContains: "www.amazon.com"}]});
-browser.webRequest.onBeforeRequest.addListener(inspectReferrer,{urls: ["*://www.amazon.com/*"]});
-browser.webNavigation.onBeforeNavigate.addListener(inspectVisit,{url: [{hostContains: "www.amazon.com"}]});
+];

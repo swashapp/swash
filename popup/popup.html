@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popup</title>
+    <link rel="stylesheet" href="css/all.css">
+</head>
+<body>
+<div class=" main-container">
+    <div class="row">
+        <div class="col-md-12 header">
+            <img style="max-width: 50px;height: auto" src="./logo.png" alt="">
+            <div id='title'>Surf Streamr</div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-12" style="border-bottom: 1px solid #707cbb">
+                    <div class="row">
+                        <div style="width:15%;display:inline-block">
+                        <i class="fa fa-user user-icon"></i>
+                        </div>
+                        <div style="width:80%;display:inline-block">
+                            <h5>Wallet ID : fjef9u3j49rfm3</h5>
+                            <h5>Wallet Balance : 1</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--<div class="col-md-6">Combo</div>-->
+                <!--<div class="col-md-6">-->
+                    <!--<select class="combo-box" name="xx" id="">-->
+                        <!--<option value="1">1</option>-->
+                        <!--<option value="2">2</option>-->
+                        <!--<option value="3">3</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row" >
+                <div class="col-md-6 xx" style="width:45%;display:inline-block"><div>Streaming</div></div>
+                <div class="col-md-6" style="width:45%;display:inline-block">
+                    <input class='switch' type='checkbox'/>
+                    <div>
+                        <p class="enabled">Enabled</p>
+                        <p class="disabled">Disabled</p>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-md-12">-->
+            <!--Welcome-->
+        <!--</div>-->
+        <!--<div class="col-md-12">-->
+            <!--Welcome-->
+        <!--</div>-->
+        <div class="col-md-12 footer">
+            <!--<div class="bt-confirm">Save</div>-->
+            <div class="row" style="text-align: center;padding:5px 0">
+                <div class="col-md-4"><i class="fa fa-cog fa-3x"></i></div>
+                <div class="col-md-4"><i class="fa fa-envelope fa-3x"></i></div>
+                <div class="col-md-4"><i class="fa fa-paperclip fa-3x"></i></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.xx div{
+    position:absolute;
+        top: 7px;
+}
+.fa{
+    transition:color .4s;
+    cursor:pointer;
+}
+.fa:hover{
+    color:blue;
+}
+.row{
+width:100%;
+display:block;
+position:relative;
+}
+.col-md-4{
+position:relative;
+    display:inline-block;
+    width:31.33%
+}
+
+#title{
+    position: absolute;
+    left: 75px;
+    top: 12px;}
+    
+    .enabled{
+        display: none;
+        position: absolute;
+        pointer-events: none;
+        font-size: 12px;
+    top: -2px;
+    left: 218px;
+    }
+    .disabled{
+        /*display: none;*/
+        position: absolute;
+        pointer-events: none;
+        font-size: 12px;
+top: -2px;
+    left: 246px;
+    }
+    input[type="checkbox"].switch:checked + div .disabled {
+            display: none;
+    }input[type="checkbox"].switch:checked + div .enabled {
+            display: block;
+    }
+
+    .combo-box {
+        border: none;
+        min-width: 100%;
+        box-shadow: 0 0 1px 1px #5a68b1;
+    }
+
+    .main-container {
+        width: 450px;
+        position:relative;
+display:block;
+    }
+
+    .user-icon {
+        font-size: 55px;
+    }
+
+    .row .col-md-12 {
+    width:450px;
+        margin: 5px auto 5px auto;
+    }
+
+    .header {
+        border-bottom: 1px solid #707cbb;
+    }
+
+    input[type="checkbox"].switch {
+        position: absolute;
+        opacity: 0;
+        width: 63px;
+        height: 45px;
+        cursor: pointer;
+
+    }
+
+    input[type="checkbox"].switch + div {
+        vertical-align: middle;
+        width: 90px;
+        height: 33px;
+        border-radius: 999px;
+        background-color: #00B0F2;
+        -webkit-transition-duration: .4s;
+        transition-duration: .4s;
+        -webkit-transition-property: background-color, box-shadow;
+        transition-property: background-color, box-shadow;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"].switch:checked + div {
+        background-color: #57BB00;
+    }
+
+    input[type="checkbox"].switch + div > div {
+        float: left;
+        width: 30px;
+        height: 30px;
+        border-radius: inherit;
+        background: #ffffff;
+        -webkit-transition-timing-function: cubic-bezier(1, 0, 0, 1);
+        transition-timing-function: cubic-bezier(1, 0, 0, 1);
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        -webkit-transition-property: transform, background-color;
+        transition-property: transform, background-color;
+        pointer-events: none;
+        margin-top: 1px;
+        margin-left: 1px;
+    }
+
+    input[type="checkbox"].switch:checked + div > div {
+        -webkit-transform: translate3d(57px, 0, 0);
+        transform: translate3d(57px, 0, 0);
+        /* background-color: #e7e7e7;*/
+    }
+
+    .footer {
+        border-top: 1px solid black;
+    }
+
+    .bt-confirm {
+        background-color: #00b154;
+        width: 100px;
+        margin: 10px auto;
+        cursor: pointer;
+        border-radius: 60px;
+        text-align: center;
+    }
+
+</style>
+</body>
+</html>
