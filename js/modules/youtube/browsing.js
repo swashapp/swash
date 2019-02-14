@@ -39,7 +39,11 @@ function inspectSearch(requestDetails) {
 }
 
 function inspectReferrer(requestDetails) {
-	console.log(`inspectRequest: ${config.name} `, requestDetails);
+	//console.log(`inspectRequest: ${config.name} `, requestDetails);
+	if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
+		return;
+	console.log(requestDetails.url, requestDetails.originUrl);
+
 	return { 
 		url: requestDetails.url,
 		originUrl: requestDetails.originUrl		
@@ -55,5 +59,5 @@ function inspectVisit(requestDetails) {
 
 browser.webRequest.onBeforeRequest.addListener(inspectAjax,{urls: ["*://www.youtube.com/*"]},["requestBody"]);
 browser.webRequest.onBeforeRequest.addListener(inspectSearch,{urls: ["*://www.youtube.com/*"]});
-browser.webRequest.onBeforeRequest.addListener(inspectVisit,{urls: ["*://www.youtube.com/*"]});
+browser.webNavigation.onBeforeNavigate.addListener(inspectVisit,{url: [{hostContains: "www.youtube.com"}]});
 browser.webRequest.onBeforeRequest.addListener(inspectReferrer,{urls: ["*://www.youtube.com/*"]});
