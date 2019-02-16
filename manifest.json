@@ -16,7 +16,7 @@
       "38": "icons/surf38.png"
     },
     "default_title": "Data Streamr",
-    "default_popup": "menu.html"
+    "default_popup": "popup/popup.html"
   },
 
 "content_scripts": [
