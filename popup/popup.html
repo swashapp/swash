@@ -9,8 +9,9 @@
 <div class=" main-container">
     <div class="row">
         <div class="col-md-12 header">
-            <img style="max-width: 50px;height: auto" src="./logo.png" alt="">
-            <div id='title'>Surf Streamr</div>
+            <img style="max-height: 48px;width: auto" src="./logo.png" alt="">
+            <img style="max-height: 30px;width: auto" src="./brand.png" alt="">
+            
         </div>
         <div class="col-md-12">
             <div class="row">
@@ -20,22 +21,12 @@
                         <div style="width:15%;display:inline-block">
                         <i class="fa fa-user user-icon"></i>
                         </div>
-                        <div style="width:80%;display:inline-block">
+                        <div style="width:80%;display:inline-block; margin-left:10px;">
                             <h5>Wallet ID : fjef9u3j49rfm3</h5>
                             <h5>Wallet Balance : 1</h5>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <!--<div class="col-md-6">Combo</div>-->
-                <!--<div class="col-md-6">-->
-                    <!--<select class="combo-box" name="xx" id="">-->
-                        <!--<option value="1">1</option>-->
-                        <!--<option value="2">2</option>-->
-                        <!--<option value="3">3</option>-->
-                    <!--</select>-->
-                <!--</div>-->
             </div>
         </div>
         <div class="col-md-12">
@@ -60,15 +51,18 @@
         <div class="col-md-12 footer">
             <!--<div class="bt-confirm">Save</div>-->
             <div class="row" style="text-align: center;padding:5px 0">
-                <div class="col-md-4"><i class="fa fa-cog fa-3x"></i></div>
-                <div class="col-md-4"><i class="fa fa-envelope fa-3x"></i></div>
-                <div class="col-md-4"><i class="fa fa-paperclip fa-3x"></i></div>
+                <div class="col-md-4"><i class="fa fa-cog fa-2x" id="open_setting"></i></div>
+                <div class="col-md-4"><i class="fa fa-envelope fa-2x" id="open_messages"></i></div>
+                <div class="col-md-4"><i class="fa fa-paperclip fa-2x" id="open_logs"></i></div>
 
             </div>
         </div>
     </div>
 </div>
+<script src="menu.js"></script>
 <style>
+
+
 .xx div{
     position:absolute;
         top: 7px;
@@ -78,7 +72,7 @@
     cursor:pointer;
 }
 .fa:hover{
-    color:blue;
+    color:#FF6501;
 }
 .row{
 width:100%;
@@ -101,16 +95,16 @@ position:relative;
         position: absolute;
         pointer-events: none;
         font-size: 12px;
-    top: -2px;
-    left: 218px;
+        top: -2px;
+        left: 150px;
     }
     .disabled{
         /*display: none;*/
         position: absolute;
         pointer-events: none;
         font-size: 12px;
-top: -2px;
-    left: 246px;
+        top: -2px;
+        left: 175px;
     }
     input[type="checkbox"].switch:checked + div .disabled {
             display: none;
@@ -125,9 +119,10 @@ top: -2px;
     }
 
     .main-container {
-        width: 450px;
+        width: 350px;
         position:relative;
-display:block;
+        display:block;
+        font-family: arial,sans-serif   ;
     }
 
     .user-icon {
@@ -135,7 +130,7 @@ display:block;
     }
 
     .row .col-md-12 {
-    width:450px;
+    width:300px;
         margin: 5px auto 5px auto;
     }
 
@@ -157,7 +152,7 @@ display:block;
         width: 90px;
         height: 33px;
         border-radius: 999px;
-        background-color: #00B0F2;
+        background-color: gray;
         -webkit-transition-duration: .4s;
         transition-duration: .4s;
         -webkit-transition-property: background-color, box-shadow;
@@ -166,7 +161,7 @@ display:block;
     }
 
     input[type="checkbox"].switch:checked + div {
-        background-color: #57BB00;
+        background-color: #FF6501;
     }
 
     input[type="checkbox"].switch + div > div {
