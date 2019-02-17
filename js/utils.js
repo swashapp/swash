@@ -7,6 +7,19 @@ function serialize(obj) {
   return str.join("&");
 }
 
+function jsonUpdate(obj/*, …*/) {
+    for (var i=1; i<arguments.length; i++) {
+        for (var prop in arguments[i]) {
+            var val = arguments[i][prop];
+            if (typeof val == "object") // this also applies to arrays or null!
+                update(obj[prop], val);
+            else
+                obj[prop] = val;
+        }
+    }
+    return obj;
+}
+
 function apiCall(endpoint, apiInfo, access_token)
 {
 	url = endpoint + apiInfo.URI;
@@ -62,14 +75,3 @@ function apiCall(endpoint, apiInfo, access_token)
 	return fetch(url, req);
 }
 
-function storeData(module, info)
-{
-	data = {};
-	data[module] = info;
-    browser.storage.sync.set(data);	
-}
-
-function retrieveData(module)
-{
-    return browser.storage.sync.get(module);
-}
