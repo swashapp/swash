@@ -9,6 +9,9 @@ var Surfing = (function() {
         data: ["browsing"],
         privacy_level: 3,
         status: "enabled",
-        icons: ["","",""]
+        icons: ["","",""],
+        version: 1,
+        changelog: []
     };
 }());
+AllModules.push(Surfing);

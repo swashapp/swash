@@ -8,6 +8,9 @@ var Twitter = (function() {
         functions: ["browsing"],
         privacy_level: 3,
         status: "enabled",
-        icons: ["","",""]
+        icons: ["","",""],
+        version: 1,
+        changelog: []
     };
 }());
+AllModules.push(Twitter);

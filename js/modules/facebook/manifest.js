@@ -16,6 +16,9 @@ var Facebook = (function() {
         },
         privacy_level: 3,
         status: "enabled",
-        icons: ["","",""]
+        icons: ["","",""],
+        version: 1,
+        changelog: []
     };
 }());
+AllModules.push(Facebook);

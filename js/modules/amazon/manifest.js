@@ -9,6 +9,9 @@ var Amazon = (function() {
         URL: "https://www.amazon.com/",
         privacy_level: 3,
         status: "enabled",
-        icons: ["","",""]
+        icons: ["","",""],
+        version: 1,
+        changelog: []
     };
 }());
+AllModules.push(Amazon);

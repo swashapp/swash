@@ -6,7 +6,7 @@
   },
   
   "background": {
-    "page": "js/bk-tst.html"
+    "page": "js/background.html"
   },
 
   "browser_action": {

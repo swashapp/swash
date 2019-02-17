@@ -4,23 +4,23 @@
         populate: true,
         windowTypes: ["normal"]
       }).then((windowInfoArray) => {
-        let found = false;
-        for (let windowInfo of windowInfoArray) {
-          for (let tab of windowInfo.tabs) {
-            let url = new URL(tab.url);
-            if (url_to_show == url) {
-              found = true;
-              browser.windows.update(windowInfo.id, {focused: true});
-              return browser.tabs.update(tab.id, {active: true, url: url});
-            }
-          }
-        }
-        if (!found) return browser.tabs.create({url: url_to_show, active: true});
+          browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
       });
   }
   
   console.log("I loaded");
   
+
+function update_balance(balance){
+    console.log(balance);
+    document.getElementById("wallet_balance").innerText  = balance;
+}
+
+function update_wallet_address(walletAddress){
+    
+    document.getElementById("wallet_address").innerText  = walletAddress.substring(0,16) + "...";
+    
+}
   
 document.getElementById("open_setting").addEventListener('click', function(eventObj) {
     let url = browser.runtime.getURL("setting.html");
@@ -37,3 +37,7 @@ document.getElementById("open_logs").addEventListener('click', function(eventObj
     let url = browser.runtime.getURL("setting.html");
     showPageOnTab(url);
 });
+
+let walletAddress = "0x742d35cc6634c0532925a3b844bc454e4438f44e";
+update_wallet_address(walletAddress);
+getBalance(walletAddress, update_balance);
