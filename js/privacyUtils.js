@@ -1,6 +1,6 @@
 function urlPrivacy(url, privacyLevel) {
-    urlObj = new URL(requestDetails.url);
-    var searchParams = (new URL(requestDetails.url)).searchParams;
+    urlObj = new URL(url);
+    var searchParams = (new URL(url)).searchParams;
     var query = searchParams.get("field-keywords");    
     switch(privacyLevel) {
         case 0:            
@@ -18,11 +18,12 @@ function urlPrivacy(url, privacyLevel) {
             }
             path = path.join("/");                
             var retUrl = urlObj.origin + path;
-            return retuUrl;
+            return retUrl;
         case 3:
             return  urlObj.origin;
         default:
             return  urlObj.origin;
+	}
 }
     
 function timePrivacy(time, privacyLevel) {
@@ -43,6 +44,7 @@ function timePrivacy(time, privacyLevel) {
             return date.getTime();
         default:
             return date.getTime();
+	}
 }
 
 function textPrivacy(text, privacyLevel) {
@@ -70,9 +72,10 @@ function textPrivacy(text, privacyLevel) {
             return text;
         default:
             return "";
+	}
 }
     
-function objectPrivacy(obejct, objectType, privacyLevel){
+function objectPrivacy(object, objectType, privacyLevel){
     switch(objectType) {
         case "url" :
             return urlPrivacy(object, privacyLevel);
@@ -83,5 +86,7 @@ function objectPrivacy(obejct, objectType, privacyLevel){
         case "text" :
             return textPrivacy(object, privacyLevel);
             break;
+		default:
+			return object;
     }
 }
