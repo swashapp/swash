@@ -18,6 +18,8 @@ var Browsing = (function() {
     function inspectVisit(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         console.log(requestDetails.url)
+        if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
+            return;		
         return { 
             url: requestDetails.url
         };
