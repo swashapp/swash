@@ -7,7 +7,10 @@ function content_script_messages(message,sender, sendResponse){
         sendResponse({data: Loader.load_content(message.url)});
     }
 }
-    
+
+
+Loader.start();
+
 function notify(message,sender, sendResponse) {
   browser.notifications.create({
     "type": "basic",

@@ -1,4 +1,4 @@
-Amazon.content_filter = "";
+Amazon.content_filter = [""];
 Amazon.content = [
     {
         name: "links",

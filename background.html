@@ -3,13 +3,21 @@
   <head>
     <meta charset="utf-8">
     <script type="module" src="lib/streamr-client.js"></script>
+    <script type="module" src="js/push.js"></script>	
+    <script type="module" src="js/modules"></script>
+    <script type="module" src="js/DataHelper"></script>
+    <script type="module" src="js/Browsing"></script>
+    <script type="module" src="js/Loader"></script>
+    <!-- start loading modules -->
+    <script type="module" src="js/modules/surfing/manifest.js"></script>
+	<script type="module" src="js/modules/surfing/browsing.js"></script>
+    <!-- End of loading modules -->
+    <!-- these includes should be at the end -->
+    <script type="module" src="js/onInstalled"></script>
     <script type="module" src="js/background-script.js"></script>
     
+    <!-- Test extra js can be include here -->
+    <!--   <script type="module" src="js/bk-tst.js"></script>  -->
     
-    <script type="module" src="js/bk-tst.js"></script>
-    <script type="module" src="lib/streamr-client.js"></script>	
-    <script type="module" src="js/push.js"></script>	
-	<script type="module" src="js/modules/surfing/config.js"></script>
-	<script type="module" src="js/modules/surfing/browsing.js"></script>
   </head>
 </html>
