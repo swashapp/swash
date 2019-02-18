@@ -21,6 +21,16 @@ var Loader = (function() {
     }
     
     function start(){
+        DataHelper.retrieveModules().forEach(module => {
+            if(module.functions.includes("content")){
+                const scriptObj = await browser.contentScripts.register({
+                  "js": [{file: "/js/content_script.js"}],
+                  "matches": [module.content_matches],
+                  "allFrames": true,
+                  "runAt": "document_start"
+                });
+            }
+        });
         Browsing.load();
     }
     
