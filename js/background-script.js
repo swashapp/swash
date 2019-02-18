@@ -1,7 +1,13 @@
 console.log("Hello world!");
 	browser.runtime.onMessage.addListener(notify);
+    browser.runtime.onMessage.addListener(content_script_messages);
 
-
+function content_script_messages(message,sender, sendResponse){
+    if(message.type == "request_data"){
+        sendResponse({data: Loader.load_content(message.url)});
+    }
+}
+    
 function notify(message,sender, sendResponse) {
   browser.notifications.create({
     "type": "basic",

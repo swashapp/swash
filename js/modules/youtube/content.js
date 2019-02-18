@@ -1,3 +1,4 @@
+Youtube.content_matches = ["*://*.youtube.com/*"];
 Youtube.content = [
 //    {
 //        name: "",
@@ -23,7 +24,7 @@ Youtube.content = [
         title: "",
         events: [
             {
-                selector: "",   // object
+                selector: "",   // window
                 event_name: "unload"
             }
         ],

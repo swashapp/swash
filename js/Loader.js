@@ -21,12 +21,30 @@ var Loader = (function() {
     }
     
     function start(){
-        Content.load();
         Browsing.load();
     }
     
+    function load_content(url){
+        var retval = [];
+        DataHelper.retrieveModules().forEach(module => {
+            if(module.functions.includes("content")){
+                var matched = false;
+                module.content_matches.forEach(mtch=>{
+                    if(url.match(mtch)){
+                        matched = true;
+                    }
+                });
+                if(matched){
+                    module.content.forEach(data=>{            
+                        retval.push(data); 
+                    });
+                }
+            }
+        });
+        return retval;
+    }
+    
     function stop(){
-        Content.unload();
         Browsing.unload();
     }
     
