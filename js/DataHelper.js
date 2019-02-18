@@ -24,17 +24,23 @@ var DataHelper = (function() {
     function updateModules(info){
         storeData("modules",info)
     }
+    
+    function removeModules(moduleName){
+        info = retrieveData("modules");
+        delete info[moduleName]
+        storeData("modules",info);
+    }
 
-    function storeData(module, info)
+    function storeData(key, info)
     {
-        data = retrieveData(module);
+        data = retrieveData(key);
         jsonUpdate(data,info)
         browser.storage.sync.set(data);
     }
 
-    function retrieveData(module)
+    function retrieveData(key)
     {
-        return browser.storage.sync.get(module);
+        return browser.storage.sync.get(key);
     }
     
     function jsonUpdate(obj/*, …*/) {
@@ -56,7 +62,8 @@ var DataHelper = (function() {
         retrieveConfigs: retrieveConfigs,
         updateConfigs: updateConfigs,
         retrieveModules: retrieveModules,
-        updateModules: updateModules
+        updateModules: updateModules,
+        
         
     };
 }());

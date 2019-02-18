@@ -3,27 +3,14 @@ var Content = (function() {
     
     var callbacks = {};
     
-    function getModules(){
-        // read storage
-        return registered_modules;
-    }
-    
-    function pushModule(module){
-        // save in storage
-    }
-    
-    function popModule(module){
-        // remove in storage
-    }
-    
     function unload(){        
-        getModules().forEach(row => {
+        DataHelper.retrieveModules().forEach(row => {
             unload_module(row);
         });
     }
 
     function load(){
-        getModules().forEach(row => {
+        DataHelper.retrieveModules().forEach(row => {
             load_module(row);
         });
     }
@@ -52,56 +39,50 @@ var Content = (function() {
     }
     
     function unload_module(module){
-        module.events.forEach(obj=>{
-            if(! callbacks[module.name]){
-                callbacks[module.name] = {};
-            }
-            callback = callbacks[module.name][obj.selector + "_" + obj.event_name]
-            if(obj.selector == ""){
-                // window
-                window.removeEventListener(obj.event_name, callback);
-            }else{
-                var doms = jQuery(obj.selector).forEach(dom=>{
-                    dom.removeEventListener(obj.event_name, callback);
-                });
-            }
-        });
+        if(module.functions.includes("content")){
+            module.content.forEach(obj=>{            
+                if(! callbacks[module.name]){
+                    callbacks[module.name] = {};
+                }
+                callback = callbacks[module.name][obj.selector + "_" + obj.event_name]
+                if(obj.selector == ""){
+                    // window
+                    window.removeEventListener(obj.event_name, callback);
+                }else{
+                    var doms = jQuery(obj.selector).forEach(dom=>{
+                        dom.removeEventListener(obj.event_name, callback);
+                    });
+                }
+            });
+        }
     }
 
     function load_module(module){
-        module.events.forEach(obj=>{
-            if(! callbacks[module.name]){
-                callbacks[module.name] = {};
-            }
-            callback = function(x){public_callback(module.name,obj, x)};
-            callbacks[module.name][obj.selector + "_" + obj.event_name] = callback
-            if(obj.selector == ""){
-                // document
-                document.addEventListener(obj.event_name, callback);
-            }else{
-                var doms = jQuery(obj.selector).forEach(dom=>{
-                    dom.addEventListener(obj.event_name, callback);
-                });
-            }
-        });
-    }
-        
-    function unregister(module){
-        popModule(module);
-        unload_module(module);
-    }
-
-    function register(module){
-        pushModule(module);
-        load_module(module);
+        if(module.functions.includes("content")){
+            module.content.forEach(obj=>{
+                if(obj.status == "enabled"){
+                    if(! callbacks[module.name]){
+                        callbacks[module.name] = {};
+                    }
+                    callback = function(x){public_callback(module.name,obj, x)};
+                    callbacks[module.name][obj.selector + "_" + obj.event_name] = callback
+                    if(obj.selector == ""){
+                        // window
+                        window.addEventListener(obj.event_name, callback);
+                    }else{
+                        var doms = jQuery(obj.selector).forEach(dom=>{
+                            dom.addEventListener(obj.event_name, callback);
+                        });
+                    }
+                }
+            });
+        }
     }
     
     return {
-        inspectRequest_Data: inspectRequest_Data,
         load: load,
         unload: unload,
-        register: register,
-        unregister: unregister,
-        getModules: getModules
+        load_module: load_module,
+        unload_module: unload_module
     };
 }());
