@@ -1,36 +1,45 @@
+console.log("Loader.js");
+import {DataHelper} from './DataHelper.js';
+import {Browsing} from './Browsing.js';
+import {jsonUpdate} from './utils.js';
 var Loader = (function() {
     'use strict';
     
     function install(allModules){
-        allModules.forEach(module=>{
-            console.log("Processing module:" + module.name + ", last_updates_at:" + module.last_updates_at);
-            var i_status = installation_status(module);
-            if(i_status == "new"){
-                console.log("New, Is loading");
-                register(module);
+        DataHelper.retrieveAll().then(db => {
+            console.log("db", db, Object.keys(db).length);
+            if (db == null || db == undefined || Object.keys(db).length==0){
+                db = {modules: {}, configs: {}, profile: {}};                
             }
-            if(i_status == "version"){
-                console.log("Updated, updating");
-                update(module);
+            try{
+                allModules.forEach(module=>{            
+                    console.log("Processing module:" + module.name + ", last_updates_at:" + module.last_updates_at);
+                    jsonUpdate(db.modules, module);                
+                });
             }
-            if(i_status == "dead"){
-                console.log("Obsolete, removing");
-                unregister(module);
+            catch(exp){
+                console.log(exp);
             }
-        });    
+            //TODO: prefrences: apply previous user configuration
+            // jsonUpdate(db.modules, db.prefrence);
+           console.log("install: ", db);
+           DataHelper.stroreAll(db).then(x => DataHelper.retrieveAll().then(y => console.log(y)));
+           
+        });
+        
     }
     
     function start(){
-        DataHelper.retrieveModules().forEach(module => {
+        DataHelper.retrieveModules().then(modules => modules.forEach(module => {
             if(module.functions.includes("content")){
-                const scriptObj = await browser.contentScripts.register({
+                browser.contentScripts.register({
                   "js": [{file: "/js/content_script.js"}],
                   "matches": [module.content_matches],
                   "allFrames": true,
                   "runAt": "document_start"
                 });
             }
-        });
+        }));
         Browsing.load();
     }
     
@@ -98,3 +107,6 @@ var Loader = (function() {
         stop: stop
     };
 }());
+console.log("Loader-end1.js");
+export {Loader};
+console.log("Loader-end2.js");

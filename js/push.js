@@ -1,3 +1,4 @@
+console.log("push.js");
 var STREAM_ID = "UUSJ4StCQHKOKvYzCgZ-hw";
 var API_KEY = "QageytBgRGG5DFRdFA47hQ9sjWw-YjTyu7as4wR-zlEA";
 var PUSH_ID = "lgknlkgnlkdgnflkgnoevneo";

@@ -1,3 +1,5 @@
+console.log("amazon/manifest.js");
+import {AllModules} from '../../modules.js';
 var Amazon = (function() {
     'use strict';
     
@@ -15,3 +17,5 @@ var Amazon = (function() {
     };
 }());
 AllModules.push(Amazon);
+export {Amazon};
+console.log("amazon");

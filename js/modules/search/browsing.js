@@ -1,3 +1,4 @@
+import {Search} from './manifest.js';
 Search.browsing = [
     {
         name: "bing1",

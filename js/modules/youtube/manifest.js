@@ -1,3 +1,5 @@
+console.log("youtube/manifest.js");
+import {AllModules} from '../../modules.js';
 var Youtube = (function() {
     'use strict';
     
@@ -21,3 +23,4 @@ var Youtube = (function() {
     };
 }());
 AllModules.push(Youtube);
+export {Youtube};

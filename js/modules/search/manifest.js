@@ -1,3 +1,4 @@
+import {AllModules} from '../../modules.js';
 var Search = (function() {
     'use strict';
     
@@ -15,3 +16,4 @@ var Search = (function() {
     };
 }());
 AllModules.push(Search);
+export {Search};

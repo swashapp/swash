@@ -1,3 +1,4 @@
+import {Youtube} from './manifest.js';
 Youtube.browsing = [
     {
         name: "ajax_action",

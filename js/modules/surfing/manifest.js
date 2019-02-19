@@ -1,3 +1,4 @@
+import {AllModules} from '../../modules.js';
 var Surfing = (function() {
     'use strict';
     

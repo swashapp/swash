@@ -1,3 +1,4 @@
+import {Youtube} from './manifest.js';
 Youtube.content_matches = ["*://*.youtube.com/*"];
 Youtube.content = [
 //    {

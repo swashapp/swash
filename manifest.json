@@ -6,7 +6,7 @@
   },
   
   "background": {
-    "page": "js/background.html"
+    "page": "background.html"
   },
 
   "browser_action": {

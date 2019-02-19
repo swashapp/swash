@@ -1,3 +1,4 @@
+import {AllModules} from '../../modules.js';
 var Twitter = (function() {
     'use strict';
     
@@ -14,3 +15,4 @@ var Twitter = (function() {
     };
 }());
 AllModules.push(Twitter);
+export {Twitter};

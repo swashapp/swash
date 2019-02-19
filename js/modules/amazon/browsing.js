@@ -1,3 +1,5 @@
+console.log("amazon/browsing.js");
+import {Amazon} from './manifest.js';
 Amazon.browsing = [
     {
         name: "search1",

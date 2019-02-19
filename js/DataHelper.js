@@ -1,5 +1,5 @@
-var DataHelper = (function() {
-    'use strict';
+console.log("DataHelper.js");
+var DataHelper = (function() {  
     
     function retrieveProfile(){
         return retrieveData("profile");
@@ -26,35 +26,37 @@ var DataHelper = (function() {
     }
     
     function removeModules(moduleName){
-        info = retrieveData("modules");
+        var info = retrieveData("modules");
         delete info[moduleName]
         storeData("modules",info);
     }
-
-    function storeData(key, info)
-    {
-        data = retrieveData(key);
-        jsonUpdate(data,info)
-        browser.storage.sync.set(data);
-    }
-
-    function retrieveData(key)
-    {
-        return browser.storage.sync.get(key);
+    
+    function stroreAll(db) {
+        browser.storage.sync.set(db);        
     }
     
-    function jsonUpdate(obj/*, …*/) {
-        for (var i=1; i<arguments.length; i++) {
-            for (var prop in arguments[i]) {
-                var val = arguments[i][prop];
-                if (typeof val == "object") // this also applies to arrays or null!
-                    update(obj[prop], val);
-                else
-                    obj[prop] = val;
-            }
-        }
-        return obj;
+
+    function retrieveAll(){
+        return browser.storage.sync.get();        
     }
+    async function storeData(key, info)
+    {
+        console.log("key", key);
+        console.log("info", info);
+        var data = await retrieveData(key);   
+        console.log("data", data);            
+        jsonUpdate(data,info);
+        console.log("updated data", data);                    
+        browser.storage.sync.set(data);
+        
+    }
+    async function retrieveData(key)
+    {
+        let x = await browser.storage.sync.get(key); 
+        console.log("retrive data ", x);        
+        return x;
+    }
+    
     
     return {
         retrieveProfile: retrieveProfile,
@@ -63,7 +65,9 @@ var DataHelper = (function() {
         updateConfigs: updateConfigs,
         retrieveModules: retrieveModules,
         updateModules: updateModules,
+        retrieveAll: retrieveAll
         
         
     };
 }());
+export {DataHelper};

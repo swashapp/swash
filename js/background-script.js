@@ -1,3 +1,4 @@
+import {Loader} from './Loader.js';
 console.log("Hello world!");
 	browser.runtime.onMessage.addListener(notify);
     browser.runtime.onMessage.addListener(content_script_messages);

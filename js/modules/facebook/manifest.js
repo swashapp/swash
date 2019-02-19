@@ -1,3 +1,4 @@
+import {AllModules} from '../../modules.js';
 var Facebook = (function() {
     'use strict';
     
@@ -22,3 +23,4 @@ var Facebook = (function() {
     };
 }());
 AllModules.push(Facebook);
+export {Facebook};

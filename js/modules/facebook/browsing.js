@@ -1,3 +1,4 @@
+import {Facebook} from './manifest.js';
 Facebook.browsing = [
     {
         name: "search_top",

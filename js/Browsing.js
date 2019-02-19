@@ -1,3 +1,5 @@
+console.log("Browsing.js");
+import {DataHelper} from './DataHelper.js';
 var Browsing = (function() {
     'use strict';
     
@@ -83,9 +85,9 @@ var Browsing = (function() {
     }
 
     function load(){
-        DataHelper.retrieveModules().forEach(row => {
+        DataHelper.retrieveModules().then(modules => modules.forEach(row => {
             load_module(row);
-        });
+        }));
     }
     
     function send_msg(msg){
@@ -127,3 +129,4 @@ var Browsing = (function() {
         load_module: load_module
     };
 }());
+export {Browsing};

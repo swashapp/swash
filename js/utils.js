@@ -1,24 +1,30 @@
+function jsonUpdate(src, newObj) {
+    console.log("jsonUpdate", src, newObj);
+    if(src == null)            
+        return;
+    for (var prop in newObj) { 
+        var val = newObj[prop];
+        if (val != null && typeof val == "object") {// this also applies to arrays or null!                   
+            console.log("obj", src);
+            jsonUpdate(src[prop], val);
+        }
+        else
+            src[prop] = val;
+        
+    }
+        
+}
+
 function serialize(obj) {
   var str = [];
   for(var p in obj)
     if (obj.hasOwnProperty(p)) {
       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
     }
-  return str.join("&");
+  return str.join("&"); 
 }
 
-function jsonUpdate(obj/*, …*/) {
-    for (var i=1; i<arguments.length; i++) {
-        for (var prop in arguments[i]) {
-            var val = arguments[i][prop];
-            if (typeof val == "object") // this also applies to arrays or null!
-                update(obj[prop], val);
-            else
-                obj[prop] = val;
-        }
-    }
-    return obj;
-}
+
 
 function apiCall(endpoint, apiInfo, access_token)
 {
@@ -75,3 +81,4 @@ function apiCall(endpoint, apiInfo, access_token)
 	return fetch(url, req);
 }
 
+export {jsonUpdate};

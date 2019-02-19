@@ -1,3 +1,5 @@
+console.log("amazon/content.js");
+import {Amazon} from './manifest.js';
 Amazon.content_filter = [""];
 Amazon.content = [
     {

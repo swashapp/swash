@@ -1,3 +1,4 @@
+import {Twitter} from './manifest.js';
 Twitter.browsing = [
     {
         name: "post_tweet",
