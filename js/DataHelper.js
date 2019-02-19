@@ -31,8 +31,9 @@ var DataHelper = (function() {
         storeData("modules",info);
     }
     
-    function stroreAll(db) {
-        browser.storage.sync.set(db);        
+    async function storeAll(db) {
+        await browser.storage.sync.set(db);        
+		console.log("test", db);
     }
     
 
@@ -53,8 +54,8 @@ var DataHelper = (function() {
     async function retrieveData(key)
     {
         let x = await browser.storage.sync.get(key); 
-        console.log("retrive data ", x);        
-        return x;
+        console.log("retrive data ", x[key]);        
+        return x[key];
     }
     
     
@@ -65,7 +66,8 @@ var DataHelper = (function() {
         updateConfigs: updateConfigs,
         retrieveModules: retrieveModules,
         updateModules: updateModules,
-        retrieveAll: retrieveAll
+        retrieveAll: retrieveAll,
+		storeAll: storeAll
         
         
     };

@@ -1,3 +1,4 @@
+console.log("modules/facebook/manifest.js");
 import {AllModules} from '../../modules.js';
 var Facebook = (function() {
     'use strict';
@@ -6,7 +7,7 @@ var Facebook = (function() {
         name: "facebook",
         description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
         path: "/facebook",
-        URL: "https://www.facebook.com",
+        URL: ["https://www.facebook.com"],
         functions: ["browsing", "apiCall"],
         apiConfig: {
             redirect_url: browser.identity.getRedirectURL(),

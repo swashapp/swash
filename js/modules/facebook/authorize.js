@@ -1,3 +1,4 @@
+console.log("modules/facebook/authorize.js");
 function extractAccessToken(redirectUri) {
   let m = redirectUri.match(/[#?](.*)/);
   if (!m || m.length < 1)

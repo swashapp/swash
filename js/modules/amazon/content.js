@@ -1,6 +1,6 @@
-console.log("amazon/content.js");
+console.log("modules/amazon/content.js");
 import {Amazon} from './manifest.js';
-Amazon.content_filter = [""];
+Amazon.content_matches = ["*://*.amazon.com/*"];
 Amazon.content = [
     {
         name: "links",

@@ -1,4 +1,4 @@
-console.log("youtube/manifest.js");
+console.log("modules/youtube/manifest.js");
 import {AllModules} from '../../modules.js';
 var Youtube = (function() {
     'use strict';
@@ -6,7 +6,7 @@ var Youtube = (function() {
     return {
         name: "youtube",
         description: "This module look through all the user activities on Youtube and capture those activities that user have permitted",
-        URL: "https://www.youtube.com",
+        URL: ["https://www.youtube.com"],
         functions: ["content" ,"browsing", "apiCall"],
         apiConfig: {
             client_id: "279095781364-1q6ki5adn4ufvfu0689hh3pl8u1upqoi.apps.googleusercontent.com",

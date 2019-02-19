@@ -1,3 +1,4 @@
+console.log("modules/surfing/manifest.js");
 import {AllModules} from '../../modules.js';
 var Surfing = (function() {
     'use strict';
@@ -6,8 +7,8 @@ var Surfing = (function() {
         name: "surfing",
         description: "This module configure general surfing configuration of surf-streamr",
         path: "/surfing",
-        URL: [],
-        data: ["browsing"],
+        URL: ["https://authsaz"],
+        functions: ["browsing"],
         privacy_level: 3,
         status: "enabled",
         icons: ["","",""],

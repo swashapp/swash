@@ -1,3 +1,4 @@
+console.log("modules/search/browsing.js");
 import {Search} from './manifest.js';
 Search.browsing = [
     {

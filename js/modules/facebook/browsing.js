@@ -1,3 +1,4 @@
+console.log("modules/facebook/browsing.js");
 import {Facebook} from './manifest.js';
 Facebook.browsing = [
     {

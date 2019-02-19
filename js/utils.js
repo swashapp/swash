@@ -1,12 +1,15 @@
 function jsonUpdate(src, newObj) {
-    console.log("jsonUpdate", src, newObj);
-    if(src == null)            
-        return;
     for (var prop in newObj) { 
         var val = newObj[prop];
-        if (val != null && typeof val == "object") {// this also applies to arrays or null!                   
-            console.log("obj", src);
-            jsonUpdate(src[prop], val);
+        if (val != null && typeof val == "object") {// this also applies to arrays or null!
+			if(Array.isArray(val)) {
+				src[prop] = val;
+			}
+			else {
+				if(!src[prop])
+					src[prop] = {};	
+				jsonUpdate(src[prop], val);
+			}
         }
         else
             src[prop] = val;

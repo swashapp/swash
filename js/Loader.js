@@ -14,7 +14,9 @@ var Loader = (function() {
             try{
                 allModules.forEach(module=>{            
                     console.log("Processing module:" + module.name + ", last_updates_at:" + module.last_updates_at);
-                    jsonUpdate(db.modules, module);                
+					if(!db.modules[module.name])
+						db.modules[module.name] = {};
+                    jsonUpdate(db.modules[module.name], module);                
                 });
             }
             catch(exp){
@@ -23,23 +25,23 @@ var Loader = (function() {
             //TODO: prefrences: apply previous user configuration
             // jsonUpdate(db.modules, db.prefrence);
            console.log("install: ", db);
-           DataHelper.stroreAll(db).then(x => DataHelper.retrieveAll().then(y => console.log(y)));
+           DataHelper.storeAll(db);
            
         });
         
     }
     
     function start(){
-        DataHelper.retrieveModules().then(modules => modules.forEach(module => {
-            if(module.functions.includes("content")){
+        DataHelper.retrieveModules().then(modules => {for (var module in modules) {
+            if(modules[module].functions.includes("content")){
                 browser.contentScripts.register({
                   "js": [{file: "/js/content_script.js"}],
-                  "matches": [module.content_matches],
+                  "matches": modules[module].content_matches,
                   "allFrames": true,
                   "runAt": "document_start"
                 });
             }
-        }));
+        }});
         Browsing.load();
     }
     
@@ -107,6 +109,4 @@ var Loader = (function() {
         stop: stop
     };
 }());
-console.log("Loader-end1.js");
 export {Loader};
-console.log("Loader-end2.js");

@@ -1,3 +1,4 @@
+console.log("modules/facebook/apis.js");
 api_list = [
 	{
 		name: "userInfo",

@@ -79,15 +79,15 @@ var Browsing = (function() {
     }
     
     function unload(){        
-        DataHelper.retrieveModules().forEach(row => {
-            unload_module(row);
-        });
+        DataHelper.retrieveModules().then(modules => {for(var module in modules){
+            unload_module(modules[module]);
+        }});
     }
 
     function load(){
-        DataHelper.retrieveModules().then(modules => modules.forEach(row => {
-            load_module(row);
-        }));
+        DataHelper.retrieveModules().then(modules => {for(var module in modules) {
+            load_module(modules[module]);
+        }});
     }
     
     function send_msg(msg){
@@ -108,15 +108,15 @@ var Browsing = (function() {
         if(module.functions.includes("browsing")){
             module.browsing.forEach(data=>{   
                 callbacks[module.name + "_" + data.name] = function(x){
-                    if(!module.target_listener || module.target_listener == "inspectRequest")
+                    if(!data.target_listener && data.target_listener == "inspectRequest")
                         inspectRequest_data(module.name, data, x)
-                    if(module.target_listener == "inspectReferrer")
+                    if(data.target_listener == "inspectReferrer")
                         inspectReferrer(module.name,x)
-                    if(module.target_listener == "inspectVisit")
+                    if(data.target_listener == "inspectVisit")
                         inspectVisit(module.name,x)
                 };
                 if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-                    browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name],module.filter, module.extraInfoSpec);
+                    browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name],data.filter, data.extraInfoSpec);
                 }
             });
         }

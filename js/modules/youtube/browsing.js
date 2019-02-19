@@ -1,3 +1,4 @@
+console.log("modules/youtube/browsing.js");
 import {Youtube} from './manifest.js';
 Youtube.browsing = [
     {

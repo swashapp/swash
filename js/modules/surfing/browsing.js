@@ -1,4 +1,4 @@
-
+console.log("modules/surfing/browsing.js");
 function inspectReferrer(requestDetails) {
 	//console.log(`inspectRequest: ${config.name} `, requestDetails);
 	if(requestDetails.type != "main_frame" || !requestDetails.originUrl)

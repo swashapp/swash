@@ -1,4 +1,4 @@
-console.log("amazon/browsing.js");
+console.log("modules/amazon/browsing.js");
 import {Amazon} from './manifest.js';
 Amazon.browsing = [
     {
