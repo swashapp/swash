@@ -106,6 +106,35 @@ function apiCall(endpoint, apiInfo, access_token)
 	
 	return fetch(url, req);
 }    
+
+
+    
+    
+
+/*
+
+var STREAM_ID = '************************'
+var API_KEY = '**********************************'
+var settings = {};
+// Create the client and give the API key to use by default
+var client = new StreamrClient({
+  apiKey: API_KEY
+})
+
+// Wrap event generation and producion into this method
+function produceNewEvent(msg) {
+  
+  // Produce the event to the Stream
+  console.log("produceNewEvent ", msg);
+  client.produceToStream(STREAM_ID, msg)
+    .then(() => {
+      console.log('Sent successfully: ' + JSON.stringify(msg))
+    })
+    .catch((err) => {
+      console.errorlog(err)
+    })
+}
+*/
     
     return {
         jsonUpdate: jsonUpdate,
