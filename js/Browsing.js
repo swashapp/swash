@@ -1,7 +1,7 @@
 console.log("Browsing.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Utils} from './Utils.js';
-import {handle} from './DataHandler.js';
+import {DataHandler} from './DataHandler.js';
 
 var Browsing = (function() {
     'use strict';
@@ -32,7 +32,6 @@ var Browsing = (function() {
     }
     
     function inspectRequest_Data(moduleName, data, requestDetails) {
-        console.log("inspectRequest_Data", requestDetails.url, data.name);
         if(requestDetails.method != data.method){
             return;
         }
@@ -115,7 +114,7 @@ var Browsing = (function() {
                     if(local_data.target_listener == "inspectVisit")
                         retval = inspectVisit(module.name,x)
                     if(retval != null)
-                        handle({
+                        DataHandler.handle({
                             type: "browsing",
                             module: retval.module,
                             source: retval["source"],
