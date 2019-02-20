@@ -13,7 +13,7 @@ var Loader = (function() {
             }
             try{
                 allModules.forEach(module=>{            
-                    console.log("Processing module:" + module.name + ", last_updates_at:" + module.last_updates_at);
+                    console.log("Processing module:" + module.name + ", version:" + module.version);
 					if(!db.modules[module.name])
 						db.modules[module.name] = {};
                     jsonUpdate(db.modules[module.name], module);                

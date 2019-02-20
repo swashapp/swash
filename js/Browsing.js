@@ -5,6 +5,10 @@ var Browsing = (function() {
     
     var callbacks = {};
     
+    function send_msg(msg){
+        browser.runtime.sendMessage(msg);
+    }
+    
     function inspectReferrer(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
@@ -32,48 +36,39 @@ var Browsing = (function() {
         if(requestDetails.method != data.method){
             return;
         }
-        if(data.pattern_type === "exact"){
-            if(requestDetails.url == data.url_pattern){
-                var retval = {};
-                data.param.forEach(p => {
-                    var val = null;
-                    if(p.type === "form"){
-                        val = requestDetails.requestBody.formData[data.key]
-                    }
-                    if(p.type === "query"){
-                        val = (new URL(requestDetails.url)).searchParams.get(data.key)
-                    }
-                    retval[data.name] = val?val:data.default
-                });
-                return retval;
-            }
-        }
+        var failed = false;
         if(data.pattern_type === "regex"){
             var res = requestDetails.url.match(data.url_pattern);
-            if(res!= null) {
-                var retval = {};
-                data.param.forEach(p => {
-                    var val = null;
-                    if(p.type === "regex"){
-                        val = res[data.group]
-                    }
-                    if(p.type === "form"){
-                        val = requestDetails.requestBody.formData[data.key]
-                    }
-                    if(p.type === "query"){
-                        val = (new URL(requestDetails.url)).searchParams.get(data.key)
-                    }
-                    if(val){
-                        retval[data.name] = val
-                    }else{
-                        if(data.default){
-                            retval[data.name] = data.default
-                        }
-                    }
-                    
-                });
-                return retval;
+            if(res== null) 
+                failed = true;
+        }
+        if(data.pattern_type === "exact"){
+            if(requestDetails.url != data.url_pattern){
+                failed = true;
             }
+        }
+        if(!failed){
+            var retval = {};
+            data.param.forEach(p => {
+                var val = null;
+                if(p.type === "regex"){
+                    val = res[data.group]
+                }
+                if(p.type === "form"){
+                    val = requestDetails.requestBody.formData[data.key]
+                }
+                if(p.type === "query"){
+                    val = (new URL(requestDetails.url)).searchParams.get(data.key)
+                }
+                if(val){
+                    retval[data.name] = val
+                }else{
+                    if(data.default){
+                        retval[data.name] = data.default
+                    }
+                }
+            });
+            return retval;
         }
         return;
     }
@@ -91,7 +86,10 @@ var Browsing = (function() {
     }
     
     function send_msg(msg){
-        browser.runtime.sendMessage(msg);
+        browser.runtime.sendMessage({
+            type: "browsing",
+            data: msg
+        });
     }
     
     function unload_module(module){
@@ -108,15 +106,22 @@ var Browsing = (function() {
         if(module.functions.includes("browsing")){
             module.browsing.forEach(data=>{   
                 callbacks[module.name + "_" + data.name] = function(x){
-                    if(!data.target_listener && data.target_listener == "inspectRequest")
-                        inspectRequest_data(module.name, data, x)
-                    if(data.target_listener == "inspectReferrer")
-                        inspectReferrer(module.name,x)
-                    if(data.target_listener == "inspectVisit")
-                        inspectVisit(module.name,x)
+                    let local_data = data;
+                    let retval = null;
+                    if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
+                        retval = inspectRequest_Data(module.name, local_data, x)
+                    if(local_data.target_listener == "inspectReferrer")
+                        retval = inspectReferrer(module.name,x)
+                    if(local_data.target_listener == "inspectVisit")
+                        retval = inspectVisit(module.name,x)
+                    if(retval != null)
+                        send_msg(retval);
                 };
                 if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-                    browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name],data.filter, data.extraInfoSpec);
+                    // default for filter and extraInfo
+                    let filter = data.filter?data.filter:module.browsing_filter
+                    let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing_extraInfoSpec
+                    browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
                 }
             });
         }

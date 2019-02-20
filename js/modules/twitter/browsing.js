@@ -1,5 +1,8 @@
 console.log("modules/twitter/browsing.js");
 import {Twitter} from './manifest.js';
+Twitter.browsing_filter = {urls: ["https://twitter.com/*"]};
+Twitter.browsing_extraInfoSpec= ["blocking"];
+
 Twitter.browsing = [
     {
         name: "post_tweet",

@@ -1,5 +1,7 @@
 console.log("modules/amazon/browsing.js");
 import {Amazon} from './manifest.js';
+Amazon.browsing_filter = {urls: ["https://www.amazon.com/*"]};
+Amazon.browsing_extraInfoSpec= ["blocking"];
 Amazon.browsing = [
     {
         name: "search1",

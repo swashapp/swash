@@ -1,7 +1,8 @@
 console.log("background-script.js");
 import {Loader} from './Loader.js';
-	browser.runtime.onMessage.addListener(notify);
-    browser.runtime.onMessage.addListener(content_script_messages);
+browser.runtime.onMessage.addListener(notify);
+browser.runtime.onMessage.addListener(content_script_messages);
+browser.runtime.onMessage.addListener(data_messages);
 
 function content_script_messages(message,sender, sendResponse){
     if(message.type == "request_data"){
@@ -9,6 +10,9 @@ function content_script_messages(message,sender, sendResponse){
     }
 }
 
+function data_messages(message,sender, sendResponse){
+    console.log(message);
+}
 
 Loader.start();
 

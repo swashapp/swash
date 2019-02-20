@@ -1,5 +1,7 @@
 console.log("modules/facebook/browsing.js");
 import {Facebook} from './manifest.js';
+Facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
+Facebook.browsing_extraInfoSpec= ["blocking"];
 Facebook.browsing = [
     {
         name: "search_top",
