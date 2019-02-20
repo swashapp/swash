@@ -1,8 +1,21 @@
 console.log("background-script.js");
 import {Loader} from './Loader.js';
-browser.runtime.onMessage.addListener(notify);
+import {DataHandler} from './DataHandler.js';
+import {notify} from './utils.js';
+import {AllModules} from './modules.js';
+
+
+browser.management.onInstalled.addListener((info) => {
+    console.log(info.name + " " + info.version +  " was installed");
+    console.log("Registering modules.");
+    console.log("onInstalled.js: " + AllModules);
+    Loader.install(AllModules);
+});
+
+
+
+browser.runtime.onMessage.addListener(DataHandler.handle);
 browser.runtime.onMessage.addListener(content_script_messages);
-browser.runtime.onMessage.addListener(data_messages);
 
 function content_script_messages(message,sender, sendResponse){
     if(message.type == "request_data"){
@@ -10,27 +23,14 @@ function content_script_messages(message,sender, sendResponse){
     }
 }
 
-function data_messages(message,sender, sendResponse){
-    console.log(message);
-}
 
 Loader.start();
 
-function notify(message,sender, sendResponse) {
-  browser.notifications.create({
-    "type": "basic",
-    "iconUrl": browser.extension.getURL("link.png"),
-    "title": message.type,
-    "message": JSON.stringify(message)
-  });
-    sendResponse({response: "Response from background script"});
-
-}
 
 
 
 
-
+/*
 
 var STREAM_ID = '************************'
 var API_KEY = '**********************************'
@@ -53,7 +53,7 @@ function produceNewEvent(msg) {
       console.errorlog(err)
     })
 }
-
+*/
 
 browser.storage.onChanged.addListener(Loader.start);
  

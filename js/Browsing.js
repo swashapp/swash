@@ -1,13 +1,13 @@
 console.log("Browsing.js");
-import {DataHelper} from './DataHelper.js';
+import {StorageHelper} from './StorageHelper.js';
+import {wildcard} from './utils.js';
+import {handle} from './DataHandler.js';
+
 var Browsing = (function() {
     'use strict';
     
     var callbacks = {};
     
-    function send_msg(msg){
-        browser.runtime.sendMessage(msg);
-    }
     
     function inspectReferrer(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
@@ -36,15 +36,20 @@ var Browsing = (function() {
         if(requestDetails.method != data.method){
             return;
         }
-        var failed = false;
+        var failed = true;
         if(data.pattern_type === "regex"){
             var res = requestDetails.url.match(data.url_pattern);
-            if(res== null) 
-                failed = true;
+            if(res!= null) 
+                failed = false;
+        }
+        if(data.pattern_type === "wildcard"){
+            var res = wildcard(requestDetails.url, data.url_pattern);
+            if(res != null) 
+                failed = false;
         }
         if(data.pattern_type === "exact"){
-            if(requestDetails.url != data.url_pattern){
-                failed = true;
+            if(requestDetails.url == data.url_pattern){
+                failed = false;
             }
         }
         if(!failed){
@@ -52,44 +57,39 @@ var Browsing = (function() {
             data.param.forEach(p => {
                 var val = null;
                 if(p.type === "regex"){
-                    val = res[data.group]
+                    val = res[p.group]
                 }
                 if(p.type === "form"){
-                    val = requestDetails.requestBody.formData[data.key]
+                    val = requestDetails.requestBody.formData[p.key]
                 }
                 if(p.type === "query"){
-                    val = (new URL(requestDetails.url)).searchParams.get(data.key)
+                    val = (new URL(requestDetails.url)).searchParams.get(p.key)
                 }
                 if(val){
-                    retval[data.name] = val
+                    retval[p.name] = val
                 }else{
-                    if(data.default){
-                        retval[data.name] = data.default
+                    if(p.default){
+                        retval[p.name] = p.default
                     }
                 }
             });
+            retval["module"] = moduleName
+            retval["source"] = data.name
             return retval;
         }
         return;
     }
     
     function unload(){        
-        DataHelper.retrieveModules().then(modules => {for(var module in modules){
+        StorageHelper.retrieveModules().then(modules => {for(var module in modules){
             unload_module(modules[module]);
         }});
     }
 
     function load(){
-        DataHelper.retrieveModules().then(modules => {for(var module in modules) {
+        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
             load_module(modules[module]);
         }});
-    }
-    
-    function send_msg(msg){
-        browser.runtime.sendMessage({
-            type: "browsing",
-            data: msg
-        });
     }
     
     function unload_module(module){
@@ -115,7 +115,12 @@ var Browsing = (function() {
                     if(local_data.target_listener == "inspectVisit")
                         retval = inspectVisit(module.name,x)
                     if(retval != null)
-                        send_msg(retval);
+                        handle({
+                            type: "browsing",
+                            module: retval.module,
+                            source: retval["source"],
+                            data: retval
+                        });
                 };
                 if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
                     // default for filter and extraInfo

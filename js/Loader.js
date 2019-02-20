@@ -1,12 +1,12 @@
 console.log("Loader.js");
-import {DataHelper} from './DataHelper.js';
+import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
 import {jsonUpdate} from './utils.js';
 var Loader = (function() {
     'use strict';
     
     function install(allModules){
-        DataHelper.retrieveAll().then(db => {
+        StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}};                
@@ -25,14 +25,14 @@ var Loader = (function() {
             //TODO: prefrences: apply previous user configuration
             // jsonUpdate(db.modules, db.prefrence);
            console.log("install: ", db);
-           DataHelper.storeAll(db);
+           StorageHelper.storeAll(db);
            
         });
         
     }
     
     function start(){
-        DataHelper.retrieveModules().then(modules => {for (var module in modules) {
+        StorageHelper.retrieveModules().then(modules => {for (var module in modules) {
             if(modules[module].functions.includes("content")){
                 browser.contentScripts.register({
                   "js": [{file: "/js/content_script.js"}],
@@ -47,7 +47,7 @@ var Loader = (function() {
     
     function load_content(url){
         var retval = [];
-        DataHelper.retrieveModules().forEach(module => {
+        StorageHelper.retrieveModules().forEach(module => {
             if(module.functions.includes("content")){
                 var matched = false;
                 module.content_matches.forEach(mtch=>{
@@ -72,21 +72,21 @@ var Loader = (function() {
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
-        DataHelper.updateModules(data);
+        StorageHelper.updateModules(data);
     }
     
     function unregister(module){
-        DataHelper.removeModules(module.name);
+        StorageHelper.removeModules(module.name);
     }
     
     function update(module){
         var data = {modules: {}}
         data.modules[module.name] = module
-        DataHelper.updateModules(data);
+        StorageHelper.updateModules(data);
     }
     
     function installation_status(module){
-        var modules = DataHelper.retrieveModules();
+        var modules = StorageHelper.retrieveModules();
         if(! modules[module.name]){
             return "new"
         }else{

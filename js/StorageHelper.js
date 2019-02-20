@@ -1,5 +1,5 @@
-console.log("DataHelper.js");
-var DataHelper = (function() {  
+console.log("StorageHelper.js");
+var StorageHelper = (function() {  
     
     function retrieveProfile(){
         return retrieveData("profile");
@@ -72,4 +72,4 @@ var DataHelper = (function() {
         
     };
 }());
-export {DataHelper};
+export {StorageHelper};

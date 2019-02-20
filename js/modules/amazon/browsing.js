@@ -6,7 +6,7 @@ Amazon.browsing = [
     {
         name: "search1",
         method: "GET",
-        url_pattern: /^https:\/\/www\.amazon\.com\/s\/.*/,
+        url_pattern: "^https:\/\/www\.amazon\.com\/s\/.*",
         pattern_type: "regex",
         param: [
             {
@@ -24,7 +24,7 @@ Amazon.browsing = [
     {
         name: "search2",
         method: "GET",
-        url_pattern: /^https:\/\/www\.amazon\.com\/s\/.*/,
+        url_pattern: "^https:\/\/www\.amazon\.com\/s\/.*",
         pattern_type: "regex",
         param: [
             {
@@ -35,6 +35,24 @@ Amazon.browsing = [
             {
                 type: "query",
                 key: "url",
+                name: "url"
+            }
+        ]
+    },
+    {
+        name: "search3",
+        method: "GET",
+        url_pattern: "^https:\/\/www\.amazon\.com\/s?.*",
+        pattern_type: "regex",
+        param: [
+            {
+                type: "query",
+                key: "k",
+                name: "query"
+            },
+            {
+                type: "query",
+                key: "i",
                 name: "url"
             }
         ]

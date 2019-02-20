@@ -1,6 +1,7 @@
 console.log("modules/search/browsing.js");
 import {Search} from './manifest.js';
-Search.browsing_filter = {urls: ["https://www.bing.com/*", "yahoo"]}; //TODO complete it
+Search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*://www.google.com/search?*", 
+        "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*"]};
 Search.browsing_extraInfoSpec= ["blocking"];
 Search.browsing = [
     {
@@ -9,7 +10,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://www.bing.com/*",
+        filter: {urls: ["*://www.bing.com/*"]},
         url_pattern: /https:\/\/www\.bing\.com\/(([^\/\?\;]*)\/search)\?.*/,
         pattern_type: "regex",
         param: [
@@ -30,7 +31,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://www.bing.com/*",
+        filter: {urls: ["*://www.bing.com/*"]},
         url_pattern: /https:\/\/www\.bing\.com\/(shop|maps|search)\?.*/,
         pattern_type: "regex",
         param: [
@@ -51,7 +52,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://*.yahoo.com/*",
+        filter: {urls: ["*://*.yahoo.com/*"]},
         url_pattern: /https:\/\/((.*)\.)?search\.yahoo\.com\/.*/,
         pattern_type: "regex",
         param: [
@@ -73,7 +74,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://www.google.com/search?*",
+        filter: {urls: ["*://www.google.com/search?*"]},
         url_pattern: "*://www.google.com/search?*",
         pattern_type: "wildcard",
         param: [
@@ -95,7 +96,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://search.aol.com/aol/*",
+        filter: {urls: ["*://search.aol.com/aol/*"]},
         url_pattern: /https:\/\/search\.aol\.com\/aol\/([^\/\?\;]*)[\?|\;].*/,
         pattern_type: "regex",
         param: [
@@ -116,7 +117,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://www.ask.com/*",
+        filter: {urls: ["*://www.ask.com/*"]},
         url_pattern: /https:\/\/www\.ask\.com\/(web|youtube)\?.*/,
         pattern_type: "regex",
         param: [
@@ -137,7 +138,7 @@ Search.browsing = [
         description: "",
         
         method: "GET",
-        filter: "*://*.baidu.com/*",
+        filter: {urls: ["*://*.baidu.com/*"]},
         url_pattern: /http[s]?:\/\/(.*)\.baidu\.com\/.*/,
         pattern_type: "regex",
         param: [

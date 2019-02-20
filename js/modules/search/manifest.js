@@ -12,8 +12,7 @@ var Search = (function() {
         privacy_level: 3,
         status: "enabled",
         icons: ["","",""],
-        version: 1,
-        changelog: []
+        version: 1
     };
 }());
 AllModules.push(Search);

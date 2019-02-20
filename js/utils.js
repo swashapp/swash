@@ -1,3 +1,13 @@
+function notify(message) {
+    console.log(message);
+  browser.notifications.create({
+    "type": "basic",
+    "iconUrl": browser.extension.getURL("icons/surf48.png"),
+    "title": message.module + ":" + message.source,
+    "message": JSON.stringify(message)
+  });
+}
+
 function jsonUpdate(src, newObj) {
     for (var prop in newObj) { 
         var val = newObj[prop];
@@ -16,6 +26,16 @@ function jsonUpdate(src, newObj) {
         
     }
         
+}
+
+function wildcard(input, wc) {
+    function regExpEscape (s) {
+      return s.replace(/[|\\{}()[\]^$+*?.]/g, '\$&');
+    }
+	var regex = new RegExp('^' + wc.split(/\*+/).map(regExpEscape).join('.*') + '$');
+	if(!input.match(regex))
+		return null;
+	return input;
 }
 
 function serialize(obj) {
@@ -85,3 +105,5 @@ function apiCall(endpoint, apiInfo, access_token)
 }
 
 export {jsonUpdate};
+export {wildcard};
+export {notify};
