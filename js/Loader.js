@@ -36,9 +36,7 @@ var Loader = (function() {
             if(modules[module].functions.includes("content")){
                 browser.contentScripts.register({
                   "js": [{file: "/js/content_script.js"}],
-                  "matches": modules[module].content_matches,
-                  "allFrames": true,
-                  "runAt": "document_start"
+                  "matches": modules[module].content_matches
                 });
             }
         }});

@@ -9,7 +9,6 @@ var DataHandler = (function() {
         console.log("DataHandler", message);
         Utils.notify(message);
     }
-
     
     return {
         handle: handle

@@ -18,13 +18,6 @@
     "default_title": "Data Streamr",
     "default_popup": "popup/popup.html"
   },
-
-"content_scripts": [
-  {
-    "matches": ["*://*.amazon.com/*"],
-    "js": ["js/modules/amazon/content.js"]
-  }
-] ,
  
   "description": "TODO descr",
 
