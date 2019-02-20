@@ -1,12 +1,15 @@
-function notify(message) {
-    console.log(message);
-  browser.notifications.create({
-    "type": "basic",
-    "iconUrl": browser.extension.getURL("icons/surf48.png"),
-    "title": message.module + ":" + message.source,
-    "message": JSON.stringify(message)
-  });
-}
+console.log("Utils.js");
+var Utils = (function() {
+    'use strict';
+    
+    function notify(message) {
+      browser.notifications.create({
+        "type": "basic",
+        "iconUrl": browser.extension.getURL("icons/surf48.png"),
+        "title": message.module + ":" + message.source,
+        "message": JSON.stringify(message)
+      });
+    }
 
 function jsonUpdate(src, newObj) {
     for (var prop in newObj) { 
@@ -102,8 +105,12 @@ function apiCall(endpoint, apiInfo, access_token)
 	}
 	
 	return fetch(url, req);
-}
-
-export {jsonUpdate};
-export {wildcard};
-export {notify};
+}    
+    
+    return {
+        jsonUpdate: jsonUpdate,
+        wildcard: wildcard,
+        notify: notify
+    };
+}());
+export {Utils};

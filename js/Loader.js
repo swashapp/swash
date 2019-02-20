@@ -1,7 +1,7 @@
 console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
-import {jsonUpdate} from './utils.js';
+import {Utils} from './Utils.js';
 var Loader = (function() {
     'use strict';
     
@@ -16,14 +16,14 @@ var Loader = (function() {
                     console.log("Processing module:" + module.name + ", version:" + module.version);
 					if(!db.modules[module.name])
 						db.modules[module.name] = {};
-                    jsonUpdate(db.modules[module.name], module);                
+                    Utils.jsonUpdate(db.modules[module.name], module);                
                 });
             }
             catch(exp){
                 console.log(exp);
             }
             //TODO: prefrences: apply previous user configuration
-            // jsonUpdate(db.modules, db.prefrence);
+            // Utils.jsonUpdate(db.modules, db.prefrence);
            console.log("install: ", db);
            StorageHelper.storeAll(db);
            

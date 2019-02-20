@@ -1,6 +1,6 @@
 console.log("Browsing.js");
 import {StorageHelper} from './StorageHelper.js';
-import {wildcard} from './utils.js';
+import {Utils} from './Utils.js';
 import {handle} from './DataHandler.js';
 
 var Browsing = (function() {
@@ -43,7 +43,7 @@ var Browsing = (function() {
                 failed = false;
         }
         if(data.pattern_type === "wildcard"){
-            var res = wildcard(requestDetails.url, data.url_pattern);
+            var res = Utils.wildcard(requestDetails.url, data.url_pattern);
             if(res != null) 
                 failed = false;
         }
