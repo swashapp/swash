@@ -23,7 +23,6 @@ var Browsing = (function() {
 
     function inspectVisit(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
-        console.log(requestDetails.url)
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;		
         return { 
@@ -72,6 +71,8 @@ var Browsing = (function() {
                     }
                 }
             });
+            if(Object.keys(retval).length == 0)
+                return;
             retval["module"] = moduleName
             retval["source"] = data.name
             return retval;

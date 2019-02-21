@@ -4,7 +4,7 @@ var Amazon = (function() {
     'use strict';
     
     return {
-        name: "amaon",
+        name: "amazon",
         description: "This module look through all the user activities on amazon and capture those activities that user have permitted",
         path: "/amazon",
         functions: ["browsing", "content"],

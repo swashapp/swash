@@ -41,7 +41,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 If UI has changed a config in data storage, a reload should be performed.
 UI will modify data storage directly.
 */
-browser.storage.onChanged.addListener(Loader.start);
+//browser.storage.onChanged.addListener(Loader.reload);
 
 /* ***
 After a successful load of add-on,

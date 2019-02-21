@@ -30,16 +30,27 @@ var Loader = (function() {
         });
         
     }
+    function registerContentScripts(tabId, changeInfo, tabInfo) {
+        console.log(tabId, changeInfo, tabInfo);
+        if(changeInfo.status == "loading")
+            browser.tabs.executeScript(tabId, {
+              file: "/js/content_script.js",
+              allFrames: false,
+              runAt: "document_end"
+            })
+    }
     
     function start(){
+        var filter = {urls: [], properties: ["status"]};        
         StorageHelper.retrieveModules().then(modules => {for (var module in modules) {
             if(modules[module].functions.includes("content")){
-                browser.contentScripts.register({
-                  "js": [{file: "/js/content_script.js"}],
-                  "matches": modules[module].content_matches
-                });
-            }
+                for(var item of modules[module].content_matches) {
+                    filter.urls.push(item);
+                }
+            }            
         }});
+        if(filter.urls.length > 0) 
+            browser.tabs.onUpdated.addListener(registerContentScripts,  filter);
         Browsing.load();
     }
     
@@ -61,6 +72,10 @@ var Loader = (function() {
             }
         });
         return retval;
+    }
+    
+    function reload() {
+        return start();
     }
     
     function stop(){
@@ -104,7 +119,8 @@ var Loader = (function() {
     return {
         install: install,
         start: start,
-        stop: stop
+        stop: stop,
+        reload: reload
     };
 }());
 export {Loader};

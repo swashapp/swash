@@ -1,3 +1,8 @@
+alert("content_script.js");
+console.log("content_script.js");
+
+document.title = "This is the new page title.";
+/*
 var callbacks = {};
 
 function send_msg(msg){
@@ -26,9 +31,9 @@ function public_callback(data, event){
 function handleResponse(message) {
   console.log(`Message from the background script:  ${message.response}`);
   
-  message.data.forEach(obj=>{
+  /*message.data.forEach(obj=>{
         callback = function(x){public_callback(obj, x)};
-        callbacks[obj.selector + "_" + obj.event_name] = callback
+        callbacks[obj.selector + "_" + obj.event_name] = callback;
         if(obj.selector == ""){
             // window
             window.addEventListener(obj.event_name, callback);
@@ -47,4 +52,4 @@ function handleError(error) {
 browser.runtime.sendMessage({
     type: "request_data",
     url: window.location
-  }).then(handleResponse, handleError);  
+  }).then(handleResponse, handleError);  */
