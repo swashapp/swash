@@ -40,17 +40,19 @@ var StorageHelper = (function() {
     function retrieveAll(){
         return browser.storage.sync.get();        
     }
-    async function storeData(key, info)
-    {
-        console.log("key", key);
-        console.log("info", info);
-        var data = await retrieveData(key);   
-        console.log("data", data);            
-        jsonUpdate(data,info);
-        console.log("updated data", data);                    
-        browser.storage.sync.set(data);
-        
-    }
+	async function storeData(key, info)
+	{
+		console.log("key", key);
+		console.log("info", info);
+		var data = await retrieveData(key);   
+		console.log("data", data);            
+		jsonUpdate(data,info);
+		console.log("updated data", data);
+		let x = {};
+		x[key] = data;
+		browser.storage.sync.set(x);
+		
+	}
     async function retrieveData(key)
     {
         let x = await browser.storage.sync.get(key); 

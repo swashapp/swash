@@ -11,130 +11,138 @@ var Utils = (function() {
       });
     }
 
-function jsonUpdate(src, newObj) {
-    for (var prop in newObj) { 
-        var val = newObj[prop];
-        if (val != null && typeof val == "object") {// this also applies to arrays or null!
-			if(Array.isArray(val)) {
-				src[prop] = val;
-			}
-			else {
-				if(!src[prop])
-					src[prop] = {};	
-				jsonUpdate(src[prop], val);
-			}
-        }
-        else
-            src[prop] = val;
-        
-    }
-        
-}
-
-function wildcard(input, wc) {
-    function regExpEscape (s) {
-      return s.replace(/[|\\{}()[\]^$+*?.]/g, '\$&');
-    }
-	var regex = new RegExp('^' + wc.split(/\*+/).map(regExpEscape).join('.*') + '$');
-	if(!input.match(regex))
-		return null;
-	return input;
-}
-
-function serialize(obj) {
-  var str = [];
-  for(var p in obj)
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-    }
-  return str.join("&"); 
-}
-
-
-
-function apiCall(endpoint, apiInfo, access_token)
-{
-	url = endpoint + apiInfo.URI;
-	req = {
-		method: apiInfo.method,
-		headers:{
-            'Content-Type': apiInfo.content_type
-		}			
-	}
-    if(apiInfo.headers){
-        for (var key in apiInfo.headers) {
-           if (apiInfo.headers.hasOwnProperty(key)) {
-              req.headers[key]= apiInfo.headers[key];
-           }
-        }
-    }
-    if(access_token){
-        if(apiInfo.bearer){
-            req.headers["Authorization"] = "Bearer ".concat(access_token)
-        }else{
-            apiInfo.params.access_token = access_token;
-        }
-    }
-	switch (apiInfo.content_type) {
-		case "application/x-www-form-urlencoded":						
-			data = serialize(apiInfo.params);
-			break;
-		case "application/json":
-			data = JSON.stringify(apiInfo.params);			
-			break;
-		case "multipart/form-data":
-			var formData = new FormData();
-			for(var p in apiInfo.params)
-				if (apiInfo.params.hasOwnProperty(p)) {
-					formData.append(encodeURIComponent(p), encodeURIComponent(apiInfo.params[p]));
+	function jsonUpdate(src, newObj) {
+		if(Array.isArray(newObj))
+		{
+			src.length = 0
+			for(item of newObj)
+				src.push(item);
+			return;
+		}
+		for (var prop in newObj) { 
+			var val = newObj[prop];
+			if (val != null && typeof val == "object") {// this also applies to arrays or null!
+				if(Array.isArray(val)) {
+					src[prop] = val;
 				}
-				data = formData;
-			break;
-		default:
-			data = serialize(apiInfo.params);
-
+				else {
+					if(!src[prop])
+						src[prop] = {};	
+					jsonUpdate(src[prop], val);
+				}
+			}
+			else
+				src[prop] = val;
+			
+		}
+			
 	}
 
-	switch (apiInfo.method) {
-		case "GET":
-			url = url.concat("?", data);
-			break;
-		case "POST":
-			req.body = data;
-		break;
+
+	function wildcard(input, wc) {
+		function regExpEscape (s) {
+		  return s.replace(/[|\\{}()[\]^$+*?.]/g, '\$&');
+		}
+		var regex = new RegExp('^' + wc.split(/\*+/).map(regExpEscape).join('.*') + '$');
+		if(!input.match(regex))
+			return null;
+		return input;
 	}
-	
-	return fetch(url, req);
-}    
+
+	function serialize(obj) {
+	  var str = [];
+	  for(var p in obj)
+		if (obj.hasOwnProperty(p)) {
+		  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+		}
+	  return str.join("&"); 
+	}
+
+
+
+	function apiCall(endpoint, apiInfo, access_token)
+	{
+		url = endpoint + apiInfo.URI;
+		req = {
+			method: apiInfo.method,
+			headers:{
+				'Content-Type': apiInfo.content_type
+			}			
+		}
+		if(apiInfo.headers){
+			for (var key in apiInfo.headers) {
+			   if (apiInfo.headers.hasOwnProperty(key)) {
+				  req.headers[key]= apiInfo.headers[key];
+			   }
+			}
+		}
+		if(access_token){
+			if(apiInfo.bearer){
+				req.headers["Authorization"] = "Bearer ".concat(access_token)
+			}else{
+				apiInfo.params.access_token = access_token;
+			}
+		}
+		switch (apiInfo.content_type) {
+			case "application/x-www-form-urlencoded":						
+				data = serialize(apiInfo.params);
+				break;
+			case "application/json":
+				data = JSON.stringify(apiInfo.params);			
+				break;
+			case "multipart/form-data":
+				var formData = new FormData();
+				for(var p in apiInfo.params)
+					if (apiInfo.params.hasOwnProperty(p)) {
+						formData.append(encodeURIComponent(p), encodeURIComponent(apiInfo.params[p]));
+					}
+					data = formData;
+				break;
+			default:
+				data = serialize(apiInfo.params);
+
+		}
+
+		switch (apiInfo.method) {
+			case "GET":
+				url = url.concat("?", data);
+				break;
+			case "POST":
+				req.body = data;
+			break;
+		}
+		
+		return fetch(url, req);
+	}    
 
 
     
     
 
-/*
+	/*
 
-var STREAM_ID = '************************'
-var API_KEY = '**********************************'
-var settings = {};
-// Create the client and give the API key to use by default
-var client = new StreamrClient({
-  apiKey: API_KEY
-})
+	var STREAM_ID = '************************'
+	var API_KEY = '**********************************'
+	var settings = {};
+	// Create the client and give the API key to use by default
+	var client = new StreamrClient({
+	  apiKey: API_KEY
+	})
 
-// Wrap event generation and producion into this method
-function produceNewEvent(msg) {
-  
-  // Produce the event to the Stream
-  console.log("produceNewEvent ", msg);
-  client.produceToStream(STREAM_ID, msg)
-    .then(() => {
-      console.log('Sent successfully: ' + JSON.stringify(msg))
-    })
-    .catch((err) => {
-      console.errorlog(err)
-    })
-}
-*/
+	// Wrap event generation and producion into this method
+	function produceNewEvent(msg) {
+	  
+	  // Produce the event to the Stream
+	  console.log("produceNewEvent ", msg);
+	  client.produceToStream(STREAM_ID, msg)
+		.then(() => {
+		  console.log('Sent successfully: ' + JSON.stringify(msg))
+		})
+		.catch((err) => {
+		  console.errorlog(err)
+		})
+	}
+	*/
     
     return {
         jsonUpdate: jsonUpdate,
