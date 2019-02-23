@@ -68,9 +68,7 @@ var helper = (function() {
     async function saveModuleSettings(moduleName, functionName, settings) {
         if(functionName == "*")
         {
-            let x = {};
-            x[moduleName] = settings;
-            storeData("modules", x);
+            storeData("modules", settings);
             return;
         }        
         var modules = await retrieveData("modules");        
