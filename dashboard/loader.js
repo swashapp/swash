@@ -62,8 +62,24 @@ var helper = (function() {
     function load(){
         return retrieveAll();
     }
-    function save(data){
+    function save(data){        
         console.log(data);
+    }
+    async function saveModuleSettings(moduleName, functionName, settings) {
+        if(functionName == "*")
+        {
+            let x = {};
+            x[moduleName] = settings;
+            storeData("modules", x);
+            return;
+        }        
+        var modules = await retrieveData("modules");        
+        ret = modules[moduleName][functionName];
+        for(item of ret) {
+            item.is_enabled = settings[item.name];
+        }
+        modules[moduleName][functionName] = ret;
+        browser.storage.sync.set({modules: modules});        
     }
     function saveFilters(data){
         storeData("filters", data);
@@ -72,6 +88,7 @@ return {
         load: load,
         save: save,
         loadFilters: loadFilters,
-		saveFilters: saveFilters
+		saveFilters: saveFilters,
+        saveModuleSettings: saveModuleSettings
     };
 }());
