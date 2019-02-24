@@ -112,34 +112,63 @@ var Browsing = (function() {
         }
     }
 
+    function hook_webrequest(module,data){
+        callbacks[module.name + "_" + data.name] = function(x){
+            let local_data = data;
+            let retval = null;
+            if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
+                retval = inspectRequest_patterns(module.name, local_data, x)
+            if(local_data.target_listener == "inspectReferrer")
+                retval = inspectReferrer(module.name,x)
+            if(local_data.target_listener == "inspectVisit")
+                retval = inspectVisit(module.name,x)
+            if(retval != null)
+                DataHandler.handle({
+                    src:{
+                        function: "browsing",
+                        module: retval.module,
+                        collector: retval["collector"]                                
+                    },
+                    data: retval
+                });
+        };
+        if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
+            // default for filter and extraInfo
+            let filter = data.filter?data.filter:module.browsing_filter
+            let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing_extraInfoSpec
+            browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
+        }
+    }
+    
+    function hook_webrequest(module,data){
+        var inspectBookmark = function(id, bookmark){
+            DataHandler.handle({
+                    src:{
+                        function: "browsing",
+                        module: module.name,
+                        collector: "bookmark_create"                                
+                    },
+                    data: {
+                        bookmark: bookmark
+                    }
+                });
+        }
+        if(!browser.bookmarks.onCreated.hasListener(inspectBookmark)){
+            browser.bookmarks.onCreated.addListener(inspectBookmark);
+        }
+    }
+    
     function load_module(module){
         if(module.functions.includes("browsing")){
-            module.browsing.forEach(data=>{   
-                callbacks[module.name + "_" + data.name] = function(x){
-                    let local_data = data;
-                    let retval = null;
-                    if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
-                        retval = inspectRequest_patterns(module.name, local_data, x)
-                    if(local_data.target_listener == "inspectReferrer")
-                        retval = inspectReferrer(module.name,x)
-                    if(local_data.target_listener == "inspectVisit")
-                        retval = inspectVisit(module.name,x)
-                    if(retval != null)
-                        DataHandler.handle({
-                            src:{
-                                function: "browsing",
-                                module: retval.module,
-                                collector: retval["collector"]                                
-                            },
-                            data: retval
-                        });
-                };
-                if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-                    // default for filter and extraInfo
-                    let filter = data.filter?data.filter:module.browsing_filter
-                    let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing_extraInfoSpec
-                    browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
+            module.browsing.forEach(data=>{
+                if(!data.hook || data.hook == "webrequest"){
+                    hook_webrequest(module,data)
                 }
+                if(data.hook && data.hook == "bookmarks"){
+                    hook_bookmarks(module,data)
+                }
+                
+                
             });
         }
     }
