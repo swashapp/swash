@@ -5,32 +5,39 @@ Youtube.browsing_extraInfoSpec= ["blocking"];
 Youtube.browsing = [
     {
         name: "ajax_action",
-        title: "",
+        title: "Page actions",
         description: "",
-        method: "GET",
-        url_pattern: /^https:\/\/www\.youtube\.com\/service_ajax.*/,
-        pattern_type: "regex",
-        param: [
-            {
-                type: "query",
-                key: "name",
-                name: "action"
-            }
+        patterns: [
+        {
+            method: "GET",
+            url_pattern: /^https:\/\/www\.youtube\.com\/service_ajax.*/,
+            pattern_type: "regex",
+            param: [
+                {
+                    type: "query",
+                    key: "name",
+                    name: "action"
+                }
+            ]
+        }
         ]
     },
     {
         name: "search",
-        title: "",
+        title: "Search",
         description: "",
-        method: "GET",
-        url_pattern: /^https:\/\/www\.youtube\.com\/results.*/,
-        pattern_type: "regex",
-        param: [
-            {
-                type: "query",
-                key: "search_query",
-                name: "q"
-            }
-        ]
+        patterns: [
+        {
+            method: "GET",
+            url_pattern: /^https:\/\/www\.youtube\.com\/results.*/,
+            pattern_type: "regex",
+            param: [
+                {
+                    type: "query",
+                    key: "search_query",
+                    name: "q"
+                }
+            ]
+        }
     }
 ];

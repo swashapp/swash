@@ -1,47 +1,24 @@
 console.log("modules/surfing/browsing.js");
-function inspectReferrer(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
-		return;
-	console.log(requestDetails.url, requestDetails.originUrl);
-
-	return { 
-		url: requestDetails.url,
-		originUrl: requestDetails.originUrl		
-	};
-}
-
-function inspectVisit(requestDetails) {
-	//console.log(`inspectRequest: ${config.name} `, requestDetails);
-	console.log(requestDetails.url)
-	return { 
-		url: requestDetails.url
-	};
-}
-
-function getUserAgent()
-{
-	return browser.runtime.getBrowserInfo();
-}
-
-function getAllInstalledPlugins()
-{
-	return browser.management.getAll();
-}
-
-
-function getPlatformInfo()
-{
-	return browser.runtime.getPlatformInfo();
-}
-
-function inspectBookmark(id, bookmark){
-	console.log(bookmark);
-	return {
-		bookmark: bookmark
-	}
-}
-
-browser.webNavigation.onBeforeNavigate.addListener(inspectVisit,{url: [{}]});
-browser.webRequest.onBeforeRequest.addListener(inspectReferrer, {urls: ["<all_urls>"]});
-browser.bookmarks.onCreated.addListener(inspectBookmark);
+import {Surfing} from './manifest.js';
+Surfing.browsing_filter = {urls: ["<all_urls>"]};
+Surfing.browsing_extraInfoSpec= ["blocking"];
+Surfing.browsing = [
+    {
+        name: "inspectVisit",
+        title: "Page visit",
+        description: "",
+        target_listener: "inspectVisit"
+    },
+    {
+        name: "inspectReferrer",
+        title: "Page referer",
+        description: "",
+        target_listener: "inspectReferrer"
+    },
+    {
+        name: "bookmarkCreate",
+        title: "Bookmark create",
+        description: "",
+        hook: "bookmarks"
+    }
+]
