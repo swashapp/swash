@@ -7,9 +7,27 @@ import {StorageHelper} from './StorageHelper.js';
 var DataHandler = (function() {
     'use strict';
     
+	function getUserAgent()
+    {
+        return browser.runtime.getBrowserInfo();
+    }
+
+    function getAllInstalledPlugins()
+    {
+        return browser.management.getAll();
+    }
+
+
+    function getPlatformInfo()
+    {
+        return browser.runtime.getPlatformInfo();
+    }
+
     async function handle(message) {
         console.log("DataHandler", message);
         let modules = await StorageHelper.retrieveModules();
+		//message.header.agent = getUserAgent();
+		//message.header.version = 
         message.header.privacyLevel = modules[message.header.module].privacy_level;
         enforcePolicy(message)
         Utils.notify(message);

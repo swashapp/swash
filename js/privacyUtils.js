@@ -2,19 +2,19 @@ var privacyUtils = (function() {
     'use strict';
 
     function urlPrivacy(url, privacyLevel) {
-        urlObj = new URL(url);
+        let urlObj = new URL(url);
         var searchParams = (new URL(url)).searchParams;
         var query = searchParams.get("field-keywords");    
         switch(privacyLevel) {
             case 0:            
                 return urlObj.href;
             case 1:
-                for (item of urlObj.searchParams)
+                for (let item of urlObj.searchParams)
                     urlObj.searchParams.set(item[0], "")
                 return urlObj.href;
             case 2:
                 var path = urlObj.pathname.split("/");
-                for (item in path) {
+                for (let item in path) {
                     if(path[item]) {
                         path[item] = sha256(path[item]).substring(0,path[item].length);
                     }
