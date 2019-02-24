@@ -30,29 +30,39 @@ var Browsing = (function() {
         };
     }
     
-    function inspectRequest_Data(moduleName, data, requestDetails) {
-        if(requestDetails.method != data.method){
-            return;
+    function inspectRequest_patterns(moduleName, data, requestDetails) {
+        for(var patt of data.patterns){
+            var d = inspectRequest_pattern(moduleName, data.name, patt, requestDetails)
+            if(d!=null && Object.keys(d) >0 ){
+                // we suppose one of the methods will return a value
+                return d
+            }
+        }
+    }
+    
+    function inspectRequest_pattern(moduleName, data_name, patt, requestDetails) {
+        if(requestDetails.method != patt.method){
+            return null;
         }
         var failed = true;
-        if(data.pattern_type === "regex"){
-            var res = requestDetails.url.match(data.url_pattern);
+        if(patt.pattern_type === "regex"){
+            var res = requestDetails.url.match(patt.url_pattern);
             if(res!= null) 
                 failed = false;
         }
-        if(data.pattern_type === "wildcard"){
-            var res = Utils.wildcard(requestDetails.url, data.url_pattern);
+        if(patt.pattern_type === "wildcard"){
+            var res = Utils.wildcard(requestDetails.url, patt.url_pattern);
             if(res != null) 
                 failed = false;
         }
-        if(data.pattern_type === "exact"){
-            if(requestDetails.url == data.url_pattern){
+        if(patt.pattern_type === "exact"){
+            if(requestDetails.url == patt.url_pattern){
                 failed = false;
             }
         }
         if(!failed){
             var retval = {};
-            data.param.forEach(p => {
+            patt.param.forEach(p => {
                 var val = null;
                 if(p.type === "regex"){
                     val = res[p.group]
@@ -74,10 +84,10 @@ var Browsing = (function() {
             if(Object.keys(retval).length == 0)
                 return;
             retval["module"] = moduleName
-            retval["source"] = data.name
+            retval["collector"] = data_name
             return retval;
         }
-        return;
+        return null;
     }
     
     function unload(){        
@@ -109,16 +119,18 @@ var Browsing = (function() {
                     let local_data = data;
                     let retval = null;
                     if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
-                        retval = inspectRequest_Data(module.name, local_data, x)
+                        retval = inspectRequest_patterns(module.name, local_data, x)
                     if(local_data.target_listener == "inspectReferrer")
                         retval = inspectReferrer(module.name,x)
                     if(local_data.target_listener == "inspectVisit")
                         retval = inspectVisit(module.name,x)
                     if(retval != null)
                         DataHandler.handle({
-                            type: "browsing",
-                            module: retval.module,
-                            source: retval["source"],
+                            src:{
+                                function: "browsing",
+                                module: retval.module,
+                                collector: retval["collector"]                                
+                            },
                             data: retval
                         });
                 };
