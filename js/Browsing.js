@@ -14,20 +14,46 @@ var Browsing = (function() {
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;
         console.log(requestDetails.url, requestDetails.originUrl);
-
-        return { 
-            url: requestDetails.url,
-            originUrl: requestDetails.originUrl		
-        };
+        let message = {
+                header: {
+                    module: moduleName,
+                    function: "Browsing",
+                    collector: "inspectReferrer"
+                },
+                data: {
+                    out: {
+                        url: requestDetails.url,
+                        originUrl: requestDetails.originUrl		                                                
+                    },
+                    schems: [
+                        {jpath:"$.url",type:"url"},
+                        {jpath:"$.originUrl",type:"url"}
+                    ]                    
+                }
+            }
+        DataHandler.handle(message);        
     }
 
     function inspectVisit(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;		
-        return { 
-            url: requestDetails.url
-        };
+        let message = {
+                header: {
+                    module: moduleName,
+                    function: "Browsing",
+                    collector: "inspectVisit"
+                },
+                data: {
+                    out: {
+                        url: requestDetails.url,
+                    },
+                    schems: [
+                        {jpath:"$.url",type:"url"},
+                    ]                    
+                }
+            }
+        DataHandler.handle(message);
     }
     
     function inspectRequest_Data(moduleName, data, requestDetails) {
@@ -73,9 +99,21 @@ var Browsing = (function() {
             });
             if(Object.keys(retval).length == 0)
                 return;
-            retval["module"] = moduleName
-            retval["source"] = data.name
-            return retval;
+            let message = {
+                    header: {
+                        module: moduleName,
+                        function: "Browsing",
+                        collector: "inspectRequest_Data"
+                    },
+                    data: {
+                        out: retval,
+                        schems: [
+                            {jpath:"$.query",type:"text"},
+                            {jpath:"$.category",type:"text"},
+                        ]
+                    }
+                }
+            DataHandler.handle(message);                       
         }
         return;
     }
