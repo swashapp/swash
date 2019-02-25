@@ -1,17 +1,22 @@
 import {AllModules} from '../../modules.js';
+import {DataHandler} from './DataHandler.js';
 
 var ApiCall = (function() {
      
     var callbacks = {};
     
     
-    function storeToken(data) {
-        info = {
+    function save_access_token(module,token) {
+        /*info = {
             tokenInfo: data[1].data
         }
         info.tokenInfo.token = data[0];
         storeData(config.name, info);
-        console.log("access token save done");    
+        console.log("access token save done");*/    
+    }
+    
+    function get_access_token(module){
+        
     }
     
 	function apiCall(endpoint, apiInfo, access_token)
@@ -81,18 +86,47 @@ var ApiCall = (function() {
         });
     }
     
-    function unload_module(module){
-        module.api_list.forEach(data=>{
-            clearInterval(callbacks[module.name + "_" + data.name]);
+    function send_message(module,data, msg){
+        DataHandler.handle({
+                    header:{
+                        function: "apiCall",
+                        module: module.name,
+                        collector: data.name                              
+                    },
+                    data: {
+						out: {
+							msg
+						},
+						schems: data.schems
+                    }
+                })
+    }
+    
+    function fetch_apis(module){
+        var access_token = get_access_token(module);
+        if(access_token){
+            module.api_list.forEach(data=>{
+                apiCall(module.apiConfig.api_endpoint, data, access_token).then(data.verifyResponse).then(msg =>{ send_message(module,data,msg)});
+            }
         }
+    }
+    
+    function unload_module(module){
+        /*module.api_list.forEach(data=>{
+            clearInterval(callbacks[module.name + "_" + data.name]);
+        }*/
+        clearInterval(callbacks[module.name]);
     }
 
     function load_module(module){
-        module.api_list.forEach(data=>{
+        /*module.api_list.forEach(data=>{
             callbacks[module.name + "_" + data.name] = setInterval(function(x){
-                
+                fetch_apis(module.name);
             },5000);
-        }
+        }*/
+        callbacks[module.name] = setInterval(function(x){
+            fetch_apis(module);
+        },5000);
     }
     
     return {
