@@ -40,6 +40,7 @@ var StorageHelper = (function() {
     function retrieveAll(){
         return browser.storage.sync.get();        
     }
+    
 	async function storeData(key, info)
 	{
 		console.log("key", key);
