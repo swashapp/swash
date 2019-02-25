@@ -31,7 +31,7 @@ Facebook.auth_flow = function (apiConfig, scope) {
     return browser.identity.launchWebAuthFlow({
         interactive: true,
         url: AUTH_URL
-    }).then(extrctToken);
+    }).then(extractAccessToken);
     //return authorize(scope).then(validateToken).then(handler);
 }
 

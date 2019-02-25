@@ -58,6 +58,7 @@ var Loader = (function() {
         if(filter.urls.length > 0) 
             browser.tabs.onUpdated.addListener(registerContentScripts,  filter);
         Browsing.load();
+        ApiCall.load();
     }
     
     function load_content(url){
