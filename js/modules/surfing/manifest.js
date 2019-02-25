@@ -19,3 +19,4 @@ var Surfing = (function() {
     };
 }());
 AllModules.push(Surfing);
+export {Surfing};

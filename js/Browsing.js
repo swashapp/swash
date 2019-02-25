@@ -14,23 +14,49 @@ var Browsing = (function() {
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;
         console.log(requestDetails.url, requestDetails.originUrl);
-
-        return { 
-            url: requestDetails.url,
-            originUrl: requestDetails.originUrl		
-        };
-    }
+        let message = {
+			header:{
+				function: "browsing",
+				module: moduleName,
+				collector: "inspectReferrer"
+			},
+			data: {
+				out: {
+					url: requestDetails.url,
+					originUrl: requestDetails.originUrl		                                                
+				},
+				schems: [
+					{jpath:"$.url",type:"url"},
+					{jpath:"$.originUrl",type:"url"}
+				]                    
+			}  
+		}			
+		return message; 
+	}
 
     function inspectVisit(moduleName,requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;		
-        return { 
-            url: requestDetails.url
-        };
+        let message = {
+			header:{
+				function: "browsing",
+				module: moduleName,
+				collector: "inspectVisit"
+			},			
+			data:{
+				out: {
+					url: requestDetails.url,
+				},
+				schems: [
+					{jpath:"$.url",type:"url"},
+				]
+			}				
+		}
+        return message;
     }
     
-    function inspectRequest_patterns(moduleName, data, requestDetails) {
+	function inspectRequest_patterns(moduleName, data, requestDetails) {
         for(var patt of data.patterns){
             var d = inspectRequest_pattern(moduleName, data.name, patt, requestDetails)
             if(d!=null && Object.keys(d) >0 ){
@@ -83,12 +109,25 @@ var Browsing = (function() {
             });
             if(Object.keys(retval).length == 0)
                 return;
-            retval["module"] = moduleName
-            retval["collector"] = data_name
-            return retval;
+            let message = {
+				header:{
+					function: "browsing",
+					module: moduleName,
+					collector: "inspectRequest_pattern"
+				},							
+				data: {					
+                        out: retval,
+                        schems: [
+                            {jpath:"$.query",type:"text"},
+                            {jpath:"$.category",type:"text"},
+                        ]
+				}
+            }
+            return message;
         }
         return null;
     }
+    
     
     function unload(){        
         StorageHelper.retrieveModules().then(modules => {for(var module in modules){
@@ -112,7 +151,7 @@ var Browsing = (function() {
         }
     }
 
-    function hook_webrequest(module,data){
+	function hook_webrequest(module,data){
         callbacks[module.name + "_" + data.name] = function(x){
             let local_data = data;
             let retval = null;
@@ -123,14 +162,7 @@ var Browsing = (function() {
             if(local_data.target_listener == "inspectVisit")
                 retval = inspectVisit(module.name,x)
             if(retval != null)
-                DataHandler.handle({
-                    src:{
-                        function: "browsing",
-                        module: retval.module,
-                        collector: retval["collector"]                                
-                    },
-                    data: retval
-                });
+                DataHandler.handle(retval);
         };
         if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
             // default for filter and extraInfo
@@ -140,16 +172,22 @@ var Browsing = (function() {
         }
     }
     
-    function hook_webrequest(module,data){
+    function hook_bookmarks(module,data){
         var inspectBookmark = function(id, bookmark){
             DataHandler.handle({
-                    src:{
+                    header:{
                         function: "browsing",
                         module: module.name,
                         collector: "bookmark_create"                                
                     },
                     data: {
-                        bookmark: bookmark
+						out: {
+							bookmark: bookmark
+						},
+						schems: [
+							{jpath: "$.bookmark", type: "text"}
+						]
+                        
                     }
                 });
         }
@@ -158,17 +196,17 @@ var Browsing = (function() {
         }
     }
     
+
+	
     function load_module(module){
-        if(module.functions.includes("browsing")){
+       if(module.functions.includes("browsing")){
             module.browsing.forEach(data=>{
                 if(!data.hook || data.hook == "webrequest"){
                     hook_webrequest(module,data)
                 }
                 if(data.hook && data.hook == "bookmarks"){
                     hook_bookmarks(module,data)
-                }
-                
-                
+                }                                
             });
         }
     }

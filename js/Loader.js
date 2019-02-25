@@ -10,12 +10,18 @@ var Loader = (function() {
             console.log("db", db, Object.keys(db).length);
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: []};                
+                db.configs.Id = Utils.generateUUID();
             }
             try{
                 allModules.forEach(module=>{            
                     console.log("Processing module:" + module.name + ", version:" + module.version);
+                    
 					if(!db.modules[module.name])
+                    {
 						db.modules[module.name] = {};
+                        db.modules[module.name].mId = Utils.generateUUID();
+                    }
+                    
                     Utils.jsonUpdate(db.modules[module.name], module);                
                 });
             }
@@ -85,6 +91,7 @@ var Loader = (function() {
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
+        data.modules[module.name].mId = Utils.generateUUID();
         StorageHelper.updateModules(data);
     }
     
