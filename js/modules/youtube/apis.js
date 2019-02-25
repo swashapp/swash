@@ -173,29 +173,6 @@ Youtube.apiCall = [
 
 /*
 
-function gCall(apiInfo)
-{
-	let gettingItem = retrieveData(config.name);
-	gettingItem.then(item => {
-		access_token = item[config.name].tokenInfo.token;
-		endpoint = config.apiConfig.api_endpoint;
-		return apiCall(endpoint, apiInfo, access_token).then(apiInfo.verifyResponse).then(resp => console.log(resp));				
-	})
-}
-
-function gListCall(apiInfoList)
-{
-	let gettingItem = retrieveData(config.name);
-	gettingItem.then(item => {
-		access_token = item[config.name].tokenInfo.token;
-		endpoint = config.apiConfig.api_endpoint;
-		for(apiInfo of apiInfoList)
-		{			
-			apiCall(endpoint, apiInfo, access_token).then(apiInfo.verifyResponse).then(resp => console.log(resp));				
-		}
-	})	
-}
-
 function gBatchCall(apiInfoList)
 {
 	let gettingItem = retrieveData(config.name);
