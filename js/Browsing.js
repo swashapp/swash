@@ -201,12 +201,15 @@ var Browsing = (function() {
     function load_module(module){
        if(module.functions.includes("browsing")){
             module.browsing.forEach(data=>{
-                if(!data.hook || data.hook == "webrequest"){
-                    hook_webrequest(module,data)
-                }
-                if(data.hook && data.hook == "bookmarks"){
-                    hook_bookmarks(module,data)
-                }                                
+                if(data.is_enabled)
+                {
+                    if(!data.hook || data.hook == "webrequest"){
+                        hook_webrequest(module,data)
+                    }
+                    if(data.hook && data.hook == "bookmarks"){
+                        hook_bookmarks(module,data)
+                    }
+                }                
             });
         }
     }
