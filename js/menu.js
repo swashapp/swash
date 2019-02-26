@@ -1,13 +1,14 @@
-  function showPageOnTab(url_to_show) {
-    return browser.windows.getAll({
-        populate: true,
-        windowTypes: ["normal"]
-      }).then((windowInfoArray) => {
-          browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
-      });
-  }
+import {Loader} from './Loader.js';
+function showPageOnTab(url_to_show) {
+	return browser.windows.getAll({
+		populate: true,
+		windowTypes: ["normal"]
+	  }).then((windowInfoArray) => {
+		  browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
+	  });
+}
   
-  console.log("I loaded");
+console.log("I loaded");
   
 
 function update_balance(balance){
@@ -40,10 +41,14 @@ document.getElementById("open_logs").addEventListener('click', function(eventObj
 
 document.getElementById("streaming").addEventListener('click', function(eventObj) {
     let is_enabled = document.getElementById("streaming").checked;
-    if(is_enabled)
+    if(is_enabled) {
+		Loader.start();
         browser.browserAction.setIcon({path: "../icons/surf19.png"});
-    else
+	}
+    else {
+		Loader.stop();
         browser.browserAction.setIcon({path: "../icons/surf19g.png"});
+	}
     // enable/disable module
     browser.storage.sync.get("configs").then(c => {
         c.configs.is_enabled = is_enabled;

@@ -1,6 +1,7 @@
 console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
+import {Content} from './Content.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 var Loader = (function() {
@@ -69,52 +70,32 @@ var Loader = (function() {
 */
     
     function start(){
-        var filter = {urls: [], properties: ["status"]};        
-        StorageHelper.retrieveModules().then(modules => {
-            for (var module in modules) {
-                if(modules[module].functions.includes("content")){
-                    for(var item of modules[module].content_matches) {
-                        filter.urls.push(item);
-                    }
-                }
-            }        
-            if(filter.urls.length > 0) 
-                browser.tabs.onUpdated.addListener(registerContentScripts,  filter);            
-        });
-        browser.tabs.onUpdated.addListener(changeIconOnUpdated);
-        //browser.tabs.onActivated.addListener(changeIconOnActivated);
+		Content.load();
         Browsing.load();
         //ApiCall.load();
     }
     
-    function load_content(url){
-        var retval = [];
-        StorageHelper.retrieveModules().forEach(module => {
-            if(module.functions.includes("content")){
-                var matched = false;
-                module.content_matches.forEach(mtch=>{
-                    if(url.match(mtch)){
-                        matched = true;
-                    }
-                });
-                if(matched){
-                    module.content.forEach(data=>{            
-                        retval.push(data); 
-                    });
-                }
-            }
-        });
-        return retval;
-    }
-    
-    function reload() {
-        return start();
-    }
-    
+
     function stop(){
+		Content.unload();
         Browsing.unload();
     }
+
+	function restart() {
+		stop();
+		start();
+    }
     
+    function start_module(module) {
+		Content.load_module(module);
+		Browsing.load_module(module);
+	}
+	
+    function stop_module(module) {
+		Content.unload_module(module);
+		Browsing.unload_module(module);
+	}
+
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
@@ -154,7 +135,7 @@ var Loader = (function() {
         install: install,
         start: start,
         stop: stop,
-        reload: reload
+        restart: restart
     };
 }());
 export {Loader};
