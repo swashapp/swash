@@ -3,14 +3,18 @@
 
 	
 function getBalance(walletAddress, callback) {
+    if(!walletAddress)
+        return;
     let tokenAddress = "0x0cf0ee63788a0849fe5297f3407f701e122cc023";
     
-	var endpoint = "https://api.tokenbalance.com/balance";
-	var apiInfo = {
-		method: "GET",
-		URI: `/${tokenAddress}/${walletAddress}`,
-		content_type: "application/x-www-form-urlencoded"
-	}
+	let url = `https://api.tokenbalance.com/balance/${tokenAddress}/${walletAddress}`;
+    req = {
+        method: "GET",
+        headers:{
+            'Content-Type': "application/x-www-form-urlencoded"
+        }			
+    }
+
 	  function checkResponse(response) {
     return new Promise((resolve, reject) => {
       if (response.status != 200) {
@@ -21,6 +25,5 @@ function getBalance(walletAddress, callback) {
       });
     });
   }
-
-	return apiCall(endpoint, apiInfo).then(checkResponse).then(balance => callback(balance));
+    return fetch(url, req).then(checkResponse).then(balance => callback(balance));	
 }

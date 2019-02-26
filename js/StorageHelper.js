@@ -8,7 +8,11 @@ var StorageHelper = (function() {
     function updateProfile(info){
         storeData("profile",info)
     }
-
+    
+    function retrieveFilters() {
+        return retrieveData("filters");
+    }
+    
     function retrieveConfigs(){
         return retrieveData("configs");
     }
@@ -33,7 +37,6 @@ var StorageHelper = (function() {
     
     async function storeAll(db) {
         await browser.storage.sync.set(db);        
-		console.log("test", db);
     }
     
 
@@ -43,12 +46,8 @@ var StorageHelper = (function() {
     
 	async function storeData(key, info)
 	{
-		console.log("key", key);
-		console.log("info", info);
 		var data = await retrieveData(key);   
-		console.log("data", data);            
 		jsonUpdate(data,info);
-		console.log("updated data", data);
 		let x = {};
 		x[key] = data;
 		browser.storage.sync.set(x);
@@ -57,7 +56,6 @@ var StorageHelper = (function() {
     async function retrieveData(key)
     {
         let x = await browser.storage.sync.get(key); 
-        console.log("retrive data ", x[key]);        
         return x[key];
     }
     
@@ -69,6 +67,7 @@ var StorageHelper = (function() {
         updateConfigs: updateConfigs,
         retrieveModules: retrieveModules,
         updateModules: updateModules,
+        retrieveFilters: retrieveFilters,
         retrieveAll: retrieveAll,
 		storeAll: storeAll
         

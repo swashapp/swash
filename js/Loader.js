@@ -2,15 +2,15 @@ console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
 import {Utils} from './Utils.js';
+import {filterUtils} from './filterUtils.js';
 var Loader = (function() {
-    'use strict';
-    
+    'use strict';    
     function install(allModules){
         StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: []};                
-                db.configs.Id = Utils.generateUUID();
+                db.configs.Id = Utils.uuid();
             }
             try{
                 allModules.forEach(module=>{            
@@ -19,7 +19,7 @@ var Loader = (function() {
 					if(!db.modules[module.name])
                     {
 						db.modules[module.name] = {};
-                        db.modules[module.name].mId = Utils.generateUUID();
+                        db.modules[module.name].mId = Utils.uuid();
                     }
                     
                     Utils.jsonUpdate(db.modules[module.name], module);                
@@ -37,7 +37,7 @@ var Loader = (function() {
         
     }
     function registerContentScripts(tabId, changeInfo, tabInfo) {
-        console.log(tabId, changeInfo, tabInfo);
+        console.log(tabId, changeInfo, tabInfo);        
         if(changeInfo.status == "loading")
             browser.tabs.executeScript(tabId, {
               file: "/js/content_script.js",
@@ -45,20 +45,46 @@ var Loader = (function() {
               runAt: "document_end"
             })
     }
+
+    
+    function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
+        StorageHelper.retrieveFilters().then(filters => {
+            if(!filterUtils.filter(tabInfo.url, filters))
+                browser.browserAction.setIcon({path: "icons/surf19g.png"});
+            else 
+                browser.browserAction.setIcon({path: "icons/surf19.png"});
+        });
+    }
+/*    
+    function changeIconOnActivated(activeInfo) {
+        StorageHelper.retrieveFilters().then(filters => {
+            browser.tabs.get(activeInfo.tabId).then(tabInfo => {
+                if(filterUtils.filter(tabInfo.url, filters) == "")
+                    browser.browserAction.setIcon({path: "icons/surf19g.png"});
+                else 
+                    browser.browserAction.setIcon({path: "icons/surf19.png"});                
+            })
+        });
+    }
+*/
     
     function start(){
         var filter = {urls: [], properties: ["status"]};        
-        StorageHelper.retrieveModules().then(modules => {for (var module in modules) {
-            if(modules[module].functions.includes("content")){
-                for(var item of modules[module].content_matches) {
-                    filter.urls.push(item);
+        StorageHelper.retrieveModules().then(modules => {
+            for (var module in modules) {
+                if(modules[module].functions.includes("content")){
+                    for(var item of modules[module].content_matches) {
+                        filter.urls.push(item);
+                    }
                 }
-            }            
-        }});
-        if(filter.urls.length > 0) 
-            browser.tabs.onUpdated.addListener(registerContentScripts,  filter);
+            }        
+            if(filter.urls.length > 0) 
+                browser.tabs.onUpdated.addListener(registerContentScripts,  filter);            
+        });
+        browser.tabs.onUpdated.addListener(changeIconOnUpdated);
+        //browser.tabs.onActivated.addListener(changeIconOnActivated);
         Browsing.load();
-        ApiCall.load();
+        //ApiCall.load();
     }
     
     function load_content(url){

@@ -13,7 +13,7 @@ var filterUtils = (function() {
     }
 
     function wildcardFilter(input, wildcard) {
-        var regex = new RegExp('^' + wildcard.split(/\*+/).map(regExpEscape).join('.*') + '$');
+        let regex = new RegExp('^' + wildcard.split(/\*+/).map(regExpEscape).join('.*') + '$');
         if(input.match(regex))
             return null;
         return input;
@@ -24,17 +24,17 @@ var filterUtils = (function() {
     }
 
     function filter(input, filters) {
-            for (f of filters) {
-                ret = "";
+            let ret = input;
+            for (let f of filters) {                
                 switch(f.type) {
                     case "regex":
-                        ret = regexFilter(input, f.pattern);
+                        ret = regexFilter(input, f.value);
                         break;
                     case "wildcard":
-                        ret = wildcardFilter(input, f.pattern);
+                        ret = wildcardFilter(input, f.value);
                         break;
                     case "exact":
-                        ret = matchFilter(input, f.pattern);
+                        ret = matchFilter(input, f.value);
                         break;
                 }
                 if (!ret)
