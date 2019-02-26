@@ -2,7 +2,7 @@ console.log("modules/facebook/apis.js");
 import {Facebook} from './manifest.js';
 
 
-Facebook.api_list = [
+Facebook.apiCall = [
 	{
 		name: "userInfo",
 		description: "",

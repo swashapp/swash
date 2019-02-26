@@ -110,7 +110,8 @@ var ApiCall = (function() {
         get_access_token(module).then(access_token => {
             if(access_token){
                 module.api_list.forEach(data=>{
-                    apiCall(module.apiConfig.api_endpoint, data, access_token).then(data.verifyResponse).then(msg =>{ send_message(module,data,msg)});
+                    if(data.is_enabled)
+                        apiCall(module.apiConfig.api_endpoint, data, access_token).then(data.verifyResponse).then(msg =>{ send_message(module,data,msg)});
                 }
             } 
         });
