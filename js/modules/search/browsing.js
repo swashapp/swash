@@ -7,6 +7,7 @@ Search.browsing = [
     {
         name: "bing",
         title: "Bing.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {
@@ -48,6 +49,7 @@ Search.browsing = [
     },{
         name: "Yahoo",
         title: "Yahoo.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {
@@ -73,6 +75,7 @@ Search.browsing = [
     },{
         name: "Google",
         title: "Google.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {
@@ -97,7 +100,8 @@ Search.browsing = [
         ]
     },{
         name: "AOL",
-        title: "AOL",
+        title: "AOL.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {
@@ -121,7 +125,8 @@ Search.browsing = [
         ]
     },{
         name: "Ask",
-        title: "",
+        title: "Ask.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {
@@ -145,7 +150,8 @@ Search.browsing = [
         ]
     },{
         name: "Baidu",
-        title: "",
+        title: "Baidu.com",
+        is_enabled: true,        
         description: "",
         patterns: [
         {

@@ -7,6 +7,7 @@ Twitter.browsing = [
     {
         name: "post_tweet",
         title: "Post a new tweet",
+        is_enabled: true,        
         description: "",
         patterns: [
 			{
@@ -25,7 +26,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "search",
-		title: "Search",
+		title: "Twitter Search",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -56,7 +58,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "follow",
-		title: "Follow",
+		title: "Follow action",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -75,7 +78,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "unfollow",
-		title: "Unfollow",
+		title: "Unfollow action",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -94,7 +98,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "mute",
-		title: "Mute",
+		title: "Mute action",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -113,7 +118,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "unmute",
-		title: "Unmute",
+		title: "Unmute action",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -132,7 +138,8 @@ Twitter.browsing = [
 	},
 	{
 		name: "like",
-		title: "Like",
+		title: "Like action",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -152,6 +159,7 @@ Twitter.browsing = [
 	{
 		name: "retweet",
 		title: "Retweet",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -171,6 +179,7 @@ Twitter.browsing = [
 	{
 		name: "visit",
 		title: "Visit User page",
+        is_enabled: true,
 		description: "",
 		patterns: [
 			{
@@ -189,10 +198,14 @@ Twitter.browsing = [
 	},
 	{
 		name: "inspectVisit",
+        title: "visited pages",
+        is_enabled: true,
 		target_listener: "inspectVisit"
 	},
 	{
 		name: "inspectReferrer",
+        title: "User experiense",
+        is_enabled: true,
 		target_listener: "inspectReferrer"
 	}
 ];

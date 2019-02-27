@@ -23,7 +23,8 @@ Youtube.content = [
     {
         name: "",
         description: "",
-        title: "",
+        title: "video time duration",
+        is_enabled: true,
         events: [
             {
                 selector: "",   // window

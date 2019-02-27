@@ -5,7 +5,8 @@ Amazon.browsing_extraInfoSpec= ["blocking"];
 Amazon.browsing = [
     {
         name: "search",
-        title: "Search",
+        title: "Amazon Search",
+        is_enabled: true,
         patterns: [
             {
                 method: "GET",
@@ -62,11 +63,15 @@ Amazon.browsing = [
     },
     {
         name: "inspectVisit",
-        target_listener: "inspectVisit"
+        title: "Amazon visited pages",
+        target_listener: "inspectVisit",
+        is_enabled: true,
     },
     {
         name: "inspectReferrer",
+        title: "User experience",
         target_listener: "inspectReferrer"
+        is_enabled: true,
     }
 
 ];

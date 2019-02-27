@@ -5,7 +5,8 @@ Amazon.content = [
     {
         name: "links",
         description: "",
-        title: "",
+        title: "Links clicked by user",
+        is_enabled: true,
         events: [
             {
                 selector: "a",
@@ -33,7 +34,8 @@ Amazon.content = [
     {
         name: "selectItem",
         description: "",
-        title: "",
+        title: "Items selected by user",
+        is_enabled: true,
         events: [
             {
                 selector: "",
@@ -59,9 +61,10 @@ Amazon.content = [
         ]
     },
     {
-        name: "selectItem",
-        description: "",
+        name: "addToCard",
+        description: "Items added to card",
         title: "",
+        is_enabled: true,
         events: [
             {
                 selector: "#add-to-cart-button",
@@ -91,9 +94,10 @@ Amazon.content = [
         ]
     },
     {
-        name: "selectItem",
+        name: "addToWishlist",
         description: "",
-        title: "",
+        title: "Items added to wishlist",
+        is_enabled: true,
         events: [
             {
                 selector: "#add-to-wishlist-button-submit",
@@ -123,9 +127,10 @@ Amazon.content = [
         ]
     },
     {
-        name: "selectItem",
+        name: "buyNow",
         description: "",
-        title: "",
+        title: "Items selected for buy",
+        is_enabled: true,
         events: [
             {
                 selector: "#buy-now-button",

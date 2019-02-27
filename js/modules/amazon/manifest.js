@@ -4,10 +4,11 @@ var Amazon = (function() {
     'use strict';
     
     return {
-        name: "Amazon",
+        name: "Amazon",        
         description: "This module look through all the user activities on amazon and capture those activities that user have permitted",
         path: "/amazon",
         functions: ["browsing", "content"],
+        is_enabled: true,
         URL: ["https://www.amazon.com/"],
         privacy_level: 3,
         status: "enabled",

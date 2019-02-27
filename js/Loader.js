@@ -48,27 +48,6 @@ var Loader = (function() {
     }
 
     
-    function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
-        StorageHelper.retrieveFilters().then(filters => {
-            if(!filterUtils.filter(tabInfo.url, filters))
-                browser.browserAction.setIcon({path: "icons/surf19g.png"});
-            else 
-                browser.browserAction.setIcon({path: "icons/surf19.png"});
-        });
-    }
-/*    
-    function changeIconOnActivated(activeInfo) {
-        StorageHelper.retrieveFilters().then(filters => {
-            browser.tabs.get(activeInfo.tabId).then(tabInfo => {
-                if(filterUtils.filter(tabInfo.url, filters) == "")
-                    browser.browserAction.setIcon({path: "icons/surf19g.png"});
-                else 
-                    browser.browserAction.setIcon({path: "icons/surf19.png"});                
-            })
-        });
-    }
-*/
-    
     function start(){
 		Content.load();
         Browsing.load();

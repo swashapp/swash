@@ -137,7 +137,8 @@ var Browsing = (function() {
 
     function load(){
         StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
-            load_module(modules[module]);
+            if(modules[module].is_enabled)
+                load_module(modules[module]);
         }});
     }
     

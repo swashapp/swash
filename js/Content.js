@@ -2,6 +2,7 @@ console.log("Content.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Utils} from './Utils.js';
 import {DataHandler} from './DataHandler.js';
+import {filterUtils} from './filterUtils.js';
 
 var Content = (function() {
     'use strict';
@@ -56,8 +57,8 @@ var Content = (function() {
 
     }
 	
-	    function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
-        StorageHelper.retrieveFilters().then(filters => {
+    function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
+    StorageHelper.retrieveFilters().then(filters => {
             if(!filterUtils.filter(tabInfo.url, filters))
                 browser.browserAction.setIcon({path: "icons/surf19g.png"});
             else 

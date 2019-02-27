@@ -5,19 +5,22 @@ Surfing.browsing_extraInfoSpec= ["blocking"];
 Surfing.browsing = [
     {
         name: "inspectVisit",
-        title: "Page visit",
+        title: "Page visits",
+        is_enabled: true,        
         description: "",
         target_listener: "inspectVisit"
     },
     {
         name: "inspectReferrer",
-        title: "Page referer",
+        title: "User experiense",
+        is_enabled: true,
         description: "",
         target_listener: "inspectReferrer"
     },
     {
         name: "bookmarkCreate",
-        title: "Bookmark create",
+        title: "Create Bookmark",
+        is_enabled: true,
         description: "",
         hook: "bookmarks"
     }

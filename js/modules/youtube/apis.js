@@ -3,6 +3,8 @@ Youtube.apiCall = [
 	{
 		name: "recentActivities",
 		description: "",
+        title: "User recent activities",
+        is_enabled: true,
 		method: "GET",
 		URI: "/activities/",
         bearer: true,
@@ -28,6 +30,8 @@ Youtube.apiCall = [
     {
 		name: "myChannels",
 		description: "",
+        title: "User channels",
+        is_enabled: true,        
 		method: "GET",
 		URI: "/channels/",
         bearer: true,
@@ -52,6 +56,8 @@ Youtube.apiCall = [
     {
 		name: "channelsManagedByMe",
 		description: "",
+        title: "channel managed by User",
+        is_enabled: true,        
 		method: "GET",
 		URI: "/channels/",
         bearer: true,
@@ -77,6 +83,8 @@ Youtube.apiCall = [
 		name: "channelSections",
 		description: "",
 		method: "GET",
+        title: "Channel sections",
+        is_enabled: true,        
 		URI: "/channelSections/",
         bearer: true,
 		content_type: "application/x-www-form-urlencoded",
@@ -100,6 +108,8 @@ Youtube.apiCall = [
     {
 		name: "myPlaylists",
 		description: "",
+        title: "User playlist",
+        is_enabled: true,        
 		method: "GET",
 		URI: "/playlists/",
         bearer: true,
@@ -124,6 +134,8 @@ Youtube.apiCall = [
     {
 		name: "mySubscriptions",
 		description: "",
+        title: "User subscriptions",
+        is_enabled: true,        
 		method: "GET",
 		URI: "/subscriptions/",
         bearer: true,
@@ -148,6 +160,8 @@ Youtube.apiCall = [
     {
 		name: "myLikedVideos",
 		description: "",
+        title: "User linked videos",
+        is_enabled: true,        
 		method: "GET",
 		URI: "/videos/",
         bearer: true,

@@ -6,6 +6,7 @@ Youtube.browsing = [
     {
         name: "ajax_action",
         title: "Page actions",
+        is_enabled: true,
         description: "",
         patterns: [
 			{
@@ -24,7 +25,8 @@ Youtube.browsing = [
     },
     {
         name: "search",
-        title: "Search",
+        title: "Youtube Search",
+        is_enabled: true,        
         description: "",
         patterns: [
 			{
