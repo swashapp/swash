@@ -2,7 +2,9 @@ console.log("background-script.js");
 
 import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
+import {StorageHelper} from './StorageHelper.js';
 import {AllModules} from './modules.js';
+import {ApiCall} from './ApiCall.js';
 
 /* ***
 This function will invoke on:
@@ -22,9 +24,16 @@ Each content script, after successful injection on a page, will send a message t
 This part handles such requests.
 */
 browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
-    if(message.type == "request_data"){
+    /*if(message.type == "request_data"){
         sendResponse({data: Loader.load_content(message.url)});
+    }*/
+    if(message.type == "oAuth2")
+    {
+        ApiCall.start_oauth(message.module).then(token =>{
+            sendResponse({token: token});
+        });
     }
+    
 });
 
 /* ***

@@ -65,13 +65,13 @@ Amazon.browsing = [
         name: "inspectVisit",
         title: "Amazon visited pages",
         target_listener: "inspectVisit",
-        is_enabled: true,
+        is_enabled: true
     },
     {
         name: "inspectReferrer",
         title: "User experience",
-        target_listener: "inspectReferrer"
-        is_enabled: true,
+        target_listener: "inspectReferrer",
+        is_enabled: true
     }
 
 ];

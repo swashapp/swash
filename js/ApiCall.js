@@ -8,6 +8,25 @@ var ApiCall = (function() {
      
     var callbacks = {};
     
+    function start_oauth(moduleName) {
+        StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
+            var module = modules[moduleN]
+            if(module.name == moduleName){
+                browser.identity.launchWebAuthFlow({
+                    interactive: true,
+                    url: module.generate_auth_url(module.apiConfig,module.scopes)
+                }).then( redirectUri=> {
+                    var rst = redirectUri.match(module.access_token_regex);
+                    if(rst){
+                        return rst[1]
+                    }
+                    return null;
+                });
+            }
+        }});
+    }
+    
+    
     function save_access_token(module,token) {
         var data = {modules: {}}
         data.modules[module.name].access_token = token;
@@ -79,15 +98,17 @@ var ApiCall = (function() {
 	}
     
     function unload(){        
-        AllModules.forEach(module => {
-            unload_module(module);
-        });
+        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
+            if(modules[module].is_enabled)
+                unload_module(modules[module]);
+        }});
     }
 
     function load(){
-        AllModules.forEach(module => {
-            load_module(module);
-        });
+        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
+            if(modules[module].is_enabled)
+                load_module(modules[module]);
+        }});
     }
     
     function send_message(module,data, msg){
@@ -112,7 +133,7 @@ var ApiCall = (function() {
                 module.api_list.forEach(data=>{
                     if(data.is_enabled)
                         apiCall(module.apiConfig.api_endpoint, data, access_token).then(data.verifyResponse).then(msg =>{ send_message(module,data,msg)});
-                }
+                });
             } 
         });
     }

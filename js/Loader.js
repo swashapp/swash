@@ -2,6 +2,7 @@ console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
 import {Content} from './Content.js';
+import {ApiCall} from './ApiCall.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 var Loader = (function() {

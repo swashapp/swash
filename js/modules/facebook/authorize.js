@@ -7,33 +7,12 @@ Facebook.apiConfig = {
     auth_url: 'https://www.facebook.com/v3.2/dialog/oauth'
 }
 
-Facebook.auth_init = function(redirect_url){
-    var handle = function (requestDetails) {
-        browser.tabs.remove(requestDetails.tabId);
-        return {cancel: true};
-    }
-    browser.webRequest.onBeforeRequest.addListener(handle, {urls: [`${redirect_url}*`]}, ["blocking"]);
+Facebook.generate_auth_url = function (apiConfig, scope) {    
+    return `${apiConfig.auth_url}?display=popup&client_id=${apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(scope.join(' '))}`;
 }
 
-Facebook.auth_flow = function (apiConfig, scope) {    
-    AUTH_URL =`${apiConfig.auth_url}?display=popup&client_id=${apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(scope.join(' '))}`;
-    function extractAccessToken(redirectUri) {
-        let m = redirectUri.match(/[#?](.*)/);
-        if (!m || m.length < 1)
-            return null;
-        let params = new URLSearchParams(m[1].split("#")[1]);
-        const accessToken = params.get("access_token");
-        if (!accessToken)
-            throw "Authorization failure";
-        return accessToken
-    }
-    
-    return browser.identity.launchWebAuthFlow({
-        interactive: true,
-        url: AUTH_URL
-    }).then(extractAccessToken);
-    //return authorize(scope).then(validateToken).then(handler);
-}
+Facebook.access_token_regex = "access_token=([^&]*)";
+Facebook.scopes = [];
 
 Facebook.validate_token = {
     name: "validate_token",
