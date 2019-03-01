@@ -63,6 +63,27 @@ var helper = (function() {
 		}
         return sendMessage(message);		       		
 	}
+	function removeAuth(moduleName) {
+		param = {};
+		param[moduleName] = {};
+		param[moduleName].access_token = "";
+		let message = {
+			obj: "StorageHelper",
+			func: "updateModules",
+			params: [param]
+		}
+        return sendMessage(message);		       					
+	}
+	
+	function isConnected(moduleName) {
+		let message = {
+			obj: "ApiCall",
+			func: "isConnected",
+			params: [moduleName]
+		}
+        return sendMessage(message);		       				
+	}
+	
 	function start() {
 		let message = {
 			obj: "Loader",
@@ -92,6 +113,8 @@ var helper = (function() {
 		saveFilters: saveFilters,
 		saveProfile: saveProfile,
 		saveConfigs: saveConfigs,
-		startAuth: startAuth
+		startAuth: startAuth,
+		removeAuth: removeAuth,
+		isConnected: isConnected
     };
 }());

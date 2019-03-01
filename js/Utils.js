@@ -75,7 +75,8 @@ var Utils = (function() {
         jsonUpdate: jsonUpdate,
         wildcard: wildcard,
         notify: notify,
-        uuid: uuid
+        uuid: uuid,
+		serialize: serialize
     };
 }());
 export {Utils};

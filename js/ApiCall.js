@@ -1,3 +1,4 @@
+import {Utils} from './Utils.js';
 import {AllModules} from './modules.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
@@ -13,15 +14,31 @@ var ApiCall = (function() {
 		let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
 		return cbURL;
 	}
+	
+	async function isConnected(moduleName) {
+		let modules = await StorageHelper.retrieveModules();
+		for(var moduleN in modules) {
+			var module = modules[moduleN]
+			if(module.name == moduleName){
+				if(module.access_token && module.access_token != "")
+					return (true);
+				return (false);
+			}
+		}
+	}
     function start_oauth(moduleName) {
         StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
-                browser.identity.launchWebAuthFlow({
+				return browser.windows.create({
+					url: auth_url
+				  });				
+				return;
+				/*browser.identity.launchWebAuthFlow({
                     interactive: true,
                     url: auth_url
-                });
+                });*/
             }
         }});
     }
@@ -54,15 +71,20 @@ var ApiCall = (function() {
         var mds = await StorageHelper.retrieveModules()
         for(var m in mds){
             if(mds[m].name == module.name){
-                return m.access_token
+                return mds[m].access_token
             }
         }
     }
     
+	function prepareMessage(response) {
+		return response.json();
+	}
+	
+	
 	function apiCall(endpoint, apiInfo, access_token)
 	{
-		url = endpoint + apiInfo.URI;
-		req = {
+		let url = endpoint + apiInfo.URI;
+		let req = {
 			method: apiInfo.method,
 			headers:{
 				'Content-Type': apiInfo.content_type
@@ -82,9 +104,10 @@ var ApiCall = (function() {
 				apiInfo.params.access_token = access_token;
 			}
 		}
+		let data = "";
 		switch (apiInfo.content_type) {
 			case "application/x-www-form-urlencoded":						
-				data = serialize(apiInfo.params);
+				data = Utils.serialize(apiInfo.params);
 				break;
 			case "application/json":
 				data = JSON.stringify(apiInfo.params);			
@@ -98,7 +121,7 @@ var ApiCall = (function() {
 					data = formData;
 				break;
 			default:
-				data = serialize(apiInfo.params);
+				data = Utils.serialize(apiInfo.params);
 
 		}
 
@@ -111,7 +134,7 @@ var ApiCall = (function() {
 			break;
 		}
 		
-		return fetch(url, req).then(apiInfo.verifyResponse);
+		return fetch(url, req);
 	}
     
     function unload(){        
@@ -150,9 +173,9 @@ var ApiCall = (function() {
     function fetch_apis(module){
         get_access_token(module).then(access_token => {
             if(access_token){
-                module.api_list.forEach(data=>{
+                module.apiCall.forEach(data=>{
                     if(data.is_enabled)
-                        apiCall(module.apiConfig.api_endpoint, data, access_token).then(data.verifyResponse).then(msg =>{ send_message(module,data,msg)});
+                        apiCall(module.apiConfig.api_endpoint, data, access_token).then(prepareMessage).then(msg =>{ send_message(module,data,msg)});
                 });
             } 
         });
@@ -173,7 +196,7 @@ var ApiCall = (function() {
 		browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
         callbacks[module.name] = setInterval(function(x){
             fetch_apis(module);
-        },50000);
+        },5000000);
     }
     
     return {
@@ -182,7 +205,8 @@ var ApiCall = (function() {
         unload_module: unload_module,
         load_module: load_module,
 		start_oauth: start_oauth,
-		getCallBackURL: getCallBackURL
+		getCallBackURL: getCallBackURL,
+		isConnected: isConnected
     };
 }());
 export {ApiCall};
