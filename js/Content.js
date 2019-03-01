@@ -12,8 +12,6 @@ var Content = (function() {
     function unload(){        
 		if(browser.tabs.onUpdated.hasListener(registerContentScripts))
 			browser.tabs.onUpdated.removeListener(registerContentScripts);
-		if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))
-			browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
     }
 
     function load(){        
@@ -23,8 +21,6 @@ var Content = (function() {
 					load_module(modules[module]);
             }        
         });
-        browser.tabs.onUpdated.addListener(changeIconOnUpdated);
-        //browser.tabs.onActivated.addListener(changeIconOnActivated);
     }
     
     function unload_module(module){
@@ -57,26 +53,6 @@ var Content = (function() {
 
     }
 	
-    function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
-    StorageHelper.retrieveFilters().then(filters => {
-            if(!filterUtils.filter(tabInfo.url, filters))
-                browser.browserAction.setIcon({path: "icons/surf19g.png"});
-            else 
-                browser.browserAction.setIcon({path: "icons/surf19.png"});
-        });
-    }
-/*    
-    function changeIconOnActivated(activeInfo) {
-        StorageHelper.retrieveFilters().then(filters => {
-            browser.tabs.get(activeInfo.tabId).then(tabInfo => {
-                if(filterUtils.filter(tabInfo.url, filters) == "")
-                    browser.browserAction.setIcon({path: "icons/surf19g.png"});
-                else 
-                    browser.browserAction.setIcon({path: "icons/surf19.png"});                
-            })
-        });
-    }
-*/
 
 	function registerContentScripts(tabId, changeInfo, tabInfo) {
 	console.log(tabId, changeInfo, tabInfo);        

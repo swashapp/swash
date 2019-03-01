@@ -1,18 +1,16 @@
 console.log("modules/facebook/authorize.js");
 import {Facebook} from './manifest.js';
+import {ApiCall} from '../../ApiCall.js';
 Facebook.apiConfig = {
-    redirect_url = browser.identity.getRedirectURL(),
+    redirect_url: "",
     client_id: "355488065290314",
     api_endpoint: "https://graph.facebook.com/v3.2",
-    auth_url: 'https://www.facebook.com/v3.2/dialog/oauth'
+    auth_url: 'https://www.facebook.com/v3.2/dialog/oauth',
+	access_token_regex: "access_token=([^&]*)",
+	scopes: ["email","user_birthday","user_hometown","user_location"]
 }
 
-Facebook.generate_auth_url = function (apiConfig, scope) {    
-    return `${apiConfig.auth_url}?display=popup&client_id=${apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(scope.join(' '))}`;
-}
 
-Facebook.access_token_regex = "access_token=([^&]*)";
-Facebook.scopes = [];
 
 Facebook.validate_token = {
     name: "validate_token",
@@ -22,7 +20,7 @@ Facebook.validate_token = {
     content_type: "application/x-www-form-urlencoded",
     permissions: ["email","user_birthday","user_hometown","user_location"],
     params:{
-        input_token: accessToken,
+        input_token: "lkjlk",
     },
     response_type: "json",
     verifyResponse(response) {

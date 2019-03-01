@@ -9,10 +9,10 @@ Search.browsing = [
         title: "Bing.com",
         is_enabled: true,        
         description: "",
+        filter: {urls: ["*://www.bing.com/*"]},		
         patterns: [
         {
             method: "GET",
-            filter: {urls: ["*://www.bing.com/*"]},
             url_pattern: /https:\/\/www\.bing\.com\/(([^\/\?\;]*)\/search)\?.*/,
             pattern_type: "regex",
             param: [
@@ -29,7 +29,6 @@ Search.browsing = [
             ]
         },{
             method: "GET",
-            filter: {urls: ["*://www.bing.com/*"]},
             url_pattern: /https:\/\/www\.bing\.com\/(shop|maps|search)\?.*/,
             pattern_type: "regex",
             param: [
@@ -51,10 +50,10 @@ Search.browsing = [
         title: "Yahoo.com",
         is_enabled: true,        
         description: "",
+        filter: {urls: ["*://*.yahoo.com/*"]},		
         patterns: [
         {
             method: "GET",
-            filter: {urls: ["*://*.yahoo.com/*"]},
             url_pattern: /https:\/\/((.*)\.)?search\.yahoo\.com\/.*/,
             pattern_type: "regex",
             param: [
@@ -77,10 +76,10 @@ Search.browsing = [
         title: "Google.com",
         is_enabled: true,        
         description: "",
+        filter: {urls: ["*://www.google.com/search?*"]},		
         patterns: [
         {
             method: "GET",
-            filter: {urls: ["*://www.google.com/search?*"]},
             url_pattern: "*://www.google.com/search?*",
             pattern_type: "wildcard",
             param: [
@@ -103,10 +102,10 @@ Search.browsing = [
         title: "AOL.com",
         is_enabled: true,        
         description: "",
+        filter: {urls: ["*://search.aol.com/aol/*"]},		
         patterns: [
         {
             method: "GET",
-            filter: {urls: ["*://search.aol.com/aol/*"]},
             url_pattern: /https:\/\/search\.aol\.com\/aol\/([^\/\?\;]*)[\?|\;].*/,
             pattern_type: "regex",
             param: [
@@ -128,10 +127,10 @@ Search.browsing = [
         title: "Ask.com",
         is_enabled: true,        
         description: "",
+        filter: {urls: ["*://www.ask.com/*"]},		
         patterns: [
         {
             method: "GET",
-            filter: {urls: ["*://www.ask.com/*"]},
             url_pattern: /https:\/\/www\.ask\.com\/(web|youtube)\?.*/,
             pattern_type: "regex",
             param: [
@@ -153,10 +152,10 @@ Search.browsing = [
         title: "Baidu.com",
         is_enabled: true,        
         description: "",
+		filter: {urls: ["*://*.baidu.com/*"]},		
         patterns: [
         {
-            method: "GET",
-            filter: {urls: ["*://*.baidu.com/*"]},
+            method: "GET",        
             url_pattern: /http[s]?:\/\/(.*)\.baidu\.com\/.*/,
             pattern_type: "regex",
             param: [

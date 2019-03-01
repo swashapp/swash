@@ -24,6 +24,8 @@ var privacyUtils = (function() {
                 return retUrl;
             case 3:
                 return  urlObj.origin;
+            case 4:
+                return  urlObj.origin;			
             default:
                 return  urlObj.origin;
         }
@@ -45,7 +47,12 @@ var privacyUtils = (function() {
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), date.getMonth())
                 return date.getTime();
-            default:
+            case 4:
+                date2 = new Date(0);
+                date2.setFullYear(date.getFullYear(), date.getMonth())
+                return date.getTime();
+
+			default:
                 return date.getTime();
         }
     }
@@ -68,13 +75,22 @@ var privacyUtils = (function() {
                 return retText;
             case 3:
                 for(var i = 0; i < blackList.length ; i++) {
-                    if(retText.indexof(blackList[i].key) > 0 ) {
+                    if(retText.indexOf(blackList[i].key) > 0 ) {
                         retText = "";
                         break;
                     }
                 }            
                 return retText;
-            default:
+            case 4:
+                for(var i = 0; i < blackList.length ; i++) {
+                    if(retText.indexOf(blackList[i].key) > 0 ) {
+                        retText = "";
+                        break;
+                    }
+                }            
+                return retText;
+
+			default:
                 return "";
         }
     }
