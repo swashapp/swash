@@ -24,26 +24,12 @@ Each content script, after successful injection on a page, will send a message t
 This part handles such requests.
 */
 browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
-    /*if(message.type == "request_data"){
-        sendResponse({data: Loader.load_content(message.url)});
-    }*/
-    if(message.type == "oAuth2")
-    {
-        ApiCall.start_oauth(message.module).then(token =>{
-            sendResponse({token: token});
-        });
-    }
-    
-});
-
-/* ***
-Content scripts, will sends their captured data to background-script using messaging.
-in this part, a handler is assigined to handle the messages.
-*/
-browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
-    if(message.type == "content"){
-        DataHandler.handle(message);
-    }
+	let objList = {
+		StorageHelper: StorageHelper,
+		ApiCall: ApiCall,
+		Loader: Loader
+	}
+	sendResponse(objList[message.obj][message.func](...message.params));
 });
 
 /* ***
@@ -56,5 +42,8 @@ UI will modify data storage directly.
 After a successful load of add-on,
 the main loop will start.
 */
-Loader.start();
+StorageHelper.retrieveConfigs().then(confs => {
+	Loader.load();
+})
+
  

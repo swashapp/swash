@@ -59,7 +59,7 @@ var Browsing = (function() {
 	function inspectRequest_patterns(moduleName, data, requestDetails) {
         for(var patt of data.patterns){
             var d = inspectRequest_pattern(moduleName, data.name, patt, requestDetails)
-            if(d!=null && Object.keys(d) >0 ){
+            if(d!=null && Object.keys(d).length >0 ){
                 // we suppose one of the methods will return a value
                 return d
             }
@@ -129,11 +129,7 @@ var Browsing = (function() {
     }
     
     
-    function unload(){        
-        StorageHelper.retrieveModules().then(modules => {for(var module in modules){
-            unload_module(modules[module]);
-        }});
-    }
+    
 
     function load(){
         StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
@@ -141,16 +137,50 @@ var Browsing = (function() {
                 load_module(modules[module]);
         }});
     }
-    
-    function unload_module(module){
-        if(module.functions.includes("browsing")){
-            module.browsing.forEach(data=>{    
-                if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-                    browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
-                }
+	
+	function unload(){        
+        StorageHelper.retrieveModules().then(modules => {for(var module in modules){
+            unload_module(modules[module]);
+        }});
+    }
+	
+	function load_module(module){
+       if(module.functions.includes("browsing")){
+            module.browsing.forEach(data=>{
+                if(data.is_enabled)
+                {
+					load_collector(module, data)
+                }                
             });
         }
     }
+
+    function unload_module(module){
+        if(module.functions.includes("browsing")){
+            module.browsing.forEach(data=>{    
+				if(callbacks[module.name+ "_" + data.name]) {
+					unload_collector(module, data)
+				}
+            });
+        }
+    }
+
+	
+	function load_collector(module, data) {
+		if(!data.hook || data.hook == "webrequest"){
+			hook_webrequest(module,data)
+		}
+		if(data.hook && data.hook == "bookmarks"){
+			hook_bookmarks(module,data)
+		}
+	}
+
+	function unload_collector(module, data) {
+		if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
+			browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
+		}
+	}    
+	
 
 	function hook_webrequest(module,data){
         callbacks[module.name + "_" + data.name] = function(x){
@@ -197,23 +227,6 @@ var Browsing = (function() {
         }
     }
     
-
-	
-    function load_module(module){
-       if(module.functions.includes("browsing")){
-            module.browsing.forEach(data=>{
-                if(data.is_enabled)
-                {
-                    if(!data.hook || data.hook == "webrequest"){
-                        hook_webrequest(module,data)
-                    }
-                    if(data.hook && data.hook == "bookmarks"){
-                        hook_bookmarks(module,data)
-                    }
-                }                
-            });
-        }
-    }
     
     return {
         load: load,

@@ -3,6 +3,7 @@ import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {privacyUtils} from './privacyUtils.js';
 import {StorageHelper} from './StorageHelper.js';
+import {stream} from './stream.js';
 
 var DataHandler = (function() {
     'use strict';
@@ -29,9 +30,8 @@ var DataHandler = (function() {
 		//message.header.agent = getUserAgent();
 		//message.header.version = 
         message.header.privacyLevel = modules[message.header.module].privacy_level;
-        enforcePolicy(message)
-        Utils.notify(message);
-        
+        enforcePolicy(message);
+		stream.produceNewEvent(message);        
     }
     function enforcePolicy(message) {
         /*
@@ -65,7 +65,7 @@ var DataHandler = (function() {
             let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: data});
             for (let jp of jpointers) {
                 var val = ptr.get(data, jp);
-                val = privacyUtils.objectPrivacy(val, d.type, 2)
+                val = privacyUtils.objectPrivacy(val, d.type, message.header.privacyLevel)
                 ptr.set(data, jp, val);               
             }
         }

@@ -1,4 +1,27 @@
-import {Loader} from './Loader.js';
+console.log("menu.js");
+function sendMessage(message) {
+	return browser.runtime.sendMessage(message)
+}
+
+function start() {
+	let message = {
+		obj: "Loader",
+		func: "start",
+		params: []
+	}
+	return sendMessage(message);		       		
+}
+
+function stop() {
+	let message = {
+		obj: "Loader",
+		func: "stop",
+		params: []
+	}
+	return sendMessage(message);		       		
+}
+
+
 function showPageOnTab(url_to_show) {
 	return browser.windows.getAll({
 		populate: true,
@@ -42,18 +65,11 @@ document.getElementById("open_logs").addEventListener('click', function(eventObj
 document.getElementById("streaming").addEventListener('click', function(eventObj) {
     let is_enabled = document.getElementById("streaming").checked;
     if(is_enabled) {
-		Loader.start();
-        browser.browserAction.setIcon({path: "../icons/surf19.png"});
+		start();
 	}
     else {
-		Loader.stop();
-        browser.browserAction.setIcon({path: "../icons/surf19g.png"});
+		stop();
 	}
-    // enable/disable module
-    browser.storage.sync.get("configs").then(c => {
-        c.configs.is_enabled = is_enabled;
-        browser.storage.sync.set(c);
-    })
 });
 
 //let walletAddress = "0x742d35cc6634c0532925a3b844bc454e4438f44e";

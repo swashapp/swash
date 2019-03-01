@@ -1,4 +1,4 @@
-import {AllModules} from '../../modules.js';
+import {AllModules} from './modules.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
 
@@ -8,35 +8,52 @@ var ApiCall = (function() {
      
     var callbacks = {};
     
+	function getCallBackURL(moduleName) {
+		let extId = browser.runtime.id;
+		let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
+		return cbURL;
+	}
     function start_oauth(moduleName) {
         StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
             if(module.name == moduleName){
+				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
                 browser.identity.launchWebAuthFlow({
                     interactive: true,
-                    url: module.generate_auth_url(module.apiConfig,module.scopes)
-                }).then( redirectUri=> {
-                    var rst = redirectUri.match(module.access_token_regex);
-                    if(rst){
-                        return rst[1]
-                    }
-                    return null;
+                    url: auth_url
                 });
             }
         }});
     }
     
-    
+    function extractToken(details) {
+		StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
+            var module = modules[moduleN]
+			if(module.functions.includes("apiCall")){
+				let urlObj = new URL(details.url);
+				if(module.apiConfig.redirect_url == urlObj.origin){
+					var rst = details.url.match(module.apiConfig.access_token_regex);
+					if(rst){
+						save_access_token(module, rst[1]);
+						browser.tabs.remove(details.tabId);
+					}
+				}
+			}
+		}});
+		
+		return null;               
+	}
     function save_access_token(module,token) {
-        var data = {modules: {}}
-        data.modules[module.name].access_token = token;
+        var data = {};
+		data[module.name] = {};
+        data[module.name].access_token = token;
         StorageHelper.updateModules(data);
     }
     
     async function get_access_token(module){
         var mds = await StorageHelper.retrieveModules()
-        for(var m of mds){
-            if(m.name == module.name){
+        for(var m in mds){
+            if(mds[m].name == module.name){
                 return m.access_token
             }
         }
@@ -99,15 +116,18 @@ var ApiCall = (function() {
     
     function unload(){        
         StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
-            if(modules[module].is_enabled)
-                unload_module(modules[module]);
+			if(modules[module].functions.includes("apiCall")){
+					unload_module(modules[module]);
+			}
         }});
     }
 
     function load(){
         StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
-            if(modules[module].is_enabled)
-                load_module(modules[module]);
+			if(modules[module].functions.includes("apiCall")){
+				if(modules[module].is_enabled)
+					load_module(modules[module]);
+			}
         }});
     }
     
@@ -139,19 +159,30 @@ var ApiCall = (function() {
     }
     
     function unload_module(module){
-        clearInterval(callbacks[module.name]);
+		if(callbacks[module.name])
+			clearInterval(callbacks[module.name]);
     }
 
     function load_module(module){
+		let crURL = getCallBackURL(module.name);
+		var filter = {
+			urls: [
+			crURL + "/*"
+			]
+		};
+		browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
         callbacks[module.name] = setInterval(function(x){
             fetch_apis(module);
-        },5000);
+        },50000);
     }
     
     return {
         load: load,
         unload: unload,
         unload_module: unload_module,
-        load_module: load_module
+        load_module: load_module,
+		start_oauth: start_oauth,
+		getCallBackURL: getCallBackURL
     };
 }());
+export {ApiCall};

@@ -1,4 +1,5 @@
 console.log("StorageHelper.js");
+import {Utils} from './Utils.js';
 var StorageHelper = (function() {  
     
     function retrieveProfile(){
@@ -47,7 +48,7 @@ var StorageHelper = (function() {
 	async function storeData(key, info)
 	{
 		var data = await retrieveData(key);   
-		jsonUpdate(data,info);
+		Utils.jsonUpdate(data,info);
 		let x = {};
 		x[key] = data;
 		browser.storage.sync.set(x);
@@ -58,8 +59,26 @@ var StorageHelper = (function() {
         let x = await browser.storage.sync.get(key); 
         return x[key];
     }
+	
+	function updateFunctionSettings(module, functionName, settings) {
+		if(module.functions.includes(functionName)) {
+			for (let item of module[functionName]) {
+				item.is_enabled = settings[functionName][item.name]
+			}
+		}		
+	}
     
-    
+    async function saveModuleSettings(moduleName, settings) {
+        var modules = await retrieveData("modules");        
+        let ret = modules[moduleName];
+		ret.is_enabled = settings.is_enabled;
+		ret.privacy_level = settings.privacy_level;
+		updateFunctionSettings(ret, "content", settings);
+		updateFunctionSettings(ret, "browsing", settings);
+		updateFunctionSettings(ret, "apiCall", settings);
+        browser.storage.sync.set({modules: modules});        
+    }
+
     return {
         retrieveProfile: retrieveProfile,
         updateProfile: updateProfile,
@@ -69,7 +88,10 @@ var StorageHelper = (function() {
         updateModules: updateModules,
         retrieveFilters: retrieveFilters,
         retrieveAll: retrieveAll,
-		storeAll: storeAll
+		storeAll: storeAll,
+		saveModuleSettings: saveModuleSettings,
+		retrieveData: retrieveData,
+		storeData: storeData
         
         
     };

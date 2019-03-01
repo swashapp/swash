@@ -5,6 +5,7 @@ import {Content} from './Content.js';
 import {ApiCall} from './ApiCall.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
+import {ssConfig} from './manifest.js';
 var Loader = (function() {
     'use strict';    
     function install(allModules){
@@ -15,15 +16,20 @@ var Loader = (function() {
                 db.configs.Id = Utils.uuid();
             }
             try{
+				Utils.jsonUpdate(db.configs, ssConfig);
                 allModules.forEach(module=>{            
                     console.log("Processing module:" + module.name + ", version:" + module.version);
                     
 					if(!db.modules[module.name])
                     {
 						db.modules[module.name] = {};
-                        db.modules[module.name].mId = Utils.uuid();
+                        module.mId = Utils.uuid();
                     }
-                    
+                    if(module.functions.includes("apiCall"))
+					{
+						module.apiConfig.redirect_url = ApiCall.getCallBackURL(module.name)
+					}
+					
                     Utils.jsonUpdate(db.modules[module.name], module);                
                 });
             }
@@ -47,18 +53,54 @@ var Loader = (function() {
               runAt: "document_end"
             })
     }
+	
+	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
+		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
+			StorageHelper.retrieveFilters().then(filters => {
+					if(!filterUtils.filter(tabInfo.url, filters))
+						browser.browserAction.setIcon({path: "icons/surf19g.png"});
+					else 
+						browser.browserAction.setIcon({path: "icons/surf19.png"});
+				});		
+			}			
+		})
+    }
 
-    
+
+    function init(isEnabled) {
+		if(isEnabled) {
+			browser.tabs.onUpdated.addListener(changeIconOnUpdated);
+			browser.browserAction.setIcon({path: "icons/surf19.png"});			
+		}
+		else {
+			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))		
+				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
+			browser.browserAction.setIcon({path: "icons/surf19g.png"});					
+		}			
+	}
+
+	
     function start(){
-		Content.load();
-        Browsing.load();
-        //ApiCall.load();
+		browser.storage.sync.get("configs").then(c => {
+			c.configs.is_enabled = true;
+			browser.storage.sync.set(c);
+			init(true);
+			Content.load();
+			Browsing.load();
+			ApiCall.load();			
+		})	
     }
     
 
     function stop(){
-		Content.unload();
-        Browsing.unload();
+		browser.storage.sync.get("configs").then(c => {
+			c.configs.is_enabled = false;
+			browser.storage.sync.set(c);		
+			init(false);
+			Content.unload();
+			Browsing.unload();
+			ApiCall.unload();
+		})
     }
 
 	function restart() {
@@ -66,16 +108,45 @@ var Loader = (function() {
 		start();
     }
     
-    function start_module(module) {
+    function load_module(module) {
 		Content.load_module(module);
 		Browsing.load_module(module);
+		ApiCall.load_module(module);		
 	}
 	
-    function stop_module(module) {
+    function unload_module(module) {
 		Content.unload_module(module);
 		Browsing.unload_module(module);
+		ApiCall.unload_module(module);		
 	}
-
+	
+	function load() {
+		browser.storage.sync.get("configs").then(c => {
+			if(c.configs.is_enabled) {
+				init(true);
+				Content.load();
+				Browsing.load();
+				ApiCall.load();				
+			} 
+			else {
+				init(false);
+				Content.unload();
+				Browsing.unload();
+				ApiCall.unload();								
+			}			
+		})		
+	}
+	
+	function config_module(moduleName, settings) {
+		StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
+			StorageHelper.retrieveModules().then(modules => {
+				let module = modules[moduleName];
+				unload_module(module);
+				if(settings.is_enabled)
+					load_module(module);								
+			});
+		});
+	}
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
@@ -115,7 +186,9 @@ var Loader = (function() {
         install: install,
         start: start,
         stop: stop,
-        restart: restart
+		load: load,
+        restart: restart,
+		config_module: config_module
     };
 }());
 export {Loader};
