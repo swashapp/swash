@@ -16,9 +16,31 @@ Facebook.apiCall = [
 			fields: "id,name,email,about,address,age_range,birthday,education,favorite_athletes,favorite_teams,first_name,gender,hometown,interested_in,languages,last_name,location,meeting_for,middle_name,quotes,relationship_status,religion,sports"
 		},
 		response_type: "json",
-		verifyResponse() {
-			
-		}
+		schems: [
+			{jpath:"$.id",type:"userinfo.id"},
+			{jpath:"$.name",type:"userinfo.name"},
+			{jpath:"$.email",type:"userinfo.email"},
+			{jpath:"$.about",type:"text"},
+			{jpath:"$.address",type:"userinfo.address"},
+			{jpath:"$.age_range",type:"userinfo.age"},
+			{jpath:"$.birthday",type:"userinfo.age"},
+			{jpath:"$.education",type:"userinfo.attr"},
+			{jpath:"$.favorite_athletes",type:"text"},
+			{jpath:"$.favorite_teams",type:"text"},
+			{jpath:"$.first_name",type:"userinfo.name"},
+			{jpath:"$.gender",type:"userinfo.attr"},
+			{jpath:"$.hometown",type:"userinfo.address"},
+			{jpath:"$.interested_in",type:"text"},
+			{jpath:"$.languages",type:"text"},
+			{jpath:"$.last_name",type:"userinfo.name"},
+			{jpath:"$.location",type:"userinfo.address"},
+			{jpath:"$.meeting_for",type:"text"},
+			{jpath:"$.middle_name",type:"userinfo.name"},
+			{jpath:"$.quotes",type:"text"},
+			{jpath:"$.relationship_status",type:"userinfo.attr"},
+			{jpath:"$.religion",type:"userinfo.attr"},
+			{jpath:"$.sports",type:"text"}
+		]
 	},
 	{
 		name: "userLikes",
@@ -32,16 +54,11 @@ Facebook.apiCall = [
 		params:{			
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {				
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"},
+			{jpath:"$.data[*].created_time",type:"timeString"}
+		]
 	},
 	{
 		name: "UserAccounts",
@@ -54,28 +71,12 @@ Facebook.apiCall = [
 		permissions: ["pages_show_list"],
 		params:{
 		},
-		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {
-					res = [];
-					for(item of json.data) {
-						var newItem = {
-							category: item.category,
-							category_list: item.category_list,
-							name: item.name,
-							id: item.id
-						}
-						res.push(newItem);
-					}
-					
-					resolve(res);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].category",type:"text"},
+			{jpath:"$.data[*].category_list[*].id",type:"id"},
+			{jpath:"$.data[*].category_list[*].name",type:"text"},
+			{jpath:"$.data[*].name",type:"userinfo.name"}
+		]
 		
 	},
 	{
@@ -90,16 +91,13 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].category",type:"text"},
+			{jpath:"$.data[*].category_list[*].id",type:"id"},
+			{jpath:"$.data[*].category_list[*].name",type:"text"},
+			{jpath:"$.data[*].name",type:"userinfo.name"}
+		]
+
 	},
 	{
 		name: "UserAdaccounts",
@@ -113,16 +111,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserAdcontracts",
@@ -136,16 +128,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserBooks",
@@ -159,16 +145,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "business_management",
@@ -182,16 +162,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserBusinessUsers",
@@ -205,16 +179,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserBusinesses",
@@ -228,16 +196,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserCustomLabels",
@@ -251,16 +213,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserDomains",
@@ -274,16 +230,10 @@ Facebook.apiCall = [
 		params:{			
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserFamily",
@@ -297,16 +247,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserFavoriteRequests",
@@ -320,16 +264,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].id",type:"id"}
+		]
 	},
 	{
 		name: "UserPublishedPosts",
@@ -343,16 +281,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data.created_time",type:"timeString"},
+			{jpath:"$.data.id",type:"id"}
+		]
 	},
 	{
 		name: "UserTaggedPosts",
@@ -366,16 +298,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data.created_time",type:"timeString"},
+			{jpath:"$.data.id",type:"id"}
+		]
 	},
 	{
 		name: "UserFriends",
@@ -389,16 +315,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserGames",
@@ -412,16 +333,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserMovies",
@@ -435,16 +351,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserMusics",
@@ -458,16 +369,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserPhotos",
@@ -481,16 +387,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserTaggedPlaces",
@@ -504,16 +405,11 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserTelevision",
@@ -528,16 +424,11 @@ Facebook.apiCall = [
 			fields: "id,name,email,about,address,age_range,birthday,education,favorite_athletes,favorite_teams,first_name,gender,hometown,interested_in,languages,last_name,location,meeting_for,middle_name,quotes,relationship_status,religion,sports"
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].created_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].name",type:"text"}
+		]
 	},
 	{
 		name: "UserVideos",
@@ -551,15 +442,10 @@ Facebook.apiCall = [
 		params:{
 		},
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json.data);
-				});
-			});
-		}
+		schems: [
+			{jpath:"$.data[*].updated_time",type:"timeString"},
+			{jpath:"$.data[*].id",type:"id"},
+			{jpath:"$.data[*].description",type:"text"}
+		]
 	}
 ]

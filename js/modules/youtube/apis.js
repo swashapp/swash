@@ -1,6 +1,6 @@
 console.log("modules/youtube/apis.js");
 import {Youtube} from './manifest.js';
-Youtube.apiCall = [
+Youtube.api_list = [
 	{
 		name: "recentActivities",
 		description: "",
