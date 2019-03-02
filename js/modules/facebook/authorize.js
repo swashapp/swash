@@ -16,6 +16,7 @@ Facebook.validate_token = {
     name: "validate_token",
     description: "",
     method: "GET",
+    endpoint: "https://graph.facebook.com/v3.2",
     URI: "/debug_token",
     content_type: "application/x-www-form-urlencoded",
     permissions: ["email","user_birthday","user_hometown","user_location"],
@@ -24,7 +25,7 @@ Facebook.validate_token = {
     },
     response_type: "json",
     verifyResponse(response) {
-    return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
           if (response.status != 200) {
             reject("Token validation error");
           }
