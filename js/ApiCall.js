@@ -48,7 +48,7 @@ var ApiCall = (function() {
             var module = modules[moduleN]
 			if(module.functions.includes("apiCall")){
 				let urlObj = new URL(details.url);
-				if(module.apiConfig.redirect_url == urlObj.origin){
+				if(getCallBackURL(module) == urlObj.origin){
 					var rst = details.url.match(module.apiConfig.access_token_regex);
 					if(rst){
 						save_access_token(module, rst[1]);
@@ -71,7 +71,8 @@ var ApiCall = (function() {
         var mds = await StorageHelper.retrieveModules()
         for(var m in mds){
             if(mds[m].name == module.name){
-                return mds[m].access_token
+                if(await validateToken(mds[m]))
+                    return mds[m].access_token
             }
         }
     }
@@ -80,7 +81,20 @@ var ApiCall = (function() {
 		return response.json();
 	}
 	
-	
+    function purge_access_token(module){
+        save_access_token(module,null);
+        // TODO notify token has expired
+    }
+    
+	function validateToken(module){
+        apiCall(module.validate_token.endpoint, module.validate_token, module.access_token).then(module.validate_token.verifyResponse).then(data=> {
+            return true;
+        },reject=>{
+            purge_access_token(module);
+            return false;
+        })
+    }
+    
 	function apiCall(endpoint, apiInfo, access_token)
 	{
 		let url = endpoint + apiInfo.URI;

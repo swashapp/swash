@@ -1,4 +1,43 @@
 console.log("modules/youtube/authorize.js");
+import {Youtube} from './manifest.js';
+
+// TODO: remove scopes that are not necessary
+Youtube.apiConfig = {
+            client_id: "279095781364-1q6ki5adn4ufvfu0689hh3pl8u1upqoi.apps.googleusercontent.com",
+            api_endpoint: "https://www.googleapis.com/youtube/v3",
+            auth_url: 'https://accounts.google.com/o/oauth2/v2/auth',
+            scopes: [   "https://www.googleapis.com/auth/youtube",
+                        "https://www.googleapis.com/auth/youtube.force-ssl",
+                        "https://www.googleapis.com/auth/youtube.readonly",
+                        "https://www.googleapis.com/auth/youtube.upload",
+                        "https://www.googleapis.com/auth/youtubepartner",
+                        "https://www.googleapis.com/auth/youtubepartner-channel-audit"
+                        ]
+        }
+YouTube.validate_token = {
+    name: "validate_token",
+    description: "",
+    method: "GET",
+    endpoint: "https://www.googleapis.com/oauth2/v3",
+    URI: "/tokeninfo",
+    content_type: "application/x-www-form-urlencoded",
+    response_type: "json",
+    verifyResponse(response) {
+        return new Promise((resolve, reject) => {
+          if (response.status != 200) {
+            reject("Token validation error");
+          }
+          response.json().then((json) => {
+            if (json.aud && (json.aud === YouTube.apiConfig.client_id)) {
+              resolve([accessToken,json]);
+            } else {
+              reject("Token validation error");
+            }
+          });
+        });
+      }
+}
+/*
 function extractAccessToken(redirectUri) {
   let m = redirectUri.match(/[#?](.*)/);
   if (!m || m.length < 1)
@@ -13,38 +52,7 @@ function validate(requestDetails) {
     browser.tabs.remove(requestDetails.tabId);
     return {cancel: true};  
 }
-function validateToken(redirectURL) {
-  const accessToken = extractAccessToken(redirectURL);
-  if (!accessToken) {
-    throw "Authorization failure";
-  }
-  req = {
-		method: "GET",
-		URI: config.apiConfig.validation_uri,
-		content_type: "application/x-www-form-urlencoded",
-		params:{
-			access_token: accessToken,
-		},
-		response_type: "json"
-	}
 
-  function checkResponse(response) {
-    return new Promise((resolve, reject) => {
-      if (response.status != 200) {
-        reject("Token validation error");
-      }
-      response.json().then((json) => {
-        if (json.aud && (json.aud === config.apiConfig.client_id)) {
-          resolve([accessToken,json]);
-        } else {
-          reject("Token validation error");
-        }
-      });
-    });
-  }
-
-  return apiCall(config.apiConfig.validation_endpoint, req, accessToken).then(checkResponse);
-}
 
 function storeToken(data) {   
     console.log("saving access token", data);
@@ -87,11 +95,11 @@ function list_scopes(){
 
 
 
-/* TEST */
+/ * TEST * /
 function test_getAccessToken(){
         return getAccessToken(["https://www.googleapis.com/auth/youtubepartner-channel-audit","https://www.googleapis.com/auth/youtube","https://www.googleapis.com/auth/youtube.force-ssl",
 "https://www.googleapis.com/auth/youtube.readonly","https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtubepartner",]);
 }
 
 
-/*  TEST END */
+/ *  TEST END */
