@@ -153,7 +153,7 @@ Amazon.content = [
                 name: "category"
             },
             {
-                selector:"title",
+                selector:"#title",
                 property: "innerHTML",
                 name: "page_title"
             }
