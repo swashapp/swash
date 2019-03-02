@@ -11,7 +11,8 @@ var ApiCall = (function() {
     
 	function getCallBackURL(moduleName) {
 		let extId = browser.runtime.id;
-		let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
+		//let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
+        let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName;
 		return cbURL;
 	}
 	
@@ -204,7 +205,7 @@ var ApiCall = (function() {
 		let crURL = getCallBackURL(module.name);
 		var filter = {
 			urls: [
-			crURL + "/*"
+                "https://callbacks.authsaz.com/*"
 			]
 		};
 		browser.webRequest.onBeforeRequest.addListener(extractToken, filter);

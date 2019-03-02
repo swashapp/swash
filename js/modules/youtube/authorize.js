@@ -14,7 +14,7 @@ Youtube.apiConfig = {
                         "https://www.googleapis.com/auth/youtubepartner-channel-audit"
                         ]
         }
-YouTube.validate_token = {
+Youtube.validate_token = {
     name: "validate_token",
     description: "",
     method: "GET",
@@ -28,7 +28,7 @@ YouTube.validate_token = {
             reject("Token validation error");
           }
           response.json().then((json) => {
-            if (json.aud && (json.aud === YouTube.apiConfig.client_id)) {
+            if (json.aud && (json.aud === Youtube.apiConfig.client_id)) {
               resolve([accessToken,json]);
             } else {
               reject("Token validation error");
