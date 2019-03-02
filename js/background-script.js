@@ -5,6 +5,7 @@ import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './ApiCall.js';
+import {Content} from './Content.js';
 
 /* ***
 This function will invoke on:
@@ -27,7 +28,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 	let objList = {
 		StorageHelper: StorageHelper,
 		ApiCall: ApiCall,
-		Loader: Loader
+		Loader: Loader,
+		Content: Content
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

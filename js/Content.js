@@ -64,11 +64,26 @@ var Content = (function() {
 		})
     }
 
+	async function injectCollectors(url) {
+        var modules = await StorageHelper.retrieveModules();
+		for (var module in modules) {
+			if(modules[module].functions.includes("content")){			
+					if(modules[module].is_enabled)
+						for(var item of modules[module].content_matches) {
+							if(Utils.wildcard(url, item)) {
+								return modules[module].content;
+							}							
+				}
+			}
+		}    
+		return;	
+	}
     return {
         load: load,
         unload: unload,
         unload_module: unload_module,
-        load_module: load_module
+        load_module: load_module,
+		injectCollectors: injectCollectors
     };
 }());
 export {Content};
