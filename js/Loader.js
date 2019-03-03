@@ -14,6 +14,7 @@ var Loader = (function() {
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: []};                
                 db.configs.Id = Utils.uuid();
+                db.configs.salt = Utils.uuid();
             }
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);
@@ -24,6 +25,7 @@ var Loader = (function() {
                     {
 						db.modules[module.name] = {};
                         module.mId = Utils.uuid();
+                        module.mSalt = Utils.uuid();
                     }
                     if(module.functions.includes("apiCall"))
 					{

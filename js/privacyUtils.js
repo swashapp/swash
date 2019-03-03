@@ -1,7 +1,7 @@
 var privacyUtils = (function() {
     'use strict';
 
-    function urlPrivacy(url, privacyLevel) {
+    function urlPrivacy(url, privacyLevel, mSalt, salt) {
         let urlObj = new URL(url);
         var searchParams = (new URL(url)).searchParams;
         var query = searchParams.get("field-keywords");    
@@ -23,7 +23,15 @@ var privacyUtils = (function() {
                 var retUrl = urlObj.origin + path;
                 return retUrl;
             case 3:
-                return  urlObj.origin;
+                var path = urlObj.pathname.split("/");
+                for (let item in path) {
+                    if(path[item]) {
+                        path[item] = sha256(path[item] + salt).substring(0,path[item].length);
+                    }
+                }
+                path = path.join("/");                
+                var retUrl = urlObj.origin + path;
+                return retUrl;
             case 4:
                 return  urlObj.origin;			
             default:
@@ -31,7 +39,7 @@ var privacyUtils = (function() {
         }
     }
         
-    function timePrivacy(time, privacyLevel) {
+    function timePrivacy(time, privacyLevel, mSalt, salt) {
         var date = new Date();
         date.setTime(time);
         switch(privacyLevel) {
@@ -57,7 +65,7 @@ var privacyUtils = (function() {
         }
     }
 
-    function textPrivacy(text, privacyLevel) {
+    function textPrivacy(text, privacyLevel, mSalt, salt) {
         var blackList = [{key:'test',map: 'replace'}];
         var retText = text;
         switch(privacyLevel) {
@@ -94,20 +102,77 @@ var privacyUtils = (function() {
                 return "";
         }
     }
+    
+    function userInfoPrivacy(user, privacyLevel, mSalt, salt) {
+        var retUserInfo = user;
         
-    function objectPrivacy(object, objectType, privacyLevel){
+        switch(privacyLevel) {
+            case 0:        
+                return retUserInfo;
+            case 1:
+                retUserInfo = sha256(user);
+                return retUserInfo;
+            case 2:
+                retUserInfo = sha256(user + salt);            
+                return retUserInfo;
+            case 3:
+                retUserInfo = sha256(user + mSalt);            
+                return retUserInfo;            
+            case 4:
+                return "";
+
+			default:
+                return "";
+        }
+        
+    }
+
+    function userAttrPrivacy(userAttr, privacyLevel, mSalt, salt) {
+        var retAttr = userAttr;
+        
+        switch(privacyLevel) {
+            case 0:        
+                return retAttr;
+            case 1:
+                retAttr = sha256(user);
+                return retAttr;
+            case 2:
+                retAttr = sha256(user + salt);            
+                return retAttr;
+            case 3:
+                retAttr = sha256(user + mSalt);            
+                return retAttr;            
+            case 4:
+                return "";
+			default:
+                return "";
+        }
+        
+    }
+
+    function timeStringPrivacy(timeStr, privacyLevel, mSalt, salt) {
+        var date = new Date(timeStr);
+        let newTime = timePrivacy(date.getTime(), privacyLevel, mSalt, salt);
+        date.setTime(newTime)
+        return date.toString();
+    }
+    
+    function objectPrivacy(object, objectType, privacyLevel, mSalt, salt){
         if(!object)
             return object;
-        switch(objectType.split(".")[0]) {
+        switch(objectType) {
+            case "userInfo" :
+                return userInfoPrivacy(object, privacyLevel, mSalt, salt);
+            case "userAttr" :
+                return userAttrPrivacy(object, privacyLevel, mSalt, salt);
+            case "timeString" :
+                return timeStringPrivacy(object, privacyLevel, mSalt, salt);
             case "url" :
-                return urlPrivacy(object, privacyLevel);
-                break;
+                return urlPrivacy(object, privacyLevel, mSalt, salt);
             case "time" :
-                return timePrivacy(object, privacyLevel);
-                break;
+                return timePrivacy(object, privacyLevel,  mSalt, salt);
             case "text" :
-                return textPrivacy(object, privacyLevel);
-                break;
+                return textPrivacy(object, privacyLevel, mSalt, salt);
             default:
                 return object;
         }
