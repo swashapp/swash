@@ -39,7 +39,8 @@ Amazon.content = [
         events: [
             {
                 selector: "",
-                event_name: "DOMContentLoaded"
+ //               event_name: "DOMContentLoaded"
+                event_name: "load"
             }
         ],
         objects: [

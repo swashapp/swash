@@ -96,7 +96,9 @@ var privacyUtils = (function() {
     }
         
     function objectPrivacy(object, objectType, privacyLevel){
-        switch(objectType) {
+        if(!object)
+            return object;
+        switch(objectType.split(".")[0]) {
             case "url" :
                 return urlPrivacy(object, privacyLevel);
                 break;
