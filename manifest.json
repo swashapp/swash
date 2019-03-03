@@ -19,7 +19,7 @@
     "default_popup": "popup/popup.html"
   },
  
-  "description": "TODO descr",
+  "description": "Surf Streamr is a Community Product in which gather user browsing information",
 
   "icons": {
     "48": "icons/surf48.png",
@@ -29,6 +29,8 @@
   "manifest_version": 2,
 
   "name": "Data Streamr",
+  
+  "homepage_url": "https://www.authsaz.com/",
   
 
   "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management"],

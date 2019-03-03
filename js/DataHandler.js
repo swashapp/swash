@@ -23,22 +23,34 @@ var DataHandler = (function() {
     {
         return browser.runtime.getPlatformInfo();
     }
+    
+    function getVersion(){
+        return browser.runtime.getManifest().version;
+    }
 
     async function handle(message) {
         console.log("DataHandler", message);
         let modules = await StorageHelper.retrieveModules();
-		//message.header.agent = getUserAgent();
-		//message.header.version = 
+        let configs = await StorageHelper.retrieveConfigs();        
+        let profile = await StorageHelper.retrieveProfile();        
+		message.header.agent = await getUserAgent();
+        message.header.version = getVersion();   
+        message.header.platform = await getPlatformInfo();
+        message.identity = {};
+        message.identity.uid = configs.Id;
+        message.identity.walletId = profile.walletId;
+        message.identity.email = profile.email;
         message.header.privacyLevel = modules[message.header.module].privacy_level;
-        enforcePolicy(message);
+
+        enforcePolicy(message, modules[message.header.module].mSalt, configs.salt);
 		stream.produceNewEvent(message);        
     }
-    function enforcePolicy(message) {
+    function enforcePolicy(message, mSalt, salt) {
         /*
             message = {
                 header: {
-                    agent: "firefox",
-                    version: "62.1",
+                    agent:  { name: "Firefox", vendor: "Mozilla", version: "65.0.2", buildID: "20190225143501" },
+                    version: "1",
                     platform "win32",
                     module: "Amazon",
                     function: "Browsing",
@@ -56,7 +68,7 @@ var DataHandler = (function() {
             }
         */
         
-        let moduleName = message.header.module;
+
         let data = message.data.out;
         let schems = message.data.schems;       
         //var ptr = JsonPointer.noConflict();
@@ -65,7 +77,7 @@ var DataHandler = (function() {
             let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: data});
             for (let jp of jpointers) {
                 var val = ptr.get(data, jp);
-                val = privacyUtils.objectPrivacy(val, d.type, message.header.privacyLevel)
+                val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt)
                 ptr.set(data, jp, val);               
             }
         }

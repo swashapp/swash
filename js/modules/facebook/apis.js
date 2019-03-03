@@ -17,28 +17,28 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.id",type:"userinfo.id"},
-			{jpath:"$.name",type:"userinfo.name"},
-			{jpath:"$.email",type:"userinfo.email"},
+			{jpath:"$.id",type:"userInfo"},
+			{jpath:"$.name",type:"userInfo"},
+			{jpath:"$.email",type:"userInfo"},
 			{jpath:"$.about",type:"text"},
-			{jpath:"$.address",type:"userinfo.address"},
-			{jpath:"$.age_range",type:"userinfo.age"},
-			{jpath:"$.birthday",type:"userinfo.age"},
-			{jpath:"$.education",type:"userinfo.attr"},
+			{jpath:"$.address",type:"userInfo"},
+			{jpath:"$.age_range",type:"userAttr"},
+			{jpath:"$.birthday",type:"userInfo"},
+			{jpath:"$.education",type:"userAttr"},
 			{jpath:"$.favorite_athletes",type:"text"},
 			{jpath:"$.favorite_teams",type:"text"},
-			{jpath:"$.first_name",type:"userinfo.name"},
-			{jpath:"$.gender",type:"userinfo.attr"},
-			{jpath:"$.hometown",type:"userinfo.address"},
+			{jpath:"$.first_name",type:"userInfo"},
+			{jpath:"$.gender",type:"userAttr"},
+			{jpath:"$.hometown",type:"userInfo"},
 			{jpath:"$.interested_in",type:"text"},
 			{jpath:"$.languages",type:"text"},
-			{jpath:"$.last_name",type:"userinfo.name"},
-			{jpath:"$.location",type:"userinfo.address"},
+			{jpath:"$.last_name",type:"userInfo"},
+			{jpath:"$.location",type:"userInfo"},
 			{jpath:"$.meeting_for",type:"text"},
-			{jpath:"$.middle_name",type:"userinfo.name"},
+			{jpath:"$.middle_name",type:"userInfo"},
 			{jpath:"$.quotes",type:"text"},
-			{jpath:"$.relationship_status",type:"userinfo.attr"},
-			{jpath:"$.religion",type:"userinfo.attr"},
+			{jpath:"$.relationship_status",type:"userAttr"},
+			{jpath:"$.religion",type:"userAttr"},
 			{jpath:"$.sports",type:"text"}
 		]
 	},
@@ -75,7 +75,7 @@ Facebook.apiCall = [
 			{jpath:"$.data[*].category",type:"text"},
 			{jpath:"$.data[*].category_list[*].id",type:"id"},
 			{jpath:"$.data[*].category_list[*].name",type:"text"},
-			{jpath:"$.data[*].name",type:"userinfo.name"}
+			{jpath:"$.data[*].name",type:"userInfo"}
 		]
 		
 	},
@@ -95,7 +95,7 @@ Facebook.apiCall = [
 			{jpath:"$.data[*].category",type:"text"},
 			{jpath:"$.data[*].category_list[*].id",type:"id"},
 			{jpath:"$.data[*].category_list[*].name",type:"text"},
-			{jpath:"$.data[*].name",type:"userinfo.name"}
+			{jpath:"$.data[*].name",type:"userInfo"}
 		]
 
 	},
@@ -112,7 +112,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -129,7 +129,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userifo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -146,7 +146,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -163,7 +163,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -180,7 +180,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -197,7 +197,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -214,7 +214,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -231,7 +231,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -248,7 +248,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},
@@ -265,7 +265,7 @@ Facebook.apiCall = [
 		},
 		response_type: "json",
 		schems: [
-			{jpath:"$.data[*].account_id",type:"userinfo.id"},
+			{jpath:"$.data[*].account_id",type:"userInfo"},
 			{jpath:"$.data[*].id",type:"id"}
 		]
 	},

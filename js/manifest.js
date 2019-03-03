@@ -3,12 +3,12 @@ var ssConfig = (function() {
     'use strict';
     
     return {
-        name: "SurfStreamr",        
-        description: "Surf Streamr is a Community Product in which gather user browsing information",
+        name: browser.runtime.getManifest().name,        
+        description: browser.runtime.getManifest().description,
         path: "/",
         is_enabled: true,
-        URL: ["https://www.authsaz.com/"],
-        version: "1.0.0",
+        homepage_url: browser.runtime.getManifest().homepage_url,
+        version: browser.runtime.getManifest().version,
     };
 }());
 export {ssConfig};
