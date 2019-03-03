@@ -157,8 +157,9 @@ var privacyUtils = (function() {
         return date.toString();
     }
     
-    function objectPrivacy(object, objectType, privacyLevel, mSalt, salt){
-        if(!object)
+    function objectPrivacy(object, objectType, message, mSalt, salt){
+        let privacyLevel = message.header.privacyLevel;
+		if(!object)
             return object;
         switch(objectType) {
             case "userInfo" :
