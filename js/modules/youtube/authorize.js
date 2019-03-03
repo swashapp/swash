@@ -6,6 +6,7 @@ Youtube.apiConfig = {
             client_id: "279095781364-1q6ki5adn4ufvfu0689hh3pl8u1upqoi.apps.googleusercontent.com",
             api_endpoint: "https://www.googleapis.com/youtube/v3",
             auth_url: 'https://accounts.google.com/o/oauth2/v2/auth',
+            access_token_regex: "access_token=([^&]*)",
             scopes: [   "https://www.googleapis.com/auth/youtube",
                         "https://www.googleapis.com/auth/youtube.force-ssl",
                         "https://www.googleapis.com/auth/youtube.readonly",
