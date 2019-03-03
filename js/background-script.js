@@ -29,7 +29,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		StorageHelper: StorageHelper,
 		ApiCall: ApiCall,
 		Loader: Loader,
-		Content: Content
+		Content: Content,
+        DataHandler: DataHandler
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

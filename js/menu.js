@@ -54,8 +54,8 @@ function update_wallet_address(walletAddress){
   
 document.getElementById("open_setting").addEventListener('click', function(eventObj) {
     let url = browser.runtime.getURL("dashboard/index.html");
-    //showPageOnTab(url);
-    showPageOnPopup(url)
+    showPageOnTab(url);
+    //showPageOnPopup(url)
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {

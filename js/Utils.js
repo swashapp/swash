@@ -15,7 +15,7 @@ var Utils = (function() {
 		if(Array.isArray(newObj))
 		{
 			src.length = 0
-			for(item of newObj)
+			for(var item of newObj)
 				src.push(item);
 			return;
 		}

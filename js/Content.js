@@ -71,7 +71,7 @@ var Content = (function() {
 					if(modules[module].is_enabled)
 						for(var item of modules[module].content_matches) {
 							if(Utils.wildcard(url, item)) {
-								return modules[module].content;
+								return {moduleName: modules[module].name, content: modules[module].content};
 							}							
 				}
 			}
