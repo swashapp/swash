@@ -25,8 +25,8 @@ Amazon.content = [
                 name: "url"
             },
             {
-                selector:"title",
-                property: "innerHTML",
+                selector:"#title",
+                property: "innerText",
                 name: "page_title"
             }
         ]
@@ -55,8 +55,8 @@ Amazon.content = [
                 name: "category"
             },
             {
-                selector:"title",
-                property: "innerHTML",
+                selector:"#title",
+                property: "innerText",
                 name: "page_title"
             }
         ]
@@ -88,8 +88,8 @@ Amazon.content = [
                 name: "category"
             },
             {
-                selector:"title",
-                property: "innerHTML",
+                selector:"#title",
+                property: "innerText",
                 name: "page_title"
             }
         ]
@@ -121,8 +121,8 @@ Amazon.content = [
                 name: "category"
             },
             {
-                selector:"title",
-                property: "innerHTML",
+                selector:"#title",
+                property: "innerText",
                 name: "page_title"
             }
         ]
@@ -146,7 +146,7 @@ Amazon.content = [
             {
                 selector:"#productTitle",
                 property: "innerText",
-                name: "title"
+                name: "#title"
             },
             {
                 selector:"#searchDropdownBox option:selected",
@@ -155,7 +155,7 @@ Amazon.content = [
             },
             {
                 selector:"#title",
-                property: "innerHTML",
+                property: "innerText",
                 name: "page_title"
             }
         ]
