@@ -33,9 +33,9 @@ var ApiCall = (function() {
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
 				return browser.windows.create({
-					url: auth_url
-				  });				
-				return;
+					url: auth_url,
+                    type: "popup"
+				  });
 				/*browser.identity.launchWebAuthFlow({
                     interactive: true,
                     url: auth_url
@@ -48,8 +48,8 @@ var ApiCall = (function() {
 		StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
 			if(module.functions.includes("apiCall")){
-				let urlObj = new URL(details.url);
-				if(getCallBackURL(module) == urlObj.origin){
+				//let urlObj = new URL(details.url);
+				if(details.url.startsWith(getCallBackURL(moduleN))){
 					var rst = details.url.match(module.apiConfig.access_token_regex);
 					if(rst){
 						save_access_token(module, rst[1]);
@@ -208,7 +208,8 @@ var ApiCall = (function() {
                 "https://callbacks.authsaz.com/*"
 			]
 		};
-		browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
+		browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
+        //browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
         callbacks[module.name] = setInterval(function(x){
             fetch_apis(module);
         },5000000);

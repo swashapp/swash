@@ -30,6 +30,13 @@ function showPageOnTab(url_to_show) {
 		  browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
 	  });
 }
+
+function showPageOnPopup(url_to_show){
+    return browser.windows.create({
+					url: url_to_show,
+                    type: "popup"
+				  });
+}
   
 console.log("I loaded");
   
@@ -47,7 +54,8 @@ function update_wallet_address(walletAddress){
   
 document.getElementById("open_setting").addEventListener('click', function(eventObj) {
     let url = browser.runtime.getURL("dashboard/index.html");
-    showPageOnTab(url);
+    //showPageOnTab(url);
+    showPageOnPopup(url)
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {
