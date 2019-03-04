@@ -6,6 +6,7 @@ import {StorageHelper} from './StorageHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './ApiCall.js';
 import {Content} from './Content.js';
+import {pushStream} from './push.js';
 
 /* ***
 This function will invoke on:
@@ -30,7 +31,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		ApiCall: ApiCall,
 		Loader: Loader,
 		Content: Content,
-        DataHandler: DataHandler
+        DataHandler: DataHandler,
+        pushStream: pushStream
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

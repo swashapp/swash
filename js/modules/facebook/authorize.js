@@ -20,24 +20,9 @@ Facebook.validate_token = {
     URI: "/debug_token",
     content_type: "application/x-www-form-urlencoded",
     permissions: ["email","user_birthday","user_hometown","user_location"],
-    params:{
-        input_token: "lkjlk",
-    },
+    token_param_name:"input_token",
     response_type: "json",
-    verifyResponse(response) {
-        return new Promise((resolve, reject) => {
-          if (response.status != 200) {
-            reject("Token validation error");
-          }
-          response.json().then((json) => {
-            if (json.data.app_id && (json.data.app_id === Facebook.apiConfig.client_id)) {
-              resolve([accessToken,json]);
-            } else {
-              reject("Token validation error");
-            }
-          });
-        });
-    }
+    required_jpath:"$.data.user_id",
 }
 
 function fbBatchCall(apiInfoList)

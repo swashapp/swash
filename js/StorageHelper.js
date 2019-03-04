@@ -52,8 +52,8 @@ var StorageHelper = (function() {
 		let x = {};
 		x[key] = data;
 		browser.storage.sync.set(x);
-		
 	}
+    
     async function retrieveData(key)
     {
         let x = await browser.storage.sync.get(key); 
