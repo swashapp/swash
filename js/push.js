@@ -1,30 +1,57 @@
 console.log("push.js");
-var STREAM_ID = "UUSJ4StCQHKOKvYzCgZ-hw";
-var API_KEY = "QageytBgRGG5DFRdFA47hQ9sjWw-YjTyu7as4wR-zlEA";
-var PUSH_ID = "lgknlkgnlkdgnflkgnoevneo";
-var settings = {};
-// Create the client and give the API key to use by default
-var client = new StreamrClient({
-  apiKey: API_KEY
-})
+import {streamrConf} from './streamConfig.js';
+import {StorageHelper} from './StorageHelper.js';
 
-// Subscribe to a stream
-const subscription = client.subscribe(
-    {
-        stream: STREAM_ID
-    },
-    function(message) {
-        // This function will be called when new messages occur
-        console.log(JSON.stringify(message));
-		if(message.pushId != PUSH_ID)
-			return;
-		
-		browser.notifications.create({
-			"type": "basic",
-			"title": message.title,
-			"message": message.content,
-			"iconUrl": message.iconUrl
-  });
+
+// Create the client and give the API key to use by default
+var pushStream = (function() {
+    var client = new StreamrClient({
+      apiKey: streamrConf.PUSH_API_KEY
+    })
+    
+    var subscription;
+    
+    async function callback(message) {
+            // This function will be called when new messages occur
+            console.log(JSON.stringify(message));
+            let configs = await StorageHelper.retrieveConfigs();    
+            let pushId = configs.Id;
+            if(message.pushId != pushId)
+                return;
+            
+            browser.notifications.create({
+                "type": "basic",
+                "title": message.title,
+                "message": message.content,
+                "iconUrl": message.iconUrl
+      });
 
     }
-)
+    
+    // Subscribe to a stream
+    function subscribe(){
+        if(!subscription || subscription.state=="unsubscribed") {
+            subscription = client.subscribe(
+            {
+                stream: streamrConf.PUSH_STREAM_ID
+            },callback);            
+        }
+    }
+    
+    function unsubscribe(){
+        if(subscription)
+            client.unsubscribe(subscription)
+    }
+    
+    
+    return {
+        subscribe: subscribe,
+        unsubscribe: unsubscribe
+    };
+                
+}());
+
+
+export {pushStream};
+    
+    

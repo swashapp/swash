@@ -21,22 +21,10 @@ Youtube.validate_token = {
     method: "GET",
     endpoint: "https://www.googleapis.com/oauth2/v3",
     URI: "/tokeninfo",
+    token_param_name:"key",
     content_type: "application/x-www-form-urlencoded",
     response_type: "json",
-    verifyResponse(response) {
-        return new Promise((resolve, reject) => {
-          if (response.status != 200) {
-            reject("Token validation error");
-          }
-          response.json().then((json) => {
-            if (json.aud && (json.aud === Youtube.apiConfig.client_id)) {
-              resolve([accessToken,json]);
-            } else {
-              reject("Token validation error");
-            }
-          });
-        });
-      }
+    required_jpath:"$.data.user_id",
 }
 /*
 function extractAccessToken(redirectUri) {

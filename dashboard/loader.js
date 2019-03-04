@@ -102,6 +102,23 @@ var helper = (function() {
         return sendMessage(message);		       		
 	}
 	
+	function subscribe() {
+		let message = {
+			obj: "pushStream",
+			func: "subscribe",
+			params: []
+		}
+        return sendMessage(message);		       		
+	}
+
+	function unsubscribe() {
+		let message = {
+			obj: "pushStream",
+			func: "unsubscribe",
+			params: []
+		}
+        return sendMessage(message);		       		
+	}
 	
 	return {
         load: load,
@@ -115,6 +132,8 @@ var helper = (function() {
 		saveConfigs: saveConfigs,
 		startAuth: startAuth,
 		removeAuth: removeAuth,
-		isConnected: isConnected
+		isConnected: isConnected,
+        subscribe: subscribe,
+        unsubscribe: unsubscribe
     };
 }());

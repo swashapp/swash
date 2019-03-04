@@ -68,19 +68,37 @@ var ApiCall = (function() {
         StorageHelper.updateModules(data);
     }
     
-    async function get_access_token(module){
-        var mds = await StorageHelper.retrieveModules()
-        for(var m in mds){
-            if(mds[m].name == module.name){
-                if(await validateToken(mds[m]))
-                    return mds[m].access_token
+    function get_access_token(module){
+        return StorageHelper.retrieveModules().then(mds => {
+            for(var m in mds){
+                if(mds[m].name == module.name){
+                    return validateToken(mds[m])
+                }
             }
-        }
+        })
+        
     }
     
-	function prepareMessage(response) {
+	function prepareMessage(response,module,data) {
 		return response.json();
 	}
+    
+    function getEtag(){
+        return response.headers.get("ETag");
+    }
+    
+    function saveEtags(module_name, eTags){
+        StorageHelper.retrieveModules().then(modules=>{        
+            var data = {};
+            data[module_name] = {};
+            data[module_name].apiCall = modules[module_name].apiCall            
+            for(let aapi of data[module_name].apiCall){
+                aapi.etag = eTags[aapi.name]
+            }
+            StorageHelper.updateModules(data);
+            // TODO: review when concorent saveEtags called, what will done!
+        });
+    }
 	
     function purge_access_token(module){
         save_access_token(module,null);
@@ -88,12 +106,27 @@ var ApiCall = (function() {
     }
     
 	function validateToken(module){
-        apiCall(module.validate_token.endpoint, module.validate_token, module.access_token).then(module.validate_token.verifyResponse).then(data=> {
-            return true;
-        },reject=>{
-            purge_access_token(module);
-            return false;
-        })
+        if(module.access_token){
+            let apiInfo = module.validate_token
+            apiInfo.params= {};
+            apiInfo.params[apiInfo.token_param_name] = module.access_token
+                
+            return apiCall(module.validate_token.endpoint, apiInfo, module.access_token).then(response=> {
+                if (response.status != 200) {
+                    reject("Token validation error");
+                  }
+                  return response.json().then((json) => {
+                      let jpointers = JSONPath.JSONPath({path: module.validate_token.required_jpath, json: json});
+                    if (jpointers.length >0) {
+                      return module.access_token;
+                    } else {
+                        //purge_access_token(module);
+                        reject("Token validation error");
+                    }
+                  });
+            });
+        }
+        
     }
     
 	function apiCall(endpoint, apiInfo, access_token)
@@ -185,14 +218,31 @@ var ApiCall = (function() {
                 })
     }
     
+    function sleep (time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
+    
     function fetch_apis(module){
+        var etags = {}
         get_access_token(module).then(access_token => {
             if(access_token){
                 module.apiCall.forEach(data=>{
-                    if(data.is_enabled)
-                        apiCall(module.apiConfig.api_endpoint, data, access_token).then(prepareMessage).then(msg =>{ send_message(module,data,msg)});
+                    if(data.is_enabled){
+                        sleep(1000).then(p=>{
+                            apiCall(module.apiConfig.api_endpoint, data, access_token)
+                                .then(q=> {
+                                    let et = getEtag(q);
+                                    etags[data.name] = et
+                                    return prepareMessage(q) 
+                                })
+                                .then(msg =>{ send_message(module,data,msg)});
+                        });
+                    }
                 });
             } 
+        }).then(a=>{
+            if(!Utils.isEmpty(etags))
+                saveEtags(module.name, etags)
         });
     }
     
@@ -210,9 +260,10 @@ var ApiCall = (function() {
 		};
 		browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
         //browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
+        fetch_apis(module);
         callbacks[module.name] = setInterval(function(x){
             fetch_apis(module);
-        },5000000);
+        },50000);
     }
     
     return {

@@ -31,7 +31,7 @@ var DataHandler = (function() {
     async function handle(message) {
         console.log("DataHandler", message);
         let modules = await StorageHelper.retrieveModules();
-        let configs = await StorageHelper.retrieveConfigs();        
+        let configs = await StorageHelper.retrieveConfigs();    
         let profile = await StorageHelper.retrieveProfile();        
 		message.header.agent = await getUserAgent();
         message.header.version = getVersion();   
