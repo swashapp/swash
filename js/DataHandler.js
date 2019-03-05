@@ -29,7 +29,7 @@ var DataHandler = (function() {
     }
 
     async function handle(message) {
-        console.log("DataHandler", message);
+        console.log("DataHandler" + (Date()), message);
         let modules = await StorageHelper.retrieveModules();
         let configs = await StorageHelper.retrieveConfigs();    
         let profile = await StorageHelper.retrieveProfile();        
@@ -75,10 +75,13 @@ var DataHandler = (function() {
         var ptr = JsonPointer;
         for(let d of schems) {
             let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: data});
-            for (let jp of jpointers) {
-                var val = ptr.get(data, jp);
-                val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt)
-                ptr.set(data, jp, val);               
+            if(jpointers)
+            {
+                for (let jp of jpointers) {
+                    var val = ptr.get(data, jp);
+                    val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt)
+                    ptr.set(data, jp, val);               
+                }                
             }
         }
         message.data = data;
