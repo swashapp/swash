@@ -53,8 +53,8 @@ var ApiCall = (function() {
 					var rst = details.url.match(module.apiConfig.access_token_regex);
 					if(rst){
 						save_access_token(module, rst[1]);
-						browser.tabs.remove(details.tabId);
 					}
+                    browser.tabs.remove(details.tabId);
 				}
 			}
 		}});
@@ -68,13 +68,16 @@ var ApiCall = (function() {
         StorageHelper.updateModules(data);
     }
     
-    function get_access_token(module){
+    function get_access_token(moduleName){
         return StorageHelper.retrieveModules().then(mds => {
             for(var m in mds){
-                if(mds[m].name == module.name){
-                    return validateToken(mds[m])
-                }
+                if(mds[m].name == moduleName){
+                    if(validateToken(mds[m]))
+                        return {token: mds[m].access_token, module: mds[m]}
+                    return {token: "", module: mds[m]}
+                }                
             }
+            return {token: "", module: {}}
         })
         
     }
@@ -83,7 +86,7 @@ var ApiCall = (function() {
 		return response.json();
 	}
     
-    function getEtag(){
+    function getEtag(response){
         return response.headers.get("ETag");
     }
     
@@ -113,19 +116,21 @@ var ApiCall = (function() {
                 
             return apiCall(module.validate_token.endpoint, apiInfo, module.access_token).then(response=> {
                 if (response.status != 200) {
-                    reject("Token validation error");
-                  }
-                  return response.json().then((json) => {
-                      let jpointers = JSONPath.JSONPath({path: module.validate_token.required_jpath, json: json});
+                    purge_access_token(module);
+                    return false;
+                }
+                return response.json().then((json) => {
+                    let jpointers = JSONPath.JSONPath({path: module.validate_token.required_jpath, json: json});
                     if (jpointers.length >0) {
-                      return module.access_token;
+                      return true;
                     } else {
-                        //purge_access_token(module);
-                        reject("Token validation error");
+                        purge_access_token(module);                        
+                        return false;
                     }
-                  });
+                });
             });
         }
+        return false;
         
     }
     
@@ -210,9 +215,7 @@ var ApiCall = (function() {
                         collector: data.name                              
                     },
                     data: {
-						out: {
-							msg
-						},
+						out: msg,
 						schems: data.schems
                     }
                 })
@@ -222,33 +225,40 @@ var ApiCall = (function() {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
     
-    function fetch_apis(module){
+    function fetch_apis(moduleName){
         var etags = {}
-        get_access_token(module).then(access_token => {
-            if(access_token){
-                module.apiCall.forEach(data=>{
+        get_access_token(moduleName).then(resp => {
+            if(resp.token){
+                let i = 0;                
+                resp.module.apiCall.forEach(data=>{
+                    i += 1;
                     if(data.is_enabled){
-                        sleep(1000).then(p=>{
-                            apiCall(module.apiConfig.api_endpoint, data, access_token)
-                                .then(q=> {
-                                    let et = getEtag(q);
-                                    etags[data.name] = et
-                                    return prepareMessage(q) 
-                                })
-                                .then(msg =>{ send_message(module,data,msg)});
-                        });
+                        var s = setTimeout(function(){
+                                callbacks[moduleName].apiCalls = Utils.arrayRemove(callbacks[moduleName].apiCalls, s);
+                                apiCall(resp.module.apiConfig.api_endpoint, data, resp.token)
+                                    .then(q=> {
+                                        let et = getEtag(q);
+                                        etags[data.name] = et
+                                        return prepareMessage(q) 
+                                    })
+                                    .then(msg =>{ send_message(resp.module,data,msg)});
+                        }, 10000*i);
+                        callbacks[moduleName].apiCalls.push(s);
                     }
                 });
             } 
         }).then(a=>{
             if(!Utils.isEmpty(etags))
-                saveEtags(module.name, etags)
+                saveEtags(resp.module.name, etags)
         });
     }
     
     function unload_module(module){
 		if(callbacks[module.name])
-			clearInterval(callbacks[module.name]);
+			clearInterval(callbacks[module.name].interval);
+        for(let s of callbacks[module.name].apiCalls)
+            clearTimeout(s);
+        callbacks[module.name] = {};
     }
 
     function load_module(module){
@@ -260,9 +270,10 @@ var ApiCall = (function() {
 		};
 		browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
         //browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
-        fetch_apis(module);
-        callbacks[module.name] = setInterval(function(x){
-            fetch_apis(module);
+        //fetch_apis(module.name);
+        callbacks[module.name] = {interval: -1, apiCalls: []};
+        callbacks[module.name].interval = setInterval(function(x){
+            fetch_apis(module.name);
         },50000);
     }
     

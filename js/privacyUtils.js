@@ -41,6 +41,7 @@ var privacyUtils = (function() {
         
     function timePrivacy(time, privacyLevel, mSalt, salt) {
         var date = new Date();
+        let date2;
         date.setTime(time);
         switch(privacyLevel) {
             case 0:        

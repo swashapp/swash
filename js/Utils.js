@@ -38,6 +38,13 @@ var Utils = (function() {
 			
 	}
     
+    function arrayRemove(arr, value) {
+       return arr.filter(function(ele){
+           return ele != value;
+       });
+    }
+
+    
     function isEmpty(obj) {
 
         // null and undefined are "empty"
@@ -102,7 +109,8 @@ var Utils = (function() {
         notify: notify,
         uuid: uuid,
 		serialize: serialize,
-        isEmpty: isEmpty
+        isEmpty: isEmpty,
+        arrayRemove: arrayRemove
     };
 }());
 export {Utils};
