@@ -69,18 +69,18 @@ var DataHandler = (function() {
         */
         
 
-        let data = message.data.out;
+        let data = {};
         let schems = message.data.schems;       
         //var ptr = JsonPointer.noConflict();
         var ptr = JsonPointer;
         for(let d of schems) {
-            let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: data});
+            let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: message.data.out});
             if(jpointers)
             {
                 for (let jp of jpointers) {
-                    var val = ptr.get(data, jp);
+                    var val = ptr.get(message.data.out, jp);
                     val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt)
-                    ptr.set(data, jp, val);               
+                    ptr.set(data, jp, val, true);               
                 }                
             }
         }

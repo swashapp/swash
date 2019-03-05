@@ -256,8 +256,10 @@ var ApiCall = (function() {
     function unload_module(module){
 		if(callbacks[module.name])
 			clearInterval(callbacks[module.name].interval);
-        for(let s of callbacks[module.name].apiCalls)
-            clearTimeout(s);
+        if(callbacks[module.name].apiCalls) {
+			for(let s of callbacks[module.name].apiCalls)
+				clearTimeout(s);	
+		}
         callbacks[module.name] = {};
     }
 
