@@ -55,11 +55,11 @@ var privacyUtils = (function() {
             case 3:
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), date.getMonth())
-                return date.getTime();
+                return date2.getTime();
             case 4:
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), date.getMonth())
-                return date.getTime();
+                return date2.getTime();
 
 			default:
                 return date.getTime();
@@ -128,6 +128,32 @@ var privacyUtils = (function() {
         
     }
 
+	
+    function idPrivacy(id, privacyLevel, mSalt, salt) {
+        var retId = id;
+        
+        switch(privacyLevel) {
+            case 0:        
+                return retId;
+            case 1:
+                retId = sha256(id);
+                return retId;
+            case 2:
+                retId = sha256(id + salt);            
+                return retId;
+            case 3:
+                retId = sha256(id + mSalt);            
+                return retId;            
+            case 4:
+                return "";
+
+			default:
+                return "";
+        }
+        
+    }
+	
+	
     function userAttrPrivacy(userAttr, privacyLevel, mSalt, salt) {
         var retAttr = userAttr;
         
@@ -175,7 +201,9 @@ var privacyUtils = (function() {
                 return timePrivacy(object, privacyLevel,  mSalt, salt);
             case "text" :
                 return textPrivacy(object, privacyLevel, mSalt, salt);
-            default:
+            case "id" :
+                return idPrivacy(object, privacyLevel, mSalt, salt);
+			default:
                 return object;
         }
     }
