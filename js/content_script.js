@@ -58,6 +58,7 @@ function public_callback(data, moduleName, event){
 		obj: "DataHandler",
 		func: "handle",
 		params: [{
+                origin: window.location.href,
                 header: {
                     module: moduleName,
                     function: "Content",

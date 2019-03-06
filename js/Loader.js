@@ -59,7 +59,7 @@ var Loader = (function() {
 	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
 		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 			StorageHelper.retrieveFilters().then(filters => {
-					if(!filterUtils.filter(tabInfo.url, filters))
+					if(filterUtils.filter(tabInfo.url, filters))
 						browser.browserAction.setIcon({path: "icons/surf19g.png"});
 					else 
 						browser.browserAction.setIcon({path: "icons/surf19.png"});

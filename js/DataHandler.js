@@ -30,9 +30,14 @@ var DataHandler = (function() {
 
     async function handle(message) {
         console.log("DataHandler" + (Date()), message);
+        let filters = await StorageHelper.retrieveFilters();
+        if(filterUtils.filter(message.origin, filters))
+            return;
+        delete message.origin;
         let modules = await StorageHelper.retrieveModules();
         let configs = await StorageHelper.retrieveConfigs();    
-        let profile = await StorageHelper.retrieveProfile();        
+        let profile = await StorageHelper.retrieveProfile();
+            
 		message.header.agent = await getUserAgent();
         message.header.version = getVersion();   
         message.header.platform = await getPlatformInfo();

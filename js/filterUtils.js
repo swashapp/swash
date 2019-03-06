@@ -2,21 +2,21 @@ var filterUtils = (function() {
     'use strict';
     function regexFilter(input, regex) {
         if(input.match(regex))
-            return null;
-        return input;
+            return true;
+        return false;
     }
 
     function matchFilter(input, match) {
         if(input == match)
-            return null;
-        return input;
+            return true;
+        return false;
     }
 
     function wildcardFilter(input, wildcard) {
         let regex = new RegExp('^' + wildcard.split(/\*+/).map(regExpEscape).join('.*') + '$');
         if(input.match(regex))
-            return null;
-        return input;
+            return true;
+        return false;
     }
 
     function regExpEscape (s) {
@@ -24,7 +24,7 @@ var filterUtils = (function() {
     }
 
     function filter(input, filters) {
-            let ret = input;
+            let ret = false;
             for (let f of filters) {                
                 switch(f.type) {
                     case "regex":
@@ -37,7 +37,7 @@ var filterUtils = (function() {
                         ret = matchFilter(input, f.value);
                         break;
                 }
-                if (!ret)
+                if (ret)
                     return ret;
             }
             return ret;
