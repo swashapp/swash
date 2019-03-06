@@ -15,6 +15,7 @@ var Browsing = (function() {
             return;
         console.log(requestDetails.url, requestDetails.originUrl);
         let message = {
+            origin: requestDetails.originUrl,
 			header:{
 				function: "browsing",
 				module: moduleName,
@@ -39,6 +40,7 @@ var Browsing = (function() {
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;		
         let message = {
+            origin: requestDetails.originUrl,
 			header:{
 				function: "browsing",
 				module: moduleName,
@@ -110,6 +112,7 @@ var Browsing = (function() {
             if(Object.keys(retval).length == 0)
                 return;
             let message = {
+                origin: requestDetails.originUrl,
 				header:{
 					function: "browsing",
 					module: moduleName,
@@ -206,21 +209,22 @@ var Browsing = (function() {
     function hook_bookmarks(module,data){
         var inspectBookmark = function(id, bookmark){
             DataHandler.handle({
-                    header:{
-                        function: "browsing",
-                        module: module.name,
-                        collector: "bookmark_create"                                
+                origin: bookmark.url,
+                header:{
+                    function: "browsing",
+                    module: module.name,
+                    collector: "bookmark_create"                                
+                },
+                data: {
+                    out: {
+                        bookmark: bookmark
                     },
-                    data: {
-						out: {
-							bookmark: bookmark
-						},
-						schems: [
-							{jpath: "$.bookmark", type: "text"}
-						]
-                        
-                    }
-                });
+                    schems: [
+                        {jpath: "$.bookmark", type: "text"}
+                    ]
+                    
+                }
+            });
         }
         if(!browser.bookmarks.onCreated.hasListener(inspectBookmark)){
             browser.bookmarks.onCreated.addListener(inspectBookmark);

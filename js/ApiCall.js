@@ -209,6 +209,7 @@ var ApiCall = (function() {
     
     function send_message(module,data, msg){
         DataHandler.handle({
+                    origin: module.apiConfig.api_endpoint + URI,
                     header:{
                         function: "apiCall",
                         module: module.name,
