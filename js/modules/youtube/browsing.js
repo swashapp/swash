@@ -4,7 +4,7 @@ Youtube.browsing_filter = {urls: ["https://www.youtube.com/*"]};
 Youtube.browsing_extraInfoSpec= ["blocking"];
 Youtube.browsing = [
     {
-        name: "ajax_action",
+        name: "Page Action",
         title: "Page actions",
         is_enabled: true,
         description: "",
@@ -24,7 +24,7 @@ Youtube.browsing = [
         ]
     },
     {
-        name: "search",
+        name: "Search",
         title: "Youtube Search",
         is_enabled: true,        
         description: "",

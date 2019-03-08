@@ -4,7 +4,7 @@ Amazon.browsing_filter = {urls: ["https://www.amazon.com/*"]};
 Amazon.browsing_extraInfoSpec= ["blocking"];
 Amazon.browsing = [
     {
-        name: "search",
+        name: "Search",
         title: "Amazon Search",
         is_enabled: true,
         patterns: [
@@ -62,13 +62,13 @@ Amazon.browsing = [
         ]
     },
     {
-        name: "inspectVisit",
+        name: "Page Visit",
         title: "Amazon visited pages",
         target_listener: "inspectVisit",
         is_enabled: true
     },
     {
-        name: "inspectReferrer",
+        name: "Visiting Graph",
         title: "User experience",
         target_listener: "inspectReferrer",
         is_enabled: true
