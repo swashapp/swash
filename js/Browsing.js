@@ -9,7 +9,7 @@ var Browsing = (function() {
     var callbacks = {};
     
     
-    function inspectReferrer(moduleName,requestDetails) {
+    function inspectReferrer(moduleName, data, requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;
@@ -19,7 +19,7 @@ var Browsing = (function() {
 			header:{
 				function: "browsing",
 				module: moduleName,
-				collector: "inspectReferrer"
+				collector: data.name
 			},
 			data: {
 				out: {
@@ -35,7 +35,7 @@ var Browsing = (function() {
 		return message; 
 	}
 
-    function inspectVisit(moduleName,requestDetails) {
+    function inspectVisit(moduleName, data, requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
             return;		
@@ -44,7 +44,7 @@ var Browsing = (function() {
 			header:{
 				function: "browsing",
 				module: moduleName,
-				collector: "inspectVisit"
+				collector: data.name
 			},			
 			data:{
 				out: {
@@ -116,7 +116,7 @@ var Browsing = (function() {
 				header:{
 					function: "browsing",
 					module: moduleName,
-					collector: "inspectRequest_pattern"
+					collector: data_name
 				},							
 				data: {					
                         out: retval,
@@ -192,9 +192,9 @@ var Browsing = (function() {
             if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
                 retval = inspectRequest_patterns(module.name, local_data, x)
             if(local_data.target_listener == "inspectReferrer")
-                retval = inspectReferrer(module.name,x)
+                retval = inspectReferrer(module.name, local_data, x)
             if(local_data.target_listener == "inspectVisit")
-                retval = inspectVisit(module.name,x)
+                retval = inspectVisit(module.name, local_data, x)
             if(retval != null)
                 DataHandler.handle(retval);
         };
@@ -213,7 +213,7 @@ var Browsing = (function() {
                 header:{
                     function: "browsing",
                     module: module.name,
-                    collector: "bookmark_create"                                
+                    collector: "Create Bookmark"                                
                 },
                 data: {
                     out: {

@@ -62,9 +62,9 @@ Amazon.content = [
         ]
     },
     {
-        name: "addToCard",
-        description: "Items added to card",
-        title: "",
+        name: "addToCart",
+        description: "Items added to cart",
+        title: "Items added to cart",
         is_enabled: true,
         events: [
             {
@@ -146,7 +146,7 @@ Amazon.content = [
             {
                 selector:"#productTitle",
                 property: "innerText",
-                name: "#title"
+                name: "title"
             },
             {
                 selector:"#searchDropdownBox option:selected",

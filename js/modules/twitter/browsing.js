@@ -5,7 +5,7 @@ Twitter.browsing_extraInfoSpec= ["blocking"];
 
 Twitter.browsing = [
     {
-        name: "post_tweet",
+        name: "Post Tweet",
         title: "Post a new tweet",
         is_enabled: true,        
         description: "",
@@ -25,7 +25,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "search",
+		name: "Search",
 		title: "Twitter Search",
         is_enabled: true,
 		description: "",
@@ -57,7 +57,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "follow",
+		name: "Follow",
 		title: "Follow action",
         is_enabled: true,
 		description: "",
@@ -77,7 +77,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "unfollow",
+		name: "Unfollow",
 		title: "Unfollow action",
         is_enabled: true,
 		description: "",
@@ -97,7 +97,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "mute",
+		name: "Mute",
 		title: "Mute action",
         is_enabled: true,
 		description: "",
@@ -117,7 +117,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "unmute",
+		name: "Unmute",
 		title: "Unmute action",
         is_enabled: true,
 		description: "",
@@ -137,7 +137,7 @@ Twitter.browsing = [
 		]			
 	},
 	{
-		name: "like",
+		name: "Like",
 		title: "Like action",
         is_enabled: true,
 		description: "",
@@ -157,7 +157,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "retweet",
+		name: "Retweet",
 		title: "Retweet",
         is_enabled: true,
 		description: "",
@@ -177,7 +177,7 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "visit",
+		name: "Visit",
 		title: "Visit User page",
         is_enabled: true,
 		description: "",
@@ -197,14 +197,14 @@ Twitter.browsing = [
 		]
 	},
 	{
-		name: "inspectVisit",
+		name: "Page Visit",
         title: "visited pages",
         is_enabled: true,
 		target_listener: "inspectVisit"
 	},
 	{
-		name: "inspectReferrer",
-        title: "User experiense",
+		name: "Visiting Graph",
+        title: "User experience",
         is_enabled: true,
 		target_listener: "inspectReferrer"
 	}

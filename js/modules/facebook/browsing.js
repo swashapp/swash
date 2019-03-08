@@ -4,7 +4,7 @@ Facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
 Facebook.browsing_extraInfoSpec= ["blocking"];
 Facebook.browsing = [
     {
-        name: "search",
+        name: "Search",
         title: "Facebook Search",
         description: "",
         patterns: [
@@ -67,13 +67,13 @@ Facebook.browsing = [
         ]
     },
     {
-        name: "inspectVisit",
+        name: "Page Visit",
         title: "Links clicked by user",
         is_enabled: true,
         target_listener: "inspectVisit"
     },
     {
-        name: "inspectReferrer",
+        name: "Visiting Graph",
         title: "User experience",
         is_enabled: true,        
         target_listener: "inspectReferrer"

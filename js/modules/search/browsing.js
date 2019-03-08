@@ -5,7 +5,7 @@ Search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*:/
 Search.browsing_extraInfoSpec= ["blocking"];
 Search.browsing = [
     {
-        name: "bing",
+        name: "Bing",
         title: "Bing.com",
         is_enabled: true,        
         description: "",

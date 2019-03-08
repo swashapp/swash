@@ -4,21 +4,21 @@ Surfing.browsing_filter = {urls: ["<all_urls>"]};
 Surfing.browsing_extraInfoSpec= ["blocking"];
 Surfing.browsing = [
     {
-        name: "inspectVisit",
+        name: "Page Visit",
         title: "Page visits",
         is_enabled: true,        
         description: "",
         target_listener: "inspectVisit"
     },
     {
-        name: "inspectReferrer",
+        name: "Visiting Graph",
         title: "User experiense",
         is_enabled: true,
         description: "",
         target_listener: "inspectReferrer"
     },
     {
-        name: "bookmarkCreate",
+        name: "New Bookmark",
         title: "Create Bookmark",
         is_enabled: true,
         description: "",
