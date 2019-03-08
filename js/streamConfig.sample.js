@@ -1,6 +1,5 @@
 var streamrConf = {
-	STREAM_ID: '************************'
+	STREAM_ID: '************************',
 	API_KEY:'**********************************'
-	settings: {};	
 }
 export {streamrConf};

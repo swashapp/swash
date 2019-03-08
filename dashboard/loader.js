@@ -12,6 +12,42 @@ var helper = (function() {
 		}
         return sendMessage(message);
     }
+    function loadPrivacyData(){
+		let message = {
+			obj: "StorageHelper",
+			func: "retrieveData",
+			params: ["privacyData"]
+		}
+        return sendMessage(message);
+    }
+
+    function loadMessages(){
+		let message = {
+			obj: "StorageHelper",
+			func: "retrieveData",
+			params: ["messages"]
+		}
+        return sendMessage(message);
+    }
+
+    function cancelSending(msgId){
+		let message = {
+			obj: "DataHandler",
+			func: "cancelSending",
+			params: [msgId]
+		}
+        return sendMessage(message);
+    }
+	
+    function loadModules(){
+		let message = {
+			obj: "StorageHelper",
+			func: "retrieveModules",
+			params: []
+		}
+        return sendMessage(message);		
+    }
+	
     function load(){
 		let message = {
 			obj: "StorageHelper",
@@ -31,6 +67,15 @@ var helper = (function() {
 		}
         return sendMessage(message);
     }
+    function savePrivacyData(data){
+		let message = {
+			obj: "StorageHelper",
+			func: "storeData",
+			params: ["privacyData", data]
+		}
+        return sendMessage(message);
+    }
+
     function saveProfile(data){
 		let message = {
 			obj: "StorageHelper",
@@ -126,6 +171,7 @@ var helper = (function() {
 		stop: stop,
 		start: start,
 		config_module: config_module,
+		loadModules: loadModules,
         loadFilters: loadFilters,
 		saveFilters: saveFilters,
 		saveProfile: saveProfile,
@@ -134,6 +180,10 @@ var helper = (function() {
 		removeAuth: removeAuth,
 		isConnected: isConnected,
         subscribe: subscribe,
-        unsubscribe: unsubscribe
+        unsubscribe: unsubscribe,
+		savePrivacyData: savePrivacyData,
+		loadPrivacyData: loadPrivacyData,
+		loadMessages: loadMessages,
+		cancelSending: cancelSending
     };
 }());

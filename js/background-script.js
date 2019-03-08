@@ -14,7 +14,7 @@ This function will invoke on:
     2. install add-on
     3. update add-on
 */
-browser.management.onInstalled.addListener((info) => {
+browser.runtime.onInstalled.addListener((info) => {
     console.log(info.name + " " + info.version +  " was installed");
     console.log("Registering modules.");
     console.log("onInstalled.js: " + AllModules);

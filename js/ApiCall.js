@@ -255,29 +255,34 @@ var ApiCall = (function() {
     }
     
     function unload_module(module){
-		if(callbacks[module.name])
-			clearInterval(callbacks[module.name].interval);
-        if(callbacks[module.name].apiCalls) {
-			for(let s of callbacks[module.name].apiCalls)
-				clearTimeout(s);	
+		if(module.functions.includes("apiCall")) {
+			if(callbacks[module.name])
+				clearInterval(callbacks[module.name].interval);
+			if(callbacks[module.name].apiCalls) {
+				for(let s of callbacks[module.name].apiCalls)
+					clearTimeout(s);	
+			}
+			callbacks[module.name] = {};
 		}
-        callbacks[module.name] = {};
-    }
+	}
 
     function load_module(module){
-		let crURL = getCallBackURL(module.name);
-		var filter = {
-			urls: [
-                "https://callbacks.authsaz.com/*"
-			]
-		};
-		browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
-        //browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
-        //fetch_apis(module.name);
-        callbacks[module.name] = {interval: -1, apiCalls: []};
-        callbacks[module.name].interval = setInterval(function(x){
-            fetch_apis(module.name);
-        },50000);
+		if(module.functions.includes("apiCall")) {
+			
+			let crURL = getCallBackURL(module.name);
+			var filter = {
+				urls: [
+					"https://callbacks.authsaz.com/*"
+				]
+			};
+			browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
+			//browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
+			//fetch_apis(module.name);
+			callbacks[module.name] = {interval: -1, apiCalls: []};
+			callbacks[module.name].interval = setInterval(function(x){
+				fetch_apis(module.name);
+			},50000);
+		}
     }
     
     return {

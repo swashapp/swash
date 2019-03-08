@@ -27,16 +27,42 @@ var DataHandler = (function() {
     function getVersion(){
         return browser.runtime.getManifest().version;
     }
-
+	
+	function cancelSending(msgId) {
+		clearTimeout(msgId);
+		StorageHelper.removeMessage(msgId);		
+	}
+	
+	async function sendData(message, delayedSend) {
+		if(delayedSend) {
+			let id = setTimeout(function(){ 
+				delete message.origin;
+				stream.produceNewEvent(message);
+				StorageHelper.removeMessage(id);
+			}, 60000);
+			let msg = {};
+			msg[id] = message;
+			await StorageHelper.storeData("messages", msg);			
+		}
+		else {
+			delete message.origin;
+			stream.produceNewEvent(message);        
+		}
+		
+	}
     async function handle(message) {
-        console.log("DataHandler" + (Date()), message);
-        let filters = await StorageHelper.retrieveFilters();
+        console.log("DataHandler" + (Date()), message);		
+		if(!message.origin)
+			message.origin = "undetermined";
+		let db = await StorageHelper.retrieveAll();
+        let filters = db.filters;
         if(filterUtils.filter(message.origin, filters))
             return;
-        delete message.origin;
-        let modules = await StorageHelper.retrieveModules();
-        let configs = await StorageHelper.retrieveConfigs();    
-        let profile = await StorageHelper.retrieveProfile();
+        let modules = db.modules;
+        let configs = db.configs;
+        let profile = db.profile;
+		let privacyData = db.privacyData;
+		let delayedSend = configs.delayedMessage;
             
 		message.header.agent = await getUserAgent();
         message.header.version = getVersion();   
@@ -46,11 +72,10 @@ var DataHandler = (function() {
         message.identity.walletId = profile.walletId;
         message.identity.email = profile.email;
         message.header.privacyLevel = modules[message.header.module].privacy_level;
-
-        enforcePolicy(message, modules[message.header.module].mSalt, configs.salt);
-		stream.produceNewEvent(message);        
+        enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
+		sendData(message, delayedSend);
     }
-    function enforcePolicy(message, mSalt, salt) {
+    function enforcePolicy(message, mSalt, salt, privacyData) {
         /*
             message = {
                 header: {
@@ -84,7 +109,7 @@ var DataHandler = (function() {
             {
                 for (let jp of jpointers) {
                     var val = ptr.get(message.data.out, jp);
-                    val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt)
+                    val = privacyUtils.objectPrivacy(val, d.type, message, mSalt, salt, privacyData)
                     ptr.set(data, jp, val, true);               
                 }                
             }
@@ -94,7 +119,8 @@ var DataHandler = (function() {
     }
     
     return {
-        handle: handle
+        handle: handle,
+		cancelSending: cancelSending
     };
 }());
 export {DataHandler};
