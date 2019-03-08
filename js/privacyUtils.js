@@ -66,33 +66,29 @@ var privacyUtils = (function() {
         }
     }
 
-    function textPrivacy(text, privacyLevel, mSalt, salt) {
-        var blackList = [{key:'test',map: 'replace'}];
+    function textPrivacy(text, privacyLevel, mSalt, salt, privacyData) {
         var retText = text;
         switch(privacyLevel) {
             case 0:        
                 return retText;
             case 1:
-                for(var i = 0; i < blackList.length ; i++) {                 
-                    retText = retText.replace(new RegExp(blackList[i].key, 'g'), blackList[i].map);
+                for(var i = 0; i < privacyData.length ; i++) {  
+					retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (sha256(privacyData[i] + salt).substring(0,privacyData[i].value.length)));                    
                 }
                 return retText;
             case 2:
-                for(var i = 0; i < blackList.length ; i++) {                 
-                    retText = retText.replace(new RegExp(blackList[i].key, 'g'), "");
+                for(var i = 0; i < privacyData.length ; i++) {                 
+                    retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (new Array(privacyData[i].value.length + 1).join('*')));
                 }
                 return retText;
             case 3:
-                for(var i = 0; i < blackList.length ; i++) {
-                    if(retText.indexOf(blackList[i].key) > 0 ) {
-                        retText = "";
-                        break;
-                    }
-                }            
+                for(var i = 0; i < privacyData.length ; i++) {                 
+                    retText = retText.replace(new RegExp(privacyData[i].value, 'g'), "");
+                }
                 return retText;
             case 4:
-                for(var i = 0; i < blackList.length ; i++) {
-                    if(retText.indexOf(blackList[i].key) > 0 ) {
+                for(var i = 0; i < privacyData.length ; i++) {
+                    if(retText.indexOf(privacyData[i].value) > 0 ) {
                         retText = "";
                         break;
                     }
@@ -184,25 +180,25 @@ var privacyUtils = (function() {
         return date.toString();
     }
     
-    function objectPrivacy(object, objectType, message, mSalt, salt){
+    function objectPrivacy(object, objectType, message, mSalt, salt, privacyData){
         let privacyLevel = message.header.privacyLevel;
 		if(!object)
             return object;
         switch(objectType) {
             case "userInfo" :
-                return userInfoPrivacy(object, privacyLevel, mSalt, salt);
+                return userInfoPrivacy(object, privacyLevel, mSalt, salt, privacyData);
             case "userAttr" :
-                return userAttrPrivacy(object, privacyLevel, mSalt, salt);
+                return userAttrPrivacy(object, privacyLevel, mSalt, salt, privacyData);
             case "timeString" :
-                return timeStringPrivacy(object, privacyLevel, mSalt, salt);
+                return timeStringPrivacy(object, privacyLevel, mSalt, salt, privacyData);
             case "url" :
-                return urlPrivacy(object, privacyLevel, mSalt, salt);
+                return urlPrivacy(object, privacyLevel, mSalt, salt, privacyData);
             case "time" :
-                return timePrivacy(object, privacyLevel,  mSalt, salt);
+                return timePrivacy(object, privacyLevel,  mSalt, salt, privacyData);
             case "text" :
-                return textPrivacy(object, privacyLevel, mSalt, salt);
+                return textPrivacy(object, privacyLevel, mSalt, salt, privacyData);
             case "id" :
-                return idPrivacy(object, privacyLevel, mSalt, salt);
+                return idPrivacy(object, privacyLevel, mSalt, salt, privacyData);
 			default:
                 return object;
         }

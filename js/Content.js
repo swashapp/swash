@@ -71,7 +71,10 @@ var Content = (function() {
 					if(modules[module].is_enabled)
 						for(var item of modules[module].content_matches) {
 							if(Utils.wildcard(url, item)) {
-								return {moduleName: modules[module].name, content: modules[module].content};
+								let content = modules[module].content.filter(function(cnt, index, arr){
+									return cnt.is_enabled;
+								});
+								return {moduleName: modules[module].name, content: content};
 							}							
 				}
 			}
