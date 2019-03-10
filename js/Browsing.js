@@ -58,11 +58,11 @@ var Browsing = (function() {
         return message;
     }
     
-	function inspectRequest_patterns(moduleName, data, requestDetails) {
+	function inspectRequest_patterns(moduleName, data, requestDetails) {        
         for(var patt of data.patterns){
             var d = inspectRequest_pattern(moduleName, data.name, patt, requestDetails)
             if(d!=null && Object.keys(d).length >0 ){
-                // we suppose one of the methods will return a value
+                // we suppose one of the methods will return a value                
                 return d
             }
         }
@@ -76,7 +76,10 @@ var Browsing = (function() {
         if(patt.pattern_type === "regex"){
             var res = requestDetails.url.match(patt.url_pattern);
             if(res!= null) 
+            {
+                console.log(requestDetails.url, patt);
                 failed = false;
+            }
         }
         if(patt.pattern_type === "wildcard"){
             var res = Utils.wildcard(requestDetails.url, patt.url_pattern);

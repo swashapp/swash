@@ -2,6 +2,8 @@ console.log("StorageHelper.js");
 import {Utils} from './Utils.js';
 var StorageHelper = (function() {  
     
+    var messages = {};
+    
     function retrieveProfile(){
         return retrieveData("profile");
     }
@@ -36,11 +38,21 @@ var StorageHelper = (function() {
         browser.storage.sync.set({modules:info});
     }
     
-	async function removeMessage(id) {
+    function saveMessage(msg, id) {
+        messages[id] = msg;
+    }
+    
+	function removeMessage(id) {
+        /*
         var info = await retrieveData("messages");
         delete info[id];
-        browser.storage.sync.set({messages:info});		
+        browser.storage.sync.set({messages:info});*/
+        delete messages[id];
 	}
+    
+    function retrieveMessages() {
+        return messages;
+    }
 	
     async function storeAll(db) {
         await browser.storage.sync.set(db);        
@@ -98,7 +110,9 @@ var StorageHelper = (function() {
 		saveModuleSettings: saveModuleSettings,
 		retrieveData: retrieveData,
 		storeData: storeData,
-		removeMessage: removeMessage
+        saveMessage: saveMessage,
+		removeMessage: removeMessage,
+        retrieveMessages: retrieveMessages
         
         
     };
