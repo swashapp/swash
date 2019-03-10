@@ -24,8 +24,8 @@ var helper = (function() {
     function loadMessages(){
 		let message = {
 			obj: "StorageHelper",
-			func: "retrieveData",
-			params: ["messages"]
+			func: "retrieveMessages",
+			params: []
 		}
         return sendMessage(message);
     }

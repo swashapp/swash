@@ -40,9 +40,10 @@ var DataHandler = (function() {
 				stream.produceNewEvent(message);
 				StorageHelper.removeMessage(id);
 			}, 60000);
-			let msg = {};
-			msg[id] = message;
-			await StorageHelper.storeData("messages", msg);			
+			//let msg = {};
+			//msg[id] = message;
+			//await StorageHelper.storeData("messages", msg);			
+            StorageHelper.saveMessage(message, id);
 		}
 		else {
 			delete message.origin;

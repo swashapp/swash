@@ -13,7 +13,7 @@ Search.browsing = [
         patterns: [
         {
             method: "GET",
-            url_pattern: /https:\/\/www\.bing\.com\/(([^\/\?\;]*)\/search)\?.*/,
+            url_pattern: "https:\\/\\/www\\.bing\\.com\\/(([^\\/\\?\\;]*)\\/search)\\?.*",
             pattern_type: "regex",
             param: [
                 {
@@ -29,7 +29,7 @@ Search.browsing = [
             ]
         },{
             method: "GET",
-            url_pattern: /https:\/\/www\.bing\.com\/(shop|maps|search)\?.*/,
+            url_pattern: "https:\\/\\/www\\.bing\\.com\\/(shop|maps|search)\\?.*",
             pattern_type: "regex",
             param: [
                 {
@@ -54,7 +54,7 @@ Search.browsing = [
         patterns: [
         {
             method: "GET",
-            url_pattern: /https:\/\/((.*)\.)?search\.yahoo\.com\/.*/,
+            url_pattern: "https:\\/\\/((.*)\\.)?search\\.yahoo\\.com\\/search.*",
             pattern_type: "regex",
             param: [
                 {
@@ -106,7 +106,7 @@ Search.browsing = [
         patterns: [
         {
             method: "GET",
-            url_pattern: /https:\/\/search\.aol\.com\/aol\/([^\/\?\;]*)[\?|\;].*/,
+            url_pattern: "https:\\/\\/search\\.aol\\.com\\/aol\\/([^\\/\\?\\;]*)[\\?|\\;].*",
             pattern_type: "regex",
             param: [
                 {
@@ -131,7 +131,7 @@ Search.browsing = [
         patterns: [
         {
             method: "GET",
-            url_pattern: /https:\/\/www\.ask\.com\/(web|youtube)\?.*/,
+            url_pattern: "https:\\/\\/www\\.ask\\.com\\/(web|youtube)\\?.*",
             pattern_type: "regex",
             param: [
                 {
@@ -156,12 +156,17 @@ Search.browsing = [
         patterns: [
         {
             method: "GET",        
-            url_pattern: /http[s]?:\/\/(.*)\.baidu\.com\/.*/,
+            url_pattern: "http[s]?:\\/\\/(.*)\\.baidu\\.com\\/([sfqim]\\?|sf\\/|search).*",
             pattern_type: "regex",
             param: [
                 {
                     type: "query",
                     key: "wd",
+                    name: "query"
+                },
+                {
+                    type: "query",
+                    key: "kw",
                     name: "query"
                 },
                 {
