@@ -10,7 +10,7 @@ Facebook.browsing = [
         patterns: [
             {
                 method: "GET",
-                url_pattern: /^https:\/\/www\.facebook\.com\/search\/top\/.*/,
+                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/top\\/.*",
                 pattern_type: "regex",
                 param: [
                     {
@@ -21,7 +21,7 @@ Facebook.browsing = [
                 ]
             },{
                 method: "GET",
-                url_pattern: /^https:\/\/www\.facebook\.com\/search\/str\/([^\/]*)\/.*/,
+                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/str\\/([^\\/]*)\\/.*",
                 pattern_type: "regex",
                 param: [
                     {
@@ -32,7 +32,7 @@ Facebook.browsing = [
                 ]
             },{
                 method: "GET",
-                url_pattern: /^https:\/\/www.facebook.com\/typeahead\/search\/facebar\/query\/.*/,
+                url_pattern: "^https:\\/\\/www.facebook.com\\/typeahead\\/search\\/facebar\\/query\\/.*",
                 pattern_type: "regex",
                 param: [
                     {
@@ -43,7 +43,7 @@ Facebook.browsing = [
                 ]    
             },{
                 method: "GET",
-                url_pattern: /^https:\/\/www\.facebook\.com\/search\/browse\/warm\/requestargs\/.*/,
+                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/browse\\/warm\\/requestargs\\/.*",
                 pattern_type: "regex",
                 param: [
                     {
@@ -54,7 +54,7 @@ Facebook.browsing = [
                 ]
             },{
                 method: "GET",
-                url_pattern: /^https:\/\/www\.facebook\.com\/search\/facebar_survey\/.*/,
+                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/facebar_survey\\/.*",
                 pattern_type: "regex",
                 param: [
                     {

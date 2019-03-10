@@ -127,8 +127,12 @@ var ApiCall = (function() {
                         purge_access_token(module);                        
                         return false;
                     }
-                });
-            });
+                }).catch(error => {
+					purge_access_token(module);
+				});
+            }).catch(error => {
+				purge_access_token(module);
+				});
         }
         return false;
         
@@ -281,7 +285,7 @@ var ApiCall = (function() {
 			callbacks[module.name] = {interval: -1, apiCalls: []};
 			callbacks[module.name].interval = setInterval(function(x){
 				fetch_apis(module.name);
-			},50000);
+			},240000);
 		}
     }
     

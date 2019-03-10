@@ -20,6 +20,9 @@ Twitter.browsing = [
 						key: "status",
 						name: "text"
 					}
+				],
+				schems: [
+					{jpath:"$.text",type:"text"}				
 				]
 			}
 		]
@@ -32,7 +35,7 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "GET",
-				url_pattern: "https:\/\/twitter\.com\/hashtag\/([^?]+)\?src=hash",
+				url_pattern: "https:\\/\\/twitter\\.com\\/hashtag\\/([^?]+)\\?src=hash",
 				pattern_type: "regex",
 				param: [
 					{
@@ -40,11 +43,14 @@ Twitter.browsing = [
 						group: 1,
 						name: "hashtag"
 					}
+				],
+				schems: [
+					{jpath:"$.hashtag",type:"text"}				
 				]
 			},
 			{
 				method: "GET",
-				url_pattern: "https:\/\/twitter\.com\/search\?q=([^&]+)&src=typd",
+				url_pattern: "https:\\/\\/twitter\\.com\\/search\\?q=([^&]+)&src=typd",
 				pattern_type: "regex",
 				param: [
 					{
@@ -52,7 +58,10 @@ Twitter.browsing = [
 						group: 1,
 						name: "q"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.q",type:"text"}				
+				]				
 			}
 		]
 	},
@@ -72,7 +81,10 @@ Twitter.browsing = [
 						key: "user_id",
 						name: "user_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.user_id",type:"userInfo"}				
+				]				
 			}
 		]
 	},
@@ -92,7 +104,10 @@ Twitter.browsing = [
 						key: "user_id",
 						name: "user_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.user_id",type:"userInfo"}				
+				]								
 			}
 		]
 	},
@@ -112,7 +127,10 @@ Twitter.browsing = [
 						key: "user_id",
 						name: "user_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.user_id",type:"userInfo"}				
+				]								
 			}
 		]
 	},
@@ -132,7 +150,10 @@ Twitter.browsing = [
 						key: "user_id",
 						name: "user_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.user_id",type:"userInfo"}				
+				]								
 			}
 		]			
 	},
@@ -152,7 +173,10 @@ Twitter.browsing = [
 						key: "id",
 						name: "tweet_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.tweet_id",type:"id"}				
+				]								
 			}
 		]
 	},
@@ -164,7 +188,7 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "POST",
-				url_pattern: "https:\/\/twitter\.com\/i\/tweet\/html\?id=([0-9]+)&modal=retweet",
+				url_pattern: "https:\\/\\/twitter\\.com\\/i\\/tweet\\/html\\?id=([0-9]+)&modal=retweet",
 				pattern_type: "regex",
 				param: [
 					{
@@ -172,7 +196,10 @@ Twitter.browsing = [
 						group: 1,
 						name: "tweet_id"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.tweet_id",type:"id"}				
+				]												
 			}
 		]
 	},
@@ -184,7 +211,7 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "GET",
-				url_pattern: "https:\/\/twitter\.com\/([_A-Za-z0-9]+)$",
+				url_pattern: "https:\\/\\/twitter\\.com\\/([_A-Za-z0-9]+)$",
 				pattern_type: "regex",
 				param: [
 					{
@@ -192,7 +219,10 @@ Twitter.browsing = [
 						group: 1,
 						name: "username"
 					}
-				]
+				],
+				schems: [
+					{jpath:"$.username",type:"userInfo"}				
+				]												
 			}
 		]
 	},
