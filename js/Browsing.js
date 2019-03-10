@@ -96,13 +96,13 @@ var Browsing = (function() {
             patt.param.forEach(p => {
                 var val = null;
                 if(p.type === "regex"){
-                    val = res[p.group]
+                    val = decodeURIComponent(res[p.group]);
                 }
                 if(p.type === "form"){
-                    val = requestDetails.requestBody.formData[p.key]
+                    val = decodeURIComponent(requestDetails.requestBody.formData[p.key]);
                 }
                 if(p.type === "query"){
-                    val = (new URL(requestDetails.url)).searchParams.get(p.key)
+                    val = decodeURIComponent((new URL(requestDetails.url)).searchParams.get(p.key));
                 }
                 if(val){
                     retval[p.name] = val
@@ -123,10 +123,11 @@ var Browsing = (function() {
 				},							
 				data: {					
                         out: retval,
-                        schems: [
+                        /*schems: [
                             {jpath:"$.query",type:"text"},
                             {jpath:"$.category",type:"text"},
-                        ]
+                        ]*/
+						schems: patt.schems
 				}
             }
             return message;
@@ -182,8 +183,18 @@ var Browsing = (function() {
 	}
 
 	function unload_collector(module, data) {
-		if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-			browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
+		if(!data.hook || data.hook == "webrequest"){
+			if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
+				browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
+			}
+		}
+		if(data.hook && data.hook == "bookmarks"){
+			if(browser.bookmarks.onCreated.hasListener(inspectBookmark)){
+				browser.bookmarks.onCreated.removeListener(inspectBookmark);
+			}
+			if(browser.bookmarks.onChanged.hasListener(inspectOnChangeBookmark)){
+				browser.bookmarks.onChanged.removeListener(inspectOnChangeBookmark);
+			}
 		}
 	}    
 	
@@ -222,16 +233,47 @@ var Browsing = (function() {
                     out: {
                         bookmark: bookmark
                     },
-                    schems: [
-                        {jpath: "$.bookmark", type: "text"}
+                    schems: [					
+                        {jpath: "$.bookmark.id", type: "id"},
+						{jpath: "$.bookmark.parentId", type: "id"},
+						{jpath: "$.bookmark.title", type: "text"},
+						{jpath: "$.bookmark.dateAdded", type: "date"},
+						{jpath: "$.bookmark.url", type: "url"}
                     ]
-                    
-                }
+				}
             });
         }
         if(!browser.bookmarks.onCreated.hasListener(inspectBookmark)){
             browser.bookmarks.onCreated.addListener(inspectBookmark);
         }
+
+        var inspectOnChangeBookmark = function(id, changeInfo){
+			changeInfo.id = id;
+            DataHandler.handle({
+                origin: changeInfo.url,
+                header:{
+                    function: "browsing",
+                    module: module.name,
+                    collector: "Create Bookmark"                                
+                },
+                data: {
+                    out: {
+                        bookmark: changeInfo
+                    },
+                    schems: [					
+						{jpath: "$.bookmark.title", type: "text"},
+						{jpath: "$.bookmark.url", type: "url"},
+						{jpath: "$.bookmark.id", type: "id"}
+						
+                    ]
+				}
+            });
+        }
+        if(!browser.bookmarks.onChanged.hasListener(inspectOnChangeBookmark)){
+            browser.bookmarks.onChanged.addListener(inspectOnChangeBookmark);
+        }
+		
+		
     }
     
     
