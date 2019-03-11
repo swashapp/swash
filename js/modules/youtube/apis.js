@@ -16,17 +16,17 @@ Youtube.apiCall = [
             maxResults: 50,
             part: "snippet,contentDetails"
 		},
-		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.channelId",type:"id"},
+            {jpath:"$.items[*].snippet.channelTitle",type:"text"},
+            {jpath:"$.items[*].snippet.type",type:"text"},
+            {jpath:"$.items[*].contentDetails.subscription.resourceId.kind",type:"text"},
+            {jpath:"$.items[*].contentDetails.subscription.resourceId.channelId",type:"id"}
+        ],
+		response_type: "json"
 	},
     {
 		name: "myChannels",
@@ -42,17 +42,26 @@ Youtube.apiCall = [
 			mine: true,
             part: "snippet,contentDetails,statistics"
 		},
-		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.localized.title",type:"text"},
+            {jpath:"$.items[*].snippet.localized.description",type:"text"},            
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.likes",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.favorites",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.uploads",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchHistory",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchLater",type:"text"},
+            {jpath:"$.items[*].statistics.viewCount",type:"text"},
+            {jpath:"$.items[*].statistics.commentCount",type:"text"},
+            {jpath:"$.items[*].statistics.subscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.hiddenSubscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.videoCount",type:"text"}
+        ],        
+		response_type: "json"
 	},
     {
 		name: "channelsManagedByMe",
@@ -68,17 +77,26 @@ Youtube.apiCall = [
 			managedByMe: true,
             part: "snippet,contentDetails,statistics"
 		},
-		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.localized.title",type:"text"},
+            {jpath:"$.items[*].snippet.localized.description",type:"text"},            
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.likes",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.favorites",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.uploads",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchHistory",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchLater",type:"text"},
+            {jpath:"$.items[*].statistics.viewCount",type:"text"},
+            {jpath:"$.items[*].statistics.commentCount",type:"text"},
+            {jpath:"$.items[*].statistics.subscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.hiddenSubscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.videoCount",type:"text"}
+        ],                
+		response_type: "json"
 	},
     {
 		name: "channelSections",
@@ -94,17 +112,26 @@ Youtube.apiCall = [
 			mine: true,
             part: "snippet,contentDetails"
 		},
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.localized.title",type:"text"},
+            {jpath:"$.items[*].snippet.localized.description",type:"text"},            
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.likes",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.favorites",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.uploads",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchHistory",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchLater",type:"text"},
+            {jpath:"$.items[*].statistics.viewCount",type:"text"},
+            {jpath:"$.items[*].statistics.commentCount",type:"text"},
+            {jpath:"$.items[*].statistics.subscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.hiddenSubscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.videoCount",type:"text"}
+        ],                
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
 	},
     {
 		name: "myPlaylists",
@@ -120,17 +147,26 @@ Youtube.apiCall = [
 			mine: true,
             part: "snippet,contentDetails"
 		},
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.localized.title",type:"text"},
+            {jpath:"$.items[*].snippet.localized.description",type:"text"},            
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.likes",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.favorites",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.uploads",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchHistory",type:"text"},
+            {jpath:"$.items[*].contentDetails.relatedPlaylists.watchLater",type:"text"},
+            {jpath:"$.items[*].statistics.viewCount",type:"text"},
+            {jpath:"$.items[*].statistics.commentCount",type:"text"},
+            {jpath:"$.items[*].statistics.subscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.hiddenSubscriberCount",type:"text"},
+            {jpath:"$.items[*].statistics.videoCount",type:"text"}
+        ],                        
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
 	},
     {
 		name: "mySubscriptions",
@@ -146,17 +182,20 @@ Youtube.apiCall = [
 			mine: true,
             part: "snippet,contentDetails"
 		},
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.resourceId.kind",type:"text"},
+            {jpath:"$.items[*].snippet.resourceId.channelId",type:"id"},            
+            {jpath:"$.items[*].snippet.channelId",type:"id"},            
+            {jpath:"$.items[*].contentDetails.totalItemCount",type:"text"},
+            {jpath:"$.items[*].contentDetails.newItemCount",type:"text"},
+            {jpath:"$.items[*].contentDetails.activityType",type:"text"}
+        ],                        
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
 	},
     {
 		name: "myLikedVideos",
@@ -172,17 +211,40 @@ Youtube.apiCall = [
 			myRating: "like",
             part: "snippet,contentDetails,statistics"
 		},
+        schems: [
+            {jpath:"$.items[*].kind",type:"text"},
+            {jpath:"$.items[*].id",type:"id"},
+            {jpath:"$.items[*].snippet.title",type:"text"},
+            {jpath:"$.items[*].snippet.description",type:"text"},
+            {jpath:"$.items[*].snippet.publishedAt",type:"timeString"},
+            {jpath:"$.items[*].snippet.channelId",type:"id"},
+            
+            {jpath:"$.items[*].snippet.channelTitle",type:"text"},
+            
+            {jpath:"$.items[*].snippet.tags",type:"text"},            
+            
+            {jpath:"$.items[*].snippet.categoryId",type:"id"},            
+            {jpath:"$.items[*].snippet.liveBroadcastContent",type:"text"},
+            {jpath:"$.items[*].snippet.localized.title",type:"text"},
+            {jpath:"$.items[*].snippet.localized.description",type:"text"},           
+            {jpath:"$.items[*].snippet.defaultAudioLanguage",type:"text"},
+            
+            
+            
+            {jpath:"$.items[*].contentDetails.duration",type:"text"},
+            {jpath:"$.items[*].contentDetails.dimension",type:"text"},
+            {jpath:"$.items[*].contentDetails.definition",type:"text"},
+            {jpath:"$.items[*].contentDetails.caption",type:"text"},
+            {jpath:"$.items[*].contentDetails.licensedContent",type:"text"},
+            {jpath:"$.items[*].contentDetails.projection",type:"text"},
+            
+            {jpath:"$.items[*].statistics.viewCount",type:"text"},
+            {jpath:"$.items[*].statistics.likeCount",type:"text"},
+            {jpath:"$.items[*].statistics.dislikeCount",type:"text"},
+            {jpath:"$.items[*].statistics.favoriteCount",type:"text"},
+            {jpath:"$.items[*].statistics.commentCount",type:"text"}
+        ],
 		response_type: "json",
-		verifyResponse(response) {
-			return new Promise((resolve, reject) => {
-				if (response.status != 200) {
-					reject("Token validation error");
-				}
-				response.json().then((json) => {					
-					resolve(json);
-				});
-			});
-		}
 	}
 ];
 

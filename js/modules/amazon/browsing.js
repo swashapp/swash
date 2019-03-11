@@ -23,7 +23,11 @@ Amazon.browsing = [
                         key: "url",
                         name: "url"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"},				
+					{jpath:"$.url",type:"url"}				                    
+				]                
             },
             {
                 method: "GET",
@@ -40,7 +44,12 @@ Amazon.browsing = [
                         key: "url",
                         name: "url"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"},				
+					{jpath:"$.url",type:"url"}				                    
+				]
+                
             },
             {
                 method: "GET",
@@ -57,7 +66,12 @@ Amazon.browsing = [
                         key: "i",
                         name: "url"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"},				
+					{jpath:"$.url",type:"url"}				                    
+				]
+                
             }
         ]
     },

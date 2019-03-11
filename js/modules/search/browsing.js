@@ -11,39 +11,47 @@ Search.browsing = [
         description: "",
         filter: {urls: ["*://www.bing.com/*"]},		
         patterns: [
-        {
-            method: "GET",
-            url_pattern: "https:\\/\\/www\\.bing\\.com\\/(([^\\/\\?\\;]*)\\/search)\\?.*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "q",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 2,
-                    name: "category"
-                }
-            ]
-        },{
-            method: "GET",
-            url_pattern: "https:\\/\\/www\\.bing\\.com\\/(shop|maps|search)\\?.*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "q",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 1,
-                    name: "category"
-                }
-            ]
-        }
+            {
+                method: "GET",
+                url_pattern: "https:\\/\\/www\\.bing\\.com\\/(([^\\/\\?\\;]*)\\/search)\\?.*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 2,
+                        name: "category"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]           
+            },{
+                method: "GET",
+                url_pattern: "https:\\/\\/www\\.bing\\.com\\/(shop|maps|search)\\?.*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 1,
+                        name: "category"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },{
         name: "Yahoo",
@@ -52,24 +60,28 @@ Search.browsing = [
         description: "",
         filter: {urls: ["*://*.yahoo.com/*"]},		
         patterns: [
-        {
-            method: "GET",
-            url_pattern: "https:\\/\\/((.*)\\.)?search\\.yahoo\\.com\\/search.*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "p",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 2,
-                    name: "category",
-                    default: "web"
-                }
-            ]
-        }
+            {
+                method: "GET",
+                url_pattern: "https:\\/\\/((.*)\\.)?search\\.yahoo\\.com\\/search.*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "p",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 2,
+                        name: "category",
+                        default: "web"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },{
         name: "Google",
@@ -78,24 +90,28 @@ Search.browsing = [
         description: "",
         filter: {urls: ["*://www.google.com/search?*"]},		
         patterns: [
-        {
-            method: "GET",
-            url_pattern: "*://www.google.com/search?*",
-            pattern_type: "wildcard",
-            param: [
-                {
-                    type: "query",
-                    key: "q",
-                    name: "query"
-                },
-                {
-                    type: "query",
-                    key: "tbm",
-                    name: "category",
-                    default: "web"
-                }
-            ]
-        }
+            {
+                method: "GET",
+                url_pattern: "*://www.google.com/search?*",
+                pattern_type: "wildcard",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "query",
+                        key: "tbm",
+                        name: "category",
+                        default: "web"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },{
         name: "AOL",
@@ -104,23 +120,27 @@ Search.browsing = [
         description: "",
         filter: {urls: ["*://search.aol.com/aol/*"]},		
         patterns: [
-        {
-            method: "GET",
-            url_pattern: "https:\\/\\/search\\.aol\\.com\\/aol\\/([^\\/\\?\\;]*)[\\?|\\;].*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "q",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 1,
-                    name: "category"
-                }
-            ]
-        }
+            {
+                method: "GET",
+                url_pattern: "https:\\/\\/search\\.aol\\.com\\/aol\\/([^\\/\\?\\;]*)[\\?|\\;].*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 1,
+                        name: "category"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },{
         name: "Ask",
@@ -129,23 +149,27 @@ Search.browsing = [
         description: "",
         filter: {urls: ["*://www.ask.com/*"]},		
         patterns: [
-        {
-            method: "GET",
-            url_pattern: "https:\\/\\/www\\.ask\\.com\\/(web|youtube)\\?.*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "q",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 1,
-                    name: "category"
-                }
-            ]
-        }
+            {
+                method: "GET",
+                url_pattern: "https:\\/\\/www\\.ask\\.com\\/(web|youtube)\\?.*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 1,
+                        name: "category"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },{
         name: "Baidu",
@@ -154,33 +178,37 @@ Search.browsing = [
         description: "",
 		filter: {urls: ["*://*.baidu.com/*"]},		
         patterns: [
-        {
-            method: "GET",        
-            url_pattern: "http[s]?:\\/\\/(.*)\\.baidu\\.com\\/([sfqim]\\?|sf\\/|search).*",
-            pattern_type: "regex",
-            param: [
-                {
-                    type: "query",
-                    key: "wd",
-                    name: "query"
-                },
-                {
-                    type: "query",
-                    key: "kw",
-                    name: "query"
-                },
-                {
-                    type: "query",
-                    key: "word",
-                    name: "query"
-                },
-                {
-                    type: "regex",
-                    group: 1,
-                    name: "category"
-                }
-            ]
-        }
+            {
+                method: "GET",        
+                url_pattern: "http[s]?:\\/\\/(.*)\\.baidu\\.com\\/([sfqim]\\?|sf\\/|search).*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "wd",
+                        name: "query"
+                    },
+                    {
+                        type: "query",
+                        key: "kw",
+                        name: "query"
+                    },
+                    {
+                        type: "query",
+                        key: "word",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 1,
+                        name: "category"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            }
         ]
     },
 ];

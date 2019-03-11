@@ -78,6 +78,11 @@ function public_callback(data, moduleName, event){
         }else{
             obj = selector(x.selector);
         }
+        
+        if(HTMLCollection.prototype.isPrototypeOf(obj))
+            obj = obj[0];
+        if(NodeList.prototype.isPrototypeOf(obj))
+            obj = obj[0];
         if(obj != null){
 			switch(x.property){
 				case "innerHTML":
