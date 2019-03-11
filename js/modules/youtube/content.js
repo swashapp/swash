@@ -21,14 +21,14 @@ Youtube.content = [
 //        ]
 //    },
     {
-        name: "",
+        name: "Video Time Duration",
         description: "",
         title: "video time duration",
         is_enabled: true,
         events: [
             {
                 selector: "",   // window
-                event_name: "unload"
+                event_name: "beforeunload"
             }
         ],
         objects: [

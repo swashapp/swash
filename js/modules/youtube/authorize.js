@@ -24,7 +24,7 @@ Youtube.validate_token = {
     token_param_name:"key",
     content_type: "application/x-www-form-urlencoded",
     response_type: "json",
-    required_jpath:"$.data.user_id",
+    required_jpath:"$.expires_in",
 }
 /*
 function extractAccessToken(redirectUri) {

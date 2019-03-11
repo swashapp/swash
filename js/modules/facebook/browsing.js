@@ -18,7 +18,10 @@ Facebook.browsing = [
                         key: "q",
                         name: "query"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"}				
+				]                
             },{
                 method: "GET",
                 url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/str\\/([^\\/]*)\\/.*",
@@ -29,7 +32,10 @@ Facebook.browsing = [
                         group: 1,
                         name: "query"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"}				
+				]                
             },{
                 method: "GET",
                 url_pattern: "^https:\\/\\/www.facebook.com\\/typeahead\\/search\\/facebar\\/query\\/.*",
@@ -40,7 +46,10 @@ Facebook.browsing = [
                         key: "value",
                         name: "query"
                     }
-                ]    
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"}				
+				]                
             },{
                 method: "GET",
                 url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/browse\\/warm\\/requestargs\\/.*",
@@ -51,7 +60,10 @@ Facebook.browsing = [
                         key: "query",
                         name: "query"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"}				
+				]                
             },{
                 method: "GET",
                 url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/facebar_survey\\/.*",
@@ -62,7 +74,10 @@ Facebook.browsing = [
                         key: "query",
                         name: "query"
                     }
-                ]
+                ],
+				schems: [
+					{jpath:"$.query",type:"text"}				
+				]                
             }
         ]
     },

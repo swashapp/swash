@@ -1,6 +1,6 @@
 console.log("modules/twitter/browsing.js");
 import {Twitter} from './manifest.js';
-Twitter.browsing_filter = {urls: ["https://twitter.com/*"]};
+Twitter.browsing_filter = {urls: ["https://*.twitter.com/*"]};
 Twitter.browsing_extraInfoSpec= ["blocking"];
 
 Twitter.browsing = [
@@ -9,6 +9,7 @@ Twitter.browsing = [
         title: "Post a new tweet",
         is_enabled: true,        
         description: "",
+        extraInfoSpec: ["requestBody"],
         patterns: [
 			{
 				method: "POST",
@@ -70,6 +71,7 @@ Twitter.browsing = [
 		title: "Follow action",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
@@ -93,6 +95,7 @@ Twitter.browsing = [
 		title: "Unfollow action",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
@@ -116,6 +119,7 @@ Twitter.browsing = [
 		title: "Mute action",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
@@ -139,6 +143,7 @@ Twitter.browsing = [
 		title: "Unmute action",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
@@ -162,6 +167,7 @@ Twitter.browsing = [
 		title: "Like action",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
@@ -185,6 +191,7 @@ Twitter.browsing = [
 		title: "Retweet",
         is_enabled: true,
 		description: "",
+        extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
 				method: "POST",
