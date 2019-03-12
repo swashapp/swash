@@ -35,17 +35,20 @@ Youtube.content = [
             {
                 selector:".ytp-time-duration",
                 property: "innerHTML",
-                name: "duration"
+                name: "duration",
+				type: "text"
             },
             {
                 selector:".ytp-time-current",
                 property: "innerHTML",
-                name: "current"
+                name: "current",
+				type: "text"
             },
             {
                 selector:"title",
                 property: "innerHTML",
-                name: "page_title"
+                name: "page_title",
+				type: "text"
             }
         ]
     },

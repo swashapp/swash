@@ -73,36 +73,25 @@ function public_callback(data, moduleName, event){
 
     data.objects.forEach(x=>{
         var obj = null;
-        if(x.selector == ""){
-            obj = event.currentTarget;
-        }else{
-            obj = selector(x.selector);
-        }
-        
+		switch(x.selector) {
+			case "":
+				obj = event.currentTarget;
+				break;
+			case ".":
+				obj = event;
+				break;
+			default:
+				obj = selector(x.selector);
+				break;
+		}
         if(HTMLCollection.prototype.isPrototypeOf(obj))
             obj = obj[0];
         if(NodeList.prototype.isPrototypeOf(obj))
             obj = obj[0];
         if(obj != null){
-			switch(x.property){
-				case "innerHTML":
-				    message.params[0].data.out[x.name] = obj.innerHTML;
-                    message.params[0].data.schems.push({jpath:"$." + x.name,type:"text"});
-					break;
-				case "href":
-				    message.params[0].data.out[x.name] = obj.href;
-                    message.params[0].data.schems.push({jpath:"$." + x.name,type:"url"});
-					break;
-				case "innerText":
-				    message.params[0].data.out[x.name] = obj.innerText;
-                    message.params[0].data.schems.push({jpath:"$." + x.name,type:"text"});
-					break;
-				case "text":
-				    message.params[0].data.out[x.name] = obj.text;
-                    message.params[0].data.schems.push({jpath:"$." + x.name,type:"text"});
-					break;
-			}
-		}
+			message.params[0].data.out[x.name] = obj[x.property];
+			message.params[0].data.schems.push({jpath:"$." + x.name,type:x.type});
+		}			
     });
 	if(!isEmpty(message.params[0].data.out))
 		send_msg(message);

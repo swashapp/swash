@@ -311,7 +311,7 @@ var Browsing = (function() {
                     header:{
                         function: "browsing",
                         module: module.name,
-                        collector: "Create Bookmark"                                
+                        collector: local_data.name                               
                     },
                     data: {
                         out: {
