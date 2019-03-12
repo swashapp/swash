@@ -8,7 +8,9 @@ var Browsing = (function() {
     
     var callbacks = {};
     
-    
+    function inspectStatusCode(moduleName, data, requestDetails) {
+        
+    }
     function inspectReferrer(moduleName, data, requestDetails) {
         //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
@@ -174,28 +176,43 @@ var Browsing = (function() {
 
 	
 	function load_collector(module, data) {
-		if(!data.hook || data.hook == "webrequest"){
-			hook_webrequest(module,data)
-		}
-		if(data.hook && data.hook == "bookmarks"){
-			hook_bookmarks(module,data)
-		}
+        data.hook = data.hook?data.hook:"webRequest";
+        switch(data.hook) {
+            case "webRequest":
+                hook_webrequest(module,data)
+                break;
+            case "bookmarks":
+                hook_bookmarks(module,data)
+                break;
+            case "response":
+                hook_response(module,data)
+                break;
+        };
+                           
 	}
 
 	function unload_collector(module, data) {
-		if(!data.hook || data.hook == "webrequest"){
-			if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
-				browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
-			}
-		}
-		if(data.hook && data.hook == "bookmarks"){
-			if(browser.bookmarks.onCreated.hasListener(inspectBookmark)){
-				browser.bookmarks.onCreated.removeListener(inspectBookmark);
-			}
-			if(browser.bookmarks.onChanged.hasListener(inspectOnChangeBookmark)){
-				browser.bookmarks.onChanged.removeListener(inspectOnChangeBookmark);
-			}
-		}
+        data.hook = data.hook?data.hook:"webRequest";
+        switch(data.hook) {
+            case "webRequest":
+                if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
+                    browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
+                }
+                break;
+            case "bookmarks":
+                if(browser.bookmarks.onCreated.hasListener(inspectBookmark)){
+                    browser.bookmarks.onCreated.removeListener(inspectBookmark);
+                }
+                if(browser.bookmarks.onChanged.hasListener(inspectOnChangeBookmark)){
+                    browser.bookmarks.onChanged.removeListener(inspectOnChangeBookmark);
+                }
+                break;
+            case "response":
+                if(browser.webRequest.onHeadersReceived.hasListener(inspectResponse)){
+                    browser.webRequest.onHeadersReceived.removeListener(inspectResponse);
+                }        
+                break;            
+        }
 	}    
 	
 
@@ -276,6 +293,44 @@ var Browsing = (function() {
 		
     }
     
+    function hook_response(module,data) {
+        
+        var inspectResponse = function(details){
+            let local_data = data;
+            let matched = false;
+            for(let pattern of local_data.pattern)
+            {
+                if(details.statusCode == pattern.statusCode) {
+                    matched = true;
+                    break;
+                }
+            }
+            if(matched) {
+                DataHandler.handle({
+                    origin: details.url,
+                    header:{
+                        function: "browsing",
+                        module: module.name,
+                        collector: "Create Bookmark"                                
+                    },
+                    data: {
+                        out: {
+                            statusCode: details.statusCode,
+                            url: details.url
+                        },
+                        schems: [					
+                            {jpath: "$.statusCode", type: "text"},
+                            {jpath: "$.url", type: "url"},
+                        ]
+                    }
+                });                
+            }
+        }
+        if(!browser.webRequest.onHeadersReceived.hasListener(inspectResponse)){
+            let filter = data.filter?data.filter:module.browsing_filter
+            browser.webRequest.onHeadersReceived.addListener(inspectResponse, filter);
+        }        
+    }
     
     return {
         load: load,
