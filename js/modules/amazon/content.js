@@ -17,17 +17,20 @@ Amazon.content = [
             {
                 selector:"",
                 property: "innerHTML",
-                name: "text"
+                name: "text",
+				type: "text"
             },
             {
                 selector:"",
                 property: "href",
-                name: "url"
+                name: "url",
+				type: "url"
             },
             {
                 selector:"#title",
                 property: "innerText",
-                name: "page_title"
+                name: "page_title",
+				type: "text"
             }
         ]
     },
@@ -47,17 +50,21 @@ Amazon.content = [
             {
                 selector:"#productTitle",
                 property: "innerText",
-                name: "title"
+                name: "title",
+				type: "text"
+				
             },
             {
                 selector:"#searchDropdownBox option:selected",
                 property: "text",
-                name: "category"
+                name: "category",
+				type: "text"
             },
             {
                 selector:"#title",
                 property: "innerText",
-                name: "page_title"
+                name: "page_title",
+				type: "text"
             }
         ]
     },
