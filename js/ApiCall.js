@@ -285,7 +285,7 @@ var ApiCall = (function() {
 			callbacks[module.name] = {interval: -1, apiCalls: []};
 			callbacks[module.name].interval = setInterval(function(x){
 				fetch_apis(module.name);
-			},240000);
+			},20000);
 		}
     }
     

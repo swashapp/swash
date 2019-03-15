@@ -16,7 +16,7 @@ var privacyUtils = (function() {
                 var path = urlObj.pathname.split("/");
                 for (let item in path) {
                     if(path[item]) {
-                        path[item] = sha256(path[item]).substring(0,path[item].length);
+                        path[item] = sha256(path[item] + salt).substring(0,path[item].length);
                     }
                 }
                 path = path.join("/");                
@@ -26,7 +26,7 @@ var privacyUtils = (function() {
                 var path = urlObj.pathname.split("/");
                 for (let item in path) {
                     if(path[item]) {
-                        path[item] = sha256(path[item] + salt).substring(0,path[item].length);
+                        path[item] = sha256(path[item] + mSalt).substring(0,path[item].length);
                     }
                 }
                 path = path.join("/");                
