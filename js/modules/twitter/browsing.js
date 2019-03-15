@@ -13,7 +13,8 @@ Twitter.browsing = [
         patterns: [
 			{
 				method: "POST",
-				url_pattern: "https://twitter.com/i/tweet/create",
+				url_pattern: "https://api.twitter.com/1.1/statuses/update.json",
+				//url_pattern: "https://twitter.com/i/tweet/create",
 				pattern_type: "exact",
 				param: [
 					{

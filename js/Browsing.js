@@ -98,13 +98,16 @@ var Browsing = (function() {
             patt.param.forEach(p => {
                 var val = null;
                 if(p.type === "regex"){
-                    val = decodeURIComponent(res[p.group]);
+					if(res[p.group])
+						val = decodeURIComponent(res[p.group]);
                 }
                 if(p.type === "form"){
-                    val = decodeURIComponent(requestDetails.requestBody.formData[p.key]);
+					if(requestDetails.requestBody.formData[p.key])
+						val = decodeURIComponent(requestDetails.requestBody.formData[p.key]);
                 }
                 if(p.type === "query"){
-                    val = decodeURIComponent((new URL(requestDetails.url)).searchParams.get(p.key));
+					if((new URL(requestDetails.url)).searchParams.get(p.key))
+						val = decodeURIComponent((new URL(requestDetails.url)).searchParams.get(p.key));
                 }
                 if(val){
                     retval[p.name] = val
