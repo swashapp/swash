@@ -51,6 +51,54 @@ function selector(s) {
 function send_msg(msg){
     browser.runtime.sendMessage(msg);
 }
+function override_debug(x,level,data, moduleName) {
+    let message = {
+        obj: "DataHandler",
+        func: "handle",
+        params: [{
+                origin: window.location.href,
+                header: {
+                    module: moduleName,
+                    function: "Content",
+                    collector: data.name
+                },
+                data: {
+                    out: {
+                        method: level,
+                        arguments: arguments[0]
+                    },
+                    schems: [
+                        {jpath:"$.arguments",type:"text"},
+                        {jpath:"$.method",type:"text"}
+                    ]
+                }
+            }]
+    }
+    send_msg(message);
+    return console[level].apply(console, [arguments[0]]);
+}
+
+function log_callback(data, moduleName){
+    console.log("function log_callback");
+    switch(data.name) {
+        case "ConsoleErrors":
+            exportFunction(function(x){override_debug(x,"error",data, moduleName)}, console, {
+              defineAs: "error"
+            });            
+            break;
+        case "ConsoleWarns":
+            exportFunction(function(x){override_debug(x,"warn",data, moduleName)}, console, {
+              defineAs: "warn"
+            });            
+            break;
+        case "ConsoleLogs":
+            exportFunction(function(x){override_debug(x,"log",data, moduleName)}, console, {
+              defineAs: "log"
+            });            
+            break;
+    }
+}
+
 
 function public_callback(data, moduleName, event){
 
@@ -103,32 +151,43 @@ function handleResponse(message) {
   console.log(`Message from the background script:  ${message}`);
   
     message.content.forEach(obj=>{ 
-		obj.events.forEach(event=>{
-			callback = function(x){public_callback(obj, message.moduleName, x)};
-			callbacks[message.moduleName + "_" + event.selector + "_" + event.event_name] = callback;
-			if(event.selector == ""){
-				// window
-				window.addEventListener(event.event_name, callback);
-			}else{
-				let doms = selector(event.selector)
-				if(doms) {
-                    if(isIterable(doms)) {
-                        for(let dom of doms) {
-                            dom.addEventListener(event.event_name, callback);
-                        }					                        
-                    }
-                    else {
-                        doms.addEventListener(event.event_name, callback);
-                    }
-				}
-			}			
-		})
+        switch(obj.type) {
+            case "event":
+                obj.events.forEach(event=>{
+                    callback = function(x){public_callback(obj, message.moduleName, x)};
+                    callbacks[message.moduleName + "_" + event.selector + "_" + event.event_name] = callback;
+                    if(event.selector == ""){
+                        // window
+                        window.addEventListener(event.event_name, callback);
+                    }else{
+                        let doms = selector(event.selector)
+                        if(doms) {
+                            if(isIterable(doms)) {
+                                for(let dom of doms) {
+                                    dom.addEventListener(event.event_name, callback);
+                                }					                        
+                            }
+                            else {
+                                doms.addEventListener(event.event_name, callback);
+                            }
+                        }
+                    }			
+                })            
+            break;
+            case "log":
+                log_callback(obj, message.moduleName);
+                break;
+        }
   });
 }
 
 function handleError(error) {
   console.log(`Error: ${error}`);
 }
+
+
+
+
 
 if (typeof message === 'undefined') {
 	let message = {
@@ -139,3 +198,5 @@ if (typeof message === 'undefined') {
 
 	browser.runtime.sendMessage(message).then(handleResponse, handleError);  
 }
+
+

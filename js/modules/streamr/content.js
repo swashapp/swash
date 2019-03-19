@@ -6,6 +6,7 @@ Streamr.content = [
         name: "Errors",
         description: "",
         title: "Errors",
+        type: "event",
         is_enabled: true,
         events: [
             {
@@ -45,5 +46,26 @@ Streamr.content = [
 				type: "text"
             }			
         ]
+    },
+    {
+        name: "ConsoleErrors",
+        description: "",
+        title: "Console Errors",
+        type: "log",
+        is_enabled: true,
+    },
+    {
+        name: "ConsoleWarns",
+        description: "",
+        title: "Console Warnings",
+        type: "log",
+        is_enabled: true,
+    },
+    {
+        name: "ConsoleLogs",
+        description: "",
+        title: "Console Logs",
+        type: "log",
+        is_enabled: true,
     }
 ];
