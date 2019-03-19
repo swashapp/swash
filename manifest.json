@@ -32,6 +32,7 @@
   
   "homepage_url": "https://www.authsaz.com/",
   
+  "devtools_page": "devtools/devtools-page.html",
 
   "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management"],
   

@@ -6,6 +6,7 @@ Amazon.content = [
         name: "links",
         description: "",
         title: "Links clicked by user",
+        type: "event",        
         is_enabled: true,
         events: [
             {
@@ -38,6 +39,7 @@ Amazon.content = [
         name: "selectItem",
         description: "",
         title: "Items selected by user",
+        type: "event",        
         is_enabled: true,
         events: [
             {
@@ -72,6 +74,7 @@ Amazon.content = [
         name: "addToCart",
         description: "Items added to cart",
         title: "Items added to cart",
+        type: "event",        
         is_enabled: true,
         events: [
             {
@@ -105,6 +108,7 @@ Amazon.content = [
         name: "addToWishlist",
         description: "",
         title: "Items added to wishlist",
+        type: "event",        
         is_enabled: true,
         events: [
             {
@@ -138,6 +142,7 @@ Amazon.content = [
         name: "buyNow",
         description: "",
         title: "Items selected for buy",
+        type: "event",        
         is_enabled: true,
         events: [
             {
