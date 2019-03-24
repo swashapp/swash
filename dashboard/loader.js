@@ -67,6 +67,8 @@ var helper = (function() {
 		}
         return sendMessage(message);
     }
+	
+	
     function savePrivacyData(data){
 		let message = {
 			obj: "StorageHelper",
@@ -84,6 +86,16 @@ var helper = (function() {
 		}
         return sendMessage(message);		
     }
+
+    function saveModule(data){
+		let message = {
+			obj: "StorageHelper",
+			func: "storeData",
+			params: ["modules", data]
+		}
+        return sendMessage(message);		
+    }
+	
 	function saveConfigs(data){
 		let message = {
 			obj: "StorageHelper",
@@ -184,6 +196,7 @@ var helper = (function() {
 		savePrivacyData: savePrivacyData,
 		loadPrivacyData: loadPrivacyData,
 		loadMessages: loadMessages,
-		cancelSending: cancelSending
+		cancelSending: cancelSending,
+		saveModule: saveModule
     };
 }());

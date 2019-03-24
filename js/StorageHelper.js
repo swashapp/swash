@@ -11,7 +11,7 @@ var StorageHelper = (function() {
     function updateProfile(info){
         storeData("profile",info)
     }
-    
+
     function retrieveFilters() {
         return retrieveData("filters");
     }

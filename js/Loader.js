@@ -3,6 +3,7 @@ import {StorageHelper} from './StorageHelper.js';
 import {Browsing} from './Browsing.js';
 import {Content} from './Content.js';
 import {ApiCall} from './ApiCall.js';
+import {Survey} from './Survey.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
@@ -46,15 +47,6 @@ var Loader = (function() {
         });
         
     }
-    function registerContentScripts(tabId, changeInfo, tabInfo) {
-        console.log(tabId, changeInfo, tabInfo);        
-        if(changeInfo.status == "loading")
-            browser.tabs.executeScript(tabId, {
-              file: "/js/content_script.js",
-              allFrames: false,
-              runAt: "document_end"
-            })
-    }
 	
 	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
 		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
@@ -89,7 +81,8 @@ var Loader = (function() {
 			init(true);
 			Content.load();
 			Browsing.load();
-			ApiCall.load();			
+			ApiCall.load();	
+			Survey.load();
 		})	
     }
     
@@ -102,6 +95,7 @@ var Loader = (function() {
 			Content.unload();
 			Browsing.unload();
 			ApiCall.unload();
+			Survey.unload();
 		})
     }
 
@@ -113,13 +107,15 @@ var Loader = (function() {
     function load_module(module) {
 		Content.load_module(module);
 		Browsing.load_module(module);
-		ApiCall.load_module(module);		
+		ApiCall.load_module(module);
+		Survey.load_module(module);
 	}
 	
     function unload_module(module) {
 		Content.unload_module(module);
 		Browsing.unload_module(module);
-		ApiCall.unload_module(module);		
+		ApiCall.unload_module(module);
+		Survey.unload_module(module);
 	}
 	
 	function load() {
@@ -128,13 +124,15 @@ var Loader = (function() {
 				init(true);
 				Content.load();
 				Browsing.load();
-				ApiCall.load();				
+				ApiCall.load();
+				Survey.load();
 			} 
 			else {
 				init(false);
 				Content.unload();
 				Browsing.unload();
 				ApiCall.unload();								
+				Survey.unload();
 			}			
 		})		
 	}
