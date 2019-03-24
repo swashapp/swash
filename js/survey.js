@@ -1,174 +1,108 @@
-var css = `#xxx-bt{
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
-  padding: 10px;
-  background: #a7a7a7;
-  border : 1px solid black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.xxx-modal-wr{
-  display: none;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  background-color: rgba(136, 136, 136, 0.31);
-  bottom: 0;
-  text-align: center;
-  left: 0;
-  right: 0;
-}
-.xxx-modal{
-  width: 60%;
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.35);
-  border-radius: 3px;
-  margin: 5vh auto;
-}
-.xxx-modal-header{
-  padding: 10px 0;
-  width: 100%;
-  position: relative;
-  border-bottom: 1px solid;
-}
-.xxx-times{
-  padding: 5px;
-  position: absolute;
-  left: 10px;
-  top: 5px;
-  cursor: pointer;
-}
-.xxx-times:hover{
-  color: red;
-}
-.xxx-inputs {
-  width: 100%;
-  padding: 10px 0;
-  display: block;
+console.log("Survey.js");
+import {StorageHelper} from './StorageHelper.js';
+import {Utils} from './Utils.js';
+import {DataHandler} from './DataHandler.js';
+import {filterUtils} from './filterUtils.js';
 
-}
-.xxx-inputs input{
-  outline: none;
-  border: none;
-  text-align: center;
-  width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
-}
+var Survey = (function() {
+    'use strict';
+    
+	var cfilter = {urls: [], properties: ["status"]};            
+    
+    function unload(){        
+		if(browser.tabs.onUpdated.hasListener(registerSurveyScripts))
+			browser.tabs.onUpdated.removeListener(registerSurveyScripts);
+    }
 
-.im-100{
-  width: 80%;
-  position: relative;
-  padding: 10px 10% 0 10%;
-}
-.xxx-inputs label {
-  position: absolute;
-  left: 10%;
-  transition: top .1s;
-  pointer-events: none;
-  top: 17px;
-}
-.xxx-inputs input:focus ~ label,.xxx-inputs input:valid ~ label{
-  top: 0;
-}
-.xxx-modal-footer{
-  width: 100%;
-  min-height: 50px;
-  border-top:1px solid rgba(0, 0, 0, 0.35);
-}
-.xxx-inputs select {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.35);;
-  border-radius: 0;
-  -webkit-appearance: none;
-  text-align: right;
-  align-items: center;
-  outline: none;
-  text-align-last: center;
-  padding-right: 29px;
+    function load(){        
+        StorageHelper.retrieveModules().then(modules => {
+            for (var module in modules) {
+				if(modules[module].is_enabled)
+					load_module(modules[module]);
+            }        
+        });
+    }
+    
+    function unload_module(module){
+		function arrayRemove(arr, value) {
+		   return arr.filter(function(ele){
+			   return ele != value;
+		   });
+		}
+		if(module.functions.includes("survey")){
+			for(var item of module.survey_matches) {
+				cfilter.urls = arrayRemove(cfilter.urls,item);
+			}
+	        if(browser.tabs.onUpdated.hasListener(registerSurveyScripts))
+				browser.tabs.onUpdated.removeListener(registerSurveyScripts);  
+            if(cfilter.urls.length > 0) 			
+				browser.tabs.onUpdated.addListener(registerSurveyScripts, cfilter);            
+		}
+    }
 
-  /*direction: rtl;*/
-}
-.xxx-btX{
-  width: 150px;
-  margin: 5px auto;
-  padding: 7px;
-  background-color: #4caf50;
-  border-radius: 15px;
-  color: white;
-  cursor: pointer;
-}
-.xxx-btX:hover{
-  background-color: #1b5e20;
-}
-`;
-var inputs = `<div class="im-100">
-                 <div class="xxx-inputs">
-                    <select required >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-</select>
-                    <label>Select Option</label>
-                 </div>
-              </div>
-              
-              <div class="im-100">
-                 <div class="xxx-inputs">
-                    <input required type="text">
-                    <label>Share a few words ...</label>
-                 </div>
-              </div>
+    function load_module(module){
+		if(module.functions.includes("survey")){
+			for(var item of module.survey_matches) {
+				cfilter.urls.push(item);
+			}
+	        if(browser.tabs.onUpdated.hasListener(registerSurveyScripts))
+				browser.tabs.onUpdated.removeListener(registerSurveyScripts);  
+            if(cfilter.urls.length > 0) 			
+				browser.tabs.onUpdated.addListener(registerSurveyScripts, cfilter);            
+		}
 
-`;
-var btX = '<div class="xxx-btX">Send</div>'
-function showButton() {
-  var bt = document.createElement('div');
-  bt.className = 'xxx-bt';
-  bt.id = 'xxx-bt';
-  bt.innerHTML = 'Survey';
-  var body = document.getElementsByTagName('body')[0];
-  var xsk = document.createElement('style');
-  xsk.innerHTML=css;
-  body.append(bt);
-  body.append(xsk);
-  bt.onclick = showModal;
-  var modalWr = document.createElement('div');
-  modalWr.className = 'xxx-modal-wr';
-  modalWr.id = 'xxx-modal-wr';
-  var modal = document.createElement('div');
-  modal.className = 'xxx-modal';
-  modal.id = 'xxx-modal';
-  var modalHeader = document.createElement('div');
-  modalHeader.className = 'xxx-modal-header';
-  modalHeader.innerHTML = 'Take Survey';
-  var times = document.createElement('span');
-  times.className = 'xxx-times';
-  times.innerHTML = 'X';
-  times.onclick = closeModal;
-  modalHeader.appendChild(times);
-  modal.appendChild(modalHeader);
-  var modalBody = document.createElement('div');
-  modalBody.className = 'xxx-modal-body';
-  modalBody.innerHTML = inputs;
-  modal.appendChild(modalBody);
-  var modalFooter = document.createElement('div');
-  modalFooter.className = 'xxx-modal-footer';
-  modalFooter.innerHTML = btX;
-  modal.appendChild(modalFooter);
-  modalWr.appendChild(modal);
-  body.appendChild(modalWr);
-}
+    }
+	
 
-showButton();
+	function registerSurveyScripts(tabId, changeInfo, tabInfo) {
+		console.log(tabId, changeInfo, tabInfo);        
+		if(changeInfo.status == "loading") {
+			
+			browser.tabs.executeScript(tabId, {
+			  file: "/lib/jquery.js",
+			  allFrames: false,
+			  runAt: "document_end"
+			}).then(result => {
+				browser.tabs.executeScript(tabId, {
+				  file: "/lib/survey.jquery.min.js",
+				  allFrames: false,
+				  runAt: "document_end"
+				}).then(result => {
+					browser.tabs.executeScript(tabId, {
+					  file: "/js/survey_script.js",
+					  allFrames: false,
+					  runAt: "document_end"
+					})
+				}).then(result => {
+					browser.tabs.insertCSS(tabId, {
+					  file: "/survey/css/survey.min.css"
+					  })
+				})
+			})
+		}
+	}
 
-function showModal() {
-  document.getElementById('xxx-modal-wr').style.display = 'block'
-}
-
-function closeModal() {
-  document.getElementById('xxx-modal-wr').style.display = 'none'
-
-}
+	async function injectSurvey(url) {
+        var modules = await StorageHelper.retrieveModules();
+		for (var module in modules) {
+			if(modules[module].functions.includes("survey")){			
+				if(modules[module].is_enabled)
+					for(var item of modules[module].survey_matches) {
+						if(Utils.wildcard(url, item)) {
+							let survey = modules[module].survey;							
+							return {moduleName: modules[module].name, survey: survey};
+						}							
+					}
+			}
+		}    
+		return;	
+	}
+    return {
+        load: load,
+        unload: unload,
+        unload_module: unload_module,
+        load_module: load_module,
+		injectSurvey: injectSurvey
+    };
+}());
+export {Survey};

@@ -6,6 +6,7 @@ import {StorageHelper} from './StorageHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './ApiCall.js';
 import {Content} from './Content.js';
+import {Survey} from './Survey.js';
 import {pushStream} from './push.js';
 
 /* ***
@@ -32,7 +33,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		Loader: Loader,
 		Content: Content,
         DataHandler: DataHandler,
-        pushStream: pushStream
+        pushStream: pushStream,
+		Survey: Survey
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

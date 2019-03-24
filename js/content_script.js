@@ -148,7 +148,7 @@ function public_callback(data, moduleName, event){
 
 
 function handleResponse(message) {
-  console.log(`Message from the background script:  ${message}`);
+  console.log(`Message from the background script:  ${JSON.stringify(message)}`);
   
     message.content.forEach(obj=>{ 
         switch(obj.type) {
