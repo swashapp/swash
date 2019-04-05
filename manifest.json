@@ -15,7 +15,7 @@
       "19": "icons/surf19.png",
       "38": "icons/surf38.png"
     },
-    "default_title": "Data Streamr",
+    "default_title": "Surf Streamr",
     "default_popup": "popup/popup.html"
   },
  
@@ -28,7 +28,7 @@
 
   "manifest_version": 2,
 
-  "name": "Data Streamr",
+  "name": "Surf Streamr",
   
   "homepage_url": "https://www.authsaz.com/",
   

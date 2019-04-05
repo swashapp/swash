@@ -1,11 +1,12 @@
 console.log("modules/surfing/browsing.js");
 import {Surfing} from './manifest.js';
 Surfing.browsing_filter = {urls: ["<all_urls>"]};
-Surfing.browsing_extraInfoSpec= ["blocking"];
+Surfing.browsing_extraInfoSpec= [];
 Surfing.browsing = [
     {
         name: "Page Visit",
         title: "Page visits",
+		viewGroup: "UX",
         is_enabled: true,        
         description: "",
         target_listener: "inspectVisit"
@@ -13,6 +14,7 @@ Surfing.browsing = [
     {
         name: "Visiting Graph",
         title: "User experiense",
+		viewGroup: "UX",
         is_enabled: true,
         description: "",
         target_listener: "inspectReferrer"
@@ -20,6 +22,7 @@ Surfing.browsing = [
     {
         name: "New Bookmark",
         title: "Create Bookmark",
+		viewGroup: "UX",
         is_enabled: true,
         description: "",
         hook: "bookmarks"

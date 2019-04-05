@@ -5,6 +5,7 @@ Amazon.content = [
     {
         name: "links",
         description: "",
+		viewGroup: "UX",
         title: "Links clicked by user",
         type: "event",        
         is_enabled: true,
@@ -38,6 +39,7 @@ Amazon.content = [
     {
         name: "selectItem",
         description: "",
+		viewGroup: "UX",
         title: "Items selected by user",
         type: "event",        
         is_enabled: true,
@@ -73,6 +75,7 @@ Amazon.content = [
     {
         name: "addToCart",
         description: "Items added to cart",
+		viewGroup: "UX",
         title: "Items added to cart",
         type: "event",        
         is_enabled: true,
@@ -107,6 +110,7 @@ Amazon.content = [
     {
         name: "addToWishlist",
         description: "",
+		viewGroup: "UX",
         title: "Items added to wishlist",
         type: "event",        
         is_enabled: true,
@@ -141,6 +145,7 @@ Amazon.content = [
     {
         name: "buyNow",
         description: "",
+		viewGroup: "UX",
         title: "Items selected for buy",
         type: "event",        
         is_enabled: true,

@@ -1,11 +1,12 @@
 console.log("modules/streamr/browsing.js");
 import {Streamr} from './manifest.js';
 Streamr.browsing_filter = {urls: ["https://*.streamr.com/*"]};
-Streamr.browsing_extraInfoSpec= ["blocking"];
+Streamr.browsing_extraInfoSpec= [];
 Streamr.browsing = [
     {
         name: "PageNotFound",
         title: "Page Not Found",
+		viewGroup: "Debug",
         hook: "response",
         description: "", 
         pattern: [
@@ -18,6 +19,7 @@ Streamr.browsing = [
     {
         name: "InternalSeverError",
         title: "Internal Server Error",
+		viewGroup: "Debug",
         hook: "response",
         description: "",
         pattern: [

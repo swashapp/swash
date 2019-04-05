@@ -9,6 +9,12 @@ var Surfing = (function() {
         path: "/surfing",
         URL: ["https://authsaz"],
         functions: ["browsing"],
+		viewGroups: [
+			{
+				name: "UX",
+				title: "User Experience"
+			}
+		],
         is_enabled: true,
         privacy_level: 3,
         status: "enabled",
@@ -16,7 +22,7 @@ var Surfing = (function() {
         version: 1,
         changelog: [],
 		style: {mainColor:"4285F4", fontColor:"fff"},
-		type: "native",
+		type: "builtin",
 		is_verified: false		
 
     };

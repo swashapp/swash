@@ -32,8 +32,8 @@ var StorageHelper = (function() {
         storeData("modules",info)
     }
     
-    function removeModules(moduleName){
-        var info = retrieveData("modules");
+    async function removeModule(moduleName){
+        var info = await retrieveData("modules");
         delete info[moduleName]
         browser.storage.sync.set({modules:info});
     }
@@ -112,7 +112,8 @@ var StorageHelper = (function() {
 		storeData: storeData,
         saveMessage: saveMessage,
 		removeMessage: removeMessage,
-        retrieveMessages: retrieveMessages
+        retrieveMessages: retrieveMessages,
+		removeModule: removeModule
         
         
     };

@@ -4,6 +4,7 @@ Streamr.survey_matches = ["*://*.streamr.com/*"];
 Streamr.survey = {
 	name: "UX Survey",
 	title: "UX Survey",
+	viewGroup: "Survey",
 	is_enabled: true,
 	pages: [
 		{

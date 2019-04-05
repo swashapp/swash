@@ -1,12 +1,13 @@
 console.log("modules/facebook/browsing.js");
 import {Facebook} from './manifest.js';
 Facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
-Facebook.browsing_extraInfoSpec= ["blocking"];
+Facebook.browsing_extraInfoSpec= [];
 Facebook.browsing = [
     {
         name: "Search",
         title: "Facebook Search",
         description: "",
+		viewGroup: "UX",
         patterns: [
             {
                 method: "GET",
@@ -84,12 +85,14 @@ Facebook.browsing = [
     {
         name: "Page Visit",
         title: "Links clicked by user",
+		viewGroup: "UX",
         is_enabled: true,
         target_listener: "inspectVisit"
     },
     {
         name: "Visiting Graph",
-        title: "User experience",
+        title: "Visiting Graph",
+		viewGroup: "UX",
         is_enabled: true,        
         target_listener: "inspectReferrer"
     }

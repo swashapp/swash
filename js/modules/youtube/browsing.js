@@ -1,11 +1,12 @@
 console.log("modules/youtube/browsing.js");
 import {Youtube} from './manifest.js';
 Youtube.browsing_filter = {urls: ["https://www.youtube.com/*"]};
-Youtube.browsing_extraInfoSpec= ["blocking"];
+Youtube.browsing_extraInfoSpec= [];
 Youtube.browsing = [
     {
         name: "Page Action",
         title: "Page actions",
+		viewGroup: "UX",
         is_enabled: true,
         description: "",
         extraInfoSpec: ["requestBody"],        
@@ -36,6 +37,7 @@ Youtube.browsing = [
     {
         name: "Search",
         title: "Youtube Search",
+		viewGroup: "UX",
         is_enabled: true,        
         description: "",
         patterns: [

@@ -1,12 +1,13 @@
 console.log("modules/twitter/browsing.js");
 import {Twitter} from './manifest.js';
 Twitter.browsing_filter = {urls: ["https://*.twitter.com/*"]};
-Twitter.browsing_extraInfoSpec= ["blocking"];
+Twitter.browsing_extraInfoSpec= [];
 
 Twitter.browsing = [
     {
         name: "Post Tweet",
         title: "Post a new tweet",
+		viewGroup: "UX",
         is_enabled: true,        
         description: "",
         extraInfoSpec: ["requestBody"],
@@ -32,6 +33,7 @@ Twitter.browsing = [
 	{
 		name: "Search",
 		title: "Twitter Search",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
 		patterns: [
@@ -70,6 +72,7 @@ Twitter.browsing = [
 	{
 		name: "Follow",
 		title: "Follow action",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -94,6 +97,7 @@ Twitter.browsing = [
 	{
 		name: "Unfollow",
 		title: "Unfollow action",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -118,6 +122,7 @@ Twitter.browsing = [
 	{
 		name: "Mute",
 		title: "Mute action",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -142,6 +147,7 @@ Twitter.browsing = [
 	{
 		name: "Unmute",
 		title: "Unmute action",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -166,6 +172,7 @@ Twitter.browsing = [
 	{
 		name: "Like",
 		title: "Like action",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -190,6 +197,7 @@ Twitter.browsing = [
 	{
 		name: "Retweet",
 		title: "Retweet",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
         extraInfoSpec: ["requestBody"],
@@ -214,6 +222,7 @@ Twitter.browsing = [
 	{
 		name: "Visit",
 		title: "Visit User page",
+		viewGroup: "UX",
         is_enabled: true,
 		description: "",
 		patterns: [
@@ -237,12 +246,14 @@ Twitter.browsing = [
 	{
 		name: "Page Visit",
         title: "visited pages",
+		viewGroup: "UX",
         is_enabled: true,
 		target_listener: "inspectVisit"
 	},
 	{
 		name: "Visiting Graph",
-        title: "User experience",
+        title: "Visiting Graph",
+		viewGroup: "UX",
         is_enabled: true,
 		target_listener: "inspectReferrer"
 	}

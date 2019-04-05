@@ -24,6 +24,7 @@ Youtube.content = [
         name: "Video Time Duration",
         description: "",
         title: "video time duration",
+		viewGroup: "UX",
         type: "event",        
         is_enabled: true,
         events: [
