@@ -8,6 +8,12 @@ var Amazon = (function() {
         description: "This module look through all the user activities on amazon and capture those activities that user have permitted",
         path: "/amazon",
         functions: ["browsing", "content"],
+		viewGroups: [
+			{
+				name: "UX",
+				title: "User Experience"
+			}
+		],
         is_enabled: true,
         URL: ["https://www.amazon.com/"],
         privacy_level: 3,
@@ -16,7 +22,7 @@ var Amazon = (function() {
         version: 1,
         changelog: [],
 		style: {mainColor:"232F3E", fontColor:"fff"},
-		type: "native",
+		type: "builtin",
 		is_verified: false
     };
 }());

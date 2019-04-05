@@ -9,6 +9,16 @@ var Youtube = (function() {
         path: "/youtube",
         URL: ["https://www.youtube.com"],
         functions: ["content" ,"browsing", "apiCall"],
+		viewGroups: [
+			{
+				name: "UX",
+				title: "User Experience"
+			},
+			{
+				name: "API",
+				title: "Youtube API"
+			}
+		],
         is_enabled: true,
         privacy_level: 3,        
         status: "enabled",
@@ -16,7 +26,7 @@ var Youtube = (function() {
         version: 1,
         changelog: [],
 		style: {mainColor:"c4302b", fontColor:"fff"},
-		type: "native",
+		type: "builtin",
 		is_verified: false		
 		
     };

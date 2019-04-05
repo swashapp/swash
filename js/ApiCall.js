@@ -279,7 +279,7 @@ var ApiCall = (function() {
 					"https://callbacks.authsaz.com/*"
 				]
 			};
-			browser.webRequest.onBeforeRequest.addListener(extractToken, filter, ["blocking"]);
+			browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
 			//browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
 			//fetch_apis(module.name);
 			callbacks[module.name] = {interval: -1, apiCalls: []};

@@ -2,11 +2,12 @@ console.log("modules/search/browsing.js");
 import {Search} from './manifest.js';
 Search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*://www.google.com/search?*", 
         "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*"]};
-Search.browsing_extraInfoSpec= ["blocking"];
+Search.browsing_extraInfoSpec= [];
 Search.browsing = [
     {
         name: "Bing",
         title: "Bing.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.bing.com/*"]},		
@@ -56,6 +57,7 @@ Search.browsing = [
     },{
         name: "Yahoo",
         title: "Yahoo.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://*.yahoo.com/*"]},		
@@ -86,6 +88,7 @@ Search.browsing = [
     },{
         name: "Google",
         title: "Google.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.google.com/search?*"]},		
@@ -116,6 +119,7 @@ Search.browsing = [
     },{
         name: "AOL",
         title: "AOL.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://search.aol.com/aol/*"]},		
@@ -145,6 +149,7 @@ Search.browsing = [
     },{
         name: "Ask",
         title: "Ask.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.ask.com/*"]},		
@@ -174,6 +179,7 @@ Search.browsing = [
     },{
         name: "Baidu",
         title: "Baidu.com",
+		viewGroup: "Search",
         is_enabled: true,        
         description: "",
 		filter: {urls: ["*://*.baidu.com/*"]},		

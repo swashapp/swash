@@ -1,11 +1,12 @@
 console.log("modules/amazon/browsing.js");
 import {Amazon} from './manifest.js';
 Amazon.browsing_filter = {urls: ["https://www.amazon.com/*"]};
-Amazon.browsing_extraInfoSpec= ["blocking"];
+Amazon.browsing_extraInfoSpec= [];
 Amazon.browsing = [
     {
         name: "Search",
         title: "Amazon Search",
+		viewGroup: "UX",
         is_enabled: true,
         patterns: [
             {
@@ -77,13 +78,15 @@ Amazon.browsing = [
     },
     {
         name: "Page Visit",
+		viewGroup: "UX",
         title: "Amazon visited pages",
         target_listener: "inspectVisit",
         is_enabled: true
     },
     {
         name: "Visiting Graph",
-        title: "User experience",
+        title: "Visiting Graph",
+		viewGroup: "UX",
         target_listener: "inspectReferrer",
         is_enabled: true
     }

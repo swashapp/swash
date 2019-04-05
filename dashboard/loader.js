@@ -96,6 +96,15 @@ var helper = (function() {
         return sendMessage(message);		
     }
 	
+	function removeModule(data){
+		let message = {
+			obj: "StorageHelper",
+			func: "removeModule",
+			params: [data]
+		}
+        return sendMessage(message);		
+    }
+	
 	function saveConfigs(data){
 		let message = {
 			obj: "StorageHelper",
@@ -197,6 +206,7 @@ var helper = (function() {
 		loadPrivacyData: loadPrivacyData,
 		loadMessages: loadMessages,
 		cancelSending: cancelSending,
-		saveModule: saveModule
+		saveModule: saveModule,
+		removeModule: removeModule
     };
 }());

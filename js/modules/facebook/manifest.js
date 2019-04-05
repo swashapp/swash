@@ -8,6 +8,16 @@ var Facebook = (function() {
         description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
         path: "/facebook",
         URL: ["https://www.facebook.com"],
+		viewGroups: [
+			{
+				name: "UX",
+				title: "User Experience"
+			},
+			{
+				name: "API",
+				title: "Facebook API"
+			}
+		],
         functions: ["browsing", "apiCall"],
         is_enabled: true,
         privacy_level: 3,
@@ -16,7 +26,7 @@ var Facebook = (function() {
         version: 1,
         changelog: [],
 		style: {mainColor:"29487D", fontColor:"fff"},
-		type: "native",
+		type: "builtin",
 		is_verified: false		
     };
 }());

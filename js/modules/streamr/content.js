@@ -6,6 +6,7 @@ Streamr.content = [
         name: "Errors",
         description: "",
         title: "Errors",
+		viewGroup: "Debug",
         type: "event",
         is_enabled: true,
         events: [
@@ -51,6 +52,7 @@ Streamr.content = [
         name: "ConsoleErrors",
         description: "",
         title: "Console Errors",
+		viewGroup: "Debug",
         type: "log",
         is_enabled: true,
     },
@@ -58,6 +60,7 @@ Streamr.content = [
         name: "ConsoleWarns",
         description: "",
         title: "Console Warnings",
+		viewGroup: "Debug",
         type: "log",
         is_enabled: true,
     },
@@ -65,6 +68,7 @@ Streamr.content = [
         name: "ConsoleLogs",
         description: "",
         title: "Console Logs",
+		viewGroup: "Debug",
         type: "log",
         is_enabled: true,
     }

@@ -28,6 +28,17 @@ var DataHandler = (function() {
         return browser.runtime.getManifest().version;
     }
 	
+	function getScreenResolution() {
+		return {width:window.screen.width, height: window.screen.height};
+	}
+	
+	function getScrolls() {
+		return {scrollMaxX:window.scrollMaxX, scrollMaxY:window.scrollMaxY, fullscreen:window.fullscreen}
+	}
+	
+	function getWindowSize() {
+		return {height: window.innerHeight, width:window.innerWidth};
+	}
 	function cancelSending(msgId) {
 		clearTimeout(msgId);
 		StorageHelper.removeMessage(msgId);		

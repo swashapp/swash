@@ -8,6 +8,12 @@ var Twitter = (function() {
         description: "This module configure general surfing configuration of surf-streamr",
         URL: ["https://www.authsaz.com/v3"],
         functions: ["browsing"],
+		viewGroups: [
+			{
+				name: "UX",
+				title: "User Experience"
+			}
+		],
         privacy_level: 3,
         is_enabled: true,
         status: "enabled",
@@ -15,7 +21,7 @@ var Twitter = (function() {
         version: 1,
         changelog: [],
 		style: {mainColor:"00acee", fontColor:"fff"},
-		type: "native",
+		type: "builtin",
 		is_verified: false		
 
     };
