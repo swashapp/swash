@@ -89,7 +89,9 @@ var Survey = (function() {
 				if(modules[module].is_enabled)
 					for(var item of modules[module].survey_matches) {
 						if(Utils.wildcard(url, item)) {
-							let surveys = modules[module].survey;							
+							let surveys = modules[module].survey.filter(function(ele){
+								return ele.is_enabled == true;
+							});
 							return {moduleName: modules[module].name, surveys: surveys};
 						}							
 					}

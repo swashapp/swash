@@ -16,7 +16,7 @@ var css = `#surfstreamr-survey-bt{
 #surfstreamr-survey-bt:hover{
   background-color: #179d82;
 }
-#surfstreamr-surveyOptions, #surfstreamr-surveyModal{
+#surfstreamr-surveyModal{
   display: none;
   position: fixed;
   max-height: calc(100% - 100px);
@@ -30,39 +30,102 @@ var css = `#surfstreamr-survey-bt{
   background-color: rgba(0,0,0,0.4); 	
 }
 
+#surfstreamr-surveyOptionsMain {
+	display: none;
+	position: fixed;
+	max-height: calc(100% - 100px);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	z-index: 300;
+	vertical-align: middle;  
+	padding: 1em 1em 5em;
+	background-color: #fff;
+	border-top: 2px solid #1ab394;
+	font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+	font-size: 14px;
+	min-width: 200px;
+    min-height: 100px;    
+}
+
 #surfstreamr-surveyOptions{
-    min-width: 500px;
-    min-height: 200px;    
-    background-color: rgb(255,255,255,1);
+	width: 100%;
+	padding: .5em 1em 1.5em;
+	box-sizing: border-box;
+	overflow: auto;
+	float: none;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #f4f4f4;
+	border-bottom: 1px solid #e7e7e7;
+	margin-bottom: 5px;
+	clear: both;
+}
+
+#surfstreamr-surveyOptions span {
+	position: static;
+	box-sizing: inherit;
+	font-weight: 700;
+	font-size: 1em;
+	color: #6d7072;
+}
+
+#surfstreamr-surveySelectWrapper {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+	background-color: #fff;	
+}
+
+#surfstreamr-surveySelectWrapper::before {
+    padding: 1em;
+    position: absolute;
+    right: 1px;
+    right: 0;
+    top: 1px;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzNCAzNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzQgMzQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojRkZGRkZGO30KPC9zdHlsZT4KPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIxMiwxNiAxNCwxNCAxNywxNyAyMCwxNCAyMiwxNiAxNywyMSAiLz4KPC9zdmc+Cg==);
+    content: "";
+    background-repeat: no-repeat;
+    background-position: 50%;
+	background-color: #1ab394;
 }
 
 #surfstreamr-selectSurvey {
-    margin-left: auto;
-    margin-right: auto;
-    border : 1px solid black;
-    border-radius: 5px;
-    font-weight: 300;
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
-    font-size: 1em;
+    display: block;
+	background: transparent;
+	-moz-appearance: none;
+	padding-right: 2.5em;
+	height: calc(2em + 1px);
+	box-sizing: border-box;
+	font-size: 1em;
+	line-height: 2em;
+	padding-left: 1em;
+	border: 1px solid #e7e7e7;
+	color: #6d7072;
+	font-family: sans-serif;
+	margin: 0;
+	width: 100%;
+	position: relative;
+	touch-action: manipulation;
 }
 
+
+
 #surfstreamr-startButton {
-    background-color: #1ab394;
-    border : 1px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    font-weight: 700;
-    position: absolute;
-    top: 50%;
-    left: 40%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
-    font-size: 1em;
+    background-color: #179d82;   
+	float: right;
+	font-size: .85em;
+	font-weight: 700;
+	line-height: 2em;
+	border: none;
+	min-width: 100px;
+	cursor: pointer;
+	padding: 0 2em;
+	border-radius: 2px;
+	color: #fff;
+	margin-top: 3px;
+	
 }
 
 #surfstreamr-title {
@@ -94,20 +157,23 @@ function showButton() {
 
 
 function showModal() {    
-	var display = document.getElementById('surfstreamr-surveyModal').style.display;
-	if(display == "block") {
+	var display1 = document.getElementById('surfstreamr-surveyModal').style.display;
+	var display2 = document.getElementById('surfstreamr-surveyOptionsMain').style.display;
+	if(display1 == "block" || display2 == "block") {
 		document.getElementById('surfstreamr-surveyModal').style.display = 'none';
-        document.getElementById('surfstreamr-surveyOptions').style.display = 'none';
+        document.getElementById('surfstreamr-surveyOptionsMain').style.display = 'none';
     }
 	else {		
-        document.getElementById('surfstreamr-surveyOptions').style.display = 'block';
+        document.getElementById('surfstreamr-surveyOptionsMain').style.display = 'block';
     }
 }
 
 function startSurvey() {
     let selectSurvey = document.getElementById('surfstreamr-selectSurvey');
     let surveyId = selectSurvey.options[selectSurvey.selectedIndex].value;
-    document.getElementById('surfstreamr-surveyOptions').style.display = 'none';
+	if(!surveyId)
+		return;
+    document.getElementById('surfstreamr-surveyOptionsMain').style.display = 'none';
     document.getElementById('surfstreamr-surveyModal').style.display = 'block';
     var json = {pages: surveys[surveyId].pages};
 	window.survey = new Survey.Model(json);
@@ -142,21 +208,23 @@ function startSurvey() {
 }
 
 function handleResponse(message) {
-    if(!message)
+    if(!message || !message.surveys || message.surveys.length == 0)
         return;
     surveys = message.surveys
 	var surveyModal = document.createElement('div');
 	surveyModal.id = 'surfstreamr-surveyModal';
+	var surveyOptionsMain = document.createElement('div');
+    surveyOptionsMain.id = 'surfstreamr-surveyOptionsMain';
     var surveyOptions = document.createElement('div');
     surveyOptions.id = 'surfstreamr-surveyOptions';
-    surveyOptions.className = 'sv_select_wrapper';
 	var surveyElement = document.createElement('div');	
 	surveyElement.id = 'surfstreamr-surveyElement';
 	var surveyResult = document.createElement('div');	
 	surveyResult.id = 'surfstreamr-surveyResult';
 	var body = document.getElementsByTagName('body')[0];
 	body.append(surveyModal);
-    body.append(surveyOptions);
+    body.append(surveyOptionsMain);
+	surveyOptionsMain.append(surveyOptions);
 	surveyModal.append(surveyElement);
 	surveyModal.append(surveyResult);
     
@@ -166,23 +234,28 @@ function handleResponse(message) {
 	title.id = 'surfstreamr-title';
     title.innerText = "Choose The Survey You Are Going To Do";
 
-    var selectSurvey = document.createElement("select");
+    
+	var surveySelectWrapper = document.createElement('div');	
+	surveySelectWrapper.id = 'surfstreamr-surveySelectWrapper';
+	var selectSurvey = document.createElement("select");
     selectSurvey.id = 'surfstreamr-selectSurvey';
-    selectSurvey.className = 'sv_q_dropdown_control';
+    
     
     var startButton = document.createElement("button");
     startButton.id = "surfstreamr-startButton"
     startButton.innerHTML = 'Start Survey';
     startButton.onclick = startSurvey;
 
+	selectSurvey.options.add( new Option("Choose...","") );
     for(let surveyId in surveys) {
-       selectSurvey.options.add( new Option(surveys[surveyId].name,surveyId) );        
+       selectSurvey.options.add( new Option(surveys[surveyId].name,surveyId) );       
     }
 
     frag.appendChild(title);
-    frag.appendChild(selectSurvey);
-    frag.appendChild(startButton);
+	surveySelectWrapper.appendChild(selectSurvey);
+    frag.appendChild(surveySelectWrapper);
     surveyOptions.appendChild(frag);
+	surveyOptionsMain.appendChild(startButton);
     showButton();
 }
 
