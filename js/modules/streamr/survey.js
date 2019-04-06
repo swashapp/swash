@@ -1,7 +1,7 @@
 console.log("modules/Streamr/survey.js");
 import {Streamr} from './manifest.js';
 Streamr.survey_matches = ["*://*.streamr.com/*"];
-Streamr.survey = {
+Streamr.survey = [{
 	name: "UX Survey",
 	title: "UX Survey",
 	viewGroup: "Survey",
@@ -161,4 +161,4 @@ Streamr.survey = {
 			]
 		}
 	]
-}
+}]

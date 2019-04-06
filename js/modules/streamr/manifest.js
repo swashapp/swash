@@ -15,8 +15,8 @@ var Streamr = (function() {
 				title: "Surveys"
 			},
 			{
-				name: "Debug and Error Logs",
-				title: "Facebook API"
+				name: "Debug",
+				title: "Debug and Error Logs"
 			}
 		],
         is_enabled: true,
