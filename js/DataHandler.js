@@ -28,7 +28,9 @@ var DataHandler = (function() {
         return browser.runtime.getManifest().version;
     }
 	
-    function getScreenshot() {
+    async function getScreenshot() {
+		let img = await browser.tabs.captureTab();
+		return img;
     }
     
 	function cancelSending(msgId) {
@@ -54,53 +56,52 @@ var DataHandler = (function() {
 		}
 		
 	}
-    async function getContextAtrributes(message, module, delayedSend) {
-        let ct_attrs = module.contextAttributes;
-        if(ct_attrs) {
-            for(let ct of ct_attrs){
-                switch(ct) {
-                    case "agent":
-                        message.header.agent = await getUserAgent();
-                        break;
-                    case "installedPlugins":
-                        message.header.installedPlugins = await getAllInstalledPlugins();
-                        break;
-                    case "platform":
-                        message.header.platform = await getPlatformInfo();
-                        break;
-                    case "screenshot":
-                        message.header.screenshot = await getScreenshot();
-                        break;                  
-                }
-            }
-        }
+    async function prepareAndSend(message, module, delayedSend, tabId) {
+		if(module.context){
+			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
+			if(bct_attrs.length > 0) {
+				for(let ct of bct_attrs){
+					switch(ct.name) {
+						case "agent":
+							message.header.agent = await getUserAgent();
+							break;
+						case "installedPlugins":
+							message.header.installedPlugins = await getAllInstalledPlugins();
+							break;
+						case "platform":
+							message.header.platform = await getPlatformInfo();
+							break;
+						case "screenshot":
+							message.header.screenshot = await getScreenshot();
+							break;                  
+					}
+				}
+			}
 
-        
-        let content = module.content;
-        let cct_attrs = [];
-        if(content) {
-            cct_attrs = content.filter(function(e,val) {
-            return e.type == 'context_attribute';
-            });
-        }            
-        if(cct_attrs.length > 0) {
-            var connectPort = browser.tabs.connect(
-              message.tabId,
-              {name: "content-attributes"}
-            );            
-            connectPort.onMessage.addListener(function(attrs) {
-                for(attrName of Object.keys(attrs)) {
-                    message.header[attrName] = attrs[attrName];
-                    sendData(message, delayedSend);
-                }
-              
-            });
-            return true;
-        }
-        return false;
+			
+			let cct_attrs = module.context.filter(function(ele,val){return (ele.type=="content" && ele.is_enabled) });			
+			            
+			if(cct_attrs.length > 0) {
+				var connectPort = browser.tabs.connect(
+				  tabId,
+				  {name: "content-attributes"}
+				);            
+				connectPort.onMessage.addListener(function(attrs) {
+					for(let attrName of Object.keys(attrs)) {
+						message.header[attrName] = attrs[attrName];
+					}
+					sendData(message, delayedSend);
+				  
+				});
+				return true;
+			}
+			
+		}
+		sendData(message, delayedSend);
+		return false;
     }
     
-    async function handle(message) {
+    async function handle(message, tabId) {
         console.log("DataHandler" + (Date()), message);		
 		if(!message.origin)
 			message.origin = "undetermined";
@@ -121,10 +122,7 @@ var DataHandler = (function() {
         message.header.privacyLevel = modules[message.header.module].privacy_level;
         message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
-        getContextAtrributes(message, modules[message.header.module]).then(res => {
-            if(!res)
-                sendData(message, delayedSend);
-        });
+        prepareAndSend(message, modules[message.header.module], delayedSend, tabId)
     }
     function enforcePolicy(message, mSalt, salt, privacyData) {
         /*

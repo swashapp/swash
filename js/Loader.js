@@ -4,6 +4,7 @@ import {Browsing} from './Browsing.js';
 import {Content} from './Content.js';
 import {ApiCall} from './ApiCall.js';
 import {Survey} from './Survey.js';
+import {Context} from './Context.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
@@ -83,6 +84,7 @@ var Loader = (function() {
 			Browsing.load();
 			ApiCall.load();	
 			Survey.load();
+			Context.load();
 		})	
     }
     
@@ -96,6 +98,7 @@ var Loader = (function() {
 			Browsing.unload();
 			ApiCall.unload();
 			Survey.unload();
+			Context.unload();
 		})
     }
 
@@ -109,6 +112,7 @@ var Loader = (function() {
 		Browsing.load_module(module);
 		ApiCall.load_module(module);
 		Survey.load_module(module);
+		Context.load_module(module);
 	}
 	
     function unload_module(module) {
@@ -116,6 +120,7 @@ var Loader = (function() {
 		Browsing.unload_module(module);
 		ApiCall.unload_module(module);
 		Survey.unload_module(module);
+		Context.unload_module(module);
 	}
 	
 	function load() {
@@ -126,6 +131,7 @@ var Loader = (function() {
 				Browsing.load();
 				ApiCall.load();
 				Survey.load();
+				Context.load();
 			} 
 			else {
 				init(false);
@@ -133,6 +139,7 @@ var Loader = (function() {
 				Browsing.unload();
 				ApiCall.unload();								
 				Survey.unload();
+				Context.load();
 			}			
 		})		
 	}

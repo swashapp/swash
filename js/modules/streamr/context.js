@@ -7,6 +7,7 @@ Streamr.context = [
         description: "",
         title: "User Agent",
 		viewGroup: "cta",
+		is_enabled: true,
         type: "browser"
     },
     {
@@ -14,6 +15,7 @@ Streamr.context = [
         description: "",
         title: "installed Plugins",
 		viewGroup: "cta",
+		is_enabled: true,
         type: "browser"  
     },
     {
@@ -21,6 +23,15 @@ Streamr.context = [
         description: "",
         title: "Platform",
 		viewGroup: "cta",
+		is_enabled: true,
+        type: "browser"
+    },
+	{
+        name: "screenshot",
+        description: "",
+        title: "Screenshot",
+		viewGroup: "cta",
+		is_enabled: true,
         type: "browser"
     },
     {
@@ -28,27 +39,31 @@ Streamr.context = [
         description: "",
         title: "Screen Resolution",
 		viewGroup: "cta",
-        type: "browser"
+		is_enabled: true,
+        type: "content"
     },
         {
         name: "scroll",
         description: "",
         title: "Window Scroll",
 		viewGroup: "cta",
-        type: "browser"
+		is_enabled: true,
+        type: "content"
     },
     {
         name: "windowSize",
         description: "",
         title: "Window Size",
 		viewGroup: "cta",
-        type: "browser"
+		is_enabled: true,
+        type: "content"
     },
     {
         name: "cache",
         description: "",
         title: "Caches",
 		viewGroup: "cta",
-        type: "browser"
+		is_enabled: true,
+        type: "content"
     }    
 ];

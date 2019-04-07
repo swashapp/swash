@@ -95,6 +95,7 @@ var StorageHelper = (function() {
 		updateFunctionSettings(ret, "browsing", settings);
 		updateFunctionSettings(ret, "apiCall", settings);
 		updateFunctionSettings(ret, "survey", settings);
+		updateFunctionSettings(ret, "context", settings);
         browser.storage.sync.set({modules: modules});        
     }
 
