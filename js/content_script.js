@@ -129,48 +129,6 @@ function public_callback(data, moduleName, event){
 		send_msg(message);
 }
 
-function context_attribute_callbacks(data) {
-    function getScreenResolution() {
-		return {width:window.screen.width, height: window.screen.height};
-	}
-	
-	function getScrolls() {
-		return {scrollMaxX:window.scrollMaxX, scrollMaxY:window.scrollMaxY, fullscreen:window.fullscreen}
-	}
-	
-	function getWindowSize() {
-		return {height: window.innerHeight, width:window.innerWidth};
-	}
-    
-    async function getCache() {
-        return await window.caches.keys();
-    }
-    
-    switch(data.name){
-        case "resolution":
-            cta_callbacks.push({name: "resolution", callback: getScreenResolution})
-            break;
-        case "scroll":
-            cta_callbacks.push({name: "scroll", callback: getScrolls})
-            break;
-        case "windowSize":
-            cta_callbacks.push({name: "windowSize", callback: getWindowSize})
-            break;
-        case "cache":
-            cta_callbacks.push({name: "cache", callback: getCache})
-            break;
-    }
-    
-}
-
-
-context_attr_connect(p) {
-    let message = {}
-    for(cta of cta_callbacks){
-        message[cta.name] = cta.callback();
-    }
-    p.postMessage(message);
-}
 function handleResponse(message) {
   console.log(`Message from the background script:  ${JSON.stringify(message)}`);
   
@@ -200,9 +158,6 @@ function handleResponse(message) {
             break;
             case "log":
                 log_callback(obj, message.moduleName);
-                break;
-            case "context_attribute": 
-                context_attribute_callbacks(obj);
                 break;
         }
     });
