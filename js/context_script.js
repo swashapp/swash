@@ -39,95 +39,9 @@ function isEmpty(obj) {
 function send_msg(msg){
     browser.runtime.sendMessage(msg);
 }
-function override_debug(x,level,data, moduleName) {
-    let message = {
-        obj: "DataHandler",
-        func: "handle",
-        params: [{
-                origin: window.location.href,
-                header: {
-                    module: moduleName,
-                    function: "Content",
-                    collector: data.name
-                },
-                data: {
-                    out: {
-                        method: level,
-                        arguments: arguments[0]
-                    },
-                    schems: [
-                        {jpath:"$.arguments",type:"text"},
-                        {jpath:"$.method",type:"text"}
-                    ]
-                }
-            }]
-    }
-    send_msg(message);
-    return console[level].apply(console, [arguments[0]]);
-}
-
-function log_callback(data, moduleName){
-    console.log("function log_callback");
-    switch(data.name) {
-        case "ConsoleErrors":
-            exportFunction(function(x){override_debug(x,"error",data, moduleName)}, console, {
-              defineAs: "error"
-            });            
-            break;
-        case "ConsoleWarns":
-            exportFunction(function(x){override_debug(x,"warn",data, moduleName)}, console, {
-              defineAs: "warn"
-            });            
-            break;
-        case "ConsoleLogs":
-            exportFunction(function(x){override_debug(x,"log",data, moduleName)}, console, {
-              defineAs: "log"
-            });            
-            break;
-    }
-}
 
 
-function public_callback(data, moduleName, event){
 
-	let message = {
-		obj: "DataHandler",
-		func: "handle",
-		params: [{
-                origin: window.location.href,
-                header: {
-                    module: moduleName,
-                    function: "Content",
-                    collector: data.name
-                },
-                data: {
-                    out: {},
-                    schems: []
-                }
-            }]
-	}
-
-    data.objects.forEach(x=>{
-        var obj = null;
-		switch(x.selector) {
-			case "":
-				obj = event.currentTarget;
-				break;
-			case ".":
-				obj = event;
-				break;
-			default:
-				obj = document.querySelector(x.selector);
-				break;
-		}
-        if(obj != null){
-			message.params[0].data.out[x.name] = obj[x.property];
-			message.params[0].data.schems.push({jpath:"$." + x.name,type:x.type});
-		}			
-    });
-	if(!isEmpty(message.params[0].data.out))
-		send_msg(message);
-}
 
 function context_attribute_callbacks(data) {
     function getScreenResolution() {

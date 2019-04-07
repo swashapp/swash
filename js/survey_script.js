@@ -168,7 +168,7 @@ function showModal() {
     }
 }
 
-function startSurvey() {
+function startSurvey(message) {
     let selectSurvey = document.getElementById('surfstreamr-selectSurvey');
     let surveyId = selectSurvey.options[selectSurvey.selectedIndex].value;
 	if(!surveyId)
@@ -189,7 +189,7 @@ function startSurvey() {
 						header: {
 							module: message.moduleName,
 							function: "Survey",
-							collector: message.survey.name
+							collector: message.surveys[surveyId].name
 						},
 						data: {
 							out: {
@@ -244,7 +244,7 @@ function handleResponse(message) {
     var startButton = document.createElement("button");
     startButton.id = "surfstreamr-startButton"
     startButton.innerHTML = 'Start Survey';
-    startButton.onclick = startSurvey;
+    startButton.onclick = function(){startSurvey(message)};
 
 	selectSurvey.options.add( new Option("Choose...","") );
     for(let surveyId in surveys) {

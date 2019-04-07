@@ -28,17 +28,9 @@ var DataHandler = (function() {
         return browser.runtime.getManifest().version;
     }
 	
-	function getScreenResolution() {
-		return {width:window.screen.width, height: window.screen.height};
-	}
-	
-	function getScrolls() {
-		return {scrollMaxX:window.scrollMaxX, scrollMaxY:window.scrollMaxY, fullscreen:window.fullscreen}
-	}
-	
-	function getWindowSize() {
-		return {height: window.innerHeight, width:window.innerWidth};
-	}
+    function getScreenshot() {
+    }
+    
 	function cancelSending(msgId) {
 		clearTimeout(msgId);
 		StorageHelper.removeMessage(msgId);		
@@ -62,6 +54,52 @@ var DataHandler = (function() {
 		}
 		
 	}
+    async function getContextAtrributes(message, module, delayedSend) {
+        let ct_attrs = module.contextAttributes;
+        if(ct_attrs) {
+            for(let ct of ct_attrs){
+                switch(ct) {
+                    case "agent":
+                        message.header.agent = await getUserAgent();
+                        break;
+                    case "installedPlugins":
+                        message.header.installedPlugins = await getAllInstalledPlugins();
+                        break;
+                    case "platform":
+                        message.header.platform = await getPlatformInfo();
+                        break;
+                    case "screenshot":
+                        message.header.screenshot = await getScreenshot();
+                        break;                  
+                }
+            }
+        }
+
+        
+        let content = module.content;
+        let cct_attrs = [];
+        if(content) {
+            cct_attrs = content.filter(function(e,val) {
+            return e.type == 'context_attribute';
+            });
+        }            
+        if(cct_attrs.length > 0) {
+            var connectPort = browser.tabs.connect(
+              message.tabId,
+              {name: "content-attributes"}
+            );            
+            connectPort.onMessage.addListener(function(attrs) {
+                for(attrName of Object.keys(attrs)) {
+                    message.header[attrName] = attrs[attrName];
+                    sendData(message, delayedSend);
+                }
+              
+            });
+            return true;
+        }
+        return false;
+    }
+    
     async function handle(message) {
         console.log("DataHandler" + (Date()), message);		
 		if(!message.origin)
@@ -76,16 +114,17 @@ var DataHandler = (function() {
 		let privacyData = db.privacyData;
 		let delayedSend = configs.delayedMessage;
             
-		message.header.agent = await getUserAgent();
-        message.header.version = getVersion();   
-        message.header.platform = await getPlatformInfo();
         message.identity = {};
         message.identity.uid = configs.Id;
         message.identity.walletId = profile.walletId;
         message.identity.email = profile.email;
         message.header.privacyLevel = modules[message.header.module].privacy_level;
+        message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
-		sendData(message, delayedSend);
+        getContextAtrributes(message, modules[message.header.module]).then(res => {
+            if(!res)
+                sendData(message, delayedSend);
+        });
     }
     function enforcePolicy(message, mSalt, salt, privacyData) {
         /*
