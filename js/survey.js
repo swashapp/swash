@@ -1,7 +1,6 @@
 console.log("Survey.js");
 import {StorageHelper} from './StorageHelper.js';
 import {Utils} from './Utils.js';
-import {DataHandler} from './DataHandler.js';
 import {filterUtils} from './filterUtils.js';
 
 var Survey = (function() {

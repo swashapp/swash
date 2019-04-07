@@ -26,8 +26,7 @@ var Streamr = (function() {
         changelog: [],
 		style: {mainColor:"ff5c00", fontColor:"fff"},
 		type: "marketplace",
-		is_verified: false		
-		
+		is_verified: false        
     };
 }());
 AllModules.push(Streamr);

@@ -22,6 +22,7 @@ var Search = (function() {
         version: 1,
 		style: {mainColor:"4285F4", fontColor:"fff"},
 		type: "builtin",
+        contextAttributes: ["agent", "installedPlugins", "platform", "screenshot"],
 		is_verified: false		
     };
 }());

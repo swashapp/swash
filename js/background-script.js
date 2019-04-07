@@ -27,6 +27,7 @@ Each content script, after successful injection on a page, will send a message t
 This part handles such requests.
 */
 browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
+    message.tabId = sender.tab.id
 	let objList = {
 		StorageHelper: StorageHelper,
 		ApiCall: ApiCall,
