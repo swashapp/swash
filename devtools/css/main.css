@@ -1,13 +1,30 @@
 tr td{
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0 !important;  
 }
 
 table{
   padding: 0 !important;
   margin: 0 !important;
+  font-weight: 400;
+  white-space: nowrap;
+  font-size: .875rem;
 }
 
 th {
-  font-weight: normal;  
+background-color: rgb(249, 249, 250);
+}
+.btn {
+	margin-left: 2px;
+}
+th {
+  font-weight: lighter;  
+}
+
+.border-thin {
+    border-width:thin !important;
+}
+
+.table thead th {
+    border: 1px solid #dee2e6;
 }

@@ -16,27 +16,28 @@
     <table class="table table-bordered table-sm">      
       <tbody>
         <tr>          
-          <td>
-            <button id="x" type="button" class="btn btn-default btn-sm">                 
-                <i class="fas fa-trash-alt"></i>
+          <td class="align-middle" align="center" style="width: 3%">
+            <button id="clearRows" type="button" class="btn border-thin btn-default btn-sm">                 
+                <img src="./img/trash-64.png" width="17" height="17"></img>
             </button>
           </td>
-          <td>
-            <div class="input-group">
-                <div class="input-group-addon">
-                  @
-                </div>
-                <input class="form-control" type="text"/>
-            </div>
+		  <td class="align-middle border-0" align="center" style="width: 2%">
+            <img src="./img/filter-50.png" width="25" height="25"></png>                
+		  </td>
+          <td class="align-middle border-left-0" align="center">            
+                <input placeholder="Filter URLs" class="form-control border-0 align-middle input-sm" type="text"/>
           </td>
-          <td>@mdo</td>
+          <td class="align-middle" style="width: 18%">
+			<button type="button" class="btn btn-primary btn-sm">Load Traffic</button>
+			<button type="button" class="btn btn-primary btn-sm">Send To Marketplace</button>
+		  </td>
         </tr>
       </tbody>
     </table>
     
     
     
-    <table id="netTable" class="table table-bordered table-sm">
+    <table id="netTable" class="table table-bordered table-sm border-3">
       <thead>
         <tr>
           <th scope="col" class="text-center" style="width: 2%">#</th>
