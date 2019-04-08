@@ -1,3 +1,6 @@
+function addListener() {
+	document.getElementById("clearRows").addEventListener("click", clearRows);	
+}
 function createRowColumn(row) {
   var column = document.createElement("td");
   row.appendChild(column);
@@ -41,34 +44,24 @@ function clearRows() {
 }
 
 
-async function logRequests() {  
-    
+async function logRequests() {      
     let harLog = await browser.devtools.network.getHAR();
-    console.log(harLog);
-    /*for (let entry of harLog.entries) {
+    for (let entry of harLog.entries) {
+		var url = new URL(entry.request.url);
         let row = {
-            status: response.status,
-            method: request.method,
-            domain: request.url,
-            file: request.url,
+            status: entry.response.status,
+            method: entry.request.method,
+            domain: url.hostname,
+            file: url.pathname,
             type: 'tset',
             trabsferred: 'test',
-            size: response.bodySize
+            size: entry.response.bodySize
         }
         addRow(row);        
-    }*/
-    browser.devtools.inspectedWindow.eval("document.readyState")
-    .then(result => 
-        {if (result[0] == "complete")         
-            console.log(`HAR version: ${harLog.version}`);
-        }
-    );  
+    }
 }
 
-function addListener(){d
-    let logRequestsButton = document.querySelector("#logButton");
-    logRequestsButton.addEventListener("click", logRequests);
-}
 
 window.onload = addListener
-var myInterval = setInterval(logRequests, 1000);
+//var myInterval = setInterval(logRequests, 1000);
+browser.devtools.network.onNavigated.addListener(logRequests);
