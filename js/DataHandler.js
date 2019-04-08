@@ -81,7 +81,7 @@ var DataHandler = (function() {
 			
 			let cct_attrs = module.context.filter(function(ele,val){return (ele.type=="content" && ele.is_enabled) });			
 			            
-			if(cct_attrs.length > 0) {
+			if(cct_attrs.length > 0 && tabId) {
 				var connectPort = browser.tabs.connect(
 				  tabId,
 				  {name: "content-attributes"}

@@ -230,7 +230,7 @@ var Browsing = (function() {
             if(local_data.target_listener == "inspectVisit")
                 retval = inspectVisit(module.name, local_data, x)
             if(retval != null)
-                DataHandler.handle(retval);
+                DataHandler.handle(retval, x.tabId);
         };
         if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
             // default for filter and extraInfo
@@ -326,7 +326,7 @@ var Browsing = (function() {
                             {jpath: "$.url", type: "url"},
                         ]
                     }
-                });                
+                }, details.tabId);                
             }
         }
         if(!browser.webRequest.onHeadersReceived.hasListener(inspectResponse)){
