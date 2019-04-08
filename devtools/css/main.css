@@ -1,0 +1,13 @@
+tr td{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+table{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+th {
+  font-weight: normal;  
+}
