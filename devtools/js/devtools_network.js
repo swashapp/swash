@@ -22,7 +22,24 @@ function selectAll() {
     }
 }
 function addRow(row) {
+
+	let bootstrapClasses = [
+		'bg-primary text-white',
+		'bg-secondary text-white',
+		'bg-success text-white',
+		'bg-danger text-white',
+		'bg-warning',
+		'bg-info text-white',
+		'bg-light',
+		'bg-dark text-white',
+		'bg-white'
+	]
+	
   var newrow = document.createElement("tr");
+  for(ruleIndex in rules) {
+	  if(matchRule(rules[ruleIndex], row))
+		newrow.setAttribute("class", bootstrapClasses[ruleIndex<8?ruleIndex:7]);
+  }
   var checkColumn = createRowColumn(newrow);
   checkColumn.setAttribute("class", "align-middle");  
   checkColumn.setAttribute("align", "center");  
@@ -81,7 +98,77 @@ async function logRequests() {
     console.log(harLog);
 }
 
+function matchRule(rule, data) {
+	let resp = true;
+	for(cn of rule.conditions) {
+		switch(cn.operator) {
+			case '>':
+				resp = resp&&(data[cn.object] > cn.value)
+				break;
+			case '>=':
+				resp = resp&&(data[cn.object] >= cn.value)
+				break;
+			case '<':
+				resp = resp&&(data[cn.object] < cn.value)
+				break;
+			case '<=':
+				resp = resp&&(data[cn.object] <= cn.value)
+				break;
+			case '=':
+				resp = resp&&(data[cn.object] == cn.value)
+				break;
+			case '!=':
+				resp = resp&&(data[cn.object] != cn.value)
+				break;
+			case 'regEx':
+				resp = resp&&(data[cn.object].match(cn.value))
+				break;
+			case 'contains':
+				resp = resp&&(data[cn.object].indexOf(cn.value) >= 0)
+				break;
+		}
+	}
+	return resp;
+}
+
 
 window.onload = addListener
 //var myInterval = setInterval(logRequests, 1000);
 browser.devtools.network.onNavigated.addListener(logRequests);
+let rules = [
+	{
+		name: 'rule1',
+		conditions: [
+			{
+				object: 'status',
+				operator: '!=',
+				value:	200
+			},
+			{
+				object: 'status',
+				operator: '!=',
+				value:	304
+			}
+		]
+	},
+	{
+		name: 'rule2',
+		conditions: [
+			{
+				object: 'size',
+				operator: '=',
+				value:	0
+			}
+		]
+	},
+	{
+		name: 'rule3',
+		conditions: [
+			{
+				object: 'time',
+				operator: '>',
+				value:	2000
+			}
+		]
+	}
+]
