@@ -1,11 +1,58 @@
-function addListener() {
+
+function loadPanel() {
+    let func = (event) => {filterRows(event, "surfstreamr-rules")}
 	document.getElementById("clearRows").addEventListener("click", clearRows);	
-    document.getElementById("selectAll").addEventListener("change", selectAll);	
+    document.getElementById("selectAll").addEventListener("change", selectAll);
+    document.getElementById("filterAll").addEventListener("click", func);
+
+     let bootstrapClasses = [
+		'btn btn-primary btn-sm',
+		'btn btn-secondary btn-sm',
+		'btn btn-success btn-sm',
+		'btn btn-danger btn-sm',
+		'btn btn-warning btn-sm',
+		'btn btn-info btn-sm',
+		'btn btn-light btn-sm',
+		'btn btn-dark btn-sm',
+		'btn btn-white btn-sm'
+	]    
+    for(ruleIndex in rules) {
+        addFilterButton(rules[ruleIndex].name, bootstrapClasses[ruleIndex<8?ruleIndex:7]); 
+    }
 }
 function createRowColumn(row) {
   var column = document.createElement("td");
   row.appendChild(column);
   return column;
+}
+
+function filterRows(event, name) {
+    let className = ".surfstreamr-rule-" + name;
+    let rows = document.querySelectorAll(className);
+    let btn = event.target;
+    if(btn.classList.contains("filterSelected")) {
+        btn.classList.remove("filterSelected");        
+        rows.forEach(function(row) {
+            row.classList.add("rowDisabled");
+        })
+    }
+    else {
+        btn.classList.add("filterSelected");                
+        rows.forEach(function(row) {
+            row.classList.remove("rowDisabled");
+        })
+
+    }    
+}
+
+function addFilterButton(name, className) {   
+    let fb = document.getElementById("filterButtons");
+    var button = document.createElement("button");
+    button.addEventListener("click", function(event) {filterRows(event, name)});
+    button.setAttribute("class", className);    
+    button.setAttribute("id", "button-" + name);
+    button.innerHTML = name.substr(0,7) + ((name.length>7)?'...':'')   
+    fb.appendChild(button);
 }
 
 function selectAll() {
@@ -22,8 +69,7 @@ function selectAll() {
     }
 }
 function addRow(row) {
-
-	let bootstrapClasses = [
+    let bootstrapClasses = [
 		'bg-primary text-white',
 		'bg-secondary text-white',
 		'bg-success text-white',
@@ -34,14 +80,14 @@ function addRow(row) {
 		'bg-dark text-white',
 		'bg-white'
 	]
-	
-  var newrow = document.createElement("tr");
+  var newrow = document.createElement("tr");  
   for(ruleIndex in rules) {
-	  if(matchRule(rules[ruleIndex], row))
-		newrow.setAttribute("class", bootstrapClasses[ruleIndex<8?ruleIndex:7]);
+	  if(matchRule(rules[ruleIndex], row)) {
+        newrow.setAttribute("class", bootstrapClasses[ruleIndex<8?ruleIndex:7] + " surfstreamr-rules surfstreamr-rule-" + rules[ruleIndex].name);        
+      }
   }
   var checkColumn = createRowColumn(newrow);
-  checkColumn.setAttribute("class", "align-middle");  
+  checkColumn.setAttribute("class", "align-middle");
   checkColumn.setAttribute("align", "center");  
   var statusColumn = createRowColumn(newrow);
   var methodColumn = createRowColumn(newrow);
@@ -132,10 +178,10 @@ function matchRule(rule, data) {
 }
 
 
-window.onload = addListener
-//var myInterval = setInterval(logRequests, 1000);
+window.onload = loadPanel
+
 browser.devtools.network.onNavigated.addListener(logRequests);
-let rules = [
+let rules = [   
 	{
 		name: 'rule1',
 		conditions: [
@@ -170,5 +216,18 @@ let rules = [
 				value:	2000
 			}
 		]
+	},
+    {
+		name: 'rule4',
+		conditions: [
+			{
+				object: 'status',
+				operator: '=',
+				value:	200
+			}
+		]
 	}
 ]
+
+
+

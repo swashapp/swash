@@ -41,3 +41,23 @@ background-color: rgb(249, 249, 250);
     border-radius: 3px;
 }
 
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0
+}
+
+
+.btn.filterSelected:focus {
+    outline: none;
+    box-shadow: 0 0 0 .1rem #d39e00;
+}
+
+.filterSelected {
+  outline: 0;
+  box-shadow: 0 0 0 .1rem #d39e00;
+}
+
+.rowDisabled {
+    display: none;
+}
