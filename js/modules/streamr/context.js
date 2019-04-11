@@ -26,6 +26,22 @@ Streamr.context = [
 		is_enabled: true,
         type: "browser"
     },
+	    {
+        name: "language",
+        description: "",
+        title: "Browser Language",
+		viewGroup: "cta",
+		is_enabled: true,
+        type: "browser"
+    },
+	{
+        name: "proxyStatus",
+        description: "",
+        title: "Proxy Status",
+		viewGroup: "cta",
+		is_enabled: true,
+        type: "browser"
+    },
 	{
         name: "screenshot",
         description: "",

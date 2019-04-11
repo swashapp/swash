@@ -18,13 +18,22 @@ var DataHandler = (function() {
         return browser.management.getAll();
     }
 
-
+	function getBrowserLanguage()
+    {
+        return navigator.language;
+    }
+	
     function getPlatformInfo()
     {
         return browser.runtime.getPlatformInfo();
     }
     
-    function getVersion(){
+	async function getProxyStatus() {
+		let proxySetting = await browser.proxy.settings.get({});
+		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS};
+	}
+    
+	function getVersion(){
         return browser.runtime.getManifest().version;
     }
 	
@@ -53,9 +62,10 @@ var DataHandler = (function() {
 		else {
 			delete message.origin;
 			stream.produceNewEvent(message);        
-		}
-		
+		}		
 	}
+	
+	
     async function prepareAndSend(message, module, delayedSend, tabId) {
 		if(module.context){
 			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
@@ -73,7 +83,12 @@ var DataHandler = (function() {
 							break;
 						case "screenshot":
 							message.header.screenshot = await getScreenshot();
-							break;                  
+							break;        
+						case "language":
+							message.header.language = getBrowserLanguage();
+							break;
+						case "proxyStatus":
+							message.header.proxyStatus = await getProxyStatus();
 					}
 				}
 			}

@@ -1,7 +1,7 @@
 console.log("Browsing.js");
-import {StorageHelper} from './StorageHelper.js';
-import {Utils} from './Utils.js';
-import {DataHandler} from './DataHandler.js';
+import {StorageHelper} from '../StorageHelper.js';
+import {Utils} from '../Utils.js';
+import {DataHandler} from '../DataHandler.js';
 
 var Browsing = (function() {
     'use strict';

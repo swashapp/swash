@@ -4,10 +4,11 @@ import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
 import {AllModules} from './modules.js';
-import {ApiCall} from './ApiCall.js';
-import {Content} from './Content.js';
-import {Survey} from './Survey.js';
-import {Context} from './Context.js';
+import {ApiCall} from './functions/ApiCall.js';
+import {Content} from './functions/Content.js';
+import {Survey} from './functions/Survey.js';
+import {Context} from './functions/Context.js';
+import {Devtools} from './functions/Devtools.js';
 import {pushStream} from './push.js';
 
 /* ***
@@ -28,7 +29,8 @@ Each content script, after successful injection on a page, will send a message t
 This part handles such requests.
 */
 browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
-    message.params.push(sender.tab.id);
+    if(sender.tab)
+		message.params.push(sender.tab.id);
 	let objList = {
 		StorageHelper: StorageHelper,
 		ApiCall: ApiCall,
@@ -37,7 +39,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
         DataHandler: DataHandler,
         pushStream: pushStream,
 		Survey: Survey,
-		Context: Context
+		Context: Context,
+		Devtools: Devtools
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

@@ -1,8 +1,8 @@
 console.log("Context.js");
-import {StorageHelper} from './StorageHelper.js';
-import {Utils} from './Utils.js';
-import {DataHandler} from './DataHandler.js';
-import {filterUtils} from './filterUtils.js';
+import {StorageHelper} from '../StorageHelper.js';
+import {Utils} from '../Utils.js';
+import {DataHandler} from '../DataHandler.js';
+
 
 var Context = (function() {
     'use strict';
@@ -58,7 +58,7 @@ var Context = (function() {
 	console.log(tabId, changeInfo, tabInfo);        
 	if(changeInfo.status == "loading")
 		browser.tabs.executeScript(tabId, {
-		  file: "/js/context_script.js",
+		  file: "/js/content_scripts/context_script.js",
 		  allFrames: false,
 		  runAt: "document_end"
 		})

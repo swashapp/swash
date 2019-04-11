@@ -1,7 +1,7 @@
-import {Utils} from './Utils.js';
-import {AllModules} from './modules.js';
-import {DataHandler} from './DataHandler.js';
-import {StorageHelper} from './StorageHelper.js';
+import {Utils} from '../Utils.js';
+import {AllModules} from '../modules.js';
+import {DataHandler} from '../DataHandler.js';
+import {StorageHelper} from '../StorageHelper.js';
 
 // TODO: handle ETAG
 // TODO: handle batch requests
