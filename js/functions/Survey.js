@@ -1,7 +1,6 @@
 console.log("Survey.js");
-import {StorageHelper} from './StorageHelper.js';
-import {Utils} from './Utils.js';
-import {filterUtils} from './filterUtils.js';
+import {StorageHelper} from '../StorageHelper.js';
+import {Utils} from '../Utils.js';
 
 var Survey = (function() {
     'use strict';
@@ -68,7 +67,7 @@ var Survey = (function() {
 				  runAt: "document_end"
 				}).then(result => {
 					browser.tabs.executeScript(tabId, {
-					  file: "/js/survey_script.js",
+					  file: "/js/content_scripts/survey_script.js",
 					  allFrames: false,
 					  runAt: "document_end"
 					})

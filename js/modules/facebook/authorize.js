@@ -1,6 +1,6 @@
 console.log("modules/facebook/authorize.js");
 import {Facebook} from './manifest.js';
-import {ApiCall} from '../../ApiCall.js';
+import {ApiCall} from '../../functions/ApiCall.js';
 Facebook.apiConfig = {
     redirect_url: "",
     client_id: "355488065290314",

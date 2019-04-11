@@ -61,3 +61,23 @@ background-color: rgb(249, 249, 250);
 .rowDisabled {
     display: none;
 }
+
+.bg-color-1{
+	background-color: #026670;
+}
+
+.bg-color-2{
+	background-color: #9FEDD7;
+}
+
+.bg-color-3{
+	background-color: #FEF9C7;
+}
+
+.bg-color-4{
+	background-color: #FCE181;
+}
+
+.bg-color-5{
+	background-color: #EDEAE5;
+}

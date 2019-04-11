@@ -1,10 +1,11 @@
 console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
-import {Browsing} from './Browsing.js';
-import {Content} from './Content.js';
-import {ApiCall} from './ApiCall.js';
-import {Survey} from './Survey.js';
-import {Context} from './Context.js';
+import {Browsing} from './functions/Browsing.js';
+import {Content} from './functions/Content.js';
+import {ApiCall} from './functions/ApiCall.js';
+import {Survey} from './functions/Survey.js';
+import {Context} from './functions/Context.js';
+import {Devtools} from './functions/Devtools.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
@@ -85,6 +86,7 @@ var Loader = (function() {
 			ApiCall.load();	
 			Survey.load();
 			Context.load();
+			Devtools.load();
 		})	
     }
     
@@ -99,6 +101,7 @@ var Loader = (function() {
 			ApiCall.unload();
 			Survey.unload();
 			Context.unload();
+			Devtools.unload();
 		})
     }
 
@@ -113,6 +116,7 @@ var Loader = (function() {
 		ApiCall.load_module(module);
 		Survey.load_module(module);
 		Context.load_module(module);
+		Devtools.load_module(module);
 	}
 	
     function unload_module(module) {
@@ -121,6 +125,7 @@ var Loader = (function() {
 		ApiCall.unload_module(module);
 		Survey.unload_module(module);
 		Context.unload_module(module);
+		Devtools.unload_module(module);
 	}
 	
 	function load() {
@@ -132,6 +137,7 @@ var Loader = (function() {
 				ApiCall.load();
 				Survey.load();
 				Context.load();
+				Devtools.load();
 			} 
 			else {
 				init(false);
@@ -139,7 +145,8 @@ var Loader = (function() {
 				Browsing.unload();
 				ApiCall.unload();								
 				Survey.unload();
-				Context.load();
+				Context.unload();
+				Devtools.unload();
 			}			
 		})		
 	}
