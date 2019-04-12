@@ -9,6 +9,7 @@ import {Content} from './functions/Content.js';
 import {Survey} from './functions/Survey.js';
 import {Context} from './functions/Context.js';
 import {Devtools} from './functions/Devtools.js';
+import {Task} from './functions/Task.js';
 import {pushStream} from './push.js';
 
 /* ***
@@ -40,7 +41,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
         pushStream: pushStream,
 		Survey: Survey,
 		Context: Context,
-		Devtools: Devtools
+		Devtools: Devtools,
+		Task: Task
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

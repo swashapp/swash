@@ -6,6 +6,7 @@ import {ApiCall} from './functions/ApiCall.js';
 import {Survey} from './functions/Survey.js';
 import {Context} from './functions/Context.js';
 import {Devtools} from './functions/Devtools.js';
+import {Task} from './functions/Task.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
@@ -15,7 +16,7 @@ var Loader = (function() {
         StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
             if (db == null || db == undefined || Object.keys(db).length==0){
-                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], messages: {}};                
+                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], messages: {}, tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
             }
@@ -87,6 +88,7 @@ var Loader = (function() {
 			Survey.load();
 			Context.load();
 			Devtools.load();
+			Task.load();
 		})	
     }
     
@@ -102,6 +104,7 @@ var Loader = (function() {
 			Survey.unload();
 			Context.unload();
 			Devtools.unload();
+			Task.unload();
 		})
     }
 
@@ -117,6 +120,7 @@ var Loader = (function() {
 		Survey.load_module(module);
 		Context.load_module(module);
 		Devtools.load_module(module);
+		Task.load_module(module);
 	}
 	
     function unload_module(module) {
@@ -126,6 +130,7 @@ var Loader = (function() {
 		Survey.unload_module(module);
 		Context.unload_module(module);
 		Devtools.unload_module(module);
+		Task.unload_module(module);
 	}
 	
 	function load() {
@@ -138,6 +143,7 @@ var Loader = (function() {
 				Survey.load();
 				Context.load();
 				Devtools.load();
+				Task.load();
 			} 
 			else {
 				init(false);
@@ -147,6 +153,7 @@ var Loader = (function() {
 				Survey.unload();
 				Context.unload();
 				Devtools.unload();
+				Task.unload();
 			}			
 		})		
 	}
