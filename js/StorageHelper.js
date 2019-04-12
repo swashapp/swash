@@ -78,6 +78,24 @@ var StorageHelper = (function() {
         return x[key];
     }
 	
+	async function createTask(info) {
+		var tasks = await retrieveData("tasks");
+		if(!tasks[info.moduleName]) {
+			tasks[info.moduleName] = {}
+		}
+		tasks[info.moduleName][info.name] = {
+			startTime: info.startTime,
+			endTime: -1,
+			success: "unknown"
+		}
+		storeData("tasks", tasks);
+	}
+	
+	async function loadTask(info) {
+		var tasks = await retrieveData("tasks");
+		return tasks[info.moduleName][info.name];
+	}
+	
 	function updateFunctionSettings(module, functionName, settings) {
 		if(module.functions.includes(functionName)) {
 			for (let item of module[functionName]) {
@@ -97,6 +115,7 @@ var StorageHelper = (function() {
 		updateFunctionSettings(ret, "survey", settings);
 		updateFunctionSettings(ret, "context", settings);
 		updateFunctionSettings(ret, "devtools", settings);
+		updateFunctionSettings(ret, "task", settings);
         browser.storage.sync.set({modules: modules});        
     }
 
@@ -116,7 +135,8 @@ var StorageHelper = (function() {
         saveMessage: saveMessage,
 		removeMessage: removeMessage,
         retrieveMessages: retrieveMessages,
-		removeModule: removeModule
+		removeModule: removeModule,
+		createTask: createTask
         
         
     };

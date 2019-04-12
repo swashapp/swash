@@ -8,7 +8,7 @@ var Streamr = (function() {
         description: "This module look through all the user activities on Streamr and capture those activities that user have permitted",
         path: "/Streamr",
         URL: ["https://www.streamr.com"],
-        functions: ["content" ,"browsing", "survey", "context", "devtools"],
+        functions: ["content" ,"browsing", "survey", "context", "devtools", "task"],
 		viewGroups: [
 			{
 				name: "Survey",
@@ -25,6 +25,10 @@ var Streamr = (function() {
 			{
 				name: "devtools",
 				title: "Network Debugging Tools"
+			},
+			{
+				name: "task",
+				title: "UX Tasks"
 			}
 		],
         is_enabled: true,
