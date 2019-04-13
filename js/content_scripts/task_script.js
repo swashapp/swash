@@ -1,4 +1,5 @@
 console.log("task_script.js");
+
 var taskScript = (function () {	
 	var callbacks = {};
     var startedTasks = {};
@@ -208,14 +209,14 @@ var taskScript = (function () {
 
 
 
-if (typeof taskMessage === 'undefined') {
-	let taskMessage = {
+if (typeof window.wrappedJSObject.surfStreamrTaskMessage === 'undefined') {
+	window.wrappedJSObject.surfStreamrTaskMessage = {
 		obj: "Task",
 		func: "injectTasks",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(taskMessage).then(taskScript.handleResponse, taskScript.handleError);  
+	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrTaskMessage).then(taskScript.handleResponse, taskScript.handleError);  
 }
 
 

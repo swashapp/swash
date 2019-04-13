@@ -273,14 +273,12 @@ var surveyScript = (function () {
 
 
 
-
-
-if (typeof sMessage === 'undefined') {
-	let sMessage = {
+if (typeof window.wrappedJSObject.surfStreamrSurveyMessage === 'undefined') {
+	window.wrappedJSObject.surfStreamrSurveyMessage = {
 		obj: "Survey",
 		func: "injectSurvey",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(sMessage).then(surveyScript.handleResponse, surveyScript.handleError);  
+	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  
 }
