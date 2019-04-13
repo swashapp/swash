@@ -72,14 +72,14 @@ var contextScript = (function () {
 }());
 	
 
-if (typeof ctxMessage === 'undefined') {
-	let ctxMessage = {
+if (typeof window.wrappedJSObject.surfStreamrContextMessage === 'undefined') {	
+	window.wrappedJSObject.surfStreamrContextMessage = {
 		obj: "Context",
 		func: "injectAttrCollectors",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(ctxMessage).then(contextScript.handleResponse, contextScript.handleError);  
+	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContextMessage).then(contextScript.handleResponse, contextScript.handleError);  
 }
 
 

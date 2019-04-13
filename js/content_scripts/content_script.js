@@ -188,15 +188,14 @@ var contentScript = (function () {
 
 
 
-
-if (typeof contentMessage === 'undefined') {
-	let contentMessage = {
+if (typeof window.wrappedJSObject.surfStreamrContentMessage === 'undefined') {	
+	window.wrappedJSObject.surfStreamrContentMessage = {
 		obj: "Content",
 		func: "injectCollectors",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(contentMessage).then(contentScript.handleResponse, contentScript.handleError);  
+	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  
 }
 
 

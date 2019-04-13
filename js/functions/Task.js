@@ -7,7 +7,7 @@ import {DataHandler} from '../DataHandler.js';
 var Task = (function() {
     'use strict';
     
-	var cfilter = {urls: [], properties: ["status"]};            
+	var cfilter = {urls: [], properties: ["status"]};
     
     function unload(){        
 		if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
