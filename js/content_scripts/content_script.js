@@ -111,6 +111,12 @@ var contentScript = (function () {
 		data.objects.forEach(x=>{
 			var obj = null;
 			switch(x.selector) {
+                case "window":
+                    obj = window;
+                    break;
+                case "document":
+                    obj = document;
+                    break;
 				case "":
 					obj = event.currentTarget;
 					break;
@@ -139,10 +145,15 @@ var contentScript = (function () {
 					obj.events.forEach(event=>{
 						let callback = function(x){public_callback(obj, message.moduleName, x)};
 						callbacks[message.moduleName + "_" + event.selector + "_" + event.event_name] = callback;
-						if(event.selector == ""){
+						if(event.selector == "window"){
 							// window
 							window.addEventListener(event.event_name, callback);
-						}else{
+						}else 
+                        if(event.selector == "document"){
+							// document
+							document.addEventListener(event.event_name, callback);
+						}
+                        else{
 							let doms = document.querySelectorAll(event.selector)
 							if(doms) {
 								if(isIterable(doms)) {

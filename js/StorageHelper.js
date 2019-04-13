@@ -80,22 +80,37 @@ var StorageHelper = (function() {
 	
 	async function createTask(info) {
 		var tasks = await retrieveData("tasks");
-		if(!tasks[info.moduleName]) {
-			tasks[info.moduleName] = {}
-		}
+        if(!tasks[info.moduleName])
+            tasks[info.moduleName] = {};
 		tasks[info.moduleName][info.name] = {
 			startTime: info.startTime,
+            taskId: info.taskId,
 			endTime: -1,
 			success: "unknown"
 		}
-		storeData("tasks", tasks);
+        let x = {};
+		x["tasks"] = tasks;
+		browser.storage.sync.set(x);
 	}
 	
-	async function loadTask(info) {
+	async function endTask(info) {
 		var tasks = await retrieveData("tasks");
-		return tasks[info.moduleName][info.name];
+        if(!info || !tasks[info.moduleName] || !tasks[info.moduleName][info.name])
+            return;
+		var res = Object.assign({}, tasks[info.moduleName][info.name]);
+        delete tasks[info.moduleName][info.name];
+        
+        let x = {};
+		x["tasks"] = tasks;
+		browser.storage.sync.set(x);        
+        return res;        
 	}
 	
+    async function loadAllModuleTaskIds(moduleName) {
+		var tasks = await retrieveData("tasks");
+        return tasks[moduleName];        
+	}
+    
 	function updateFunctionSettings(module, functionName, settings) {
 		if(module.functions.includes(functionName)) {
 			for (let item of module[functionName]) {
@@ -136,7 +151,9 @@ var StorageHelper = (function() {
 		removeMessage: removeMessage,
         retrieveMessages: retrieveMessages,
 		removeModule: removeModule,
-		createTask: createTask
+		createTask: createTask,
+        endTask: endTask,
+        loadAllModuleTaskIds: loadAllModuleTaskIds
         
         
     };

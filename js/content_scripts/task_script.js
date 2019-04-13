@@ -1,7 +1,23 @@
 console.log("task_script.js");
 var taskScript = (function () {	
 	var callbacks = {};
+    var startedTasks = {};
 
+    function uuid() {
+        function randomDigit() {
+            if (crypto && crypto.getRandomValues) {
+                var rands = new Uint8Array(1);
+                crypto.getRandomValues(rands);
+                return (rands[0] % 16).toString(16);
+            } else {
+                return ((Math.random() * 16) | 0).toString(16);
+            }
+        }
+        var crypto = window.crypto || window.msCrypto;
+        return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
+    }
+    
+    
 	function isIterable(obj) {
 	  // checks for null and undefined
 	  if (obj == null) {
@@ -45,28 +61,28 @@ var taskScript = (function () {
 		for(cn of task.conditions) {
 			switch(cn.operator) {
 				case '>':
-					resp = resp&&(data[cn.object] > cn.value)
+					resp = resp&&(data[cn.property] > cn.value)
 					break;
 				case '>=':
-					resp = resp&&(data[cn.object] >= cn.value)
+					resp = resp&&(data[cn.property] >= cn.value)
 					break;
 				case '<':
-					resp = resp&&(data[cn.object] < cn.value)
+					resp = resp&&(data[cn.property] < cn.value)
 					break;
 				case '<=':
-					resp = resp&&(data[cn.object] <= cn.value)
+					resp = resp&&(data[cn.property] <= cn.value)
 					break;
 				case '=':
-					resp = resp&&(data[cn.object] == cn.value)
+					resp = resp&&(data[cn.property] == cn.value)
 					break;
 				case '!=':
-					resp = resp&&(data[cn.object] != cn.value)
+					resp = resp&&(data[cn.property] != cn.value)
 					break;
 				case 'regEx':
-					resp = resp&&(data[cn.object].match(cn.value))
+					resp = resp&&(data[cn.property].match(cn.value))
 					break;
 				case 'contains':
-					resp = resp&&(data[cn.object].indexOf(cn.value) >= 0)
+					resp = resp&&(data[cn.property].indexOf(cn.value) >= 0)
 					break;
 			}
 		}
@@ -80,18 +96,28 @@ var taskScript = (function () {
 			params: [{
 						moduleName: moduleName,
 						name: task.name,
+                        taskId: uuid(),
 						created: false
 				}]
 		}
+        startedTasks[task.name] = message;
 		send_msg(message);	
 	}
 
 
 	function end_callback(task, moduleName, event){
+        if(!startedTasks[task.name])
+            return;
 		let data = {};
 		task.conditions.forEach(x=>{
 			var obj = null;
 			switch(x.selector) {
+                case "window":
+                    obj = window;
+                    break;
+                case "document":
+                    obj = document;
+                    break;
 				case "":
 					obj = event.currentTarget;
 					break;
@@ -114,18 +140,26 @@ var taskScript = (function () {
 			params: [{
 						url: window.location.href,                
 						moduleName: moduleName,
-						name: data.name,
-						success: taskSuccess(task, data)
+						name: task.name,
+						success: taskSuccess(task, data),
+                        created: true
 				}]
 		}
+        delete startedTasks[task.name];
+        send_msg(message);
 
 	}
 
 	function registerEvent(event, callback) {	
-		if(event.selector == ""){
+		if(event.selector == "window"){
 			// window
 			window.addEventListener(event.event_name, callback);
-		}else{
+		}else 
+        if(event.selector == "document"){
+            // document
+            document.addEventListener(event.event_name, callback);
+        }
+        else{
 			let doms = document.querySelectorAll(event.selector)
 			if(doms) {
 				if(isIterable(doms)) {
@@ -153,8 +187,11 @@ var taskScript = (function () {
 			let endCallback = function(x){end_callback(obj, message.moduleName, x)};
 			callbacks[message.moduleName + "_" + endEvent.event_name] = endCallback;
 			registerEvent(endEvent, endCallback);
+            console.log("object is: ",obj);
 				
 		});
+        window.addEventListener("load", (x) => {console.log(x)});
+        startedTasks = message.startedTasks?message.startedTasks:{}
 	}
 
 	function handleError(error) {

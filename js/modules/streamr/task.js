@@ -9,17 +9,17 @@ Streamr.task = [
 		viewGroup: "task",
         is_enabled: true,
         startEvent:	{
-			selector: "form.root_32zpi",   // window
+			selector: "form.root_32zpi",   
 			event_name: "submit"
 		},
 		endEvent: {
-			selector: "",   // window
+			selector: "window",   
 			event_name: "load"
 		},
         conditions: [
             {
-                selector: "", //Event.CurrentTarget
-				property: "location.href",
+                selector: "document", //Event.target
+				property: "URL",
                 operator: "=",
                 value: "https://www.streamr.com/canvas/editor",
             }			

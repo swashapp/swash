@@ -66,11 +66,11 @@ var Task = (function() {
 
 	function createTask(info) {
 		info.startTime = Date();
-		StorageHelper.createTask(task);
+		StorageHelper.createTask(info);
 	}
 	
 	async function sendTaskResult(info) {
-		let task = await StorageHelper.loadTask(info);
+		let task = await StorageHelper.endTask(info);
 		task.endTime = Date();
 		task.success = info.success;
 		DataHandler.handle({
@@ -98,7 +98,7 @@ var Task = (function() {
 			createTask(info);
 		} 
 		else {
-			sendTaskResult();
+			sendTaskResult(info);
 		}
 	}
 	
@@ -112,7 +112,8 @@ var Task = (function() {
 								let tasks = modules[module].task.filter(function(cnt, index, arr){
 									return cnt.is_enabled;
 								});
-								return {moduleName: modules[module].name, tasks: tasks};
+                                let startedTasks = await StorageHelper.loadAllModuleTaskIds( modules[module].name);
+								return {moduleName: modules[module].name, tasks: tasks, startedTasks: startedTasks};
 							}							
 				}
 			}
