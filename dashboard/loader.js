@@ -159,6 +159,16 @@ var helper = (function() {
         return sendMessage(message);		       		
 	}
 
+	function restart() {
+		let message = {
+			obj: "Loader",
+			func: "restart",
+			params: []
+		}
+        return sendMessage(message);		       		
+	}
+
+
 	function stop() {
 		let message = {
 			obj: "Loader",
@@ -191,6 +201,7 @@ var helper = (function() {
         save: save,
 		stop: stop,
 		start: start,
+		restart, restart,
 		config_module: config_module,
 		loadModules: loadModules,
         loadFilters: loadFilters,
