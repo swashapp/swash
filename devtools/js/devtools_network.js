@@ -4,7 +4,25 @@ var moduleName = "";
 var filters = {"": true};
 var rules = [];
 var url_matches = [];
-var netLog = [];
+var netLog = {};
+var logCounter = 0;
+
+
+async function sha256(message) {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder('utf-8').encode(message);                    
+
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    // convert bytes to hex string                  
+    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+    return hashHex;
+}
+
 function wildcard(input, wc) {
 	function regExpEscape (s) {
 	  return s.replace(/[|\\{}()[\]^$+*?.]/g, '\$&');
@@ -76,7 +94,7 @@ function getSelectedRows() {
 	rows.forEach(function(row) {
 		let select = row.getElementsByClassName('selectRow')[0];
 		if(select.checked) {
-			let id = row.id.split('-')[2];
+			let id = row.id;
 			for(let m of netLog[id].matched) {
 				if(!resRows[m])
 					resRows[m] = []
@@ -87,8 +105,12 @@ function getSelectedRows() {
 	return resRows;
 }
 
+
 function addFilterButton(name, className) {
 	filters[name] = false;
+    let btn = document.getElementById("button-" + name);
+    if(btn)
+        return;
     let fb = document.getElementById("filterButtons");
     var button = document.createElement("button");
     button.addEventListener("click", function(event) {filterRows(event,  name)});
@@ -107,8 +129,8 @@ function selectAll() {
 			select.checked = document.getElementById('selectAll').checked;
 	})
 }
-function addRow(row) {
-	let id = "surfstreamr-row-" + netLog.length;
+async function addRow(row) {
+    let id = await sha256(row.startedDateTime + row.url);	
     let bootstrapClasses = [
 		'bg-color-1',
 		'bg-color-2',
@@ -116,58 +138,72 @@ function addRow(row) {
 		'bg-color-4',
 		'bg-color-5',
 	]
-  var newrow = document.createElement("tr");
-  newrow.id = id;
-  let visible = false;
-  newrow.classList.add("surfstreamr-rule-");
-  let matchList = [];
-  if(filters[""]) {
-	  visible = true;
-  }
-  for(ruleIndex in rules) {
-	  if(matchRule(rules[ruleIndex], row)) {
-		matchList.push(rules[ruleIndex].name);
-		newrow.classList.add(bootstrapClasses[ruleIndex<5?ruleIndex:4]);
-		newrow.classList.add("surfstreamr-rule-" + rules[ruleIndex].name)
-		if(filters[rules[ruleIndex].name])
-			visible = true;
-		if(ruleIndex == 0) {
-			newrow.classList.add("text-white");
-		}
+    var newrow = document.getElementById(id);
+    if(!newrow) {
+        newrow = document.createElement("tr");
+        newrow.id = id;        
+       
+        var checkColumn = createRowColumn(newrow);
+        checkColumn.setAttribute("class", "align-middle");
+        checkColumn.setAttribute("align", "center");  
+        var statusColumn = createRowColumn(newrow);
+        statusColumn.id = id + "-status";
+        var methodColumn = createRowColumn(newrow);
+        methodColumn.id = id + "-method";
+        var domainColumn = createRowColumn(newrow);
+        domainColumn.id = id + "-domain";
+        var fileColumn = createRowColumn(newrow);
+        fileColumn.id = id + "-file";
+        var timeColumn = createRowColumn(newrow);
+        timeColumn.id = id + "-time";
+        var typeColumn = createRowColumn(newrow);
+        typeColumn.id = id + "-type";
+        var transferredColumn = createRowColumn(newrow);
+        transferredColumn.id = id + "-transferred";
+        var sizeColumn = createRowColumn(newrow);
+        sizeColumn.id = id + "-size";
+        var checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.setAttribute("class", "selectRow");
+        checkColumn.appendChild(checkbox);
+        var table = document.getElementById('netTable');
+        var tbody = table.querySelector('tbody');  
+        tbody.appendChild(newrow);
+    }
+    
+    
+    newrow.className = "";
+    newrow.classList.add("surfstreamr-rule-");
+    let visible = false;
+    let matchList = [];
+    if(filters[""]) {
+        visible = true;
+    }
+    for(let ruleIndex in rules) {
+      if(matchRule(rules[ruleIndex], row)) {
+        matchList.push(rules[ruleIndex].name);
+        newrow.classList.add(bootstrapClasses[ruleIndex<5?ruleIndex:4]);
+        newrow.classList.add("surfstreamr-rule-" + rules[ruleIndex].name)
+        if(filters[rules[ruleIndex].name])
+            visible = true;
+        if(ruleIndex == 0) {
+            newrow.classList.add("text-white");
+        }
       }
-  }
-  netLog.push({row:row, matched:matchList});
-  if(!visible)
-	  newrow.classList.add("rowDisabled");
-  var checkColumn = createRowColumn(newrow);
-  checkColumn.setAttribute("class", "align-middle");
-  checkColumn.setAttribute("align", "center");  
-  var statusColumn = createRowColumn(newrow);
-  var methodColumn = createRowColumn(newrow);
-  var domainColumn = createRowColumn(newrow);
-  var fileColumn = createRowColumn(newrow);
-  var timeColumn = createRowColumn(newrow);
-  var typeColumn = createRowColumn(newrow);
-  var transferredColumn = createRowColumn(newrow);
-  var sizeColumn = createRowColumn(newrow);
+    }
+    netLog[id] = {row:row, matched:matchList};
+    if(!visible)
+        newrow.classList.add("rowDisabled");
 
-  var checkbox = document.createElement("input");
-  checkbox.setAttribute("type", "checkbox");
-  checkbox.setAttribute("class", "selectRow");
-  checkColumn.appendChild(checkbox);
-  statusColumn.innerHTML = "<div class='statusWrapper-" + row.status + "'>" + row.status + "</div>";
-  methodColumn.innerHTML = row.method;
-  timeColumn.innerHTML = row.time + " ms";
-  domainColumn.innerHTML = row.domain;
-  fileColumn.innerHTML = row.file;
-  typeColumn.innerHTML = row.type;
-  transferredColumn.innerHTML = row.transferred;
-  sizeColumn.innerHTML = row.size;  
-
-  
-  var table = document.getElementById('netTable');
-  var tbody = table.querySelector('tbody');  
-  tbody.appendChild(newrow);
+    document.getElementById(id + "-status").innerHTML = "<div class='statusWrapper-" + row.status + "'>" + row.status + "</div>";
+    document.getElementById(id + "-method").innerHTML = row.method;
+    document.getElementById(id + "-time").innerHTML = row.time + " ms";
+    document.getElementById(id + "-domain").innerHTML = row.domain;
+    document.getElementById(id + "-file").innerHTML = row.file;
+    document.getElementById(id + "-type").innerHTML = row.type;
+    document.getElementById(id + "-transferred").innerHTML = row.transferred;
+    document.getElementById(id + "-size").innerHTML = row.size;  
+    return true;
 }
 
 function clearRows() {
@@ -175,7 +211,7 @@ function clearRows() {
   var tbody = table.querySelector('tbody');    
   var new_tbody = document.createElement('tbody');
   tbody.parentNode.replaceChild(new_tbody, tbody);
-  netLog = [];
+  netLog = {};
 }
 
 
@@ -192,23 +228,31 @@ async function logRequests() {
 	if(!match)
 		return;
     let harLog = await browser.devtools.network.getHAR();
+    //if(harLog.entries.length == 0)
+    //    harLog = await browser.devtools.network.getHAR();
 	console.log(harLog);
+    let res2;
     for (let entry of harLog.entries) {
 		var url = new URL(entry.request.url);
         let row = {
+            startedDateTime: entry.startedDateTime,
+            url: entry.request.url, 
             status: (entry.response.status > 0)? entry.response.status:'',
             method: entry.request.method,
             domain: url.hostname,
             file: url.pathname,
             time: entry.time,
-            type: entry.response.content.mimeType.split('/')[1].split(/[\;\+]/)[0],
+            type: entry.response.content.mimeType?entry.response.content.mimeType.split('/')[1].split(/[\;\+]/)[0]:'',
             transferred: (entry.response.status == 304)?'cached':(entry.response.bodySize > 0)?(entry.response.bodySize/1024).toFixed(2) + " kB":"0 B",
             size: (entry.response.content.size > 0)?(entry.response.content.size/1024).toFixed(2) + " kB":"0 B"
         }
-        addRow(row);        
+        res2 = await addRow(row);        
     }
 }
 
+function resetCounter(){
+    logCounter = 0;
+}
 function matchRule(rule, data) {
 	let resp = true;
 	for(cn of rule.conditions) {
@@ -296,8 +340,8 @@ function sendToMarketplace() {
 }
 
 window.onload = loadPanel
-browser.devtools.network.onNavigated.addListener(logRequests);
-
+//browser.devtools.network.onNavigated.addListener(logRequests);
+browser.devtools.network.onRequestFinished.addListener(logRequests);
 
 
 

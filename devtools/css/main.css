@@ -17,7 +17,7 @@ td {
     font-weight: normal;  
 }
 
-th {
+th, thead{
 background-color: rgb(249, 249, 250);
 }
 .btn {
