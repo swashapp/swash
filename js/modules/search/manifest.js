@@ -8,11 +8,15 @@ var Search = (function() {
         description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
         path: "/search",
         URL: ["https://www.google.com","https://search.yahoo.com","https://www.aol.com/","http://www.bing.com/","https://www.ask.com/"],
-        functions: ["browsing"],
+        functions: ["browsing","content"],
 		viewGroups: [
 			{
 				name: "Search",
 				title: "Search Engines"
+			},
+            {
+				name: "Google",
+				title: "Google Search Engine"
 			}
 		],
         is_enabled: true,

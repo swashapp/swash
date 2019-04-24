@@ -18,21 +18,28 @@ Amazon.content = [
         objects: [
             {
                 selector:"",
-                property: "innerHTML",
-                name: "text",
-				type: "text"
-            },
-            {
-                selector:"",
-                property: "href",
-                name: "url",
-				type: "url"
+                properties: [
+                    {
+                        property: "innerHTML",
+                        name: "text",
+                        type: "text"
+                    },
+                    {
+                        property: "href",
+                        name: "url",
+                        type: "url"
+                    }
+                ]
             },
             {
                 selector:"#title",
-                property: "innerText",
-                name: "page_title",
-				type: "text"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "page_title",
+                        type: "text"
+                    }
+                ]
             }
         ]
     },
@@ -53,22 +60,34 @@ Amazon.content = [
         objects: [
             {
                 selector:"#productTitle",
-                property: "innerText",
-                name: "title",
-				type: "text"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
 				
             },
             {
                 selector:"#searchDropdownBox option:selected",
-                property: "text",
-                name: "category",
-				type: "text"
+                properties: [
+                    {
+                        property: "text",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#title",
-                property: "innerText",
-                name: "page_title",
-				type: "text"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "page_title",
+                        type: "text"
+                    }
+                ]
             }
         ]
     },
@@ -92,18 +111,33 @@ Amazon.content = [
         objects: [
             {
                 selector:"#productTitle",
-                property: "innerText",
-                name: "title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "title",
+                        type: "text"                
+                    }
+                ]
             },
             {
                 selector:"#searchDropdownBox option:selected",
-                property: "text",
-                name: "category"
+                properties: [
+                    {
+                        property: "text",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#title",
-                property: "innerText",
-                name: "page_title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "page_title",
+                        type: "text"
+                    }
+                ]
             }
         ]
     },
@@ -127,18 +161,33 @@ Amazon.content = [
         objects: [
             {
                 selector:"#productTitle",
-                property: "innerText",
-                name: "title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#searchDropdownBox option:selected",
-                property: "text",
-                name: "category"
+                properties: [
+                    {
+                        property: "text",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#title",
-                property: "innerText",
-                name: "page_title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "page_title",
+                        type: "text"
+                    }
+                ]
             }
         ]
     },
@@ -162,18 +211,33 @@ Amazon.content = [
         objects: [
             {
                 selector:"#productTitle",
-                property: "innerText",
-                name: "title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#searchDropdownBox option:selected",
-                property: "text",
-                name: "category"
+                properties: [
+                    {
+                        property: "text",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
             },
             {
                 selector:"#title",
-                property: "innerText",
-                name: "page_title"
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "page_title",
+                        type: "text"
+                    }
+                ]
             }
         ]
     },

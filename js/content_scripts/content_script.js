@@ -109,27 +109,59 @@ var contentScript = (function () {
 		}
 
 		data.objects.forEach(x=>{
-			var obj = null;
+			var objList = [];
 			switch(x.selector) {
                 case "window":
-                    obj = window;
+                    objList = window;                    
                     break;
                 case "document":
-                    obj = document;
+                    objList = document;                    
                     break;
 				case "":
-					obj = event.currentTarget;
+					objList = event.currentTarget;                    
 					break;
 				case ".":
-					obj = event;
+					objList = event.target;                    
 					break;
 				default:
-					obj = document.querySelector(x.selector);
+                    if(x.name) {                        
+                        objList = document.querySelectorAll(x.selector);
+                    } 
+                    else {
+                        objList = document.querySelector(x.selector);
+                    }
 					break;
 			}
-			if(obj != null){
-				message.params[0].data.out[x.name] = obj[x.property];
-				message.params[0].data.schems.push({jpath:"$." + x.name,type:x.type});
+			if(objList){                
+                if(x.name) {
+                    message.params[0].data.out[x.name] = [];                    
+                    x.properties.forEach(y=>{
+                        message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  y.name,type:y.type}); 
+                    });
+                    objList.forEach(obj=>{
+                        let item = {};
+                        x.properties.forEach(y=>{
+                            let prop;
+                            if(y.selector)
+                                prop = obj.querySelector(y.selector);
+                            else
+                                prop = obj;
+                            item[y.name] = prop[y.property];                            
+                        })
+                        message.params[0].data.out[x.name].push(item);
+                    })
+                }
+                else {
+                    x.properties.forEach(y=>{                        
+                        message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
+                        let prop;
+                        if(y.selector)
+                            prop = objList.querySelector(y.selector);
+                        else
+                            prop = objList;
+                        message.params[0].data.out[y.name] = prop[y.property];
+                    });
+                }
 			}			
 		});
 		if(!isEmpty(message.params[0].data.out))
