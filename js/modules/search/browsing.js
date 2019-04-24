@@ -86,9 +86,9 @@ Search.browsing = [
             }
         ]
     },{
-        name: "Google",
-        title: "Google.com",
-		viewGroup: "Search",
+        name: "query",
+        title: "Search Query",
+		viewGroup: "Google",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.google.com/search?*"]},		
