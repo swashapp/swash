@@ -60,23 +60,23 @@ var Content = (function() {
 		browser.tabs.executeScript(tabId, {
 		  file: "/js/content_scripts/content_script.js",
 		  allFrames: false,
-		  runAt: "document_end"
+		  runAt: "document_start"
 		})
     }
 
 	async function injectCollectors(url) {
         var modules = await StorageHelper.retrieveModules();
 		for (var module in modules) {
-			if(modules[module].functions.includes("content")){			
-					if(modules[module].is_enabled)
-						for(var item of modules[module].content_matches) {
-							if(Utils.wildcard(url, item)) {
-								let content = modules[module].content.filter(function(cnt, index, arr){
-									return cnt.is_enabled;
-								});
-								return {moduleName: modules[module].name, content: content};
-							}							
-				}
+			if(modules[module].functions.includes("content")){	
+				if(modules[module].is_enabled)
+					for(var item of modules[module].content_matches) {
+						if(Utils.wildcard(url, item)) {
+							let content = modules[module].content.filter(function(cnt, index, arr){
+								return (cnt.is_enabled && Utils.wildcard(url, cnt.url_match));
+							});
+							return {moduleName: modules[module].name, content: content};
+						}
+				}											
 			}
 		}    
 		return;	
