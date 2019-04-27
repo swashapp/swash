@@ -1,9 +1,10 @@
 console.log("modules/amazon/content.js");
 import {Amazon} from './manifest.js';
-Amazon.content_matches = ["*://*.amazon.com/*"];
+Amazon.content_matches = ["*://*.amazon.com/*"]
 Amazon.content = [
     {
         name: "links",
+		url_match: "*://*.amazon.com/*",
         description: "",
 		viewGroup: "UX",
         title: "Links clicked by user",
@@ -45,6 +46,7 @@ Amazon.content = [
     },
     {
         name: "selectItem",
+		url_match: "*://*.amazon.com/*",
         description: "",
 		viewGroup: "UX",
         title: "Items selected by user",
@@ -93,6 +95,7 @@ Amazon.content = [
     },
     {
         name: "addToCart",
+		url_match: "*://*.amazon.com/*",
         description: "Items added to cart",
 		viewGroup: "UX",
         title: "Items added to cart",
@@ -144,6 +147,7 @@ Amazon.content = [
     {
         name: "addToWishlist",
         description: "",
+		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items added to wishlist",
         type: "event",        
@@ -194,6 +198,7 @@ Amazon.content = [
     {
         name: "buyNow",
         description: "",
+		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items selected for buy",
         type: "event",        

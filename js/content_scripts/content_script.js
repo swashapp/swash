@@ -146,7 +146,8 @@ var contentScript = (function () {
                                 prop = obj.querySelector(y.selector);
                             else
                                 prop = obj;
-                            item[y.name] = prop[y.property];                            
+							if(prop)
+								item[y.name] = prop[y.property];                            
                         })
                         message.params[0].data.out[x.name].push(item);
                     })
@@ -159,7 +160,8 @@ var contentScript = (function () {
                             prop = objList.querySelector(y.selector);
                         else
                             prop = objList;
-                        message.params[0].data.out[y.name] = prop[y.property];
+						if(prop)
+							message.params[0].data.out[y.name] = prop[y.property];
                     });
                 }
 			}			
@@ -167,7 +169,21 @@ var contentScript = (function () {
 		if(!isEmpty(message.params[0].data.out))
 			send_msg(message);
 	}
-
+	
+	function documentReadyCallback(event, callback) {
+		let doms = document.querySelectorAll(event.selector)
+		if(doms) {
+			if(isIterable(doms)) {
+				for(let dom of doms) {
+					dom.addEventListener(event.event_name, callback);
+				}					                        
+			}
+			else {
+				doms.addEventListener(event.event_name, callback);
+			}
+		}			
+	}
+	
 	function handleResponse(message) {
 	  console.log(`Message from the background script:  ${JSON.stringify(message)}`);
 	  
@@ -186,17 +202,7 @@ var contentScript = (function () {
 							document.addEventListener(event.event_name, callback);
 						}
                         else{
-							let doms = document.querySelectorAll(event.selector)
-							if(doms) {
-								if(isIterable(doms)) {
-									for(let dom of doms) {
-										dom.addEventListener(event.event_name, callback);
-									}					                        
-								}
-								else {
-									doms.addEventListener(event.event_name, callback);
-								}
-							}
+							window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
 						}			
 					})            
 				break;

@@ -7,16 +7,32 @@ var Search = (function() {
         name: "search",
         description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
         path: "/search",
-        URL: ["https://www.google.com","https://search.yahoo.com","https://www.aol.com/","http://www.bing.com/","https://www.ask.com/"],
+        URL: ["https://www.google.com","https://search.yahoo.com","https://www.aol.com/","http://www.bing.com/","https://www.ask.com/","http://www.baidu.com/"],
         functions: ["browsing","content"],
-		viewGroups: [
-			{
-				name: "Search",
-				title: "Search Engines"
-			},
+		viewGroups: [			
             {
 				name: "Google",
 				title: "Google Search Engine"
+			},
+			{
+				name: "Yahoo",
+				title: "Yahoo Search Engine"
+			},
+			{
+				name: "AOL",
+				title: "AOL Search Engine"
+			},
+			{
+				name: "Bing",
+				title: "Bing Search Engine"
+			},
+			{
+				name: "Ask",
+				title: "Ask Search Engine"
+			},
+			{
+				name: "Baidu",
+				title: "Baidu Search Engine"
 			}
 		],
         is_enabled: true,

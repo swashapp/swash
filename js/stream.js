@@ -5,7 +5,9 @@ import {streamrConf} from './streamConfig.js';
 var stream = (function() {
 
 	var client = new StreamrClient({
-	  apiKey: streamrConf.API_KEY
+		auth:{
+			apiKey: streamrConf.API_KEY
+		}
 	})
 
 	// Wrap event generation and producion into this method
@@ -13,12 +15,12 @@ var stream = (function() {
 	  
 	  // Produce the event to the Stream
 	  console.log("produceNewEvent ", msg);
-	  client.produceToStream(streamrConf.STREAM_ID, msg)
+	  client.publish(streamrConf.STREAM_ID, msg)
 		.then(() => {
 		  console.log('Sent successfully: ' + JSON.stringify(msg))
 		})
 		.catch((err) => {
-		  console.errorlog(err)
+		  console.error(err)
 		})
 	}
     return {

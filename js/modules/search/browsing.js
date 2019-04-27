@@ -5,9 +5,9 @@ Search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*:/
 Search.browsing_extraInfoSpec= [];
 Search.browsing = [
     {
-        name: "Bing",
-        title: "Bing.com",
-		viewGroup: "Search",
+        name: "bingQuery",
+        title: "Search Query",
+		viewGroup: "Bing",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.bing.com/*"]},		
@@ -55,9 +55,9 @@ Search.browsing = [
             }
         ]
     },{
-        name: "Yahoo",
-        title: "Yahoo.com",
-		viewGroup: "Search",
+        name: "yahooQuery",
+        title: "Search Query",
+		viewGroup: "Yahoo",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://*.yahoo.com/*"]},		
@@ -86,7 +86,7 @@ Search.browsing = [
             }
         ]
     },{
-        name: "query",
+        name: "googleQuery",
         title: "Search Query",
 		viewGroup: "Google",
         is_enabled: true,        
@@ -117,9 +117,9 @@ Search.browsing = [
             }
         ]
     },{
-        name: "AOL",
-        title: "AOL.com",
-		viewGroup: "Search",
+        name: "aolQuery",
+        title: "Search Query",
+		viewGroup: "AOL",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://search.aol.com/aol/*"]},		
@@ -147,9 +147,9 @@ Search.browsing = [
             }
         ]
     },{
-        name: "Ask",
-        title: "Ask.com",
-		viewGroup: "Search",
+        name: "askQuery",
+        title: "Search Query",
+		viewGroup: "Ask",
         is_enabled: true,        
         description: "",
         filter: {urls: ["*://www.ask.com/*"]},		
@@ -177,9 +177,9 @@ Search.browsing = [
             }
         ]
     },{
-        name: "Baidu",
-        title: "Baidu.com",
-		viewGroup: "Search",
+        name: "baiduQuery",
+        title: "Search Query",
+		viewGroup: "Baidu",
         is_enabled: true,        
         description: "",
 		filter: {urls: ["*://*.baidu.com/*"]},		

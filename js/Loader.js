@@ -15,11 +15,11 @@ var Loader = (function() {
     function install(allModules){
         StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
-            if (db == null || db == undefined || Object.keys(db).length==0){
+            //if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], messages: {}, tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
-            }
+            //}
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);
                 allModules.forEach(module=>{            
