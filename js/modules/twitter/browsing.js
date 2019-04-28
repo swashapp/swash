@@ -9,7 +9,7 @@ Twitter.browsing = [
         title: "Post a new tweet",
 		viewGroup: "UX",
         is_enabled: true,        
-        description: "",
+        description: "This item collects all tweets that user posted in twitter",
         extraInfoSpec: ["requestBody"],
         patterns: [
 			{
@@ -35,7 +35,7 @@ Twitter.browsing = [
 		title: "Twitter Search",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all search queries that user entered in twitter search bar",
 		patterns: [
 			{
 				method: "GET",
@@ -74,7 +74,7 @@ Twitter.browsing = [
 		title: "Follow action",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's follow actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -99,7 +99,7 @@ Twitter.browsing = [
 		title: "Unfollow action",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's unfollow actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -124,7 +124,7 @@ Twitter.browsing = [
 		title: "Mute action",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's mute actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -149,7 +149,7 @@ Twitter.browsing = [
 		title: "Unmute action",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's unmute actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -174,7 +174,7 @@ Twitter.browsing = [
 		title: "Like action",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's like actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -199,7 +199,7 @@ Twitter.browsing = [
 		title: "Retweet",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all user's retweet actions in twitter",
         extraInfoSpec: ["requestBody"],
 		patterns: [
 			{
@@ -224,7 +224,7 @@ Twitter.browsing = [
 		title: "Visit User page",
 		viewGroup: "UX",
         is_enabled: true,
-		description: "",
+		description: "This item collects all users pages in Twitter that this user has visited",
 		patterns: [
 			{
 				method: "GET",
@@ -246,6 +246,7 @@ Twitter.browsing = [
 	{
 		name: "Page Visit",
         title: "visited pages",
+		description: "This item collects all pages in Twitter that user has visited",
 		viewGroup: "UX",
         is_enabled: true,
 		target_listener: "inspectVisit"
@@ -253,6 +254,7 @@ Twitter.browsing = [
 	{
 		name: "Visiting Graph",
         title: "Visiting Graph",
+		description: "This item collects all navigation that user do in Twitter web pages",
 		viewGroup: "UX",
         is_enabled: true,
 		target_listener: "inspectReferrer"

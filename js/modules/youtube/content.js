@@ -4,7 +4,7 @@ Youtube.content_matches = ["*://*.youtube.com/*"];
 Youtube.content = [
     {
         name: "Video Time Duration",
-        description: "",
+        description: "This item collects the duration of a video watch by user",
 		url_match: "*://*.youtube.com/*",
         title: "video time duration",
 		viewGroup: "UX",

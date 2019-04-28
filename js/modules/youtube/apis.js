@@ -3,7 +3,7 @@ import {Youtube} from './manifest.js';
 Youtube.apiCall = [
 	{
 		name: "recentActivities",
-		description: "",
+		description: "This item collect recent activities of user in Youtube",
         title: "User recent activities",
 		viewGroup: "API",
         is_enabled: true,
@@ -31,7 +31,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "myChannels",
-		description: "",
+		description: "This item collects list of user's channels in Youtube",
         title: "User channels",
 		viewGroup: "API",
         is_enabled: true,        
@@ -67,7 +67,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "channelsManagedByMe",
-		description: "",
+		description: "This item collects list of channels that managed by user in Youtube",
         title: "channel managed by User",
         viewGroup: "API",
 		is_enabled: true,        
@@ -103,7 +103,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "channelSections",
-		description: "",
+		description: "This item collects all sections of channels in Youtube",
 		method: "GET",
         title: "Channel sections",
 		viewGroup: "API",
@@ -139,7 +139,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "myPlaylists",
-		description: "",
+		description: "This item collects playlist of user in Youtube",
         title: "User playlist",
 		viewGroup: "API",
         is_enabled: true,        
@@ -175,7 +175,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "mySubscriptions",
-		description: "",
+		description: "This item collects list of all subscriptions of user",
         title: "User subscriptions",
 		viewGroup: "API",
         is_enabled: true,        
@@ -205,7 +205,7 @@ Youtube.apiCall = [
 	},
     {
 		name: "myLikedVideos",
-		description: "",
+		description: "This item collects all videos liked by user",
         title: "User linked videos",
 		viewGroup: "API",
         is_enabled: true,        
