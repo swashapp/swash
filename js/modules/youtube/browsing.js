@@ -8,7 +8,7 @@ Youtube.browsing = [
         title: "Page actions",
 		viewGroup: "UX",
         is_enabled: true,
-        description: "",
+        description: "This item collects all actions user do in Youtube pages",
         extraInfoSpec: ["requestBody"],        
         patterns: [
 			{
@@ -39,7 +39,7 @@ Youtube.browsing = [
         title: "Youtube Search",
 		viewGroup: "UX",
         is_enabled: true,        
-        description: "",
+        description: "This item collect all search queries that user enter in Youtube search bar",
         patterns: [
 			{
 				method: "GET",
