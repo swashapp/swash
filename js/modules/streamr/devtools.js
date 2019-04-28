@@ -6,6 +6,7 @@ Streamr.devtools = [
 		name: "Status",
 		title: "Status Code",
 		viewGroup: "devtools",
+        description: "Thist item collects all requests that have a status code not equal to 200 and not equal to 304",
 		is_enabled: true,
 		conditions: [
 			{
@@ -23,6 +24,7 @@ Streamr.devtools = [
 	{
 		name: "Size",
 		title: "Zero Size",
+        description: "Thist item collects all requests that have a zero size response",
 		viewGroup: "devtools",
 		is_enabled: true,
 		conditions: [
@@ -36,6 +38,7 @@ Streamr.devtools = [
 	{
 		name: "Time",
 		title: "Long time",
+        description: "Thist item collects all requests that take more than 2 second to respond",
 		viewGroup: "devtools",
 		is_enabled: true,
 		conditions: [

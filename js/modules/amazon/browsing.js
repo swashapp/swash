@@ -6,6 +6,7 @@ Amazon.browsing = [
     {
         name: "Search",
         title: "Amazon Search",
+        description: "This item collects all search queries that user entered in Amazon search bar",
 		viewGroup: "UX",
         is_enabled: true,
         patterns: [
@@ -80,12 +81,14 @@ Amazon.browsing = [
         name: "Page Visit",
 		viewGroup: "UX",
         title: "Amazon visited pages",
+        description: "This item collects all pages in Amazon that user has visited",
         target_listener: "inspectVisit",
         is_enabled: true
     },
     {
         name: "Visiting Graph",
         title: "Visiting Graph",
+        description: "This item collects all navigation that user do in Amazon web pages",
 		viewGroup: "UX",
         target_listener: "inspectReferrer",
         is_enabled: true
