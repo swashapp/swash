@@ -5,6 +5,7 @@ Streamr.survey = [{
 	name: "UX Survey",
 	title: "UX Survey",
 	viewGroup: "Survey",
+    description: "This item collects the result of a User Experience Survey",
 	is_enabled: true,
 	pages: [
 		{

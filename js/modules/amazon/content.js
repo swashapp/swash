@@ -5,7 +5,7 @@ Amazon.content = [
     {
         name: "links",
 		url_match: "*://*.amazon.com/*",
-        description: "",
+        description: "This item collects all links in Amazon web pages that clicked by user",
 		viewGroup: "UX",
         title: "Links clicked by user",
         type: "event",        
@@ -47,7 +47,7 @@ Amazon.content = [
     {
         name: "selectItem",
 		url_match: "*://*.amazon.com/*",
-        description: "",
+        description: "This item collects product title, product category and page title for products in amazon web pages that selected by user",
 		viewGroup: "UX",
         title: "Items selected by user",
         type: "event",        
@@ -96,7 +96,7 @@ Amazon.content = [
     {
         name: "addToCart",
 		url_match: "*://*.amazon.com/*",
-        description: "Items added to cart",
+        description: "This item collects all products in amazon web pages that added to cart by user",
 		viewGroup: "UX",
         title: "Items added to cart",
         type: "event",        
@@ -146,7 +146,7 @@ Amazon.content = [
     },
     {
         name: "addToWishlist",
-        description: "",
+        description: "This item collects all products in amazon web pages that added by user in wish list",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items added to wishlist",
@@ -197,7 +197,7 @@ Amazon.content = [
     },
     {
         name: "buyNow",
-        description: "",
+        description: "This item collects all products in amazon web pages that selected by user for buying",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items selected for buy",

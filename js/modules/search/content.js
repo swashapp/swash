@@ -6,7 +6,7 @@ Search.content = [
     {
         name: "googleSearchResult",
 		url_match: "*://www.google.com/search?*",
-        description: "",
+        description: "This item collects Google search results, search category, page number and corresponding search query",
 		viewGroup: "Google",
         title: "Search Result",
         type: "event",        
@@ -70,7 +70,7 @@ Search.content = [
     {
         name: "googleClickedLink",
 		url_match: "*://www.google.com/search?*",
-        description: "",
+        description: "This item collects links clicked by user from Google search result",
 		viewGroup: "Google",
         title: "clicked link",
         type: "event",        
@@ -128,7 +128,7 @@ Search.content = [
 	{
         name: "bingSearchResult",
 		url_match: "*://www.bing.com/*",
-        description: "",
+        description: "This item collects Bing search results, search category, page number and corresponding search query",
 		viewGroup: "Bing",
         title: "Search Result",
         type: "event",        
@@ -192,7 +192,7 @@ Search.content = [
     {
         name: "bingClickedLink",
 		url_match: "*://www.bing.com/*",
-        description: "",
+        description: "This item collects links clicked by user from Bing search result",
 		viewGroup: "Bing",
         title: "clicked link",
         type: "event",        
@@ -250,7 +250,7 @@ Search.content = [
 	{
         name: "yahooSearchResult",
 		url_match: "*://*.yahoo.com/*",
-        description: "",
+        description: "This item collects Yahoo search results, search category, page number and corresponding search query",
 		viewGroup: "Yahoo",
         title: "Search Result",
         type: "event",        
@@ -314,7 +314,7 @@ Search.content = [
     {
         name: "yahooClickedLink",
 		url_match: "*://*.yahoo.com/*",
-        description: "",
+        description: "This item collects links clicked by user from Yahoo search result",
 		viewGroup: "Yahoo",
         title: "clicked link",
         type: "event",        
@@ -372,7 +372,7 @@ Search.content = [
 	{
         name: "aolSearchResult",
 		url_match: "*://search.aol.com/aol/*",
-        description: "",
+        description: "This item collects AOL search results, search category, page number and corresponding search query",
 		viewGroup: "AOL",
         title: "Search Result",
         type: "event",        
@@ -436,7 +436,7 @@ Search.content = [
     {
         name: "aolClickedLink",
 		url_match: "*://search.aol.com/aol/*",
-        description: "",
+        description: "This item collects links clicked by user from AOL search result",
 		viewGroup: "AOL",
         title: "clicked link",
         type: "event",        
@@ -494,7 +494,7 @@ Search.content = [
 	{
         name: "askSearchResult",
 		url_match: "*://www.ask.com/*",
-        description: "",
+        description: "This item collects Ask search results, search category, page number and corresponding search query",
 		viewGroup: "Ask",
         title: "Search Result",
         type: "event",        
@@ -558,7 +558,7 @@ Search.content = [
     {
         name: "askClickedLink",
 		url_match: "*://www.ask.com/*",
-        description: "",
+        description: "This item collects links clicked by user from Ask search result",
 		viewGroup: "Ask",
         title: "clicked link",
         type: "event",        
@@ -616,7 +616,7 @@ Search.content = [
 	{
         name: "askSearchResult",
 		url_match: "*://*.baidu.com/*",
-        description: "",
+        description: "This item collects Baidu search results, search category, page number and corresponding search query",
 		viewGroup: "Baidu",
         title: "Search Result",
         type: "event",        
@@ -680,7 +680,7 @@ Search.content = [
     {
         name: "askClickedLink",
 		url_match: "*://*.baidu.com/*",
-        description: "",
+        description: "This item collects links clicked by user from Baidu search result",
 		viewGroup: "Baidu",
         title: "clicked link",
         type: "event",        

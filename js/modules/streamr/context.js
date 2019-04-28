@@ -4,7 +4,7 @@ Streamr.context_matches = ["*://*.streamr.com/*"];
 Streamr.context = [
     {
         name: "agent",
-        description: "",
+        description: "This item collects User Browser Information",
         title: "User Agent",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -12,7 +12,7 @@ Streamr.context = [
     },
     {
         name: "installedPlugins",
-        description: "",
+        description: "This item collects all browser installed plugins",
         title: "installed Plugins",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -20,7 +20,7 @@ Streamr.context = [
     },
     {
         name: "platform",
-        description: "",
+        description: "This item collects User operating system",
         title: "Platform",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -28,7 +28,7 @@ Streamr.context = [
     },
 	    {
         name: "language",
-        description: "",
+        description: "This item collects default Browser language",
         title: "Browser Language",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -36,7 +36,7 @@ Streamr.context = [
     },
 	{
         name: "proxyStatus",
-        description: "",
+        description: "This item collects browser proxy staus(is proxy enabled for http and dns requests or not)",
         title: "Proxy Status",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -44,7 +44,7 @@ Streamr.context = [
     },
 	{
         name: "screenshot",
-        description: "",
+        description: "This item collects an screenshot of the user's browser tab that an specific event occured on",
         title: "Screenshot",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -52,7 +52,7 @@ Streamr.context = [
     },
     {
         name: "resolution",
-        description: "",
+        description: "This item collects User system resolution",
         title: "Screen Resolution",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -60,7 +60,7 @@ Streamr.context = [
     },
         {
         name: "scroll",
-        description: "",
+        description: "This item collects User Browser window X and Y scrolls",
         title: "Window Scroll",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -68,7 +68,7 @@ Streamr.context = [
     },
     {
         name: "windowSize",
-        description: "",
+        description: "This item collects User Browser window size",
         title: "Window Size",
 		viewGroup: "cta",
 		is_enabled: true,
@@ -76,7 +76,7 @@ Streamr.context = [
     },
     {
         name: "cache",
-        description: "",
+        description: "This item collects cache items regarding a tab that an specific event occured on",
         title: "Caches",
 		viewGroup: "cta",
 		is_enabled: true,

@@ -4,7 +4,7 @@ Streamr.task_matches = ["*://*.streamr.com/*"];
 Streamr.task = [
     {
         name: "LoginTask",
-        description: "",
+        description: "This item collects the result and duration of a login action in Streamr Editor",
         title: "Login Task",
 		viewGroup: "task",
         is_enabled: true,
