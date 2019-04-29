@@ -73,7 +73,7 @@ var privacyUtils = (function() {
                 return retText;
             case 1:
                 for(var i = 0; i < privacyData.length ; i++) {  
-					retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (sha256(privacyData[i] + salt).substring(0,privacyData[i].value.length)));                    
+					retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (sha256(privacyData[i].value + salt).substring(0,privacyData[i].value.length)));                    
                 }
                 return retText;
             case 2:
@@ -157,13 +157,13 @@ var privacyUtils = (function() {
             case 0:        
                 return retAttr;
             case 1:
-                retAttr = sha256(user);
+                retAttr = sha256(userAttr);
                 return retAttr;
             case 2:
-                retAttr = sha256(user + salt);            
+                retAttr = sha256(userAttr + salt);            
                 return retAttr;
             case 3:
-                retAttr = sha256(user + mSalt);            
+                retAttr = sha256(userAttr + mSalt);            
                 return retAttr;            
             case 4:
                 return "";
