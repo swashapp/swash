@@ -195,6 +195,15 @@ var helper = (function() {
 		}
         return sendMessage(message);		       		
 	}
+    
+    function enforcePolicy(msg, mSalt, salt, privacyData){
+		let message = {
+			obj: "DataHandler",
+			func: "enforcePolicy",
+			params: [msg, mSalt, salt, privacyData]
+		}
+        return sendMessage(message);		       		        
+    }
 	
 	return {
         load: load,
@@ -218,6 +227,7 @@ var helper = (function() {
 		loadMessages: loadMessages,
 		cancelSending: cancelSending,
 		saveModule: saveModule,
-		removeModule: removeModule
+		removeModule: removeModule,
+        enforcePolicy: enforcePolicy
     };
 }());

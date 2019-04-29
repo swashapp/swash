@@ -184,7 +184,8 @@ var DataHandler = (function() {
     
     return {
         handle: handle,
-		cancelSending: cancelSending
+		cancelSending: cancelSending,
+        enforcePolicy: enforcePolicy
     };
 }());
 export {DataHandler};
