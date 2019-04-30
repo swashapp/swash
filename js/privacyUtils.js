@@ -1,5 +1,27 @@
 var privacyUtils = (function() {
     'use strict';
+    
+    
+    function identityPrivacy(id, mId, privacyLevel) {
+        var date = new Date();
+        switch(privacyLevel) {
+            case 0:            
+                return sha256(id);
+            case 1:
+                return sha256(mId);
+            case 2:
+                date.setHours(0, 0, 0, 0)
+                return sha256(mId + date.getTime());
+            case 3:
+                date.setMinutes(0, 0, 0);
+                return sha256(mId + date.getTime());
+            case 4:
+                return sha256(mId + date.getTime());
+            default:
+                return sha256(mId + date.getTime());
+        }
+                
+    }
 
     function urlPrivacy(url, privacyLevel, mSalt, salt) {
         let urlObj = new URL(url);
@@ -205,7 +227,8 @@ var privacyUtils = (function() {
     }
     
     return {
-        objectPrivacy: objectPrivacy               
+        objectPrivacy: objectPrivacy,
+        identityPrivacy: identityPrivacy
     };
 }());
 export {privacyUtils};    

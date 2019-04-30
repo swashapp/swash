@@ -131,7 +131,7 @@ var DataHandler = (function() {
 		let delayedSend = configs.delayedMessage;
             
         message.identity = {};
-        message.identity.uid = configs.Id;
+        message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, modules[message.header.module].privacy_level) ;
         message.identity.walletId = profile.walletId;
         message.identity.email = profile.email;
         message.header.privacyLevel = modules[message.header.module].privacy_level;
