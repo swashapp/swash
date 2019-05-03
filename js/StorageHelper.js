@@ -124,6 +124,8 @@ var StorageHelper = (function() {
         let ret = modules[moduleName];
 		ret.is_enabled = settings.is_enabled;
 		ret.privacy_level = settings.privacy_level;
+		if(settings.browsing_filter)
+			ret.browsing_filter.urls = settings.browsing_filter.urls;
 		updateFunctionSettings(ret, "content", settings);
 		updateFunctionSettings(ret, "browsing", settings);
 		updateFunctionSettings(ret, "apiCall", settings);

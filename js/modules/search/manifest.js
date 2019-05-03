@@ -4,8 +4,8 @@ var Search = (function() {
     'use strict';
     
     return {
-        name: "search",
-        description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
+        name: "Search",
+        description: "This module Captures user search queries, search results, and links clicked by user for top six search engines: Google, Bing, Yahoo, AOL, Ask, and Baidu",
         path: "/search",
         URL: ["https://www.google.com","https://search.yahoo.com","https://www.aol.com/","http://www.bing.com/","https://www.ask.com/","http://www.baidu.com/"],
         functions: ["browsing","content"],

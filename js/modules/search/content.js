@@ -19,8 +19,9 @@ Search.content = [
         ],
         objects: [
             {
-                selector:".g .rc",
+                selector:".srg .g .rc",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
                         selector: ".r a",
@@ -36,6 +37,31 @@ Search.content = [
                     },
                     {
                         selector: ".s .st",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads-ad",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".ad_cclk a.V0MxL",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".ad_cclk a h3",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ads-creative",
                         property: "innerText",
                         name: "description",
                         type: "text"
@@ -79,17 +105,31 @@ Search.content = [
             {
                 selector: ".g .rc .r",
                 event_name: "click"
+            },
+			{
+                selector: ".g .rc .r",
+                event_name: "contextmenu"
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },
             {
-                selector:"",
+                selector:"", 
                 properties: [
                     {
                         selector: ".iUh30",
                         property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
                         selector: ".LC20lb",
@@ -124,6 +164,93 @@ Search.content = [
             }
         ]
     },
+	{
+        name: "googleAdsClickedLink",
+		url_match: "*://www.google.com/search?*",
+        description: "This item collects advertising links clicked by user from Google search result",
+		viewGroup: "Google",
+        title: "Ads clicked link",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: ".ad_cclk",
+                event_name: "click"
+            },
+			{
+                selector: ".ad_cclk",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"",
+                properties: [
+                    {
+                        selector: ".ads-visurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ad_cclk a h3",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ads-creative",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "input.gLFyf",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: ".cur",
+                        property: "innerText",
+                        name: "pageNumber",
+                        type: "text"
+                    },
+					{
+                        selector: ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]		
+	},
 	//bing
 	{
         name: "bingSearchResult",
@@ -140,15 +267,41 @@ Search.content = [
             }
         ],
         objects: [
-            {
+			{				
                 selector:"#b_results .b_algo",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
                         selector: "a",
                         property: "href",
                         name: "link",
                         type: "url"
+                    },
+                    {
+                        selector: "a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".b_caption p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:"#b_results .b_ad .sb_add",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".b_caption .b_adurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
                     },
                     {
                         selector: "a",
@@ -201,9 +354,23 @@ Search.content = [
             {
                 selector: ".b_algo h2",
                 event_name: "click"
+            },
+			{
+                selector: ".b_algo h2",
+                event_name: "contextmenu"
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
             {
                 selector:"",
                 properties: [
@@ -215,6 +382,77 @@ Search.content = [
                     },
                     {
 						selector:"a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#sb_form_q",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: ".sb_pagS.sb_pagS_bp.b_widePag.sb_bp",
+                        property: "innerText",
+                        name: "pageNumber",
+                        type: "text"
+                    },
+					{
+                        selector: ".b_active a",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        name: "bingAdsClickedLink",
+		url_match: "*://www.bing.com/*",
+        description: "This item collects Ads links clicked by user from Bing search result",
+		viewGroup: "Bing",
+        title: "Ads clicked link",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: ".b_ad .sb_add",
+                event_name: "click"
+            },
+			{
+                selector: ".b_ad .sb_add",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
+            {
+                selector:"",
+                properties: [
+                    {
+						selector:".b_caption .b_adurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+						selector:"h2 a",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -265,12 +503,38 @@ Search.content = [
             {
                 selector:".algo",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
-                        selector: ".title a",
-                        property: "href",
+                        selector: ".compTitle div span",
+                        property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads .compTitle",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "a.ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
                     },
                     {
                         selector: ".title",
@@ -321,22 +585,107 @@ Search.content = [
         is_enabled: true,
         events: [
             {
-                selector: "#web .compTitle .title",
+                selector: "#web .compTitle",
                 event_name: "click"
+			},
+			{
+                selector: "#web .compTitle",
+                event_name: "contextmenu"
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
             {
                 selector:"",
                 properties: [
                     {
-						selector:"a",
-                        property: "href",
+						selector:"div span",
+                        property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
-						selector:"a",
+						selector:".title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#yschsp",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compPagination strong",
+                        property: "innerText",
+                        name: "pageNumber",
+                        type: "text"
+                    },
+					{
+                        selector: ".compList.visible-pivots .active",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        name: "yahooAdsClickedLink",
+		url_match: "*://*.yahoo.com/*",
+        description: "This item collects links clicked by user from Yahoo search result",
+		viewGroup: "Yahoo",
+        title: "Ads clicked link",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: ".ads .compTitle",
+                event_name: "click"
+            },
+			{
+                selector: ".ads .compTitle",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },            
+			{
+                selector:"",
+                properties: [
+                    {
+						selector:".ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+						selector:".title a",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -387,9 +736,35 @@ Search.content = [
             {
                 selector:".algo",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
                         selector: ".compTitle div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div .ad-domain",
                         property: "innerText",
                         name: "link",
                         type: "text"
@@ -445,14 +820,99 @@ Search.content = [
             {
                 selector: "#web .compTitle",
                 event_name: "click"
+            },
+			{
+                selector: "#web .compTitle",
+                event_name: "contextmenu"
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
             {
                 selector:"",
                 properties: [
                     {
 						selector:"div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+						selector:".title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#yschsp",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compPagination strong",
+                        property: "innerText",
+                        name: "pageNumber",
+                        type: "text"
+                    },
+					{
+                        selector: ".compList.visible-pivots .active",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        name: "aolAdsClickedLink",
+		url_match: "*://search.aol.com/aol/*",
+        description: "This item collects Ads links clicked by user from AOL search result",
+		viewGroup: "AOL",
+        title: "Ads clicked link",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: ".ads .compTitle",
+                event_name: "click"
+            },
+			{
+                selector: ".ads .compTitle",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
+            {
+                selector:"",
+                properties: [
+                    {
+						selector:"div .ad-domain",
                         property: "innerText",
                         name: "link",
                         type: "text"
@@ -509,6 +969,7 @@ Search.content = [
             {
                 selector:".PartialSearchResults-item",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
                         selector: ".PartialSearchResults-item-title a",
@@ -567,9 +1028,23 @@ Search.content = [
             {
                 selector: ".PartialSearchResults-item-title",
                 event_name: "click"
+            },
+			{
+                selector: ".PartialSearchResults-item-title",
+                event_name: "contextmenu"
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
             {
                 selector:"",
                 properties: [
@@ -614,7 +1089,7 @@ Search.content = [
     },
 	//Baidu
 	{
-        name: "askSearchResult",
+        name: "baiduSearchResult",
 		url_match: "*://*.baidu.com/*",
         description: "This item collects Baidu search results, search category, page number and corresponding search query",
 		viewGroup: "Baidu",
@@ -631,6 +1106,7 @@ Search.content = [
             {
                 selector:".result",
                 name: "searchResult",
+				indexName: "rank",
                 properties: [
                     {
                         selector: ".f13 a",
@@ -678,7 +1154,7 @@ Search.content = [
         ]
     },
     {
-        name: "askClickedLink",
+        name: "baiduClickedLink",
 		url_match: "*://*.baidu.com/*",
         description: "This item collects links clicked by user from Baidu search result",
 		viewGroup: "Baidu",
@@ -692,6 +1168,16 @@ Search.content = [
             }
         ],
         objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
             {
                 selector:"",
                 properties: [

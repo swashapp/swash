@@ -23,8 +23,8 @@ var helper = (function() {
 
     function loadMessages(){
 		let message = {
-			obj: "StorageHelper",
-			func: "retrieveMessages",
+			obj: "DatabaseHelper",
+			func: "getAllMessages",
 			params: []
 		}
         return sendMessage(message);

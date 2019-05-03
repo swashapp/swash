@@ -39,5 +39,5 @@
   "content_security_policy": "script-src 'unsafe-inline' 'unsafe-eval' *",
   
  
-  "version": "0.5"
+  "version": "0.6"
 }
