@@ -80,7 +80,7 @@ var privacyUtils = (function() {
                 return date2.getTime();
             case 4:
                 date2 = new Date(0);
-                date2.setFullYear(date.getFullYear(), date.getMonth())
+                date2.setFullYear(date.getFullYear(), 0)
                 return date2.getTime();
 
 			default:

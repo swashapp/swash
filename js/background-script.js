@@ -3,6 +3,7 @@ console.log("background-script.js");
 import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
+import {DatabaseHelper} from './DatabaseHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './functions/ApiCall.js';
 import {Content} from './functions/Content.js';
@@ -34,6 +35,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		message.params.push(sender.tab.id);
 	let objList = {
 		StorageHelper: StorageHelper,
+		DatabaseHelper: DatabaseHelper,
 		ApiCall: ApiCall,
 		Loader: Loader,
 		Content: Content,

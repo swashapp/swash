@@ -3,6 +3,7 @@ import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {privacyUtils} from './privacyUtils.js';
 import {StorageHelper} from './StorageHelper.js';
+import {DatabaseHelper} from './DatabaseHelper.js';
 import {stream} from './stream.js';
 
 var DataHandler = (function() {
@@ -43,21 +44,32 @@ var DataHandler = (function() {
     }
     
 	function cancelSending(msgId) {
-		clearTimeout(msgId);
-		StorageHelper.removeMessage(msgId);		
+		DatabaseHelper.removeMessage(msgId);
+		//clearTimeout(msgId);
+		//StorageHelper.removeMessage(msgId);	
 	}
 	
-	async function sendData(message, delayedSend) {
-		if(delayedSend) {
-			let id = setTimeout(function(){ 
+	async function sendDelayedMessages() {
+		let confs = await StorageHelper.retrieveConfigs();
+		let time = Number((new Date()).getTime()) - confs.delay*60000;
+		let rows = await DatabaseHelper.getReadyMessages(time);
+		for(let row of rows) {
+			let message = row.message;
+			delete message.origin;
+			stream.produceNewEvent(message);
+		}
+		DatabaseHelper.removeReadyMessages(time);
+	}
+	
+	async function sendData(message, delay) {
+		if(delay) {
+			DatabaseHelper.insertMessage(message);
+			/*let id = setTimeout(function(){ 
 				delete message.origin;
 				stream.produceNewEvent(message);
 				StorageHelper.removeMessage(id);
 			}, 300000);
-			//let msg = {};
-			//msg[id] = message;
-			//await StorageHelper.storeData("messages", msg);			
-            StorageHelper.saveMessage(message, id);
+            StorageHelper.saveMessage(message, id);*/
 		}
 		else {
 			delete message.origin;
@@ -66,7 +78,7 @@ var DataHandler = (function() {
 	}
 	
 	
-    async function prepareAndSend(message, module, delayedSend, tabId) {
+    async function prepareAndSend(message, module, delay, tabId) {
 		if(module.context){
 			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
 			if(bct_attrs.length > 0) {
@@ -105,14 +117,14 @@ var DataHandler = (function() {
 					for(let attrName of Object.keys(attrs)) {
 						message.header[attrName] = attrs[attrName];
 					}
-					sendData(message, delayedSend);
+					sendData(message, delay);
 				  
 				});
 				return true;
 			}
 			
 		}
-		sendData(message, delayedSend);
+		sendData(message, delay);
 		return false;
     }
     
@@ -128,7 +140,7 @@ var DataHandler = (function() {
         let configs = db.configs;
         let profile = db.profile;
 		let privacyData = db.privacyData;
-		let delayedSend = configs.delayedMessage;
+		let delay = configs.delay;
             
         message.identity = {};
         message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, modules[message.header.module].privacy_level) ;
@@ -137,7 +149,7 @@ var DataHandler = (function() {
         message.header.privacyLevel = modules[message.header.module].privacy_level;
         message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
-        prepareAndSend(message, modules[message.header.module], delayedSend, tabId)
+        prepareAndSend(message, modules[message.header.module], delay, tabId)
     }
     function enforcePolicy(message, mSalt, salt, privacyData) {
         /*
@@ -185,6 +197,7 @@ var DataHandler = (function() {
     return {
         handle: handle,
 		cancelSending: cancelSending,
+		sendDelayedMessages: sendDelayedMessages,
         enforcePolicy: enforcePolicy
     };
 }());

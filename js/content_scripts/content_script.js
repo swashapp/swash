@@ -89,8 +89,10 @@ var contentScript = (function () {
 	}
 
 
-	function public_callback(data, moduleName, event){
-
+	function public_callback(data, moduleName, event, index){
+		let eventInfo = {
+			index: Number(index) + 1			
+		}
 		let message = {
 			obj: "DataHandler",
 			func: "handle",
@@ -111,6 +113,9 @@ var contentScript = (function () {
 		data.objects.forEach(x=>{
 			var objList = [];
 			switch(x.selector) {
+				case "#":
+					objList = eventInfo;
+					break;
                 case "window":
                     objList = window;                    
                     break;
@@ -138,7 +143,9 @@ var contentScript = (function () {
                     x.properties.forEach(y=>{
                         message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  y.name,type:y.type}); 
                     });
-                    objList.forEach(obj=>{
+					if(x.indexName)
+						message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  x.indexName,type:"text"});
+                    objList.forEach((obj, objId)=>{
                         let item = {};
                         x.properties.forEach(y=>{
                             let prop;
@@ -149,7 +156,13 @@ var contentScript = (function () {
 							if(prop)
 								item[y.name] = prop[y.property];                            
                         })
-                        message.params[0].data.out[x.name].push(item);
+						if(!isEmpty(item)) {
+							if(x.indexName) {
+								item[x.indexName] = objId + 1;
+							}
+							message.params[0].data.out[x.name].push(item);
+									
+						}
                     })
                 }
                 else {
@@ -174,12 +187,12 @@ var contentScript = (function () {
 		let doms = document.querySelectorAll(event.selector)
 		if(doms) {
 			if(isIterable(doms)) {
-				for(let dom of doms) {
-					dom.addEventListener(event.event_name, callback);
+				for(let domIndex in doms) {
+					doms[domIndex].addEventListener(event.event_name, function(x) {callback(x, domIndex)});
 				}					                        
 			}
 			else {
-				doms.addEventListener(event.event_name, callback);
+				doms.addEventListener(event.event_name, function(x) {callback(x, 0)});
 			}
 		}			
 	}
@@ -191,7 +204,7 @@ var contentScript = (function () {
 			switch(obj.type) {
 				case "event":
 					obj.events.forEach(event=>{
-						let callback = function(x){public_callback(obj, message.moduleName, x)};
+						let callback = function(x, index){public_callback(obj, message.moduleName, x, index)};
 						callbacks[message.moduleName + "_" + event.selector + "_" + event.event_name] = callback;
 						if(event.selector == "window"){
 							// window

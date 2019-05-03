@@ -38,11 +38,11 @@ var Browsing = (function() {
 	}
 
     function inspectVisit(moduleName, data, requestDetails) {
-        //console.log(`inspectRequest: ${config.name} `, requestDetails);
-        if(requestDetails.type != "main_frame" || !requestDetails.originUrl)
-            return;		
+        if(requestDetails.type != "main_frame")
+            return;
+        console.log(requestDetails);
         let message = {
-            origin: requestDetails.originUrl,
+            origin: requestDetails.url,
 			header:{
 				function: "browsing",
 				module: moduleName,
@@ -120,7 +120,7 @@ var Browsing = (function() {
             if(Object.keys(retval).length == 0)
                 return;
             let message = {
-                origin: requestDetails.originUrl,
+                origin: requestDetails.url,
 				header:{
 					function: "browsing",
 					module: moduleName,

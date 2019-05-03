@@ -1,6 +1,6 @@
 console.log("modules/surfing/browsing.js");
 import {Surfing} from './manifest.js';
-Surfing.browsing_filter = {urls: ["<all_urls>"]};
+Surfing.browsing_filter = {urls: []};
 Surfing.browsing_extraInfoSpec= [];
 Surfing.browsing = [
     {

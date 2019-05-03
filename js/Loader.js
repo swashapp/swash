@@ -1,5 +1,7 @@
 console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
+import {DatabaseHelper} from './DatabaseHelper.js';
+import {DataHandler} from './DataHandler.js';
 import {Browsing} from './functions/Browsing.js';
 import {Content} from './functions/Content.js';
 import {ApiCall} from './functions/ApiCall.js';
@@ -12,13 +14,14 @@ import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
 var Loader = (function() {
     'use strict';    
-    function install(allModules){
+    function install(allModules){		
         StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
             //if (db == null || db == undefined || Object.keys(db).length==0){
-                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], messages: {}, tasks: {}};                
+                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
+				db.configs.delay = 0;
             //}
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);
@@ -77,7 +80,7 @@ var Loader = (function() {
 	}
 
 	
-    function start(){
+    function start(){		
 		browser.storage.sync.get("configs").then(c => {
 			c.configs.is_enabled = true;
 			browser.storage.sync.set(c);
@@ -134,7 +137,9 @@ var Loader = (function() {
 	}
 	
 	function load() {
+		DatabaseHelper.init();
 		browser.storage.sync.get("configs").then(c => {
+			setInterval(function(){DataHandler.sendDelayedMessages()}, 10000);
 			if(c.configs.is_enabled) {
 				init(true);
 				Content.load();
@@ -159,7 +164,7 @@ var Loader = (function() {
 	}
 	
 	function config_module(moduleName, settings) {
-		StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
+		return StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
 			StorageHelper.retrieveModules().then(modules => {
 				let module = modules[moduleName];
 				unload_module(module);
