@@ -35,8 +35,7 @@
   "devtools_page": "devtools/devtools-page.html",
 
   "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy"],
-  
-  "content_security_policy": "script-src 'unsafe-inline' 'unsafe-eval' *",
+    
   
  
   "version": "0.6.1"
