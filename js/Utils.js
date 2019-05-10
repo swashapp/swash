@@ -86,7 +86,7 @@ var Utils = (function() {
 
 	function wildcard(input, wc) {
 		function regExpEscape (s) {
-		  return s.replace(/[|\\{}()[\]^$+*?.]/g, '\$&');
+		  return s.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&');
 		}
 		var regex = new RegExp('^' + wc.split(/\*+/).map(regExpEscape).join('.*') + '$');
 		if(!input.match(regex))

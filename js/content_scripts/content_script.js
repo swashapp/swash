@@ -225,7 +225,10 @@ var contentScript = (function () {
 							document.addEventListener(event.event_name, callback);
 						}
                         else{
-							window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+							if(obj.readyAt == "windowLoad")
+								window.addEventListener("load", function(){documentReadyCallback(event, callback)})
+							else
+								window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
 						}			
 					})            
 				break;

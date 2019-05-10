@@ -181,7 +181,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Baidu",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Baidu     search bar",
+        description: "This item collects all search queries that user enter in Baidu search bar",
 		filter: {urls: ["*://*.baidu.com/*"]},		
         patterns: [
             {
@@ -215,6 +215,38 @@ Search.browsing = [
                     {jpath:"$.category",type:"text"}				                    
                 ]            
             }
+        ]
+    },{
+        name: "duckduckgoQuery",
+        title: "Search Query",
+		viewGroup: "DuckDuckGo",
+        is_enabled: true,        
+        description: "This item collects all search queries that user enter in DuckduckGo search bar",
+		filter: {urls: ["*://duckduckgo.com/*"]},		
+        patterns: [
+            {
+                method: "GET",        
+                url_pattern: "https:\\/\\/duckduckgo\\.com\\/((i|news|v)\\.js)?\\?.*",
+                pattern_type: "regex",
+                param: [
+                    {
+                        type: "query",
+                        key: "q",
+                        name: "query"
+                    },
+                    {
+                        type: "regex",
+                        group: 2,
+                        name: "category",
+						default: "web"
+                    }
+                ],
+                schems: [
+                    {jpath:"$.query",type:"text"},		
+                    {jpath:"$.category",type:"text"}				                    
+                ]            
+            },
+			
         ]
     },
 ];

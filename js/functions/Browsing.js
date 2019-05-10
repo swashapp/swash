@@ -79,7 +79,7 @@ var Browsing = (function() {
             var res = requestDetails.url.match(patt.url_pattern);
             if(res!= null) 
             {
-                console.log(requestDetails.url, patt);
+                console.log("matched: " + requestDetails.url, patt);
                 failed = false;
             }
         }
