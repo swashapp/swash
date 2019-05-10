@@ -60,7 +60,8 @@ After a successful load of add-on,
 the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
-	Loader.load();
+	if(confs)
+		Loader.load();
 })
 
  

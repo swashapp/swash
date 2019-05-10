@@ -81,9 +81,9 @@ var Loader = (function() {
 
 	
     function start(){		
-		browser.storage.sync.get("configs").then(c => {
+		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = true;
-			browser.storage.sync.set(c);
+			browser.storage.local.set(c);
 			init(true);
 			Content.load();
 			Browsing.load();
@@ -97,9 +97,9 @@ var Loader = (function() {
     
 
     function stop(){
-		browser.storage.sync.get("configs").then(c => {
+		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = false;
-			browser.storage.sync.set(c);		
+			browser.storage.local.set(c);		
 			init(false);
 			Content.unload();
 			Browsing.unload();
@@ -138,7 +138,7 @@ var Loader = (function() {
 	
 	function load() {
 		DatabaseHelper.init();
-		browser.storage.sync.get("configs").then(c => {
+		browser.storage.local.get("configs").then(c => {
 			setInterval(function(){DataHandler.sendDelayedMessages()}, 10000);
 			if(c.configs.is_enabled) {
 				init(true);

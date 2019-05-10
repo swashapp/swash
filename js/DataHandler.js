@@ -11,7 +11,9 @@ var DataHandler = (function() {
     
 	function getUserAgent()
     {
-        return browser.runtime.getBrowserInfo();
+		if(typeof browser.runtime.getBrowserInfo === "function")
+			return browser.runtime.getBrowserInfo();
+		return navigator.userAgent;
     }
 
     function getAllInstalledPlugins()
@@ -31,7 +33,7 @@ var DataHandler = (function() {
     
 	async function getProxyStatus() {
 		let proxySetting = await browser.proxy.settings.get({});
-		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS};
+		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS, proxyMode: proxySetting.value.mode};
 	}
     
 	function getVersion(){
@@ -39,7 +41,9 @@ var DataHandler = (function() {
     }
 	
     async function getScreenshot() {
-		let img = await browser.tabs.captureTab();
+		let img = "";
+		if(typeof browser.tabs.captureTab === "function")
+			img = await browser.tabs.captureTab();
 		return img;
     }
     
