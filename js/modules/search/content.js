@@ -1,6 +1,6 @@
 console.log("modules/search/content.js");
 import {Search} from './manifest.js';
-Search.content_matches = ["*://www.google.com/search?*", "*://www.bing.com/*", "*://*.yahoo.com/*", "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*"];
+Search.content_matches = ["*://www.google.com/search?*", "*://www.bing.com/*", "*://*.yahoo.com/*", "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*", "*://duckduckgo.com/*"];
 Search.content = [
 	//google
     {
@@ -1220,4 +1220,231 @@ Search.content = [
             }
         ]
     },
+	//duckduckgo
+    {
+        name: "duckduckgoSearchResult",
+		url_match: "*://duckduckgo.com/?*",
+        description: "This item collects DuckDuckGo search results, search category, page number and corresponding search query",
+		viewGroup: "DuckDuckGo",
+        title: "Search Result",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: "window",
+                event_name: "load"
+            }
+        ],
+        objects: [
+            {
+                selector:".results .result.results_links_deep",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".results--ads .result.results_links",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__extras .result__extras__url a",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#search_form_input",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+					{
+                        selector: "#duckbar_static .zcm__item a.is-active",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: "duckduckgoClickedLink",
+		url_match: "*://duckduckgo.com/?*",
+        description: "This item collects links clicked by user from DuckDuckGo search result",
+		viewGroup: "DuckDuckGo",
+        title: "clicked link",
+        type: "event",
+		readyAt: "windowLoad",
+        is_enabled: true,
+        events: [
+            {
+                selector: ".results .result.results_links_deep",
+                event_name: "click"
+            },
+			{
+                selector: ".results .result.results_links_deep",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"", 
+                properties: [
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#search_form_input",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+					{
+                        selector: "#duckbar_static .zcm__item a.is-active",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        name: "duckduckgoAdsClickedLink",
+		url_match: "*://duckduckgo.com/*",
+        description: "This item collects advertising links clicked by user from DuckDuckGo search result",
+		viewGroup: "DuckDuckGo",
+        title: "Ads clicked link",
+		readyAt: "windowLoad",
+        type: "event",        
+        is_enabled: true,
+        events: [
+            {
+                selector: ".results--ads .result.results_links",
+                event_name: "click"
+            },
+			{
+                selector: ".results--ads .result.results_links",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },		
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"", 
+                properties: [
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#search_form_input",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+					{
+                        selector: "#duckbar_static .zcm__item a.is-active",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+        ]		
+	},
 ];

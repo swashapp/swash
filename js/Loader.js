@@ -136,10 +136,12 @@ var Loader = (function() {
 		Task.unload_module(module);
 	}
 	
-	function load() {
-		DatabaseHelper.init();
+	function load() {		
 		browser.storage.local.get("configs").then(c => {
-			setInterval(function(){DataHandler.sendDelayedMessages()}, 10000);
+			setInterval(function(){
+				DatabaseHelper.init();
+				DataHandler.sendDelayedMessages();
+				}, 10000);
 			if(c.configs.is_enabled) {
 				init(true);
 				Content.load();

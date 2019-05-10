@@ -33,6 +33,10 @@ var Search = (function() {
 			{
 				name: "Baidu",
 				title: "Baidu Search Engine"
+			},
+			{
+				name: "DuckDuckGo",
+				title: "DuckDuckGo Search Engine"
 			}
 		],
         is_enabled: true,

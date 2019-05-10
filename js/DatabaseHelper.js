@@ -6,9 +6,11 @@ var DatabaseHelper = (function() {
 	var dbName;
 	var connection;
 	function init() {
-		dbName = 'SurfStreamrDB';
-		connection = new JsStore.Instance();
-		initJsStore();
+		if(!connection) {
+			dbName = 'SurfStreamrDB';
+			connection = new JsStore.Instance();
+			initJsStore();			
+		}
 	}
 	function getDbSchema() {
 	  var tblMessage = {
