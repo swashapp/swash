@@ -272,13 +272,23 @@ var surveyScript = (function () {
 }());
 
 
+if (window.wrappedJSObject) {
+	if (typeof window.wrappedJSObject.surfStreamrSurveyMessage === 'undefined') {
+		window.wrappedJSObject.surfStreamrSurveyMessage = {
+			obj: "Survey",
+			func: "injectSurvey",
+			params: [window.location.href]
+		}
 
-if (typeof window.wrappedJSObject.surfStreamrSurveyMessage === 'undefined') {
-	window.wrappedJSObject.surfStreamrSurveyMessage = {
+		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  
+	}
+} 
+else {
+	let surfStreamrSurveyMessage = {
 		obj: "Survey",
 		func: "injectSurvey",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  
+	browser.runtime.sendMessage(surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  	
 }

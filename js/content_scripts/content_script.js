@@ -2,7 +2,23 @@ console.log("content_script.js");
 
 var contentScript = (function () {	
 	var callbacks = {};
-
+	
+	function exportLogFunction(level, data, moduleName) {
+		let func = function(x){override_debug(x,level,data, moduleName)};
+		if(typeof exportFunction === 'function')
+			exportLogFunction(func, console, {defineAs: level}); 
+		else 
+			chromeExportFunction(level, data, moduleName);
+	}	
+	function chromeExportFunction(level, data, moduleName) {
+		var code = '(' + function(level, data, moduleName) {
+			window.console[level] = function(x){override_debug(x,level,data, moduleName)};
+		} + ')('+ JSON.stringify(level) + ',' + JSON.stringify(data) + ',' + JSON.stringify(moduleName) +');';
+		var script = document.createElement('script');
+		script.textContent = code;
+		(document.head||document.documentElement).appendChild(script);
+		script.remove();		
+	}
 	function isIterable(obj) {
 	  // checks for null and undefined
 	  if (obj == null) {
@@ -71,19 +87,13 @@ var contentScript = (function () {
 		console.log("function log_callback");
 		switch(data.name) {
 			case "ConsoleErrors":
-				exportFunction(function(x){override_debug(x,"error",data, moduleName)}, console, {
-				  defineAs: "error"
-				});            
+				exportLogFunction("error", data, moduleName);            
 				break;
 			case "ConsoleWarns":
-				exportFunction(function(x){override_debug(x,"warn",data, moduleName)}, console, {
-				  defineAs: "warn"
-				});            
+				exportLogFunction("warn", data, moduleName);            				           
 				break;
 			case "ConsoleLogs":
-				exportFunction(function(x){override_debug(x,"log",data, moduleName)}, console, {
-				  defineAs: "log"
-				});            
+				exportLogFunction("log", data, moduleName);				          
 				break;
 		}
 	}
@@ -187,9 +197,9 @@ var contentScript = (function () {
 		let doms = document.querySelectorAll(event.selector)
 		if(doms) {
 			if(isIterable(doms)) {
-				for(let domIndex in doms) {
-					doms[domIndex].addEventListener(event.event_name, function(x) {callback(x, domIndex)});
-				}					                        
+				doms.forEach((dom, domIndex) => {
+					dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});					
+				})					                        
 			}
 			else {
 				doms.addEventListener(event.event_name, function(x) {callback(x, 0)});
@@ -239,14 +249,25 @@ var contentScript = (function () {
 
 
 
-if (typeof window.wrappedJSObject.surfStreamrContentMessage === 'undefined') {	
-	window.wrappedJSObject.surfStreamrContentMessage = {
+if (window.wrappedJSObject) {
+	if(typeof window.wrappedJSObject.surfStreamrContentMessage === 'undefined') {	
+		window.wrappedJSObject.surfStreamrContentMessage = {
+			obj: "Content",
+			func: "injectCollectors",
+			params: [window.location.href]
+		}
+
+		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  
+	}
+}
+else {
+	let surfStreamrContentMessage = {
 		obj: "Content",
 		func: "injectCollectors",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  
+	browser.runtime.sendMessage(surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  	
 }
 
 

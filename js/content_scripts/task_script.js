@@ -164,9 +164,9 @@ var taskScript = (function () {
 			let doms = document.querySelectorAll(event.selector)
 			if(doms) {
 				if(isIterable(doms)) {
-					for(let dom of doms) {
-						dom.addEventListener(event.event_name, callback);
-					}					                        
+					doms.forEach(dom=> {
+						dom.addEventListener(event.event_name, callback);						
+					})					                        
 				}
 				else {
 					doms.addEventListener(event.event_name, callback);
@@ -208,15 +208,24 @@ var taskScript = (function () {
 
 
 
+if (window.wrappedJSObject) {
+	if (typeof window.wrappedJSObject.surfStreamrTaskMessage === 'undefined') {
+		window.wrappedJSObject.surfStreamrTaskMessage = {
+			obj: "Task",
+			func: "injectTasks",
+			params: [window.location.href]
+		}
 
-if (typeof window.wrappedJSObject.surfStreamrTaskMessage === 'undefined') {
-	window.wrappedJSObject.surfStreamrTaskMessage = {
+		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrTaskMessage).then(taskScript.handleResponse, taskScript.handleError);  
+	}
+}
+else {
+	let surfStreamrTaskMessage = {
 		obj: "Task",
 		func: "injectTasks",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrTaskMessage).then(taskScript.handleResponse, taskScript.handleError);  
+	browser.runtime.sendMessage(surfStreamrTaskMessage).then(taskScript.handleResponse, taskScript.handleError);  	
 }
-
 

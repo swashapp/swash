@@ -36,7 +36,7 @@ var Content = (function() {
 	        if(browser.tabs.onUpdated.hasListener(registerContentScripts))
 				browser.tabs.onUpdated.removeListener(registerContentScripts);  
             if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerContentScripts, cfilter);            
+				browser.tabs.onUpdated.addListener(registerContentScripts);            
 		}
     }
 
@@ -48,20 +48,35 @@ var Content = (function() {
 	        if(browser.tabs.onUpdated.hasListener(registerContentScripts))
 				browser.tabs.onUpdated.removeListener(registerContentScripts);  
             if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerContentScripts, cfilter);            
+				browser.tabs.onUpdated.addListener(registerContentScripts);            
 		}
 
     }
 	
 
 	function registerContentScripts(tabId, changeInfo, tabInfo) {
-	console.log(tabId, changeInfo, tabInfo);        
-	if(changeInfo.status == "loading")
-		browser.tabs.executeScript(tabId, {
-		  file: "/js/content_scripts/content_script.js",
-		  allFrames: false,
-		  runAt: "document_start"
-		})
+		let injectScript = false;
+		for(let filter of cfilter.urls) {
+			if(Utils.wildcard(tabInfo.url, filter)) {
+				injectScript = true;
+				break;
+			}
+		}
+		if(!injectScript)
+			return;
+		if(changeInfo.status == "loading") {
+			browser.tabs.executeScript(tabId, {
+			  file: "/lib/browser-polyfill.js",
+			  allFrames: false,
+			  runAt: "document_start"
+			}).then(result => {
+				browser.tabs.executeScript(tabId, {
+				  file: "/js/content_scripts/content_script.js",
+				  allFrames: false,
+				  runAt: "document_start"
+				})				
+			})
+		}
     }
 
 	async function injectCollectors(url) {

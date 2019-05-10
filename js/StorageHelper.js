@@ -35,7 +35,7 @@ var StorageHelper = (function() {
     async function removeModule(moduleName){
         var info = await retrieveData("modules");
         delete info[moduleName]
-        browser.storage.sync.set({modules:info});
+        browser.storage.local.set({modules:info});
     }
     
     function saveMessage(msg, id) {
@@ -46,7 +46,7 @@ var StorageHelper = (function() {
         /*
         var info = await retrieveData("messages");
         delete info[id];
-        browser.storage.sync.set({messages:info});*/
+        browser.storage.local.set({messages:info});*/
         delete messages[id];
 	}
     
@@ -55,12 +55,12 @@ var StorageHelper = (function() {
     }
 	
     async function storeAll(db) {
-        await browser.storage.sync.set(db);        
+        await browser.storage.local.set(db);        
     }
     
 
     function retrieveAll(){
-        return browser.storage.sync.get();        
+        return browser.storage.local.get();        
     }
     
 	async function storeData(key, info)
@@ -69,12 +69,12 @@ var StorageHelper = (function() {
 		Utils.jsonUpdate(data,info);
 		let x = {};
 		x[key] = data;
-		browser.storage.sync.set(x);
+		browser.storage.local.set(x);
 	}
     
     async function retrieveData(key)
     {
-        let x = await browser.storage.sync.get(key); 
+        let x = await browser.storage.local.get(key); 
         return x[key];
     }
 	
@@ -90,7 +90,7 @@ var StorageHelper = (function() {
 		}
         let x = {};
 		x["tasks"] = tasks;
-		browser.storage.sync.set(x);
+		browser.storage.local.set(x);
 	}
 	
 	async function endTask(info) {
@@ -102,7 +102,7 @@ var StorageHelper = (function() {
         
         let x = {};
 		x["tasks"] = tasks;
-		browser.storage.sync.set(x);        
+		browser.storage.local.set(x);        
         return res;        
 	}
 	
@@ -133,7 +133,7 @@ var StorageHelper = (function() {
 		updateFunctionSettings(ret, "context", settings);
 		updateFunctionSettings(ret, "devtools", settings);
 		updateFunctionSettings(ret, "task", settings);
-        browser.storage.sync.set({modules: modules});        
+        browser.storage.local.set({modules: modules});        
     }
 
     return {

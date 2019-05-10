@@ -82,7 +82,7 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 
 //let walletAddress = "0x742d35cc6634c0532925a3b844bc454e4438f44e";
 //update wallet balance
-browser.storage.sync.get().then(db => {
+browser.storage.local.get().then(db => {
     update_wallet_address(db.profile.walletId);
     getBalance(db.profile.walletId, update_balance);
     document.getElementById("streaming").checked = db.configs.is_enabled;            

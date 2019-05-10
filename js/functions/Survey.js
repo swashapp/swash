@@ -34,7 +34,7 @@ var Survey = (function() {
 	        if(browser.tabs.onUpdated.hasListener(registerSurveyScripts))
 				browser.tabs.onUpdated.removeListener(registerSurveyScripts);  
             if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerSurveyScripts, cfilter);            
+				browser.tabs.onUpdated.addListener(registerSurveyScripts);            
 		}
     }
 
@@ -46,14 +46,23 @@ var Survey = (function() {
 	        if(browser.tabs.onUpdated.hasListener(registerSurveyScripts))
 				browser.tabs.onUpdated.removeListener(registerSurveyScripts);  
             if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerSurveyScripts, cfilter);            
+				browser.tabs.onUpdated.addListener(registerSurveyScripts);            
 		}
 
     }
 	
 
 	function registerSurveyScripts(tabId, changeInfo, tabInfo) {
-		console.log(tabId, changeInfo, tabInfo);        
+		let injectScript = false;
+		for(let filter of cfilter.urls) {
+			if(Utils.wildcard(tabInfo.url, filter)) {
+				injectScript = true;
+				break;
+			}
+		}
+		if(!injectScript)
+			return;
+	
 		if(changeInfo.status == "loading") {
 			
 			browser.tabs.executeScript(tabId, {
@@ -62,19 +71,25 @@ var Survey = (function() {
 			  runAt: "document_end"
 			}).then(result => {
 				browser.tabs.executeScript(tabId, {
-				  file: "/lib/survey.jquery.min.js",
+				  file: "/lib/browser-polyfill.js",
 				  allFrames: false,
 				  runAt: "document_end"
 				}).then(result => {
 					browser.tabs.executeScript(tabId, {
-					  file: "/js/content_scripts/survey_script.js",
+					  file: "/lib/survey.jquery.min.js",
 					  allFrames: false,
 					  runAt: "document_end"
+					}).then(result => {
+						browser.tabs.executeScript(tabId, {
+						  file: "/js/content_scripts/survey_script.js",
+						  allFrames: false,
+						  runAt: "document_end"
+						}).then(result => {
+						browser.tabs.insertCSS(tabId, {
+						  file: "/survey/css/survey.min.css"
+						  })
+						})
 					})
-				}).then(result => {
-					browser.tabs.insertCSS(tabId, {
-					  file: "/survey/css/survey.min.css"
-					  })
 				})
 			})
 		}
