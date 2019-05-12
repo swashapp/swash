@@ -207,6 +207,34 @@ var contentScript = (function () {
 		}			
 	}
 	
+    function observingCallback(mutationsList, observer, event, callback, targetNode) {
+        if(event.event_name == "."){
+            var ev = new Event('build');
+            targetNode.addEventListener('build', function(x) {
+                console.log(x);
+                callback(x, 0)});					
+            targetNode.dispatchEvent(ev);
+            return;
+        }
+		let doms = document.querySelectorAll(event.selector)
+		if(doms) {
+			if(isIterable(doms)) {
+				doms.forEach((dom, domIndex) => {                   
+                        dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});					
+				})					                        
+			}
+			else {
+                doms.addEventListener(event.event_name, function(x) {callback(x, 0)});
+			}
+		}			
+	}
+    
+    function observeReadyCallback(event, callback, obj) {
+        let targetNode = document.querySelector(obj.observingTargetNode)
+        let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode)});
+        observer.observe(targetNode, obj.observingConfig);
+    }
+    
 	function handleResponse(message) {
 	  console.log(`Message from the background script:  ${JSON.stringify(message)}`);
 	  
@@ -215,7 +243,7 @@ var contentScript = (function () {
 				case "event":
 					obj.events.forEach(event=>{
 						let callback = function(x, index){public_callback(obj, message.moduleName, x, index)};
-						callbacks[message.moduleName + "_" + event.selector + "_" + event.event_name] = callback;
+						callbacks[message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name] = callback;
 						if(event.selector == "window"){
 							// window
 							window.addEventListener(event.event_name, callback);
@@ -225,10 +253,21 @@ var contentScript = (function () {
 							document.addEventListener(event.event_name, callback);
 						}
                         else{
-							if(obj.readyAt == "windowLoad")
-								window.addEventListener("load", function(){documentReadyCallback(event, callback)})
-							else
-								window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+                            //doms
+                            switch(obj.readyAt) {
+                                case "windowLoad":
+                                    window.addEventListener("load", function(){documentReadyCallback(event, callback)})
+                                    break;
+                                case "DOMChange":
+                                    window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj)})                                    
+                                    break;
+                                case "DOMLoad":
+                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+                                    break;
+                                default:
+                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+                                    
+                            }							
 						}			
 					})            
 				break;
