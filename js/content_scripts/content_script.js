@@ -3,6 +3,21 @@ console.log("content_script.js");
 var contentScript = (function () {	
 	var callbacks = {};
 	
+	function uuid() {
+        function randomDigit() {
+            if (crypto && crypto.getRandomValues) {
+                var rands = new Uint8Array(1);
+                crypto.getRandomValues(rands);
+                return (rands[0] % 16).toString(16);
+            } else {
+                return ((Math.random() * 16) | 0).toString(16);
+            }
+        }
+        var crypto = window.crypto || window.msCrypto;
+        return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
+    }
+
+	
 	function exportLogFunction(level, data, moduleName) {
 		let func = function(x){override_debug(x,level,data, moduleName)};
 		if(typeof exportFunction === 'function')
@@ -207,32 +222,32 @@ var contentScript = (function () {
 		}			
 	}
 	
-    function observingCallback(mutationsList, observer, event, callback, targetNode) {
+    function observingCallback(mutationsList, observer, event, callback, targetNode,targetEventId) {
         if(event.event_name == "."){
-            var ev = new Event('build');
-            targetNode.addEventListener('build', function(x) {
-                console.log(x);
-                callback(x, 0)});					
+			var ev = new Event(targetEventId);
             targetNode.dispatchEvent(ev);
             return;
         }
-		let doms = document.querySelectorAll(event.selector)
-		if(doms) {
-			if(isIterable(doms)) {
-				doms.forEach((dom, domIndex) => {                   
-                        dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});					
-				})					                        
+		let domIndex = 0;
+		for(var mutation of mutationsList) {
+			if (mutation.type == 'childList') {
+				for(let node of mutatin.addedNodes) {
+					let dom = node.querySelector(event.selector)
+					if(dom) {
+						dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});										
+						domIndex++;
+					}
+				}
 			}
-			else {
-                doms.addEventListener(event.event_name, function(x) {callback(x, 0)});
-			}
-		}			
+		}				
 	}
     
     function observeReadyCallback(event, callback, obj) {
         let targetNode = document.querySelector(obj.observingTargetNode)
-        let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode)});
-        observer.observe(targetNode, obj.observingConfig);
+		let targetEventId = uuid();
+        let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId)});
+        observer.observe(targetNode, obj.observingConfig);		
+		targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
     }
     
 	function handleResponse(message) {
