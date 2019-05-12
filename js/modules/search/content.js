@@ -1227,12 +1227,15 @@ Search.content = [
         description: "This item collects DuckDuckGo search results, search category, page number and corresponding search query",
 		viewGroup: "DuckDuckGo",
         title: "Search Result",
-        type: "event",        
+        type: "event",
+   		readyAt: "DOMChange",
+        observingTargetNode: ".results--main",
+        observingConfig: { attributes: false, childList: true, subtree: true },
         is_enabled: true,
         events: [
-            {
-                selector: "window",
-                event_name: "load"
+            {                
+                event_name: ".",
+                selector: ".",
             }
         ],
         objects: [
@@ -1312,7 +1315,9 @@ Search.content = [
 		viewGroup: "DuckDuckGo",
         title: "clicked link",
         type: "event",
-		readyAt: "windowLoad",
+		readyAt: "DOMChange",
+        observingTargetNode: ".results--main",
+        observingConfig: { attributes: false, childList: true, subtree: true },
         is_enabled: true,
         events: [
             {
@@ -1377,7 +1382,9 @@ Search.content = [
         description: "This item collects advertising links clicked by user from DuckDuckGo search result",
 		viewGroup: "DuckDuckGo",
         title: "Ads clicked link",
-		readyAt: "windowLoad",
+		readyAt: "DOMChange",
+        observingTargetNode: ".results--main",
+        observingConfig: { attributes: false, childList: true, subtree: true },
         type: "event",        
         is_enabled: true,
         events: [
