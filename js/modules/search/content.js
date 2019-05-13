@@ -1397,17 +1397,7 @@ Search.content = [
                 event_name: "contextmenu"
             }
         ],
-        objects: [
-			{
-                selector:"#", //event properties
-                properties: [
-                    {
-                        property: "index",
-                        name: "rank",
-                        type: "text"
-                    }
-                ]
-            },		
+        objects: [				
 			{
                 selector:"#", //event properties
                 properties: [
