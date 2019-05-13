@@ -2,6 +2,7 @@ console.log("content_script.js");
 
 var contentScript = (function () {	
 	var callbacks = {};
+    var oCallbacks = {};
 	
 	function uuid() {
         function randomDigit() {
@@ -222,30 +223,29 @@ var contentScript = (function () {
 		}			
 	}
 	
-    function observingCallback(mutationsList, observer, event, callback, targetNode,targetEventId) {
+    function observingCallback(mutationsList, observer, event, callback, targetNode,targetEventId, cbName) {
         if(event.event_name == "."){
 			var ev = new Event(targetEventId);
             targetNode.dispatchEvent(ev);
             return;
-        }
-		let domIndex = 0;
-		for(var mutation of mutationsList) {
-			if (mutation.type == 'childList') {
-				for(let node of mutatin.addedNodes) {
-					let dom = node.querySelector(event.selector)
-					if(dom) {
-						dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});										
-						domIndex++;
-					}
-				}
-			}
-		}				
+        }		
+        let doms = document.querySelectorAll(event.selector)
+        doms.forEach((dom, domIndex) => {
+            let cb = oCallbacks[cbName+domIndex]
+            if(!cb) {
+                cb = function(x) {callback(x, domIndex)}
+                oCallbacks[cbName+domIndex] = cb;
+            }
+            dom.removeEventListener(event.event_name, cb);
+            dom.addEventListener(event.event_name, cb);
+        })
+		
 	}
     
-    function observeReadyCallback(event, callback, obj) {
+    function observeReadyCallback(event, callback, obj,cbName) {
         let targetNode = document.querySelector(obj.observingTargetNode)
 		let targetEventId = uuid();
-        let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId)});
+        let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId,cbName)});
         observer.observe(targetNode, obj.observingConfig);		
 		targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
     }
@@ -258,7 +258,8 @@ var contentScript = (function () {
 				case "event":
 					obj.events.forEach(event=>{
 						let callback = function(x, index){public_callback(obj, message.moduleName, x, index)};
-						callbacks[message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name] = callback;
+                        let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
+						callbacks[cbName] = callback;
 						if(event.selector == "window"){
 							// window
 							window.addEventListener(event.event_name, callback);
@@ -274,7 +275,7 @@ var contentScript = (function () {
                                     window.addEventListener("load", function(){documentReadyCallback(event, callback)})
                                     break;
                                 case "DOMChange":
-                                    window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj)})                                    
+                                    window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
                                     break;
                                 case "DOMLoad":
                                     window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
