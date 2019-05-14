@@ -15,14 +15,14 @@ import {ssConfig} from './manifest.js';
 var Loader = (function() {
     'use strict';    
     function install(allModules){		
-        StorageHelper.retrieveAll().then(db => {
+        return StorageHelper.retrieveAll().then(db => {
             console.log("db", db, Object.keys(db).length);
-            //if (db == null || db == undefined || Object.keys(db).length==0){
+            if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
 				db.configs.delay = 0;
-            //}
+            }
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);
                 allModules.forEach(module=>{            
@@ -48,7 +48,7 @@ var Loader = (function() {
             //TODO: prefrences: apply previous user configuration
             // Utils.jsonUpdate(db.modules, db.prefrence);
            console.log("install: ", db);
-           StorageHelper.storeAll(db);
+           return StorageHelper.storeAll(db);
            
         });
         
@@ -99,15 +99,16 @@ var Loader = (function() {
     function stop(){
 		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = false;
-			browser.storage.local.set(c);		
-			init(false);
-			Content.unload();
-			Browsing.unload();
-			ApiCall.unload();
-			Survey.unload();
-			Context.unload();
-			Devtools.unload();
-			Task.unload();
+			browser.storage.local.set(c).then(() => {
+				init(false);
+				Content.unload();
+				Browsing.unload();
+				ApiCall.unload();
+				Survey.unload();
+				Context.unload();
+				Devtools.unload();
+				Task.unload();				
+			})		
 		})
     }
 
@@ -165,6 +166,33 @@ var Loader = (function() {
 		})		
 	}
 	
+	function reload() {		
+		browser.storage.local.get("configs").then(c => {
+			setInterval(function(){
+				DatabaseHelper.init();
+				DataHandler.sendDelayedMessages();
+				}, 10000);
+			init(false);
+			Content.unload();
+			Browsing.unload();
+			ApiCall.unload();								
+			Survey.unload();
+			Context.unload();
+			Devtools.unload();
+			Task.unload();
+			if(c.configs.is_enabled) {
+				init(true);
+				Content.load();
+				Browsing.load();
+				ApiCall.load();
+				Survey.load();
+				Context.load();
+				Devtools.load();
+				Task.load();
+			}					
+		})		
+	}
+	
 	function config_module(moduleName, settings) {
 		return StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
 			StorageHelper.retrieveModules().then(modules => {
@@ -215,6 +243,7 @@ var Loader = (function() {
         start: start,
         stop: stop,
 		load: load,
+		reload: reload,
         restart: restart,
 		config_module: config_module
     };
