@@ -23,7 +23,7 @@ browser.runtime.onInstalled.addListener((info) => {
     console.log(info.name + " " + info.version +  " was installed");
     console.log("Registering modules.");
     console.log("onInstalled.js: " + AllModules);
-    Loader.install(AllModules);
+    Loader.install(AllModules).then(() => {Loader.reload()});
 });
 
 /* ***
@@ -61,7 +61,7 @@ the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
 	if(confs)
-		Loader.load();
+		Loader.reload();
 })
 
  
