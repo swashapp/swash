@@ -199,8 +199,8 @@ var Browsing = (function() {
         data.hook = data.hook?data.hook:"webRequest";
         switch(data.hook) {
             case "webRequest":
-                if(browser.webRequest.onCompleted.hasListener(callbacks[module.name+ "_" + data.name])){
-                    browser.webRequest.onCompleted.removeListener(callbacks[module.name+ "_" + data.name]);
+                if(browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
+                    browser.webRequest.onBeforeRequest.removeListener(callbacks[module.name+ "_" + data.name]);
                 }
                 break;
             case "bookmarks":
@@ -233,11 +233,11 @@ var Browsing = (function() {
             if(retval != null)
                 DataHandler.handle(retval, x.tabId);
         };
-        if(!browser.webRequest.onCompleted.hasListener(callbacks[module.name+ "_" + data.name])){
+        if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
             // default for filter and extraInfo
             let filter = data.filter?data.filter:module.browsing_filter
             let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing_extraInfoSpec
-            browser.webRequest.onCompleted.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
+            browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
         }
     }
     

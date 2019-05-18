@@ -10,7 +10,7 @@ var ApiCall = (function() {
     const API_CALL_INTERVAL = 60*60*1000;
 	const DELAY_BETWEEN_CALLS = 60*1000;
 		
-    var callbacks = {interval: -1, apiCalls: []};
+    var callbacks = [];
 	var extId = "authsaz@gmail.com"
     
 	function getCallBackURL(moduleName) {
@@ -263,12 +263,13 @@ var ApiCall = (function() {
     
     function unload_module(module){
 		if(module.functions.includes("apiCall")) {
-			if(callbacks[module.name])
+			if(callbacks[module.name]) {
 				clearInterval(callbacks[module.name].interval);
-			if(callbacks[module.name].apiCalls) {
-				for(let s of callbacks[module.name].apiCalls)
-					clearTimeout(s);	
-			}
+                if(callbacks[module.name].apiCalls) {
+                    for(let s of callbacks[module.name].apiCalls)
+                        clearTimeout(s);	
+                }
+            }
 			callbacks[module.name] = {};
 		}
 	}
