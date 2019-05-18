@@ -21,7 +21,7 @@ var Loader = (function() {
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
-				db.configs.delay = 0;
+				db.configs.delay = 10;
             }
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);

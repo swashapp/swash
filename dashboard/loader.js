@@ -205,6 +205,15 @@ var helper = (function() {
         return sendMessage(message);		       		        
     }
 	
+	function identityPrivacy(id, mId, privacyLevel) {
+			let message = {
+			obj: "privacyUtils",
+			func: "identityPrivacy",
+			params: [id, mId, privacyLevel]
+		}
+        return sendMessage(message);		       		        
+	}
+	
 	return {
         load: load,
         save: save,
@@ -228,6 +237,7 @@ var helper = (function() {
 		cancelSending: cancelSending,
 		saveModule: saveModule,
 		removeModule: removeModule,
-        enforcePolicy: enforcePolicy
+        enforcePolicy: enforcePolicy,
+		identityPrivacy: identityPrivacy
     };
 }());

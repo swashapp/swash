@@ -71,24 +71,13 @@ var contextScript = (function () {
 	}
 }());
 	
-if (window.wrappedJSObject) {
-	if (typeof window.wrappedJSObject.surfStreamrContextMessage === 'undefined') {	
-		window.wrappedJSObject.surfStreamrContextMessage = {
-			obj: "Context",
-			func: "injectAttrCollectors",
-			params: [window.location.href]
-		}
-
-		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContextMessage).then(contextScript.handleResponse, contextScript.handleError);  
-	}
-}
-else {
-	let surfStreamrContextMessage = {
+if(typeof window.surfStreamrContentMessage === 'undefined') {
+	window.surfStreamrContextMessage = {
 		obj: "Context",
 		func: "injectAttrCollectors",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(surfStreamrContextMessage).then(contextScript.handleResponse, contextScript.handleError);  	
+	browser.runtime.sendMessage(window.surfStreamrContextMessage).then(contextScript.handleResponse, contextScript.handleError);  	
 }
 

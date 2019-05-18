@@ -208,19 +208,9 @@ var taskScript = (function () {
 
 
 
-if (window.wrappedJSObject) {
-	if (typeof window.wrappedJSObject.surfStreamrTaskMessage === 'undefined') {
-		window.wrappedJSObject.surfStreamrTaskMessage = {
-			obj: "Task",
-			func: "injectTasks",
-			params: [window.location.href]
-		}
 
-		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrTaskMessage).then(taskScript.handleResponse, taskScript.handleError);  
-	}
-}
-else {
-	let surfStreamrTaskMessage = {
+if(typeof window.surfStreamrContentMessage === 'undefined') {
+	window.surfStreamrTaskMessage = {
 		obj: "Task",
 		func: "injectTasks",
 		params: [window.location.href]

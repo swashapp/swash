@@ -8,6 +8,7 @@ Facebook.browsing = [
         title: "Facebook Search",
         description: "This item collects all search queries that user entered in Facebook search bar",
 		viewGroup: "UX",
+		is_enabled: true,
         patterns: [
             {
                 method: "GET",
@@ -17,62 +18,6 @@ Facebook.browsing = [
                     {
                         type: "query",
                         key: "q",
-                        name: "query"
-                    }
-                ],
-				schems: [
-					{jpath:"$.query",type:"text"}				
-				]                
-            },{
-                method: "GET",
-                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/str\\/([^\\/]*)\\/.*",
-                pattern_type: "regex",
-                param: [
-                    {
-                        type: "regex",
-                        group: 1,
-                        name: "query"
-                    }
-                ],
-				schems: [
-					{jpath:"$.query",type:"text"}				
-				]                
-            },{
-                method: "GET",
-                url_pattern: "^https:\\/\\/www.facebook.com\\/typeahead\\/search\\/facebar\\/query\\/.*",
-                pattern_type: "regex",
-                param: [
-                    {
-                        type: "query",
-                        key: "value",
-                        name: "query"
-                    }
-                ],
-				schems: [
-					{jpath:"$.query",type:"text"}				
-				]                
-            },{
-                method: "GET",
-                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/browse\\/warm\\/requestargs\\/.*",
-                pattern_type: "regex",
-                param: [
-                    {
-                        type: "query",
-                        key: "query",
-                        name: "query"
-                    }
-                ],
-				schems: [
-					{jpath:"$.query",type:"text"}				
-				]                
-            },{
-                method: "GET",
-                url_pattern: "^https:\\/\\/www\\.facebook\\.com\\/search\\/facebar_survey\\/.*",
-                pattern_type: "regex",
-                param: [
-                    {
-                        type: "query",
-                        key: "query",
                         name: "query"
                     }
                 ],

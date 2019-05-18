@@ -6,19 +6,19 @@ var privacyUtils = (function() {
         var date = new Date();
         switch(privacyLevel) {
             case 0:            
-                return sha256(id);
+                return {id: sha256(id), expireTime: -1};
             case 1:
-                return sha256(mId);
+                return {id: sha256(mId), expireTime: -1};
             case 2:
                 date.setHours(0, 0, 0, 0)
-                return sha256(mId + date.getTime());
+                return {id: sha256(mId + date.getTime()), expireTime: date.setHours(24, 0, 0, 0)};
             case 3:
                 date.setMinutes(0, 0, 0);
-                return sha256(mId + date.getTime());
+                return {id: sha256(mId + date.getTime()), expireTime: date.setMinutes(60, 0, 0)};
             case 4:
-                return sha256(mId + date.getTime());
+                return {id: sha256(mId + date.getTime()), expireTime: 0};
             default:
-                return sha256(mId + date.getTime());
+                return {id: sha256(mId + date.getTime()), expireTime: 0};
         }
                 
     }

@@ -35,6 +35,7 @@ var contentScript = (function () {
 		(document.head||document.documentElement).appendChild(script);
 		script.remove();		
 	}
+	
 	function isIterable(obj) {
 	  // checks for null and undefined
 	  if (obj == null) {
@@ -135,8 +136,8 @@ var contentScript = (function () {
 					}
 				}]
 		}
-
-		data.objects.forEach(x=>{
+		for(x of data.objects) {
+		//data.objects.forEach(x=>{
 			var objList = [];
 			switch(x.selector) {
 				case "#":
@@ -163,6 +164,9 @@ var contentScript = (function () {
                     }
 					break;
 			}
+			if(!objList || (NodeList.prototype.isPrototypeOf(objList) && objList.length == 0))
+				if(x.isRequired)
+					return;
 			if(objList){                
                 if(x.name) {
                     message.params[0].data.out[x.name] = [];                    
@@ -204,7 +208,8 @@ var contentScript = (function () {
                     });
                 }
 			}			
-		});
+		}
+		//);
 		if(!isEmpty(message.params[0].data.out))
 			send_msg(message);
 	}
@@ -257,7 +262,10 @@ var contentScript = (function () {
 			switch(obj.type) {
 				case "event":
 					obj.events.forEach(event=>{
-						let callback = function(x, index){public_callback(obj, message.moduleName, x, index)};
+						let callback = function(x, index){
+								if(event.keyCode && event.keyCode == x.keyCode || !event.keyCode)
+									public_callback(obj, message.moduleName, x, index)
+							};
                         let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
 						callbacks[cbName] = callback;
 						if(event.selector == "window"){
@@ -300,14 +308,12 @@ var contentScript = (function () {
 
 	return {
 		handleResponse: handleResponse,
-		handleError: handleError
+		handleError: handleError,
 	}
 }());
 
 
-
-
-if (window.wrappedJSObject) {
+/*if (window.wrappedJSObject) {
 	if(typeof window.wrappedJSObject.surfStreamrContentMessage === 'undefined') {	
 		window.wrappedJSObject.surfStreamrContentMessage = {
 			obj: "Content",
@@ -318,14 +324,15 @@ if (window.wrappedJSObject) {
 		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  
 	}
 }
-else {
-	let surfStreamrContentMessage = {
-		obj: "Content",
-		func: "injectCollectors",
-		params: [window.location.href]
-	}
-
-	browser.runtime.sendMessage(surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);  	
+else */{
+	if(typeof window.surfStreamrContentMessage === 'undefined') {
+		window.surfStreamrContentMessage = {
+			obj: "Content",
+			func: "injectCollectors",
+			params: [window.location.href]
+		}		
+		browser.runtime.sendMessage(window.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);
+	}	
 }
 
 
