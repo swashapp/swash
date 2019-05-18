@@ -2,42 +2,229 @@ console.log("modules/amazon/content.js");
 import {Amazon} from './manifest.js';
 Amazon.content_matches = ["*://*.amazon.com/*"]
 Amazon.content = [
-    {
-        name: "links",
-		url_match: "*://*.amazon.com/*",
-        description: "This item collects all links in Amazon web pages that clicked by user",
+	{
+        name: "searchQuery",
+		url_match: "*://www.amazon.com/*",
+        description: "This item collects Amazon search query and search category",
 		viewGroup: "UX",
-        title: "Links clicked by user",
+        title: "Search Query",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
-                selector: "a",
+                selector: "#nav-search input[type=submit]",
+                event_name: "click"
+            },
+			{
+                selector: "#twotabsearchtextbox",
+                event_name: "keydown",
+				keyCode: 13
+            }
+        ],
+        objects: [
+            {
+                selector:"#nav-search",
+                properties: [
+                    {
+                        selector: "#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: "#searchDropdownBox option:checked",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            }
+		]
+    },
+	{
+        name: "searchSuggestionSelect",
+		url_match: "*://www.amazon.com/*",
+        description: "This item collects a search suggestion that has been selected by user",
+		viewGroup: "UX",
+        title: "Selected Search Suggestion",
+        type: "event",
+		readyAt: "DOMChange",
+        observingTargetNode: "#nav-belt",
+        observingConfig: { attributes: false, childList: true, subtree: true },
+        is_enabled: false,
+        events: [            
+			{
+                selector: ".s-suggestion",
                 event_name: "click"
             }
         ],
         objects: [
             {
+                selector:"#nav-search",
+                properties: [                   
+                    {
+                        selector: "#searchDropdownBox option:checked",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    }
+                ]
+            },
+			{
                 selector:"",
                 properties: [
                     {
-                        property: "innerHTML",
-                        name: "text",
+                        property: "innerText",
+                        name: "query",
+                        type: "text"
+                    },
+					{
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    }
+                ]
+            }
+		]
+    },
+    {
+        name: "searchResult",
+		url_match: "*://www.amazon.com/s*",
+        description: "This item collects Amazon search results, search category, and corresponding search query",
+		viewGroup: "UX",
+        title: "Search Result",
+        type: "event",        
+        is_enabled: false,
+        events: [
+            {
+                selector: "window",
+                event_name: "DOMContentLoaded"
+            }
+        ],
+        objects: [
+            {
+                selector:".s-result-list.sg-row .s-result-item",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "h2 a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: "h2 a",
+                        property: "innerText",
+                        name: "title",
                         type: "text"
                     },
                     {
-                        property: "href",
-                        name: "url",
-                        type: "url"
+                        selector: ".a-price .a-offscreen",
+                        property: "innerText",
+                        name: "price",
+                        type: "text"
+                    },
+					{
+                        selector: ".a-icon-star-small",
+                        property: "innerText",
+                        name: "rate",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+				selector:"title",
+                properties: [
+                    {
+                        property: "innerText",
+                        name: "query",
+                        type: "text"
+                    }
+				]
+			},
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#searchDropdownBox option:checked",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    },
+					{
+                        selector: ".a-pagination .a-selected a",
+                        property: "innerText",
+                        name: "pageNumber",
+                        type: "text"
+                    }
+                ]
+            }
+        ]
+    },
+	{
+        name: "clickSearchResult",
+		url_match: "*://*.amazon.com/s*",
+        description: "This item collects information about a search result link that clicked by user",
+		viewGroup: "UX",
+        title: "clicked search result",
+        type: "event",        
+        is_enabled: false,
+        events: [
+            {
+                selector: ".s-result-list.sg-row .s-result-item h2 a",
+                event_name: "click"
+            },
+			{
+                selector: ".s-result-list.sg-row .s-result-item h2 a",
+                event_name: "contextmenu"
+            }
+        ],
+        objects: [
+			{
+                selector:"#", //event properties
+                properties: [
+                    {
+                        property: "index",
+                        name: "rank",
+                        type: "text"
                     }
                 ]
             },
             {
-                selector:"#title",
+                selector:"",
                 properties: [
                     {
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
                         property: "innerText",
-                        name: "page_title",
+                        name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+            {
+                selector:"body",
+                properties: [
+                    {
+                        selector: "#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
+                        type: "text"
+                    },
+                    {
+                        selector: "#searchDropdownBox option:checked",
+                        property: "innerText",
+                        name: "category",
+                        type: "text"
+                    },
+					{
+                        selector: ".a-pagination .a-selected a",
+                        property: "innerText",
+                        name: "pageNumber",
                         type: "text"
                     }
                 ]
@@ -45,52 +232,62 @@ Amazon.content = [
         ]
     },
     {
-        name: "selectItem",
+        name: "selectedItem",
 		url_match: "*://*.amazon.com/*",
         description: "This item collects product title, product category and page title for products in amazon web pages that selected by user",
 		viewGroup: "UX",
         title: "Items selected by user",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
-                selector: "",
- //               event_name: "DOMContentLoaded"
-                event_name: "load"
+                selector: "window",
+                event_name: "DOMContentLoaded"
             }
         ],
         objects: [
             {
-                selector:"#productTitle",
+				selector: "#dp-container",	
+				isRequired: true,
                 properties: [
                     {
+						selector:"#productTitle",
                         property: "innerText",
                         name: "title",
+                        type: "text"
+                    },
+					{
+						selector:"#averageCustomerReviews .a-icon-star",
+                        property: "innerText",
+                        name: "rate",
+                        type: "text"
+                    },
+					{
+						selector:"#priceblock_ourprice",
+                        property: "innerText",
+                        name: "price",
                         type: "text"
                     }
                 ]
 				
             },
-            {
-                selector:"#searchDropdownBox option:selected",
-                properties: [
+			{
+				selector: "#nav-search",
+				properties: [
                     {
-                        property: "text",
+						selector:"#searchDropdownBox option:checked",
+                        property: "innerText",
                         name: "category",
                         type: "text"
-                    }
-                ]
-            },
-            {
-                selector:"#title",
-                properties: [
-                    {
-                        property: "innerText",
-                        name: "page_title",
+                    },
+					{
+						selector:"#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
                         type: "text"
                     }
-                ]
-            }
+				]
+			}
         ]
     },
     {
@@ -100,7 +297,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items added to cart",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "#add-to-cart-button",
@@ -113,35 +310,47 @@ Amazon.content = [
         ],
         objects: [
             {
-                selector:"#productTitle",
+				selector: "#dp-container",	
+				isRequired: true,
                 properties: [
                     {
+						selector:"#productTitle",
                         property: "innerText",
                         name: "title",
-                        type: "text"                
+                        type: "text"
+                    },
+					{
+						selector:"#averageCustomerReviews .a-icon-star",
+                        property: "innerText",
+                        name: "rate",
+                        type: "text"
+                    },
+					{
+						selector:"#price_inside_buybox",
+                        property: "innerText",
+                        name: "price",
+                        type: "text"
                     }
                 ]
+				
             },
-            {
-                selector:"#searchDropdownBox option:selected",
-                properties: [
+			{
+				selector: "#nav-search",
+				properties: [
                     {
-                        property: "text",
+						selector:"#searchDropdownBox option:checked",
+                        property: "innerText",
                         name: "category",
                         type: "text"
-                    }
-                ]
-            },
-            {
-                selector:"#title",
-                properties: [
-                    {
-                        property: "innerText",
-                        name: "page_title",
+                    },
+					{
+						selector:"#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
                         type: "text"
                     }
-                ]
-            }
+				]
+			}
         ]
     },
     {
@@ -151,7 +360,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items added to wishlist",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "#add-to-wishlist-button-submit",
@@ -164,35 +373,47 @@ Amazon.content = [
         ],
         objects: [
             {
-                selector:"#productTitle",
+				selector: "#dp-container",	
+				isRequired: true,
                 properties: [
                     {
+						selector:"#productTitle",
                         property: "innerText",
                         name: "title",
                         type: "text"
+                    },
+					{
+						selector:"#averageCustomerReviews .a-icon-star",
+                        property: "innerText",
+                        name: "rate",
+                        type: "text"
+                    },
+					{
+						selector:"#price_inside_buybox",
+                        property: "innerText",
+                        name: "price",
+                        type: "text"
                     }
                 ]
+				
             },
-            {
-                selector:"#searchDropdownBox option:selected",
-                properties: [
+			{
+				selector: "#nav-search",
+				properties: [
                     {
-                        property: "text",
+						selector:"#searchDropdownBox option:checked",
+                        property: "innerText",
                         name: "category",
                         type: "text"
-                    }
-                ]
-            },
-            {
-                selector:"#title",
-                properties: [
-                    {
-                        property: "innerText",
-                        name: "page_title",
+                    },
+					{
+						selector:"#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
                         type: "text"
                     }
-                ]
-            }
+				]
+			}
         ]
     },
     {
@@ -202,7 +423,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items selected for buy",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "#buy-now-button",
@@ -215,35 +436,47 @@ Amazon.content = [
         ],
         objects: [
             {
-                selector:"#productTitle",
+				selector: "#dp-container",	
+				isRequired: true,
                 properties: [
                     {
+						selector:"#productTitle",
                         property: "innerText",
                         name: "title",
                         type: "text"
+                    },
+					{
+						selector:"#averageCustomerReviews .a-icon-star",
+                        property: "innerText",
+                        name: "rate",
+                        type: "text"
+                    },
+					{
+						selector:"#price_inside_buybox",
+                        property: "innerText",
+                        name: "price",
+                        type: "text"
                     }
                 ]
+				
             },
-            {
-                selector:"#searchDropdownBox option:selected",
-                properties: [
+			{
+				selector: "#nav-search",
+				properties: [
                     {
-                        property: "text",
+						selector:"#searchDropdownBox option:checked",
+                        property: "innerText",
                         name: "category",
                         type: "text"
-                    }
-                ]
-            },
-            {
-                selector:"#title",
-                properties: [
-                    {
-                        property: "innerText",
-                        name: "page_title",
+                    },
+					{
+						selector:"#twotabsearchtextbox",
+                        property: "value",
+                        name: "query",
                         type: "text"
                     }
-                ]
-            }
+				]
+			}
         ]
     },
     

@@ -271,24 +271,12 @@ var surveyScript = (function () {
 	}
 }());
 
-
-if (window.wrappedJSObject) {
-	if (typeof window.wrappedJSObject.surfStreamrSurveyMessage === 'undefined') {
-		window.wrappedJSObject.surfStreamrSurveyMessage = {
-			obj: "Survey",
-			func: "injectSurvey",
-			params: [window.location.href]
-		}
-
-		browser.runtime.sendMessage(window.wrappedJSObject.surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  
-	}
-} 
-else {
-	let surfStreamrSurveyMessage = {
+if(typeof window.surfStreamrContentMessage === 'undefined') {
+	window.surfStreamrSurveyMessage = {
 		obj: "Survey",
 		func: "injectSurvey",
 		params: [window.location.href]
 	}
 
-	browser.runtime.sendMessage(surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  	
+	browser.runtime.sendMessage(window.surfStreamrSurveyMessage).then(surveyScript.handleResponse, surveyScript.handleError);  	
 }

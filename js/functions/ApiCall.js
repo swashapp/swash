@@ -6,11 +6,14 @@ import {StorageHelper} from '../StorageHelper.js';
 // TODO: handle ETAG
 // TODO: handle batch requests
 var ApiCall = (function() {
-     
-    var callbacks = {};
+	
+    const API_CALL_INTERVAL = 60*60*1000;
+	const DELAY_BETWEEN_CALLS = 60*1000;
+		
+    var callbacks = {interval: -1, apiCalls: []};
+	var extId = "authsaz@gmail.com"
     
 	function getCallBackURL(moduleName) {
-		let extId = browser.runtime.id;
 		//let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
         let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName;
 		return cbURL;
@@ -247,7 +250,7 @@ var ApiCall = (function() {
                                         return prepareMessage(q) 
                                     })
                                     .then(msg =>{ send_message(resp.module,data,msg)});
-                        }, 10000*i);
+                        }, DELAY_BETWEEN_CALLS*i);
                         callbacks[moduleName].apiCalls.push(s);
                     }
                 });
@@ -285,7 +288,7 @@ var ApiCall = (function() {
 			callbacks[module.name] = {interval: -1, apiCalls: []};
 			callbacks[module.name].interval = setInterval(function(x){
 				fetch_apis(module.name);
-			},20000);
+			},API_CALL_INTERVAL);
 		}
     }
     

@@ -55,16 +55,16 @@ var Content = (function() {
 	
 
 	function registerContentScripts(tabId, changeInfo, tabInfo) {
-		let injectScript = false;
-		for(let filter of cfilter.urls) {
-			if(Utils.wildcard(tabInfo.url, filter)) {
-				injectScript = true;
-				break;
-			}
-		}
-		if(!injectScript)
-			return;
 		if(changeInfo.status == "loading") {
+			let injectScript = false;
+			for(let filter of cfilter.urls) {
+				if(Utils.wildcard(tabInfo.url, filter)) {
+					injectScript = true;
+					break;
+				}
+			}
+			if(!injectScript)
+				return;
 			browser.tabs.executeScript(tabId, {
 			  file: "/lib/browser-polyfill.js",
 			  allFrames: false,

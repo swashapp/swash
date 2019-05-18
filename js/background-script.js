@@ -4,6 +4,7 @@ import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
 import {DatabaseHelper} from './DatabaseHelper.js';
+import {privacyUtils} from './privacyUtils.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './functions/ApiCall.js';
 import {Content} from './functions/Content.js';
@@ -36,6 +37,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 	let objList = {
 		StorageHelper: StorageHelper,
 		DatabaseHelper: DatabaseHelper,
+		privacyUtils: privacyUtils,
 		ApiCall: ApiCall,
 		Loader: Loader,
 		Content: Content,
