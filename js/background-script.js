@@ -21,10 +21,11 @@ This function will invoke on:
     3. update add-on
 */
 browser.runtime.onInstalled.addListener((info) => {
-    console.log(info.name + " " + info.version +  " was installed");
+	console.log(info);
     console.log("Registering modules.");
     console.log("onInstalled.js: " + AllModules);
-    Loader.install(AllModules).then(() => {Loader.reload()});
+	if(info.reason == "update" || info.reason == "install")
+		Loader.install(AllModules).then(() => {Loader.reload()});
 });
 
 /* ***
