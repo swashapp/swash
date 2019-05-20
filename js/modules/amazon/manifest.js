@@ -14,7 +14,7 @@ var Amazon = (function() {
 				title: "User Experience"
 			}
 		],
-        is_enabled: true,
+        is_enabled: false,
         URL: ["https://www.amazon.com/"],
         privacy_level: 3,
         status: "enabled",

@@ -10,7 +10,7 @@ Search.content = [
 		viewGroup: "Google",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -100,7 +100,7 @@ Search.content = [
 		viewGroup: "Google",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".g .rc .r",
@@ -171,7 +171,7 @@ Search.content = [
 		viewGroup: "Google",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".ad_cclk",
@@ -259,7 +259,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -349,7 +349,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".b_algo h2",
@@ -420,7 +420,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".b_ad .sb_add",
@@ -492,7 +492,7 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -582,7 +582,7 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "#web .compTitle",
@@ -653,7 +653,7 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".ads .compTitle",
@@ -725,7 +725,7 @@ Search.content = [
 		viewGroup: "AOL",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -815,7 +815,7 @@ Search.content = [
 		viewGroup: "AOL",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "#web .compTitle",
@@ -886,7 +886,7 @@ Search.content = [
 		viewGroup: "AOL",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".ads .compTitle",
@@ -958,7 +958,7 @@ Search.content = [
 		viewGroup: "Ask",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -1023,7 +1023,7 @@ Search.content = [
 		viewGroup: "Ask",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".PartialSearchResults-item-title",
@@ -1095,7 +1095,7 @@ Search.content = [
 		viewGroup: "Baidu",
         title: "Search Result",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",
@@ -1160,7 +1160,7 @@ Search.content = [
 		viewGroup: "Baidu",
         title: "clicked link",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".result .t",
@@ -1231,7 +1231,7 @@ Search.content = [
    		readyAt: "DOMChange",
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {                
                 event_name: ".",
@@ -1318,7 +1318,7 @@ Search.content = [
 		readyAt: "DOMChange",
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".results .result.results_links_deep",
@@ -1386,7 +1386,7 @@ Search.content = [
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: ".results--ads .result.results_links",

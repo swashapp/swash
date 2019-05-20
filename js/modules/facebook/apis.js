@@ -47,7 +47,7 @@ Facebook.apiCall = [
 		name: "userLikes",
         title: "User Likes",
 		viewGroup: "API",
-        is_enabled: true,        
+        is_enabled: false,        
 		description: "All the Pages this person has liked",
 		method: "GET",
 		URI: "/me/likes",
