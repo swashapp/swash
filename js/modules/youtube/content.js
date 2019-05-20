@@ -9,7 +9,7 @@ Youtube.content = [
         title: "video time duration",
 		viewGroup: "UX",
         type: "event",        
-        is_enabled: true,
+        is_enabled: false,
         events: [
             {
                 selector: "window",   

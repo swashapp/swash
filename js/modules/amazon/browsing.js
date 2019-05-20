@@ -17,7 +17,7 @@ Amazon.browsing = [
         description: "This item collects all navigations that user has done in Amazon web pages",
 		viewGroup: "UX",
         target_listener: "inspectReferrer",
-        is_enabled: true
+        is_enabled: false
     }
 
 ];
