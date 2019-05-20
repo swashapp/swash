@@ -5,7 +5,7 @@ var Surfing = (function() {
     
     return {
         name: "Surfing",
-        description: "This module captures user navigations for URL patterns that has been permitted by user",
+        description: "This module captures a user navigations for URL patterns that has been permitted by the user",
         path: "/surfing",
         URL: ["*://*/*"],
         functions: ["browsing"],

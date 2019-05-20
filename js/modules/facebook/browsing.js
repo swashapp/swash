@@ -6,7 +6,7 @@ Facebook.browsing = [
     {
         name: "Search",
         title: "Facebook Search",
-        description: "This item collects all search queries that user entered in Facebook search bar",
+        description: "This item collects all search queries that a user has entered in Facebook search bar",
 		viewGroup: "UX",
 		is_enabled: true,
         patterns: [
@@ -30,7 +30,7 @@ Facebook.browsing = [
     {
         name: "Page Visit",
         title: "Links clicked by user",
-        description: "This item collects all pages in Facebook that user has visited",
+        description: "This item collects all pages in Facebook that a user has visited",
 		viewGroup: "UX",
         is_enabled: true,
         target_listener: "inspectVisit"
@@ -38,7 +38,7 @@ Facebook.browsing = [
     {
         name: "Visiting Graph",
         title: "Visiting Graph",
-        description: "This item collects all navigation that user do in Amazon web pages",
+        description: "This item collects all navigations that a user does in Facebook web pages",
 		viewGroup: "UX",
         is_enabled: true,        
         target_listener: "inspectReferrer"

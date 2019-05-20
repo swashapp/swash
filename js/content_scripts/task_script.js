@@ -175,9 +175,7 @@ var taskScript = (function () {
 		}		
 	}
 
-	function handleResponse(message) {
-	  console.log(`Message from the background script:  ${JSON.stringify(message)}`);
-	  
+	function handleResponse(message) {	  
 		message.tasks.forEach(obj=>{
 			let startEvent = obj.startEvent;
 			let startCallback = function(x){start_callback(obj, message.moduleName, x)};
@@ -188,10 +186,9 @@ var taskScript = (function () {
 			let endCallback = function(x){end_callback(obj, message.moduleName, x)};
 			callbacks[message.moduleName + "_" + endEvent.event_name] = endCallback;
 			registerEvent(endEvent, endCallback);
-            console.log("object is: ",obj);
 				
 		});
-        window.addEventListener("load", (x) => {console.log(x)});
+        window.addEventListener("load", (x) => {});
         startedTasks = message.startedTasks?message.startedTasks:{}
 	}
 

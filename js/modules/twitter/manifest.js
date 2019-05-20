@@ -4,8 +4,8 @@ var Twitter = (function() {
     'use strict';
     
     return {
-        name: "twitter",
-        description: "This module configure general surfing configuration of surf-streamr",
+        name: "Twitter",
+        description: "This module looks through all activities of a user on Twitter and captures those activities that the user has permitted",
         URL: ["https://www.authsaz.com/v3"],
         functions: ["browsing"],
 		viewGroups: [

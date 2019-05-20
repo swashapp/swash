@@ -12,11 +12,9 @@ var Browsing = (function() {
         
     }
     function inspectReferrer(moduleName, data, requestDetails) {
-        //console.log(`inspectRequest: ${config.name} `, requestDetails);
         if(requestDetails.type != "main_frame" || (!requestDetails.originUrl && !requestDetails.initiator))
             return;
 		requestDetails.originUrl = requestDetails.originUrl || requestDetails.initiator;
-        console.log(requestDetails.url, requestDetails.originUrl);
         let message = {
             origin: requestDetails.originUrl,
 			header:{
@@ -41,7 +39,6 @@ var Browsing = (function() {
     function inspectVisit(moduleName, data, requestDetails) {
         if(requestDetails.type != "main_frame")
             return;
-        console.log(requestDetails);
         let message = {
             origin: requestDetails.url,
 			header:{
@@ -80,7 +77,6 @@ var Browsing = (function() {
             var res = requestDetails.url.match(patt.url_pattern);
             if(res!= null) 
             {
-                console.log("matched: " + requestDetails.url, patt);
                 failed = false;
             }
         }

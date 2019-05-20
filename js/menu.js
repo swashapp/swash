@@ -38,11 +38,9 @@ function showPageOnPopup(url_to_show){
 				  });
 }
   
-console.log("I loaded");
   
 
-function update_balance(balance){
-    console.log(balance);
+function update_balance(balance){   
     document.getElementById("wallet_balance").innerText  = balance;
 }
 
@@ -59,7 +57,7 @@ document.getElementById("open_setting").addEventListener('click', function(event
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("Messages");
+    let url = browser.runtime.getURL("dashboard/index.html");
     showPageOnTab(url);
 });
 

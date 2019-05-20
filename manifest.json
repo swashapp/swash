@@ -15,11 +15,11 @@
       "19": "icons/surf19.png",
       "38": "icons/surf38.png"
     },
-    "default_title": "Surf Streamr",
+    "default_title": "Surf-Streamr",
     "default_popup": "popup/popup.html"
   },
  
-  "description": "Surf Streamr is a Community Product in which gather user browsing information",
+  "description": "Surf-Streamr is a Community Product which gathers user browsing information",
 
   "icons": {
     "48": "icons/surf48.png",
@@ -38,5 +38,5 @@
     
   
  
-  "version": "0.6.1"
+  "version": "0.7.0"
 }

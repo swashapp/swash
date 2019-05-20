@@ -13,7 +13,6 @@ var pushStream = (function() {
     
     async function callback(message) {
             // This function will be called when new messages occur
-            console.log(JSON.stringify(message));
             let configs = await StorageHelper.retrieveConfigs();    
             let pushId = configs.Id;
             if(message.pushId != pushId)

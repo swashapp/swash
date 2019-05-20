@@ -5,7 +5,7 @@ var Search = (function() {
     
     return {
         name: "Search",
-        description: "This module Captures user search queries, search results, and links clicked by user for top six search engines: Google, Bing, Yahoo, AOL, Ask, and Baidu",
+        description: "This module Captures a user search queries, search results, and links clicked by the user for top 7 search engines: Google, Bing, Yahoo, AOL, Ask, Baidu, and DuckDuckGo",
         path: "/search",
         URL: ["https://www.google.com","https://search.yahoo.com","https://www.aol.com/","http://www.bing.com/","https://www.ask.com/","http://www.baidu.com/"],
         functions: ["browsing","content"],

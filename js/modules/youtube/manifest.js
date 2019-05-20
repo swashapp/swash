@@ -4,8 +4,8 @@ var Youtube = (function() {
     'use strict';
     
     return {
-        name: "youtube",
-        description: "This module look through all the user activities on Youtube and capture those activities that user have permitted",
+        name: "Youtube",
+        description: "This module looks through all activities of a user on Youtube and captures those activities that the user has permitted",
         path: "/youtube",
         URL: ["https://www.youtube.com"],
         functions: ["content" ,"browsing", "apiCall"],

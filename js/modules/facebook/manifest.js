@@ -4,8 +4,8 @@ var Facebook = (function() {
     'use strict';
     
     return {
-        name: "facebook",
-        description: "This module look through all the user activities on facebook and capture those activities that user have permitted",
+        name: "Facebook",
+        description: "This module looks through all activities of a user on Facebook and captures those activities that the user has permitted",
         path: "/facebook",
         URL: ["https://www.facebook.com"],
 		viewGroups: [
