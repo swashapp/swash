@@ -165,7 +165,7 @@ Amazon.content = [
 	{
         name: "clickSearchResult",
 		url_match: "*://*.amazon.com/s*",
-        description: "This item collects information about a search result link that clicked by user",
+        description: "This item collects information about a search result link that has been clicked by user",
 		viewGroup: "UX",
         title: "clicked search result",
         type: "event",        
@@ -234,7 +234,7 @@ Amazon.content = [
     {
         name: "selectedItem",
 		url_match: "*://*.amazon.com/*",
-        description: "This item collects product title, product category and page title for products in amazon web pages that selected by user",
+        description: "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
 		viewGroup: "UX",
         title: "Items selected by user",
         type: "event",        
@@ -293,7 +293,7 @@ Amazon.content = [
     {
         name: "addToCart",
 		url_match: "*://*.amazon.com/*",
-        description: "This item collects all products in amazon web pages that added to cart by user",
+        description: "This item collects all products in amazon web pages that has been added to cart by user",
 		viewGroup: "UX",
         title: "Items added to cart",
         type: "event",        
@@ -355,7 +355,7 @@ Amazon.content = [
     },
     {
         name: "addToWishlist",
-        description: "This item collects all products in amazon web pages that added by user in wish list",
+        description: "This item collects all products in amazon web pages that has been added by user in wish list",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items added to wishlist",
@@ -418,7 +418,7 @@ Amazon.content = [
     },
     {
         name: "buyNow",
-        description: "This item collects all products in amazon web pages that selected by user for buying",
+        description: "This item collects all products in amazon web pages that has been selected by user for buying",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
         title: "Items selected for buy",

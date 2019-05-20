@@ -101,7 +101,6 @@ var contentScript = (function () {
 	}
 
 	function log_callback(data, moduleName){
-		console.log("function log_callback");
 		switch(data.name) {
 			case "ConsoleErrors":
 				exportLogFunction("error", data, moduleName);            
@@ -255,9 +254,7 @@ var contentScript = (function () {
 		targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
     }
     
-	function handleResponse(message) {
-	  console.log(`Message from the background script:  ${JSON.stringify(message)}`);
-	  
+	function handleResponse(message) {	  
 		message.content.forEach(obj=>{ 
 			switch(obj.type) {
 				case "event":

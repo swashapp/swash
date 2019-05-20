@@ -13,10 +13,10 @@ import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {ssConfig} from './manifest.js';
 var Loader = (function() {
-    'use strict';    
+    'use strict';
+    var dbHelperInterval;
     function install(allModules){		
         return StorageHelper.retrieveAll().then(db => {
-            console.log("db", db, Object.keys(db).length);
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
@@ -26,8 +26,6 @@ var Loader = (function() {
             try{
 				Utils.jsonUpdate(db.configs, ssConfig);
                 allModules.forEach(module=>{            
-                    console.log("Processing module:" + module.name + ", version:" + module.version);
-                    
 					if(!db.modules[module.name])
                     {
 						db.modules[module.name] = {};
@@ -47,7 +45,6 @@ var Loader = (function() {
             }
             //TODO: prefrences: apply previous user configuration
             // Utils.jsonUpdate(db.modules, db.prefrence);
-           console.log("install: ", db);
            return StorageHelper.storeAll(db);
            
         });
@@ -139,7 +136,7 @@ var Loader = (function() {
 	
 	function load() {		
 		browser.storage.local.get("configs").then(c => {
-			setInterval(function(){
+			dbHelperInterval = setInterval(function(){
 				DatabaseHelper.init();
 				DataHandler.sendDelayedMessages();
 				}, 10000);
@@ -168,7 +165,8 @@ var Loader = (function() {
 	
 	function reload() {		
 		browser.storage.local.get("configs").then(c => {
-			setInterval(function(){
+            clearInterval(dbHelperInterval);
+			dbHelperInterval = setInterval(function(){
 				DatabaseHelper.init();
 				DataHandler.sendDelayedMessages();
 				}, 10000);

@@ -230,7 +230,6 @@ async function logRequests() {
     let harLog = await browser.devtools.network.getHAR();
     //if(harLog.entries.length == 0)
     //    harLog = await browser.devtools.network.getHAR();
-	console.log(harLog);
     let res2;
     for (let entry of harLog.entries) {
 		var url = new URL(entry.request.url);
@@ -287,7 +286,6 @@ function matchRule(rule, data) {
 }
 
 function handleResponse(message) {
-	console.log(`Message from the background script:  ${JSON.stringify(message)}`);  
 	rules = message.devtools;
 	moduleName = message.moduleName;
 	url_matches = message.url_matches;

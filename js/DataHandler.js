@@ -132,8 +132,7 @@ var DataHandler = (function() {
 		return false;
     }
     
-    async function handle(message, tabId) {
-        console.log("DataHandler" + (Date()), message);		
+    async function handle(message, tabId) {        
 		if(!message.origin)
 			message.origin = "undetermined";
 		let db = await StorageHelper.retrieveAll();

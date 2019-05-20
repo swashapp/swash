@@ -5,7 +5,7 @@ var Amazon = (function() {
     
     return {
         name: "Amazon",        
-        description: "This module look through all the user activities on amazon and capture those activities that user have permitted",
+        description: "This module looks through all activities of a user on amazon and captures those activities that the user has permitted",
         path: "/amazon",
         functions: ["browsing", "content"],
 		viewGroups: [

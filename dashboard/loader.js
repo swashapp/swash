@@ -57,7 +57,6 @@ var helper = (function() {
         return sendMessage(message);		
     }
     function save(data){        
-        console.log(data);
     }
     function saveFilters(data){
 		let message = {
@@ -159,10 +158,10 @@ var helper = (function() {
         return sendMessage(message);		       		
 	}
 
-	function restart() {
+	function reload() {
 		let message = {
 			obj: "Loader",
-			func: "restart",
+			func: "reload",
 			params: []
 		}
         return sendMessage(message);		       		
@@ -219,7 +218,7 @@ var helper = (function() {
         save: save,
 		stop: stop,
 		start: start,
-		restart, restart,
+		reload, reload,
 		config_module: config_module,
 		loadModules: loadModules,
         loadFilters: loadFilters,

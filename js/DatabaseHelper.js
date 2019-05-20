@@ -63,12 +63,8 @@ var DatabaseHelper = (function() {
 			into: 'messages',
 			values: [row]
 		}).then(function(rowsInserted) {
-			if (rowsInserted > 0) {
-				console.log('successfully added');
-			}
 		}).catch(function(err) {
 			console.log(err);
-			console.log(err.message);
 		});
 
 	}
@@ -101,7 +97,6 @@ var DatabaseHelper = (function() {
 				}
 			}
 		}).then(function(rowsDeleted) {
-			console.log(rowsDeleted + ' record deleted');
 		}).catch(function(err) {
 			console.log(err);
 		});	
@@ -114,7 +109,6 @@ var DatabaseHelper = (function() {
 				id: id
 			}
 		}).then(function(rowsDeleted) {
-			console.log(rowsDeleted + ' record deleted');
 		}).catch(function(err) {
 			console.log(err);
 		});	

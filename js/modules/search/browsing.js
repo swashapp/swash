@@ -9,7 +9,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Bing",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Bing search bar",
+        description: "This item collects all search queries that a user enter in Bing search bar",
         filter: {urls: ["*://www.bing.com/*"]},		
         patterns: [
             {
@@ -59,7 +59,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Yahoo",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Yahoo search bar",
+        description: "This item collects all search queries that a user enter in Yahoo search bar",
         filter: {urls: ["*://*.yahoo.com/*"]},		
         patterns: [
             {
@@ -90,7 +90,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Google",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Google search bar",
+        description: "This item collects all search queries that a user enter in Google search bar",
         filter: {urls: ["*://www.google.com/search?*"]},		
         patterns: [
             {
@@ -121,7 +121,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "AOL",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in AOL search bar",
+        description: "This item collects all search queries that a user enter in AOL search bar",
         filter: {urls: ["*://search.aol.com/aol/*"]},		
         patterns: [
             {
@@ -151,7 +151,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Ask",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Ask search bar",
+        description: "This item collects all search queries that a user enter in Ask search bar",
         filter: {urls: ["*://www.ask.com/*"]},		
         patterns: [
             {
@@ -181,7 +181,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "Baidu",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in Baidu search bar",
+        description: "This item collects all search queries that a user enter in Baidu search bar",
 		filter: {urls: ["*://*.baidu.com/*"]},		
         patterns: [
             {
@@ -221,7 +221,7 @@ Search.browsing = [
         title: "Search Query",
 		viewGroup: "DuckDuckGo",
         is_enabled: true,        
-        description: "This item collects all search queries that user enter in DuckduckGo search bar",
+        description: "This item collects all search queries that a user enter in DuckduckGo search bar",
 		filter: {urls: ["*://duckduckgo.com/*"]},		
         patterns: [
             {

@@ -14,7 +14,7 @@ Amazon.browsing = [
     {
         name: "Visiting Graph",
         title: "Visiting Graph",
-        description: "This item collects all navigation that user do in Amazon web pages",
+        description: "This item collects all navigations that user has done in Amazon web pages",
 		viewGroup: "UX",
         target_listener: "inspectReferrer",
         is_enabled: true

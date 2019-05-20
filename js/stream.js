@@ -23,8 +23,7 @@ var stream = (function() {
 					apiKey: streamrConf.API_KEY
 				}
 			})
-	  }
-	  console.log("produceNewEvent ", msg);
+	  }	  
 	  client.publish(streamrConf.STREAM_ID, msg)
 		.then(() => {
 		  console.log('Sent successfully: ' + JSON.stringify(msg))
