@@ -10,7 +10,7 @@ Search.content = [
 		viewGroup: "Google",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -100,14 +100,14 @@ Search.content = [
 		viewGroup: "Google",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
-                selector: ".g .rc .r",
+                selector: ".srg .g .rc .r",
                 event_name: "click"
             },
 			{
-                selector: ".g .rc .r",
+                selector: ".srg .g .rc .r",
                 event_name: "contextmenu"
             }
         ],
@@ -139,8 +139,58 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".srg .g .rc",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".r .iUh30",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".r .LC20lb",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".s .st",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads-ad",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".ad_cclk .ads-visurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ad_cclk a h3",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ads-creative",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
-                selector:"body",
+                selector:"body",				
                 properties: [
                     {
                         selector: "input.gLFyf",
@@ -171,7 +221,7 @@ Search.content = [
 		viewGroup: "Google",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".ad_cclk",
@@ -226,6 +276,56 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".srg .g .rc",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".r .iUh30",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".r .LC20lb",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".s .st",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads-ad",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".ad_cclk .ads-visurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ad_cclk a h3",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".ads-creative",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -259,7 +359,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -349,7 +449,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".b_algo h2",
@@ -388,6 +488,56 @@ Search.content = [
                     }
                 ]
             },
+			{				
+                selector:"#b_results .b_algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: "a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".b_caption p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:"#b_results .b_ad .sb_add",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".b_caption .b_adurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: "a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".b_caption p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -420,7 +570,7 @@ Search.content = [
 		viewGroup: "Bing",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".b_ad .sb_add",
@@ -459,6 +609,56 @@ Search.content = [
                     }
                 ]
             },
+			{				
+                selector:"#b_results .b_algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: "a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".b_caption p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:"#b_results .b_ad .sb_add",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".b_caption .b_adurl cite",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: "a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".b_caption p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -492,7 +692,7 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -582,14 +782,14 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
-                selector: "#web .compTitle",
+                selector: ".algo .compTitle",
                 event_name: "click"
 			},
 			{
-                selector: "#web .compTitle",
+                selector: ".algo .compTitle",
                 event_name: "contextmenu"
             }
         ],
@@ -617,6 +817,56 @@ Search.content = [
 						selector:".title a",
                         property: "innerText",
                         name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads .compTitle",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "a.ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
                         type: "text"
                     }
                 ]
@@ -653,7 +903,7 @@ Search.content = [
 		viewGroup: "Yahoo",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".ads .compTitle",
@@ -692,6 +942,56 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads .compTitle",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: "a.ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -725,7 +1025,7 @@ Search.content = [
 		viewGroup: "AOL",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -815,14 +1115,14 @@ Search.content = [
 		viewGroup: "AOL",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
-                selector: "#web .compTitle",
+                selector: ".algo .compTitle",
                 event_name: "click"
             },
 			{
-                selector: "#web .compTitle",
+                selector: ".algo .compTitle",
                 event_name: "contextmenu"
             }
         ],
@@ -850,6 +1150,56 @@ Search.content = [
 						selector:".title a",
                         property: "innerText",
                         name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div .ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
                         type: "text"
                     }
                 ]
@@ -886,7 +1236,7 @@ Search.content = [
 		viewGroup: "AOL",
         title: "Ads clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".ads .compTitle",
@@ -925,6 +1275,56 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".algo",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div span",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".ads",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".compTitle div .ad-domain",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".title",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".compText p",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -958,7 +1358,7 @@ Search.content = [
 		viewGroup: "Ask",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -1023,7 +1423,7 @@ Search.content = [
 		viewGroup: "Ask",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".PartialSearchResults-item-title",
@@ -1062,6 +1462,31 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".PartialSearchResults-item",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".PartialSearchResults-item-title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".PartialSearchResults-item-title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".PartialSearchResults-item-abstract",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -1094,12 +1519,15 @@ Search.content = [
         description: "This item collects Baidu search results, search category, page number and corresponding search query",
 		viewGroup: "Baidu",
         title: "Search Result",
-        type: "event",        
-        is_enabled: false,
+        type: "event",
+		readyAt: "DOMChange",
+        observingTargetNode: "#wrapper_wrapper",
+        observingConfig: { attributes: false, childList: true, subtree: true },
+        is_enabled: true,
         events: [
             {
-                selector: "window",
-                event_name: "load"
+                selector: ".",
+                event_name: "."
             }
         ],
         objects: [
@@ -1160,10 +1588,13 @@ Search.content = [
 		viewGroup: "Baidu",
         title: "clicked link",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
+		readyAt: "DOMChange",
+        observingTargetNode: "#wrapper_wrapper",
+        observingConfig: { attributes: false, childList: true, subtree: true },
         events: [
             {
-                selector: ".result .t",
+                selector: ".result",
                 event_name: "click"
             }
         ],
@@ -1182,15 +1613,40 @@ Search.content = [
                 selector:"",
                 properties: [
                     {
-						selector:"a",
-                        property: "href",
+						selector:".f13 a",
+                        property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
-						selector:"a",
+						selector:".t",
                         property: "innerText",
                         name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".result",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".f13 a",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".t",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".c-abstract",
+                        property: "innerText",
+                        name: "description",
                         type: "text"
                     }
                 ]
@@ -1231,7 +1687,7 @@ Search.content = [
    		readyAt: "DOMChange",
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {                
                 event_name: ".",
@@ -1318,7 +1774,7 @@ Search.content = [
 		readyAt: "DOMChange",
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".results .result.results_links_deep",
@@ -1357,6 +1813,56 @@ Search.content = [
                     }
                 ]
             },
+			{
+                selector:".results .result.results_links_deep",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".results--ads .result.results_links",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__extras .result__extras__url a",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
             {
                 selector:"body",
                 properties: [
@@ -1386,7 +1892,7 @@ Search.content = [
         observingTargetNode: ".results--main",
         observingConfig: { attributes: false, childList: true, subtree: true },
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".results--ads .result.results_links",
@@ -1421,6 +1927,56 @@ Search.content = [
                         selector: ".result__body .result__title a",
                         property: "innerText",
                         name: "title",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".results .result.results_links_deep",
+                name: "searchResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "href",
+                        name: "link",
+                        type: "url"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
+                        type: "text"
+                    }
+                ]
+            },
+			{
+                selector:".results--ads .result.results_links",
+                name: "adsResult",
+				indexName: "rank",
+                properties: [
+                    {
+                        selector: ".result__body .result__extras .result__extras__url a",
+                        property: "innerText",
+                        name: "link",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__title a",
+                        property: "innerText",
+                        name: "title",
+                        type: "text"
+                    },
+                    {
+                        selector: ".result__body .result__snippet",
+                        property: "innerText",
+                        name: "description",
                         type: "text"
                     }
                 ]

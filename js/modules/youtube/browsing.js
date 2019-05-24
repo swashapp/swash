@@ -7,7 +7,7 @@ Youtube.browsing = [
         name: "Page Action",
         title: "Page actions",
 		viewGroup: "UX",
-        is_enabled: false,
+        is_enabled: true,
         description: "This item collects all actions a user does in Youtube pages",
         extraInfoSpec: ["requestBody"],        
         patterns: [
@@ -38,7 +38,7 @@ Youtube.browsing = [
         name: "Search",
         title: "Youtube Search",
 		viewGroup: "UX",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collect all search queries that a user enters in Youtube search bar",
         patterns: [
 			{

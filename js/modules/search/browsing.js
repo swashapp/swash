@@ -8,7 +8,7 @@ Search.browsing = [
         name: "bingQuery",
         title: "Search Query",
 		viewGroup: "Bing",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in Bing search bar",
         filter: {urls: ["*://www.bing.com/*"]},		
         patterns: [
@@ -58,7 +58,7 @@ Search.browsing = [
         name: "yahooQuery",
         title: "Search Query",
 		viewGroup: "Yahoo",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in Yahoo search bar",
         filter: {urls: ["*://*.yahoo.com/*"]},		
         patterns: [
@@ -89,7 +89,7 @@ Search.browsing = [
         name: "googleQuery",
         title: "Search Query",
 		viewGroup: "Google",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in Google search bar",
         filter: {urls: ["*://www.google.com/search?*"]},		
         patterns: [
@@ -120,7 +120,7 @@ Search.browsing = [
         name: "aolQuery",
         title: "Search Query",
 		viewGroup: "AOL",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in AOL search bar",
         filter: {urls: ["*://search.aol.com/aol/*"]},		
         patterns: [
@@ -150,7 +150,7 @@ Search.browsing = [
         name: "askQuery",
         title: "Search Query",
 		viewGroup: "Ask",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in Ask search bar",
         filter: {urls: ["*://www.ask.com/*"]},		
         patterns: [
@@ -220,7 +220,7 @@ Search.browsing = [
         name: "duckduckgoQuery",
         title: "Search Query",
 		viewGroup: "DuckDuckGo",
-        is_enabled: false,        
+        is_enabled: true,        
         description: "This item collects all search queries that a user enter in DuckduckGo search bar",
 		filter: {urls: ["*://duckduckgo.com/*"]},		
         patterns: [

@@ -9,7 +9,7 @@ Amazon.browsing = [
         title: "Amazon visited pages",
         description: "This item collects all pages in Amazon that user has visited",
         target_listener: "inspectVisit",
-        is_enabled: false
+        is_enabled: true
     },
     {
         name: "Visiting Graph",
@@ -17,7 +17,7 @@ Amazon.browsing = [
         description: "This item collects all navigations that user has done in Amazon web pages",
 		viewGroup: "UX",
         target_listener: "inspectReferrer",
-        is_enabled: false
+        is_enabled: true
     }
 
 ];
