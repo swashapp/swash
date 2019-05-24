@@ -8,7 +8,7 @@ Surfing.browsing = [
         title: "Page visits",
 		description: "This item collects all permitted pages that a user has visited",
 		viewGroup: "UX",
-        is_enabled: false,                
+        is_enabled: true,                
         target_listener: "inspectVisit"
     },
     {
@@ -16,7 +16,7 @@ Surfing.browsing = [
         title: "User experience",
 		description: "This item collects all navigation that a user does in all web pages",
 		viewGroup: "UX",
-        is_enabled: false,       
+        is_enabled: true,       
         target_listener: "inspectReferrer"
     },
     {
@@ -24,7 +24,7 @@ Surfing.browsing = [
         title: "Create Bookmark",
 		description: "This item collects all bookmarks that created by a user",
 		viewGroup: "UX",
-        is_enabled: false,        
+        is_enabled: true,        
         hook: "bookmarks"
     }
 ]

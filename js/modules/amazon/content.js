@@ -9,7 +9,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Search Query",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "#nav-search input[type=submit]",
@@ -51,7 +51,7 @@ Amazon.content = [
 		readyAt: "DOMChange",
         observingTargetNode: "#nav-belt",
         observingConfig: { attributes: false, childList: true, subtree: true },
-        is_enabled: false,
+        is_enabled: true,
         events: [            
 			{
                 selector: ".s-suggestion",
@@ -94,7 +94,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Search Result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -169,7 +169,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "clicked search result",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: ".s-result-list.sg-row .s-result-item h2 a",
@@ -238,7 +238,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items selected by user",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "window",
@@ -297,7 +297,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items added to cart",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "#add-to-cart-button",
@@ -360,7 +360,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items added to wishlist",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "#add-to-wishlist-button-submit",
@@ -423,7 +423,7 @@ Amazon.content = [
 		viewGroup: "UX",
         title: "Items selected for buy",
         type: "event",        
-        is_enabled: false,
+        is_enabled: true,
         events: [
             {
                 selector: "#buy-now-button",

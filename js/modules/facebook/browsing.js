@@ -8,7 +8,7 @@ Facebook.browsing = [
         title: "Facebook Search",
         description: "This item collects all search queries that a user has entered in Facebook search bar",
 		viewGroup: "UX",
-		is_enabled: false,
+		is_enabled: true,
         patterns: [
             {
                 method: "GET",
