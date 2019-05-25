@@ -11,6 +11,7 @@ import {Devtools} from './functions/Devtools.js';
 import {Task} from './functions/Task.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
+import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 var Loader = (function() {
     'use strict';
@@ -24,6 +25,13 @@ var Loader = (function() {
 				db.configs.delay = 1;
             }
             try{
+                let newFilters = db.filters.filter(function(f, index, arr){
+								return (!f.internal);
+							});
+                for(let f of internalFilters) {
+                    newFilters.push(f)
+                }
+                db.filters = newFilters;
 				Utils.jsonUpdate(db.configs, ssConfig);
                 allModules.forEach(module=>{            
 					if(!db.modules[module.name])
