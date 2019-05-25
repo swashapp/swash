@@ -89,28 +89,29 @@ var privacyUtils = (function() {
     }
 
     function textPrivacy(text, privacyLevel, mSalt, salt, privacyData) {
-        var retText = text;
+        var retText = text? text.toString(): '';
         switch(privacyLevel) {
             case 0:        
                 return retText;
             case 1:
                 for(var i = 0; i < privacyData.length ; i++) {  
-					retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (sha256(privacyData[i].value + salt).substring(0,privacyData[i].value.length)));                    
+					retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (sha256(privacyData[i].value + salt).substring(0,privacyData[i].value.length)));                    
                 }
                 return retText;
             case 2:
                 for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp(privacyData[i].value, 'g'), (new Array(privacyData[i].value.length + 1).join('*')));
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
                 }
                 return retText;
             case 3:
                 for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp(privacyData[i].value, 'g'), "");
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
                 }
                 return retText;
             case 4:
                 for(var i = 0; i < privacyData.length ; i++) {
-                    if(retText.indexOf(privacyData[i].value) > 0 ) {
+					let res = retText.match(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'));
+                    if(res) {
                         retText = "";
                         break;
                     }
