@@ -328,7 +328,7 @@ function sendToMarketplace() {
 							netlog: result[res]
 						},
 						schems: [
-							{jpath:"$.netlog",type:"text"}
+							{jpath:"$.netlog",type:"unknown"}
 						]
 					}
 				}]

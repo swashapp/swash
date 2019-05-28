@@ -15,7 +15,7 @@ var ApiCall = (function() {
     
 	function getCallBackURL(moduleName) {
 		//let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
-        let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName;
+        let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName.toLowerCase();
 		return cbURL;
 	}
 	
@@ -283,7 +283,8 @@ var ApiCall = (function() {
 					"https://callbacks.authsaz.com/*"
 				]
 			};
-			browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
+			if(!browser.webRequest.onBeforeRequest.hasListener(extractToken))
+				browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
 			//browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
 			//fetch_apis(module.name);
 			callbacks[module.name] = {interval: -1, apiCalls: []};
