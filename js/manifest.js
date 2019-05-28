@@ -4,7 +4,7 @@ var ssConfig = (function() {
     
     return {
         name: browser.runtime.getManifest().name,        
-        description: browser.runtime.getManifest().description,
+        description: "Surf-Streamr is a Streamr Community Product that collects information about users browsing activities and gives users ability to sell their data through Streamr Marketplace",
         path: "/",
         is_enabled: true,
         homepage_url: browser.runtime.getManifest().homepage_url,

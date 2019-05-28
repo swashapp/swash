@@ -45,12 +45,12 @@ var internalFilters = [
     "internal": true
   },
   {
-    "value": "http://drive.google.com/*",
+    "value": "https://drive.google.com/*",
     "type": "wildcard",
     "internal": true
   },
   {
-    "value": "http://docs.google.com/*",
+    "value": "https://docs.google.com/*",
     "type": "wildcard",
     "internal": true
   }

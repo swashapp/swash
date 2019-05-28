@@ -19,7 +19,7 @@
     "default_popup": "popup/popup.html"
   },
  
-  "description": "Surf-Streamr is a Community Product which gathers user browsing information",
+  "description": "Surf-Streamr is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {
     "48": "icons/surf48.png",
@@ -38,5 +38,5 @@
     
   
  
-  "version": "0.7.3"
+  "version": "0.7.6"
 }

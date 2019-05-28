@@ -19,7 +19,8 @@ Search.content = [
         ],
         objects: [
             {
-                selector:".srg .g .rc",
+                selector:".bkWMgd .g .rc",
+				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [
@@ -103,11 +104,13 @@ Search.content = [
         is_enabled: true,
         events: [
             {
-                selector: ".srg .g .rc .r",
+                selector: ".g .rc .r",
+				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
                 event_name: "click"
             },
 			{
-                selector: ".srg .g .rc .r",
+                selector: ".g .rc .r",
+				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
                 event_name: "contextmenu"
             }
         ],
@@ -140,7 +143,8 @@ Search.content = [
                 ]
             },
 			{
-                selector:".srg .g .rc",
+                selector:".bkWMgd .g .rc",
+				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [
@@ -277,7 +281,8 @@ Search.content = [
                 ]
             },
 			{
-                selector:".srg .g .rc",
+                selector:".bkWMgd .g .rc",
+				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [

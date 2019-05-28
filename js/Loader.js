@@ -59,7 +59,9 @@ var Loader = (function() {
         
     }
 	
-	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {    
+	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
+		if(!changeInfo.url || !tabInfo.active)		
+			return;		
 		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 			StorageHelper.retrieveFilters().then(filters => {
 					if(filterUtils.filter(tabInfo.url, filters))
@@ -71,15 +73,35 @@ var Loader = (function() {
 		})
     }
 
-
+	function changeIconOnActivated(activeInfo) {
+		browser.tabs.get(activeInfo.tabId).then((tabInfo) => {
+			if(tabInfo.url) {
+				StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
+					StorageHelper.retrieveFilters().then(filters => {
+							if(filterUtils.filter(tabInfo.url, filters))
+								browser.browserAction.setIcon({path: "icons/surf19g.png"});
+							else 
+								browser.browserAction.setIcon({path: "icons/surf19.png"});
+						});		
+					}			
+				})							
+			}
+		})
+    }
+	
     function init(isEnabled) {
 		if(isEnabled) {
-			browser.tabs.onUpdated.addListener(changeIconOnUpdated);
+			if(!browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
+				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
+			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
+				browser.tabs.onActivated.addListener(changeIconOnActivated)
 			browser.browserAction.setIcon({path: "icons/surf19.png"});			
 		}
 		else {
-			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))		
+			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
+			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
+				browser.tabs.onActivated.removeListener(changeIconOnActivated);
 			browser.browserAction.setIcon({path: "icons/surf19g.png"});					
 		}			
 	}

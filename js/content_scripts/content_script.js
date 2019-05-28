@@ -115,7 +115,79 @@ var contentScript = (function () {
 	}
 
 
-	function public_callback(data, moduleName, event, index){
+	function hasNextSibling(elem, selector) {
+		var sibling = elem.nextElementSibling;
+		if (!selector) return true;
+		while (sibling) {
+			if(sibling.matches(selector))
+				return true;
+			sibling = sibling.nextElementSibling
+		}
+		return false;
+	}
+
+	function hasPreviousSibling(elem, selector) {
+		var sibling = elem.previousElementSibling;
+		if (!selector) return true;
+		while (sibling) {
+			if(sibling.matches(selector))
+				return true;
+			sibling = sibling.previousElementSibling;
+		}
+		return false;
+	};
+
+	function hasParent(elem, selector) {
+		var parent = elem.parentElement;
+		if (!selector) return true;
+		while (parent) {
+			if(parent.matches(selector))
+				return true;
+			parent = parent.parentElement;
+		}
+		return false;
+	};
+	
+	function hasChild(elem, selector) {
+		var childs = elem.children;
+		if (!selector) return true;
+		for(child of childs){
+			if(child.matches(selector))
+				return true;
+		}
+		return false;
+	};
+	
+	function isCollectable(obj, conditions) {
+		let res;
+		for(let condition of conditions) {
+			res = true;
+			let expressions = Object.keys(condition);
+			for(let expr of expressions) {
+				switch(expr) {
+					case "previousSibling":
+						res = condition[expr].contain? (res && hasPreviousSibling(obj, condition[expr].val)): (res && !hasPreviousSibling(obj, condition[expr].val))
+						break;
+					case "nextSibling":
+						res = condition[expr].contain? (res && hasNextSibling(obj, condition[expr].val)): (res && !hasNextSibling(obj, condition[expr].val))
+						break;
+					case "parent":
+						res = condition[expr].contain? (res && hasParent(obj, condition[expr].val)): (res && !hasParent(obj, condition[expr].val))
+						break;
+					case "child":
+						res = condition[expr].contain? (res && hasChild(obj, condition[expr].val)): (res && !hasChild(obj, condition[expr].val))
+						break;
+				}
+				if(!res)
+					break;
+			}
+			if(res)
+				return res
+		}
+		return res;
+	}
+	
+	function public_callback(data, moduleName, event, index){		
 		let eventInfo = {
 			index: Number(index) + 1			
 		}
@@ -174,7 +246,10 @@ var contentScript = (function () {
                     });
 					if(x.indexName)
 						message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  x.indexName,type:"text"});
+					let objectIndex = 0;
                     objList.forEach((obj, objId)=>{
+						if(x.conditions && !isCollectable(obj, x.conditions))
+							return;
                         let item = {};
                         x.properties.forEach(y=>{
                             let prop;
@@ -186,15 +261,16 @@ var contentScript = (function () {
 								item[y.name] = prop[y.property];                            
                         })
 						if(!isEmpty(item)) {
+							objectIndex++;
 							if(x.indexName) {
-								item[x.indexName] = objId + 1;
+								item[x.indexName] = objectIndex;
 							}
 							message.params[0].data.out[x.name].push(item);
 									
 						}
                     })
                 }
-                else {
+                else if(!(x.conditions && !isCollectable(obj, x.conditions))){											
                     x.properties.forEach(y=>{                        
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
@@ -210,20 +286,19 @@ var contentScript = (function () {
 		}
 		//);
 		if(!isEmpty(message.params[0].data.out))
-			send_msg(message);
+			send_msg(message);	
 	}
 	
 	function documentReadyCallback(event, callback) {
 		let doms = document.querySelectorAll(event.selector)
-		if(doms) {
-			if(isIterable(doms)) {
-				doms.forEach((dom, domIndex) => {
-					dom.addEventListener(event.event_name, function(x) {callback(x, domIndex)});					
-				})					                        
-			}
-			else {
-				doms.addEventListener(event.event_name, function(x) {callback(x, 0)});
-			}
+		if(doms) {			
+			let objIndex = 0;
+			doms.forEach((dom, domIndex) => {
+				if(event.conditions && !isCollectable(dom, event.conditions))
+					return;				
+				dom.addEventListener(event.event_name, (function(index){return function(x) {callback(x, index)}})(objIndex));	
+				objIndex++;
+			})					                        
 		}			
 	}
 	
@@ -234,16 +309,21 @@ var contentScript = (function () {
             return;
         }		
         let doms = document.querySelectorAll(event.selector)
-        doms.forEach((dom, domIndex) => {
-            let cb = oCallbacks[cbName+domIndex]
-            if(!cb) {
-                cb = function(x) {callback(x, domIndex)}
-                oCallbacks[cbName+domIndex] = cb;
-            }
-            dom.removeEventListener(event.event_name, cb);
-            dom.addEventListener(event.event_name, cb);
-        })
-		
+		if(doms){
+			let objIndex = 0;
+			doms.forEach((dom, domIndex) => {
+				if(event.conditions && !isCollectable(dom, event.conditions))
+					return;				
+				let cb = oCallbacks[cbName+objIndex]
+				if(!cb) {
+					cb = (function(index){ return function(x) {callback(x, index)}})(objIndex);	
+					oCallbacks[cbName+objIndex] = cb;
+				}
+				dom.removeEventListener(event.event_name, cb);
+				dom.addEventListener(event.event_name, cb);
+				objIndex++;
+			})			
+		}		
 	}
     
     function observeReadyCallback(event, callback, obj,cbName) {
