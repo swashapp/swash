@@ -206,7 +206,7 @@ var taskScript = (function () {
 
 
 
-if(typeof window.surfStreamrContentMessage === 'undefined') {
+if(typeof window.surfStreamrTaskMessage === 'undefined') {
 	window.surfStreamrTaskMessage = {
 		obj: "Task",
 		func: "injectTasks",

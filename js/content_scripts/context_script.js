@@ -71,7 +71,7 @@ var contextScript = (function () {
 	}
 }());
 	
-if(typeof window.surfStreamrContentMessage === 'undefined') {
+if(typeof window.surfStreamrContextMessage === 'undefined') {
 	window.surfStreamrContextMessage = {
 		obj: "Context",
 		func: "injectAttrCollectors",

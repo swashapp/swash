@@ -22,7 +22,7 @@ var privacyUtils = (function() {
         }
                 
     }
-
+	
     function urlPrivacy(url, privacyLevel, mSalt, salt) {
         let urlObj = new URL(url);
         var searchParams = (new URL(url)).searchParams;

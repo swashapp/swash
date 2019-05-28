@@ -53,7 +53,17 @@ var internalFilters = [
     "value": "https://docs.google.com/*",
     "type": "wildcard",
     "internal": true
-  }
+  },
+  {
+    "value": "moz-extension://*",
+    "type": "wildcard",
+    "internal": true
+  },
+  {
+    "value": "chrome-extension://*",
+    "type": "wildcard",
+    "internal": true
+  }  
 ]
 
 export {internalFilters};

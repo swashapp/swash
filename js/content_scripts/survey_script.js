@@ -198,7 +198,7 @@ var surveyScript = (function () {
 									survey: result.data
 								},
 								schems: [
-									{jpath:"$.survey",type:"text"}
+									{jpath:"$.survey",type:"unknown"}
 								]
 							}
 						}]
@@ -271,7 +271,7 @@ var surveyScript = (function () {
 	}
 }());
 
-if(typeof window.surfStreamrContentMessage === 'undefined') {
+if(typeof window.surfStreamrSurveyMessage === 'undefined') {
 	window.surfStreamrSurveyMessage = {
 		obj: "Survey",
 		func: "injectSurvey",
