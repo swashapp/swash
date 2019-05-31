@@ -14,7 +14,6 @@ var ApiCall = (function() {
 	var extId = "authsaz@gmail.com"
     
 	function getCallBackURL(moduleName) {
-		//let cbURL = "https://" + moduleName + "." + sha256(extId) + ".authsaz.com";
         let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName.toLowerCase();
 		return cbURL;
 	}
@@ -31,6 +30,13 @@ var ApiCall = (function() {
 		}
 	}
     function start_oauth(moduleName) {
+		var filter = {
+				urls: [
+					"https://callbacks.authsaz.com/*"
+				]
+			};
+		if(!browser.webRequest.onBeforeRequest.hasListener(extractToken))
+			browser.webRequest.onBeforeRequest.addListener(extractToken, filter);			
         StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
             if(module.name == moduleName){
@@ -38,11 +44,7 @@ var ApiCall = (function() {
 				return browser.windows.create({
 					url: auth_url,
                     type: "popup"
-				  });
-				/*browser.identity.launchWebAuthFlow({
-                    interactive: true,
-                    url: auth_url
-                });*/
+				  });				
             }
         }});
     }
@@ -237,9 +239,8 @@ var ApiCall = (function() {
         var etags = {}
         get_access_token(moduleName).then(resp => {
             if(resp.token){
-                let i = 0;                
-                resp.module.apiCall.forEach(data=>{
-                    i += 1;
+				let i = 0;
+                resp.module.apiCall.forEach((data)=>{                    
                     if(data.is_enabled){
                         var s = setTimeout(function(){
                                 callbacks[moduleName].apiCalls = Utils.arrayRemove(callbacks[moduleName].apiCalls, s);
@@ -251,6 +252,7 @@ var ApiCall = (function() {
                                     })
                                     .then(msg =>{ send_message(resp.module,data,msg)});
                         }, DELAY_BETWEEN_CALLS*i);
+						i++;
                         callbacks[moduleName].apiCalls.push(s);
                     }
                 });
@@ -275,18 +277,9 @@ var ApiCall = (function() {
 	}
 
     function load_module(module){
-		if(module.functions.includes("apiCall")) {
-			
-			let crURL = getCallBackURL(module.name);
-			var filter = {
-				urls: [
-					"https://callbacks.authsaz.com/*"
-				]
-			};
-			if(!browser.webRequest.onBeforeRequest.hasListener(extractToken))
-				browser.webRequest.onBeforeRequest.addListener(extractToken, filter);
-			//browser.tabs.onUpdated.addListener(extractToken_tabs, filter);
-			//fetch_apis(module.name);
+		unload_module(module);
+		if(module.functions.includes("apiCall")) {			
+			let crURL = getCallBackURL(module.name);			
 			callbacks[module.name] = {interval: -1, apiCalls: []};
 			callbacks[module.name].interval = setInterval(function(x){
 				fetch_apis(module.name);
