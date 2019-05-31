@@ -87,6 +87,10 @@ var Survey = (function() {
 						}).then(result => {
 						browser.tabs.insertCSS(tabId, {
 						  file: "/survey/css/survey.min.css"
+						  }).then(result => {
+								browser.tabs.insertCSS(tabId, {
+								file: "/survey/css/main.css"
+							  })
 						  })
 						})
 					})

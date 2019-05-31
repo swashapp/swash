@@ -116,7 +116,7 @@ function addFilterButton(name, className) {
     button.addEventListener("click", function(event) {filterRows(event,  name)});
     button.setAttribute("class", className + " filterButton");
     button.setAttribute("id", "button-" + name);
-    button.innerHTML = name.substr(0,7) + ((name.length>7)?'...':'')   
+	button.textContent = name.substr(0,7) + ((name.length>7)?'...':'')   
     fb.appendChild(button);
 }
 
@@ -194,15 +194,19 @@ async function addRow(row) {
     netLog[id] = {row:row, matched:matchList};
     if(!visible)
         newrow.classList.add("rowDisabled");
-
-    document.getElementById(id + "-status").innerHTML = "<div class='statusWrapper-" + row.status + "'>" + row.status + "</div>";
-    document.getElementById(id + "-method").innerHTML = row.method;
-    document.getElementById(id + "-time").innerHTML = row.time + " ms";
-    document.getElementById(id + "-domain").innerHTML = row.domain;
-    document.getElementById(id + "-file").innerHTML = row.file;
-    document.getElementById(id + "-type").innerHTML = row.type;
-    document.getElementById(id + "-transferred").innerHTML = row.transferred;
-    document.getElementById(id + "-size").innerHTML = row.size;  
+	
+	var divElement = document.createElement("div");
+	divElement.classList.add('statusWrapper-' + row.status);
+	divElement.textContent = row.status
+	document.getElementById(id + "-status").innerHTML = '';
+    document.getElementById(id + "-status").appendChild(divElement);
+    document.getElementById(id + "-method").textContent = row.method;
+    document.getElementById(id + "-time").textContent = row.time + " ms";
+    document.getElementById(id + "-domain").textContent = row.domain;
+    document.getElementById(id + "-file").textContent = row.file;
+    document.getElementById(id + "-type").textContent = row.type;
+    document.getElementById(id + "-transferred").textContent = row.transferred;
+    document.getElementById(id + "-size").textContent = row.size;  
     return true;
 }
 
