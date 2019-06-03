@@ -27,6 +27,8 @@ var Youtube = (function() {
         changelog: [],
 		style: {mainColor:"c4302b", fontColor:"fff"},
 		type: "builtin",
+        streamId: "2gItuFWsQvyEDpuSdaE9Bw",
+        apiKey: "ccXn0lptQNmA6Htu2wNNrQDmEnlphjTq20fxvUV38gLg",
 		is_verified: false		
 		
     };

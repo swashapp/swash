@@ -22,6 +22,8 @@ var Twitter = (function() {
         changelog: [],
 		style: {mainColor:"00acee", fontColor:"fff"},
 		type: "builtin",
+        streamId: "a9rsTWJvRe-0U2v1Lrwo-A",
+        apiKey: "lgGPZYrAQW6GWLLufuzlkgrdRnnVopTUCdkeV3hYcu9w",
 		is_verified: false		
 
     };

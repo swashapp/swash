@@ -8,7 +8,7 @@ import {stream} from './stream.js';
 
 var DataHandler = (function() {
     'use strict';
-    
+    var streams = {}
 	function getUserAgent()
     {
 		if(typeof browser.runtime.getBrowserInfo === "function")
@@ -60,7 +60,7 @@ var DataHandler = (function() {
 		for(let row of rows) {
 			let message = row.message;
 			delete message.origin;
-			stream.produceNewEvent(message);
+			streams[message.header.module].produceNewEvent(message);
 		}
 		DatabaseHelper.removeReadyMessages(time);
 	}
@@ -77,12 +77,14 @@ var DataHandler = (function() {
 		}
 		else {
 			delete message.origin;
-			stream.produceNewEvent(message);        
+			streams[message.header.module].produceNewEvent(message);        
 		}		
 	}
 	
 	
     async function prepareAndSend(message, module, delay, tabId) {
+        if(!streams[message.header.module])
+            streams[message.header.module] = stream(module.streamId, module.apiKey);
 		if(module.context){
 			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
 			if(bct_attrs.length > 0) {

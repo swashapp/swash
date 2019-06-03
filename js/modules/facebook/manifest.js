@@ -27,7 +27,9 @@ var Facebook = (function() {
         changelog: [],
 		style: {mainColor:"29487D", fontColor:"fff"},
 		type: "builtin",
-		is_verified: false		
+        streamId: "QNd64f8uTX-zZNlz8gXqZw",
+        apiKey: "WWRhZpD5SYW3lZd5yUwidgpYcmKfrKRfKWRDOWbj70Mg",
+		is_verified: false
     };
 }());
 AllModules.push(Facebook);

@@ -24,6 +24,8 @@ var Surfing = (function() {
         changelog: [],
 		style: {mainColor:"4285F4", fontColor:"fff"},
 		type: "builtin",
+        streamId: "CAf4NInVRISZYQ-qk8KI1Q",
+        apiKey: "JZR2aUVLSSuHwTUAu7hy5gyUeETk8CRP2DJ1_dpY4MKg",
 		is_verified: false		
 
     };
