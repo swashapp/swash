@@ -2,12 +2,12 @@ import {streamrConf} from './streamConfig.js';
 // Create the client and give the API key to use by default
 
 
-var stream = (function() {
+var stream = function(streamId, apiKey) {
 	
 	const sessionTimeout = 2*60*1000;
 	var client = new StreamrClient({
 		auth:{
-			apiKey: streamrConf.API_KEY
+			apiKey: apiKey
 		}
 	})
 	var sessionStartTime = (new Date()).getTime()
@@ -20,11 +20,11 @@ var stream = (function() {
 		  sessionStartTime = currentTime;
 		  client = new StreamrClient({
 				auth:{
-					apiKey: streamrConf.API_KEY
+					apiKey: apiKey
 				}
 			})
 	  }	  
-	  client.publish(streamrConf.STREAM_ID, msg)
+	  client.publish(streamId, msg)
 		.then(() => {
 		  console.log('Sent successfully: ' + JSON.stringify(msg))
 		})
@@ -35,7 +35,7 @@ var stream = (function() {
     return {
         produceNewEvent: produceNewEvent
     };
-}());
+};
 
 
 export {stream};

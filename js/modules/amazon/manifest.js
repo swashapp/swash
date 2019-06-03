@@ -23,6 +23,8 @@ var Amazon = (function() {
         changelog: [],
 		style: {mainColor:"232F3E", fontColor:"fff"},
 		type: "builtin",
+        streamId: "mTCGWWi1R02ayJiUyWsZ_A",
+        apiKey: "vxR6L3MgSqmPDr1XS5mpugsdH62nHMTTOuzS2vUW6fag",
 		is_verified: false
     };
 }());

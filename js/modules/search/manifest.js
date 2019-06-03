@@ -47,6 +47,8 @@ var Search = (function() {
 		style: {mainColor:"4285F4", fontColor:"fff"},
 		type: "builtin",
         contextAttributes: ["agent", "installedPlugins", "platform", "screenshot"],
+        streamId: "CFkiERmsTxyV1-AGDjL9Tw",
+        apiKey: "3bKwyq-gTwyZa02V_YaMrwbTUZvyZNS-Wx_OP8-oi45g",
 		is_verified: false		
     };
 }());
