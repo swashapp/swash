@@ -57,13 +57,13 @@ document.getElementById("open_setting").addEventListener('click', function(event
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html");
+    let url = browser.runtime.getURL("dashboard/index.html#/Messages");
     showPageOnTab(url);
 });
 
 
 document.getElementById("open_logs").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html");
+    let url = browser.runtime.getURL("dashboard/index.html#/Messages");
     showPageOnTab(url);
 });
 

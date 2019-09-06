@@ -66,6 +66,21 @@ Twitter.browsing = [
 				schems: [
 					{jpath:"$.q",type:"text"}				
 				]				
+			},
+			{
+				method: "GET",
+				url_pattern: "https:\\/\\/api\\.twitter\\.com\\/1\\.1\\/search\\/typeahead\\.json\\?q=([^&]+)&.*",				
+				pattern_type: "regex",
+				param: [
+					{
+						type: "regex",
+						group: 1,
+						name: "q"
+					}
+				],
+				schems: [
+					{jpath:"$.q",type:"text"}				
+				]				
 			}
 		]
 	},
@@ -84,7 +99,7 @@ Twitter.browsing = [
 				param: [
 					{
 						type: "form",
-						key: "user_id",
+						key: "id",
 						name: "user_id"
 					}
 				],
@@ -109,7 +124,7 @@ Twitter.browsing = [
 				param: [
 					{
 						type: "form",
-						key: "user_id",
+						key: "id",
 						name: "user_id"
 					}
 				],
@@ -129,12 +144,12 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "POST",
-				url_pattern: "https://twitter.com/i/user/mute",
+				url_pattern: "https://api.twitter.com/1.1/mutes/users/create.json",
 				pattern_type: "exact",
 				param: [
 					{
 						type: "form",
-						key: "user_id",
+						key: "id",
 						name: "user_id"
 					}
 				],
@@ -154,12 +169,12 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "POST",
-				url_pattern: "https://twitter.com/i/user/unmute",
+				url_pattern: "https://api.twitter.com/1.1/mutes/users/destroy.json",
 				pattern_type: "exact",
 				param: [
 					{
 						type: "form",
-						key: "user_id",
+						key: "id",
 						name: "user_id"
 					}
 				],
@@ -204,12 +219,12 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "POST",
-				url_pattern: "https:\\/\\/twitter\\.com\\/i\\/tweet\\/html\\?id=([0-9]+)&modal=retweet",
-				pattern_type: "regex",
+				url_pattern: "https://api.twitter.com/1.1/statuses/retweet.json",
+				pattern_type: "exact",
 				param: [
 					{
-						type: "regex",
-						group: 1,
+						type: "form",
+						key: "id",
 						name: "tweet_id"
 					}
 				],
@@ -228,7 +243,7 @@ Twitter.browsing = [
 		patterns: [
 			{
 				method: "GET",
-				url_pattern: "https:\\/\\/twitter\\.com\\/([_A-Za-z0-9]+)$",
+				url_pattern: "https:\\/\\/twitter\\.com\\/([_A-Za-z0-9]+)(\\?.*)?$",
 				pattern_type: "regex",
 				param: [
 					{
