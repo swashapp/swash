@@ -149,8 +149,8 @@ var DataHandler = (function() {
             
         message.identity = {};
         message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, modules[message.header.module].privacy_level).id ;
-        message.identity.walletId = profile.walletId;
-        message.identity.email = profile.email;
+        //message.identity.walletId = profile.walletId;
+        //message.identity.email = profile.email;
         message.header.privacyLevel = modules[message.header.module].privacy_level;
         message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
