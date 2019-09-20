@@ -2,6 +2,7 @@ import {communityConfig} from './communityConfig.js';
 var communityHelper = function() {
 	
 	var wallet = ""
+	var sessionToken = ""
 
 	function createWallet(password) {						
 		wallet = ethers.Wallet.createRandom();
@@ -11,23 +12,42 @@ var communityHelper = function() {
 		});
 	}
 	
-	function loadWallet(password, encryptedJson) {
-	
+	function loadWallet(password, encryptedJson) {	
 		let json = JSON.stringify(data);
 		ethers.Wallet.fromEncryptedJson(json, password).then(function(_wallet) {
 			wallet = _wallet
 		});
 	}
 	
+	function loadSessionToken() {
+		const client = new StreamrClient({
+			auth: {
+				privateKey: wallet.privateKey,
+			}
+		})
+		sessionToken = client.connection.options.auth.sessionToken
+	}
+	
 	function joinCommunity() {
-		let apiEndpoint = communityConfig.apiBaseURL + "/" + communityConfig.communityAddress + "/" + communityAddress.joinAction
-		//POST https://streamr.com/api/v1/communities/{communityAddress}/joinRequests
-		//{
-		//	“memberAddress”: “0x12345”,
-		//	“appSecret”: “secret”, // optional
-		//}
+		if(!wallet || !sessionToken)
+			return;
 		
-		//signing method??
+		let apiEndpoint = communityConfig.apiBaseURL + "/" + communityConfig.communityAddress + "/joinRequests"
+		var data = {
+			memberAddress: wallet.address,
+			appSecret: communityConfig.appSecret,
+			};
+
+		fetch(apiEndpoint, {
+		  method: 'POST', 
+		  body: JSON.stringify(data), 
+		  headers:{
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + sessionToken
+		  }
+		}).then(res => res.json())
+		.then(response => console.log('Success:', JSON.stringify(response)))
+		.catch(error => console.error('Error:', error));		
 	}
 	
 	function leaveCommunity() {

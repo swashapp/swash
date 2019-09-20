@@ -1,19 +1,22 @@
 console.log("modules/surfing/manifest.js");
 import {AllModules} from '../../modules.js';
 var Surfing = (function() {
-    'use strict';
-    
+    'use strict';    
     return {
         name: "Surfing",
         description: "This module captures a user navigations for URL patterns that has been permitted by the user",
         path: "/surfing",
         URL: ["*://*/*"],
-        functions: ["browsing"],
+        functions: ["browsing", "content"],
 		viewGroups: [
 			{
 				name: "UX",
 				title: "User Experience"
-			}
+			},
+			{
+				name: "PInfo",
+				title: "Page Info"
+			}			
 		],
 		filter_editable: true,
         is_enabled: false,
