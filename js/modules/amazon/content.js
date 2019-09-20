@@ -350,6 +350,16 @@ Amazon.content = [
                         type: "text"
                     }
 				]
+			},
+			{
+				selector: "#feature-bullets",
+				properties: [
+                    {
+                        property: "innerText",
+                        name: "features",
+                        type: "text"
+                    }
+				]
 			}
         ]
     },

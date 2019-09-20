@@ -362,6 +362,9 @@ var contentScript = (function () {
                                 case "DOMChange":
                                     window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
                                     break;
+								case "windowChange":
+                                    window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+                                    break;
                                 case "DOMLoad":
                                     window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
                                     break;

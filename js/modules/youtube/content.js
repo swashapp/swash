@@ -8,17 +8,25 @@ Youtube.content = [
 		url_match: "*://*.youtube.com/*",
         title: "video time duration",
 		viewGroup: "UX",
-        type: "event",        
+        type: "event",
+		readyAt: "windowChange",
+        observingTargetNode: "#primary .title",
+        observingConfig: { attributes: false, childList: true, subtree: true },
         is_enabled: true,
         events: [
             {
                 selector: "window",   
                 event_name: "beforeunload"
+            },
+			{
+                selector: "a",   
+                event_name: "click"
             }
         ],
         objects: [
             {
-                selector:".ytp-time-duration",
+				isRequired: true,
+                selector:"#primary .ytp-time-duration",
 				properties:[
 					{
 						property: "innerHTML",
@@ -28,7 +36,8 @@ Youtube.content = [
 				]
             },
             {
-                selector:".ytp-time-current",
+				isRequired: true,
+                selector:"#primary .ytp-time-current",
 				properties:[
 					{
 						property: "innerHTML",
@@ -38,11 +47,11 @@ Youtube.content = [
 				]
             },
             {
-                selector:"title",
+                selector:"#primary .title",
 				properties:[
 					{
-						property: "innerHTML",
-						name: "page_title",
+						property: "innerText",
+						name: "title",
 						type: "text"						
 					}
 				]
