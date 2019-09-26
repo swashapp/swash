@@ -225,7 +225,7 @@ var helper = (function() {
 	function getDataBalance() {
 		let message = {
 			obj: "communityHelper",
-			func: "getBallance",
+			func: "getBalance",
 			params: []
 		}
         return sendMessage(message);
