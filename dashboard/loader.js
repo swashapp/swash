@@ -205,12 +205,48 @@ var helper = (function() {
     }
 	
 	function identityPrivacy(id, mId, privacyLevel) {
-			let message = {
+		let message = {
 			obj: "privacyUtils",
 			func: "identityPrivacy",
 			params: [id, mId, privacyLevel]
 		}
         return sendMessage(message);		       		        
+	}
+	
+	function getKeyInfo() {
+		let message = {
+			obj: "communityHelper",
+			func: "getWalletInfo",
+			params: []
+		}
+        return sendMessage(message);
+	}
+	
+	function getDataBalance() {
+		let message = {
+			obj: "communityHelper",
+			func: "getBallance",
+			params: []
+		}
+        return sendMessage(message);
+	}
+	
+	function getAvailableBalance() {
+		let message = {
+			obj: "communityHelper",
+			func: "getAvailableBalance",
+			params: []
+		}
+        return sendMessage(message);
+	}
+	
+	function withdraw() {
+		let message = {
+			obj: "communityHelper",
+			func: "withrawEarnings",
+			params: []
+		}
+        return sendMessage(message);
 	}
 	
 	return {
@@ -237,6 +273,10 @@ var helper = (function() {
 		saveModule: saveModule,
 		removeModule: removeModule,
         enforcePolicy: enforcePolicy,
-		identityPrivacy: identityPrivacy
+		identityPrivacy: identityPrivacy,
+		getKeyInfo: getKeyInfo,
+		getDataBalance: getDataBalance,
+		withdraw: withdraw,
+		getAvailableBalance: getAvailableBalance
     };
 }());

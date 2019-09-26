@@ -1,6 +1,7 @@
 console.log("Loader.js");
 import {StorageHelper} from './StorageHelper.js';
 import {DatabaseHelper} from './DatabaseHelper.js';
+import {communityHelper} from './communityHelper.js';
 import {DataHandler} from './DataHandler.js';
 import {Browsing} from './functions/Browsing.js';
 import {Content} from './functions/Content.js';
@@ -16,13 +17,15 @@ import {ssConfig} from './manifest.js';
 var Loader = (function() {
     'use strict';
     var dbHelperInterval;
-    function install(allModules){		
-        return StorageHelper.retrieveAll().then(db => {
+    async function install(allModules){		
+        return StorageHelper.retrieveAll().then(async (db) => {
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
 				db.configs.delay = 1;
+				communityHelper.createWallet();
+				db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
             }
             try{
                 let newFilters = db.filters.filter(function(f, index, arr){
@@ -164,12 +167,13 @@ var Loader = (function() {
 		Task.unload_module(module);
 	}
 	
-	function load() {		
-		browser.storage.local.get("configs").then(c => {
+	async function load() {		
+		browser.storage.local.get("configs").then(async (c) => {
 			dbHelperInterval = setInterval(function(){
 				DatabaseHelper.init();
 				DataHandler.sendDelayedMessages();
 				}, 10000);
+			let x = await communityHelper.loadWallet(c.configs.encryptedWallet, c.configs.salt);
 			if(c.configs.is_enabled) {
 				init(true);
 				Content.load();
@@ -193,14 +197,15 @@ var Loader = (function() {
 		})		
 	}
 	
-	function reload() {		
-		browser.storage.local.get("configs").then(c => {
+	async function reload() {		
+		browser.storage.local.get("configs").then(async (c) => {
             clearInterval(dbHelperInterval);
 			dbHelperInterval = setInterval(function(){
 				DatabaseHelper.init();
 				DataHandler.sendDelayedMessages();
 				}, 10000);
 			init(false);
+			let x = await communityHelper.loadWallet(c.configs.encryptedWallet, c.configs.salt);
 			Content.unload();
 			Browsing.unload();
 			ApiCall.unload();								
