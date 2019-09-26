@@ -5,6 +5,7 @@ import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
 import {DatabaseHelper} from './DatabaseHelper.js';
 import {privacyUtils} from './privacyUtils.js';
+import {communityHelper} from './communityHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './functions/ApiCall.js';
 import {Content} from './functions/Content.js';
@@ -44,7 +45,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		Survey: Survey,
 		Context: Context,
 		Devtools: Devtools,
-		Task: Task
+		Task: Task,
+		communityHelper: communityHelper
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

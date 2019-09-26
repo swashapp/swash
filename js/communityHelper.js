@@ -1,27 +1,33 @@
 import {communityConfig} from './communityConfig.js';
-var communityHelper = function() {
+var communityHelper = (function() {
 
 	let wallet
 	let contract
 	const provider = ethers.getDefaultProvider();
 
-	function createWallet(password) {
+	function createWallet() {
 		wallet = ethers.Wallet.createRandom();
-		let encryptPromise = wallet.encrypt(password);
-		encryptPromise.then(function(encryptedJson) {
-			//store encryptedJson
-		});
 	}
 
-	function loadWallet(password, encryptedJson) {
-		let json = JSON.stringify(encryptedJson);
-		ethers.Wallet.fromEncryptedJson(json, password).then(function(_wallet) {
-			wallet = _wallet
-			wallet.connect(provider)
-			contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.abi, wallet);
-		});
+	async function getEncryptedWallet(password) {
+		if (!wallet) return;
+		let encryptedWallet = await wallet.encrypt(password);
+		return encryptedWallet;		
+	}
+	
+	async function loadWallet(encryptedWallet, password) {
+		wallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password);
+		wallet.connect(provider)
+		contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.abi, wallet);
 	}
 
+	function getWalletInfo() {
+		return {
+			address: wallet.address,
+			privateKey: wallet.privateKey
+		}
+	}
+	
 	function loadSessionToken() {
 		const client = new StreamrClient({
 			auth: {
@@ -56,12 +62,12 @@ var communityHelper = function() {
 
 	}
 
-	function getEthereumBalance() {
+	function getBalance() {
 		if (!wallet) return
 		return wallet.getBalance();
 	}
 
-	function getMonoplasmaBalance() {
+	function getAvalableBalance() {
 		//is there a function for getting monoplaspa balance?
 	}
 
@@ -98,12 +104,14 @@ var communityHelper = function() {
 	return {
 		createWallet,
         loadWallet,
+		getEncryptedWallet,
 		joinCommunity,
 		leaveCommunity,
 		withrawEarnings,
 		withrawEarningsFor,
+		getWalletInfo
     };
-};
+}())
 
 
 export {communityHelper};
