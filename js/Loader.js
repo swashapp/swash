@@ -94,6 +94,7 @@ var Loader = (function() {
 	
     function init(isEnabled) {
 		if(isEnabled) {
+			communityHelper.join();
 			if(!browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
@@ -101,6 +102,7 @@ var Loader = (function() {
 			browser.browserAction.setIcon({path: "icons/surf19.png"});			
 		}
 		else {
+			communityHelper.part();
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	

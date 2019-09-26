@@ -4,6 +4,7 @@ var communityHelper = (function() {
 	let wallet
 	let contract
 	const provider = ethers.getDefaultProvider();
+	let client;
 
 	function createWallet() {
 		wallet = ethers.Wallet.createRandom();
@@ -28,51 +29,41 @@ var communityHelper = (function() {
 		}
 	}
 	
-	function loadSessionToken() {
-		const client = new StreamrClient({
+	function clientConnect() {
+		if (!wallet) return;
+		client = new StreamrClient({
 			auth: {
 				privateKey: wallet.privateKey,
 			}
 		})
-		sessionToken = client.connection.options.auth.sessionToken
 	}
 
-	function joinCommunity() {
-		if (!wallet || !sessionToken) return;
-
-		let apiEndpoint = communityConfig.apiBaseURL + "/" + communityConfig.communityAddress + "/joinRequests"
-		var data = {
-			memberAddress: wallet.address,
-			secret: communityConfig.secret,
-		};
-
-		fetch(apiEndpoint, {
-		  method: 'POST',
-		  body: JSON.stringify(data),
-		  headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + sessionToken
-		  }
-		}).then(res => res.json())
-			.then(response => console.log('Success:', JSON.stringify(response)))
-			.catch(error => console.error('Error:', error));
+	function join() {		
+		if (!wallet) return;
+		if (!client) clientConnect();
+		client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
-	function leaveCommunity() {
-
+	function part() {
+		if (!wallet) return;
+		if (!client) clientConnect();
+		//client.partCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
 	function getBalance() {
-		if (!wallet) return
-		return wallet.getBalance();
+		if (!wallet || !provider) return;
+		let streamrContract = new ethers.Contract(communityConfig.streamrAddress, communityConfig.abi, provider);
+		return	streamrContract.balanceOf(wallet.address);
 	}
 
-	function getAvalableBalance() {
+	function getAvailableBalance() {
 		//is there a function for getting monoplaspa balance?
 	}
 
 	function withrawEarnings() {
 		if (!wallet) return;
+		if(!client) clientConnect();
+		client.withdraw(communityConfig.communityAddress, wallet.address, wallet)
 		return withrawEarningsFor(wallet.address)
 	}
 
@@ -105,11 +96,12 @@ var communityHelper = (function() {
 		createWallet,
         loadWallet,
 		getEncryptedWallet,
-		joinCommunity,
-		leaveCommunity,
+		join,
+		part,
 		withrawEarnings,
 		withrawEarningsFor,
-		getWalletInfo
+		getWalletInfo,
+		getBalance
     };
 }())
 
