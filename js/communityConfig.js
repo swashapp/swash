@@ -1,6 +1,6 @@
 var communityConfig = {
 	apiBaseURL: 'https://www.streamr.com/api/v1/communities',
-	streamrAddress: '0x0cf0ee63788a0849fe5297f3407f701e122cc023',
+	datacoinAddress: '0x0cf0ee63788a0849fe5297f3407f701e122cc023',
 	communityAddress: '0xF24197f71fC9b2F4F4c24ecE461fB0Ff7C91FD23',
 	secret: "ogm4pngp4pnf4g4",
 	communityAbi: [
@@ -27,7 +27,7 @@ var communityConfig = {
 			"type": "function"
 		  },
 	],
-	abi: [
+	datacoinAbi: [
 	    {
 	      "constant": true,
 	      "inputs": [],
