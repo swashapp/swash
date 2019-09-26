@@ -13,13 +13,13 @@ var communityHelper = (function() {
 	async function getEncryptedWallet(password) {
 		if (!wallet) return;
 		let encryptedWallet = await wallet.encrypt(password);
-		return encryptedWallet;		
+		return encryptedWallet;
 	}
-	
+
 	async function loadWallet(encryptedWallet, password) {
 		wallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password);
 		wallet.connect(provider)
-		contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.abi, wallet);
+		contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 	}
 
 	function getWalletInfo() {
@@ -28,7 +28,7 @@ var communityHelper = (function() {
 			privateKey: wallet.privateKey
 		}
 	}
-	
+
 	function clientConnect() {
 		if (!wallet) return;
 		client = new StreamrClient({
@@ -38,10 +38,10 @@ var communityHelper = (function() {
 		})
 	}
 
-	function join() {		
+	async function join() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
+		return client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
 	function part() {
@@ -50,10 +50,10 @@ var communityHelper = (function() {
 		//client.partCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
-	function getBalance() {
+	async function getBalance() {
 		if (!wallet || !provider) return;
-		let streamrContract = new ethers.Contract(communityConfig.streamrAddress, communityConfig.abi, provider);
-		return streamrContract.balanceOf(wallet.address);
+		let datacoin = new ethers.Contract(communityConfig.datacoinAddress, communityConfig.datacoinAbi, provider);
+		return datacoin.balanceOf(wallet.address);
 	}
 
 	async function getAvailableBalance() {
@@ -62,14 +62,14 @@ var communityHelper = (function() {
 		return stats.withdrawableEarnings;
 	}
 
-	function withdrawEarnings() {
+	async function withdrawEarnings() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		client.withdraw(communityConfig.communityAddress, wallet.address, wallet)
+		//client.withdraw(communityConfig.communityAddress, wallet.address, wallet)
 		return withrawEarningsFor(wallet.address)
 	}
 
-	function withdrawEarningsFor(recipient) {
+	async function withdrawEarningsFor(recipient) {
 		if (!contract) return;
 
 		const member = await client.memberStats(communityConfig.communityAddress, recipient);
