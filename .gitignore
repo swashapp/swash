@@ -2,3 +2,5 @@ dashboard/
 chrome-artifacts/
 web-ext-artifacts/
 popup/
+
+!dashboard/loader.js
