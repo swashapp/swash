@@ -16,7 +16,7 @@
       "38": "icons/surf38.png"
     },
     "default_title": "Surf-Streamr",
-    "default_popup": "old-popup/popup.html"
+    "default_popup": "popup/popup.html"
   },
  
   "description": "Surf-Streamr is a Streamr Community Product that collects information about users browsing activities",
