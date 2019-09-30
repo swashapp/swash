@@ -148,10 +148,10 @@ var DataHandler = (function() {
 		let delay = configs.delay;
             
         message.identity = {};
-        message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, modules[message.header.module].privacy_level).id ;
+        message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, configs.privacyLevel*2).id ;
         //message.identity.walletId = profile.walletId;
         //message.identity.email = profile.email;
-        message.header.privacyLevel = modules[message.header.module].privacy_level;
+        message.header.privacyLevel = configs.privacyLevel*2;
         message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)
