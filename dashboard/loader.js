@@ -112,10 +112,10 @@ var helper = (function() {
 		}
         return sendMessage(message);		       
     }
-	function config_module(moduleName, settings) {
+	function configModule(moduleName, settings) {
 		let message = {
 			obj: "Loader",
-			func: "config_module",
+			func: "configModule",
 			params: [moduleName, settings]
 		}
         return sendMessage(message);		       		
@@ -212,6 +212,16 @@ var helper = (function() {
 		}
         return sendMessage(message);		       		        
 	}
+
+	
+	function changePrivacyLevel(privacyLevel) {
+		let message = {
+			obj: "Loader",
+			func: "changePrivacyLevel",
+			params: [privacyLevel]
+		}
+        return sendMessage(message);		       		        
+	}
 	
 	function getKeyInfo() {
 		let message = {
@@ -255,7 +265,7 @@ var helper = (function() {
 		stop: stop,
 		start: start,
 		reload, reload,
-		config_module: config_module,
+		configModule: configModule,
 		loadModules: loadModules,
         loadFilters: loadFilters,
 		saveFilters: saveFilters,
@@ -277,6 +287,7 @@ var helper = (function() {
 		getKeyInfo: getKeyInfo,
 		getDataBalance: getDataBalance,
 		withdraw: withdraw,
-		getAvailableBalance: getAvailableBalance
+		getAvailableBalance: getAvailableBalance,
+		changePrivacyLevel: changePrivacyLevel
     };
 }());

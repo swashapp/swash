@@ -228,7 +228,7 @@ var Loader = (function() {
 		})		
 	}
 	
-	function config_module(moduleName, settings) {
+	function configModule(moduleName, settings) {
 		return StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
 			StorageHelper.retrieveModules().then(modules => {
 				let module = modules[moduleName];
@@ -238,6 +238,13 @@ var Loader = (function() {
 			});
 		});
 	}
+
+	function changePrivacyLevel(privacyLevel) {
+		return browser.storage.local.get("configs").then(c => {
+			c.configs.privacyLevel = privacyLevel;
+		})
+	}
+
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
@@ -280,7 +287,8 @@ var Loader = (function() {
 		load: load,
 		reload: reload,
         restart: restart,
-		config_module: config_module
+		configModule: configModule,
+		changePrivacyLevel: changePrivacyLevel
     };
 }());
 export {Loader};
