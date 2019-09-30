@@ -99,7 +99,7 @@ var Loader = (function() {
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.addListener(changeIconOnActivated)
-			browser.browserAction.setIcon({path: "icons/surf19.png"});			
+			browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});			
 		}
 		else {
 			communityHelper.part();
@@ -107,7 +107,7 @@ var Loader = (function() {
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.removeListener(changeIconOnActivated);
-			browser.browserAction.setIcon({path: "icons/surf19g.png"});					
+			browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});					
 		}			
 	}
 

@@ -12,18 +12,18 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "19": "icons/surf19.png",
-      "38": "icons/surf38.png"
+      "19": "icons/Solid green mark.svg",
+      "38": "icons/Solid green mark.svg"
     },
-    "default_title": "Surf-Streamr",
+    "default_title": "Swash",
     "default_popup": "popup/popup.html"
   },
  
-  "description": "Surf-Streamr is a Streamr Community Product that collects information about users browsing activities",
+  "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {
-    "48": "icons/surf48.png",
-    "96": "icons/surf96.png"
+    "48": "icons/Solid green mark.svg",
+    "96": "icons/Solid green mark.svg"
   },
 
   "manifest_version": 2,
