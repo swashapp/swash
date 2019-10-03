@@ -94,7 +94,7 @@ var Loader = (function() {
 	
     function init(isEnabled) {
 		if(isEnabled) {
-			communityHelper.join();
+			//communityHelper.join();
 			if(!browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
@@ -102,7 +102,7 @@ var Loader = (function() {
 			browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});			
 		}
 		else {
-			communityHelper.part();
+			//communityHelper.part();
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
