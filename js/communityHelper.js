@@ -93,7 +93,8 @@ var communityHelper = (function() {
 		withdrawEarnings,
 		withdrawEarningsFor,
 		getWalletInfo,
-		getBalance
+		getBalance,
+		getAvailableBalance
     };
 }())
 
