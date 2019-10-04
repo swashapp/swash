@@ -12,8 +12,13 @@ var communityHelper = (function() {
 
 	async function getEncryptedWallet(password) {
 		if (!wallet) return;
-		let encryptedWallet = await wallet.encrypt(password);
-		return encryptedWallet;
+		let options = {
+		  scrypt: {
+			N: (1 << 10)
+		  }
+		};
+		let encryptedWallet = await wallet.encrypt(password, options);
+		return encryptedWallet;	
 	}
 
 	async function loadWallet(encryptedWallet, password) {
@@ -22,6 +27,15 @@ var communityHelper = (function() {
 		contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 	}
 
+	async function decryptWallet(encryptedWallet, password) {
+		wallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password);
+		return {
+			address: wallet.address,
+			privateKey: wallet.privateKey
+		}
+	} 
+	
+	
 	function getWalletInfo() {
 		return {
 			address: wallet.address,
@@ -53,7 +67,8 @@ var communityHelper = (function() {
 	async function getBalance() {
 		if (!wallet || !provider) return;
 		let datacoin = new ethers.Contract(communityConfig.datacoinAddress, communityConfig.datacoinAbi, provider);
-		return datacoin.balanceOf(wallet.address);
+		let balance = await datacoin.balanceOf(wallet.address);
+		return ethers.utils.formatEther(balance);
 	}
 
 	async function getAvailableBalance() {
@@ -94,6 +109,7 @@ var communityHelper = (function() {
 		withdrawEarningsFor,
 		getWalletInfo,
 		getBalance,
+		decryptWallet,
 		getAvailableBalance
     };
 }())

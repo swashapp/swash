@@ -239,12 +239,6 @@ var Loader = (function() {
 		});
 	}
 
-	function changePrivacyLevel(privacyLevel) {
-		return browser.storage.local.get("configs").then(c => {
-			c.configs.privacyLevel = privacyLevel;
-		})
-	}
-
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
@@ -281,14 +275,13 @@ var Loader = (function() {
     }
     
     return {
-        install: install,
-        start: start,
-        stop: stop,
-		load: load,
-		reload: reload,
-        restart: restart,
-		configModule: configModule,
-		changePrivacyLevel: changePrivacyLevel
+        install,
+        start,
+        stop,
+		load,
+		reload,
+        restart,
+		configModule,
     };
 }());
 export {Loader};

@@ -3,7 +3,7 @@ import {Utils} from './Utils.js';
 var StorageHelper = (function() {  
     
     var messages = {};
-    
+    const functionList = ["content", "browsing", "apiCall", "survey",  "context", "devtools", "task"]
     function retrieveProfile(){
         return retrieveData("profile");
     }
@@ -60,7 +60,8 @@ var StorageHelper = (function() {
     
 
     function retrieveAll(){
-        return browser.storage.local.get();        
+        let x = browser.storage.local.get();
+		return x;
     }
     
 	async function storeData(key, info)
@@ -118,46 +119,46 @@ var StorageHelper = (function() {
 			}
 		}		
 	}
+	
+	function updatePrivacyLevel(privacyLevel) {
+		let key = "configs";
+		let info = {privacyLevel: privacyLevel}
+		storeData(key, info);
+	}	
     
     async function saveModuleSettings(moduleName, settings) {
         var modules = await retrieveData("modules");        
         let ret = modules[moduleName];
-		ret.is_enabled = settings.is_enabled;
-		ret.privacy_level = settings.privacy_level;
-		if(settings.browsing_filter)
-			ret.browsing_filter.urls = settings.browsing_filter.urls;
-		updateFunctionSettings(ret, "content", settings);
-		updateFunctionSettings(ret, "browsing", settings);
-		updateFunctionSettings(ret, "apiCall", settings);
-		updateFunctionSettings(ret, "survey", settings);
-		updateFunctionSettings(ret, "context", settings);
-		updateFunctionSettings(ret, "devtools", settings);
-		updateFunctionSettings(ret, "task", settings);
+		if(typeof settings.is_enabled != "undefined")
+			ret.is_enabled = settings.is_enabled;
+		for(let f of functionList) {
+			if(typeof settings[f] !="undefined")
+				updateFunctionSettings(ret, f, settings);
+		}
         browser.storage.local.set({modules: modules});        
     }
 
     return {
-        retrieveProfile: retrieveProfile,
-        updateProfile: updateProfile,
-        retrieveConfigs: retrieveConfigs,
-        updateConfigs: updateConfigs,
-        retrieveModules: retrieveModules,
-        updateModules: updateModules,
-        retrieveFilters: retrieveFilters,
-        retrieveAll: retrieveAll,
-		storeAll: storeAll,
-		saveModuleSettings: saveModuleSettings,
-		retrieveData: retrieveData,
-		storeData: storeData,
-        saveMessage: saveMessage,
-		removeMessage: removeMessage,
-        retrieveMessages: retrieveMessages,
-		removeModule: removeModule,
-		createTask: createTask,
-        endTask: endTask,
-        loadAllModuleTaskIds: loadAllModuleTaskIds
-        
-        
+        retrieveProfile,
+        updateProfile,
+        retrieveConfigs,
+        updateConfigs,
+        retrieveModules,
+        updateModules,
+		updatePrivacyLevel,
+        retrieveFilters,
+        retrieveAll,
+		storeAll,
+		saveModuleSettings,
+		retrieveData,
+		storeData,
+        saveMessage,
+		removeMessage,
+        retrieveMessages,
+		removeModule,
+		createTask,
+        endTask,
+        loadAllModuleTaskIds,	   
     };
 }());
 export {StorageHelper};
