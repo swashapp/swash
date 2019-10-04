@@ -214,13 +214,22 @@ var helper = (function() {
 	}
 
 	
-	function changePrivacyLevel(privacyLevel) {
+	function updatePrivacyLevel(privacyLevel) {
 		let message = {
-			obj: "Loader",
-			func: "changePrivacyLevel",
+			obj: "StorageHelper",
+			func: "updatePrivacyLevel",
 			params: [privacyLevel]
 		}
         return sendMessage(message);		       		        
+	}
+	
+	function decryptWallet(encryptedWallet, password) {
+		let message = {
+			obj: "communityHelper",
+			func: "decryptWallet",
+			params: [encryptedWallet, password]
+		}
+        return sendMessage(message);
 	}
 	
 	function getKeyInfo() {
@@ -260,34 +269,35 @@ var helper = (function() {
 	}
 	
 	return {
-        load: load,
-        save: save,
-		stop: stop,
-		start: start,
-		reload, reload,
-		configModule: configModule,
-		loadModules: loadModules,
-        loadFilters: loadFilters,
-		saveFilters: saveFilters,
-		saveProfile: saveProfile,
-		saveConfigs: saveConfigs,
-		startAuth: startAuth,
-		removeAuth: removeAuth,
-		isConnected: isConnected,
-        subscribe: subscribe,
-        unsubscribe: unsubscribe,
-		savePrivacyData: savePrivacyData,
-		loadPrivacyData: loadPrivacyData,
-		loadMessages: loadMessages,
-		cancelSending: cancelSending,
-		saveModule: saveModule,
-		removeModule: removeModule,
-        enforcePolicy: enforcePolicy,
-		identityPrivacy: identityPrivacy,
-		getKeyInfo: getKeyInfo,
-		getDataBalance: getDataBalance,
-		withdraw: withdraw,
-		getAvailableBalance: getAvailableBalance,
-		changePrivacyLevel: changePrivacyLevel
+        load,
+        save,
+		stop,
+		start,
+		reload,
+		configModule,
+		loadModules,
+        loadFilters,
+		saveFilters,
+		saveProfile,
+		saveConfigs,
+		startAuth,
+		removeAuth,
+		isConnected,
+        subscribe,
+        unsubscribe,
+		savePrivacyData,
+		loadPrivacyData,
+		loadMessages,
+		cancelSending,
+		saveModule,
+		removeModule,
+        enforcePolicy,
+		identityPrivacy,
+		getKeyInfo,
+		getDataBalance,
+		withdraw,
+		getAvailableBalance,
+		updatePrivacyLevel,
+		decryptWallet
     };
 }());

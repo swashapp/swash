@@ -170,7 +170,7 @@ var communityConfig = {
 	      "constant": true,
 	      "inputs": [
 	        {
-	          "name": "owner",
+	          "name": "_owner",
 	          "type": "address"
 	        }
 	      ],
