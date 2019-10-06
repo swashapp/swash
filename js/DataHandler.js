@@ -151,38 +151,15 @@ var DataHandler = (function() {
         message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, configs.privacyLevel*2).id ;
         //message.identity.walletId = profile.walletId;
         //message.identity.email = profile.email;
-        message.header.privacyLevel = configs.privacyLevel*2;
+        message.header.privacyLevel = configs.privacyLevel;
         message.header.version = getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)
     }
     function enforcePolicy(message, mSalt, salt, privacyData) {
-        /*
-            message = {
-                header: {
-                    agent:  { name: "Firefox", vendor: "Mozilla", version: "65.0.2", buildID: "20190225143501" },
-                    version: "1",
-                    platform "win32",
-                    module: "Amazon",
-                    function: "Browsing",
-                    collector: "search",
-                    privacyLevel: 3
-                }
-                identity: {
-                    walletId: "0x353d353433...",
-                    email: "authsaz@gmail.com",
-                    uid: "flerngokehfgofe..."                    
-                }
-                data: {
-                    
-                }
-            }
-        */
-        
-
+		message.header.privacyLevel *=2;
         let data = {};
-        let schems = message.data.schems;       
-        //var ptr = JsonPointer.noConflict();
+        let schems = message.data.schems;               
         var ptr = JsonPointer;
         for(let d of schems) {
             let jpointers = JSONPath.JSONPath({path: d.jpath, resultType: "pointer" ,json: message.data.out});
