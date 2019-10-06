@@ -68,9 +68,9 @@ var Loader = (function() {
 		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 			StorageHelper.retrieveFilters().then(filters => {
 					if(filterUtils.filter(tabInfo.url, filters))
-						browser.browserAction.setIcon({path: "icons/surf19g.png"});
+						browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});
 					else 
-						browser.browserAction.setIcon({path: "icons/surf19.png"});
+						browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});
 				});		
 			}			
 		})
@@ -82,9 +82,9 @@ var Loader = (function() {
 				StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 					StorageHelper.retrieveFilters().then(filters => {
 							if(filterUtils.filter(tabInfo.url, filters))
-								browser.browserAction.setIcon({path: "icons/surf19g.png"});
+								browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});
 							else 
-								browser.browserAction.setIcon({path: "icons/surf19.png"});
+								browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});
 						});		
 					}			
 				})							
@@ -93,16 +93,14 @@ var Loader = (function() {
     }
 	
     function init(isEnabled) {
-		if(isEnabled) {
-			//communityHelper.join();
+		if(isEnabled) {			
 			if(!browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.addListener(changeIconOnActivated)
 			browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});			
 		}
-		else {
-			//communityHelper.part();
+		else {			
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
@@ -113,6 +111,7 @@ var Loader = (function() {
 
 	
     function start(){		
+		communityHelper.join();
 		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = true;
 			browser.storage.local.set(c);
@@ -129,6 +128,7 @@ var Loader = (function() {
     
 
     function stop(){
+		communityHelper.part();
 		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = false;
 			browser.storage.local.set(c).then(() => {
