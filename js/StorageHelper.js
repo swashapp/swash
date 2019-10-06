@@ -138,6 +138,11 @@ var StorageHelper = (function() {
         browser.storage.local.set({modules: modules});        
     }
 
+	async function getVersion(){
+		let configs = await retrieveData("configs");
+		return configs.version;
+	}
+	
     return {
         retrieveProfile,
         updateProfile,
@@ -159,6 +164,7 @@ var StorageHelper = (function() {
 		createTask,
         endTask,
         loadAllModuleTaskIds,	   
+		getVersion
     };
 }());
 export {StorageHelper};

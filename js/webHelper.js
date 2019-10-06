@@ -1,4 +1,3 @@
-
 function sendMessage(message) {
 	return browser.runtime.sendMessage(message)
 }
@@ -267,6 +266,15 @@ var helper = (function () {
 		}
 		return sendMessage(message);
 	}
+	
+	function getVersion() {
+		let message = {
+			obj: "StorageHelper",
+			func: "getVersion",
+			params: []
+		}
+		return sendMessage(message);
+	}
 
 	return {
 		load,
@@ -298,6 +306,9 @@ var helper = (function () {
 		withdraw,
 		getAvailableBalance,
 		updatePrivacyLevel,
-		decryptWallet
+		decryptWallet,
+		getVersion
 	};
 }());
+
+console.log(helper);
