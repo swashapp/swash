@@ -68,7 +68,7 @@ Youtube.apiCall = [
     {
 		name: "channelsManagedByMe",
 		description: "This item collects list of channels that managed by a user in Youtube",
-        title: "channel managed by User",
+        title: "Managed Channels",
         viewGroup: "API",
 		is_enabled: false,        
 		method: "GET",

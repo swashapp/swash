@@ -6,7 +6,7 @@ Amazon.browsing = [
     {
         name: "Page Visit",
 		viewGroup: "UX",
-        title: "Amazon visited pages",
+        title: "Visited pages",
         description: "This item collects all pages in Amazon that user has visited",
         target_listener: "inspectVisit",
         is_enabled: true

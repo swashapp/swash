@@ -11,11 +11,11 @@ var Facebook = (function() {
 		viewGroups: [
 			{
 				name: "UX",
-				title: "User Experience"
+				title: "Select behaviour to be captured"
 			},
 			{
 				name: "API",
-				title: "Facebook API"
+				title: "Select behaviour to be captured via Facebook API"
 			}
 		],
         functions: ["browsing", "apiCall"],
