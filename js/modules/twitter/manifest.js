@@ -11,7 +11,7 @@ var Twitter = (function() {
 		viewGroups: [
 			{
 				name: "UX",
-				title: "User Experience"
+				title: "Select behaviour to be captured"
 			}
 		],
         privacy_level: 2,

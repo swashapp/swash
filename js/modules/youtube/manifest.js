@@ -12,11 +12,11 @@ var Youtube = (function() {
 		viewGroups: [
 			{
 				name: "UX",
-				title: "User Experience"
+				title: "Select behaviour to be captured"
 			},
 			{
 				name: "API",
-				title: "Youtube API"
+				title: "Select behaviour to be captured via Youtube API"
 			}
 		],
         is_enabled: false,

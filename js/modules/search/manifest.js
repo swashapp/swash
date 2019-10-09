@@ -12,31 +12,31 @@ var Search = (function() {
 		viewGroups: [			
             {
 				name: "Google",
-				title: "Google Search Engine"
+				title: "Google"
 			},
 			{
 				name: "Yahoo",
-				title: "Yahoo Search Engine"
+				title: "Yahoo"
 			},
 			{
 				name: "AOL",
-				title: "AOL Search Engine"
+				title: "AOL"
 			},
 			{
 				name: "Bing",
-				title: "Bing Search Engine"
+				title: "Bing"
 			},
 			{
 				name: "Ask",
-				title: "Ask Search Engine"
+				title: "Ask"
 			},
 			{
 				name: "Baidu",
-				title: "Baidu Search Engine"
+				title: "Baidu"
 			},
 			{
 				name: "DuckDuckGo",
-				title: "DuckDuckGo Search Engine"
+				title: "DuckDuckGo"
 			}
 		],
         is_enabled: true,

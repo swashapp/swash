@@ -11,11 +11,11 @@ var Surfing = (function() {
 		viewGroups: [
 			{
 				name: "UX",
-				title: "User Experience"
+				title: "Select behaviour to be captured"
 			},
 			{
 				name: "PInfo",
-				title: "Page Info"
+				title: "Select Page Information to be captured"
 			}			
 		],
 		filter_editable: true,

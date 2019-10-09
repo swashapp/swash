@@ -46,7 +46,7 @@ Amazon.content = [
 		url_match: "*://www.amazon.com/*",
         description: "This item collects a search suggestion that has been selected by user",
 		viewGroup: "UX",
-        title: "Selected Search Suggestion",
+        title: "Search Suggestion",
         type: "event",
 		readyAt: "DOMChange",
         observingTargetNode: "#nav-belt",
@@ -236,7 +236,7 @@ Amazon.content = [
 		url_match: "*://*.amazon.com/*",
         description: "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
 		viewGroup: "UX",
-        title: "Items selected by user",
+        title: "Selected Items",
         type: "event",        
         is_enabled: true,
         events: [
@@ -295,7 +295,7 @@ Amazon.content = [
 		url_match: "*://*.amazon.com/*",
         description: "This item collects all products in amazon web pages that has been added to cart by user",
 		viewGroup: "UX",
-        title: "Items added to cart",
+        title: "Items in cart",
         type: "event",        
         is_enabled: true,
         events: [
@@ -368,7 +368,7 @@ Amazon.content = [
         description: "This item collects all products in amazon web pages that has been added by user in wish list",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
-        title: "Items added to wishlist",
+        title: "Items in wishlist",
         type: "event",        
         is_enabled: true,
         events: [
@@ -431,7 +431,7 @@ Amazon.content = [
         description: "This item collects all products in amazon web pages that has been selected by user for buying",
 		url_match: "*://*.amazon.com/*",
 		viewGroup: "UX",
-        title: "Items selected for buy",
+        title: "Items for buy",
         type: "event",        
         is_enabled: true,
         events: [
