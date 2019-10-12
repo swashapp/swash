@@ -1,5 +1,6 @@
 console.log("background-script.js");
 
+import {memberManager} from './memberManager.js';
 import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
 import {StorageHelper} from './StorageHelper.js';
@@ -62,8 +63,10 @@ After a successful load of add-on,
 the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
-	if(confs)
+	if(confs) {
+		let mgmtInterval = setInterval(memberManager.dynamicTimeWindowStrategy, 60000);
 		Loader.reload();
+	}		
 })
 
  

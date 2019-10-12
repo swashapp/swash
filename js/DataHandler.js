@@ -1,5 +1,4 @@
 console.log("DataHandler.js");
-import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
 import {privacyUtils} from './privacyUtils.js';
 import {StorageHelper} from './StorageHelper.js';
@@ -67,13 +66,7 @@ var DataHandler = (function() {
 	
 	async function sendData(message, delay) {
 		if(delay) {
-			DatabaseHelper.insertMessage(message);
-			/*let id = setTimeout(function(){ 
-				delete message.origin;
-				stream.produceNewEvent(message);
-				StorageHelper.removeMessage(id);
-			}, 300000);
-            StorageHelper.saveMessage(message, id);*/
+			DatabaseHelper.insertMessage(message);			
 		}
 		else {
 			delete message.origin;
@@ -177,10 +170,10 @@ var DataHandler = (function() {
     }
     
     return {
-        handle: handle,
-		cancelSending: cancelSending,
-		sendDelayedMessages: sendDelayedMessages,
-        enforcePolicy: enforcePolicy
+        handle,
+		cancelSending,
+		sendDelayedMessages,
+        enforcePolicy
     };
 }());
 export {DataHandler};

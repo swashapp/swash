@@ -7,7 +7,7 @@ var DatabaseHelper = (function() {
 	var connection;
 	function init() {
 		if(!connection) {
-			dbName = 'SurfStreamrDB';
+			dbName = 'SwashDB';
 			connection = new JsStore.Instance();
 			initJsStore();			
 		}
@@ -33,9 +33,30 @@ var DatabaseHelper = (function() {
 		  }
 		]
 	  };
+
+	  var tblStats = {
+		name: 'stats',
+		columns: [
+		  {
+			  name: 'moduleName',
+			  primaryKey: true  
+		  }, 
+		  {
+			  name: 'messageCount',
+			  notNull: true,
+			  dataType: JsStore.DATA_TYPE.Number
+		  }, 
+		  {
+			  name: 'lastSent',
+			  notNull: true,
+			  dataType: JsStore.DATA_TYPE.Number
+		  }
+		]
+	  };
+	  
 	  var db = {
 		  name: dbName,
-		  tables: [tblMessage]
+		  tables: [tblMessage, tblStats]
 	  }
 	  return db;
 	}
@@ -52,6 +73,72 @@ var DatabaseHelper = (function() {
 			console.error(err);
 		})
 	}
+
+	function updateMessageCount(moduleName) {		
+		let currentTime = Number((new Date()).getTime());		
+		connection.update({
+			in: 'stats',
+			set: {
+				'messageCount': {
+					'+': 1
+				},
+				'lastSent': currentTime
+			},
+			where: {
+				moduleName: moduleName,				
+			}
+			
+		}).then(function(rowsUpdated) {
+			if(rowsUpdated === 0) {
+				let row = {
+					moduleName: moduleName,
+					lastSent: currentTime,
+					messageCount: 1,					
+				}
+				//since Id is autoincrement column, so the row will be automatically generated.
+				connection.insert({
+					into: 'stats',
+					values: [row]
+				}).then(function(rowsInserted) {
+				}).catch(function(err) {
+					console.log(err);
+				});
+			}
+		}).catch(function(err) {
+			console.log(err);
+		});
+	}
+
+	async function getMessageCount(moduleName) {
+		let rows = await connection.select({
+			from: 'stats',
+			where: {
+				moduleName: moduleName
+			}
+		})
+		return (rows && rows[0] && rows[0]['messageCount'])?rows[0]['messageCount']:0
+	}
+
+	async function getTotalMessageCount() {
+		let rows = await connection.select({
+			from: 'stats',
+			aggregate: {
+				sum: 'messageCount'
+			}
+		})
+		return (rows && rows[0] && rows[0]['sum(messageCount)'])?rows[0]['sum(messageCount)']:0
+	}
+
+	async function getLastSentDate() {
+		let rows = await connection.select({
+			from: 'stats',
+			aggregate: {
+				max: 'lastSent'
+			}
+		})
+		return (rows && rows[0] && rows[0]['max(lastSent)'])?rows[0]['max(lastSent)']:0
+	}
+
 	function insertMessage(message) {		
 		let currentTime = Number((new Date()).getTime());
 		var row = {
@@ -115,12 +202,16 @@ var DatabaseHelper = (function() {
 	}
 	
     return {
-        init: init,
-		insertMessage: insertMessage,
-		getAllMessages:getAllMessages,
-		getReadyMessages: getReadyMessages,
-		removeReadyMessages: removeReadyMessages,
-		removeMessage: removeMessage
+		updateMessageCount,
+		getMessageCount,
+		getTotalMessageCount,
+		getLastSentDate,
+        init,
+		insertMessage,
+		getAllMessages,
+		getReadyMessages,
+		removeReadyMessages,
+		removeMessage,
     };
 }());
 export {DatabaseHelper};
