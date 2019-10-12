@@ -110,8 +110,7 @@ var Loader = (function() {
 	}
 
 	
-    function start(){		
-		communityHelper.join();
+    function start(){				
 		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = true;
 			browser.storage.local.set(c);
@@ -127,8 +126,7 @@ var Loader = (function() {
     }
     
 
-    function stop(){
-		communityHelper.part();
+    function stop(){		
 		browser.storage.local.get("configs").then(c => {
 			c.configs.is_enabled = false;
 			browser.storage.local.set(c).then(() => {

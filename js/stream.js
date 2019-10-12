@@ -1,4 +1,4 @@
-import {streamrConf} from './streamConfig.js';
+import {DatabaseHelper} from './DatabaseHelper.js';
 // Create the client and give the API key to use by default
 
 
@@ -26,14 +26,15 @@ var stream = function(streamId, apiKey) {
 	  }	  
 	  client.publish(streamId, msg)
 		.then(() => {
-		  console.log('Sent successfully: ' + JSON.stringify(msg))
+			DatabaseHelper.updateMessageCount(msg.header.module);
+		  	console.log('Sent successfully: ' + JSON.stringify(msg))
 		})
 		.catch((err) => {
 		  console.error(err)
 		})
 	}
     return {
-        produceNewEvent: produceNewEvent
+        produceNewEvent
     };
 };
 
