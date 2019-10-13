@@ -3,7 +3,7 @@ import {communityHelper} from './communityHelper.js'
 var memberManager = (function() {
 
 	let minimumMessageNumber = 5;
-	let sendTimeWindow = 30000;
+	let sendTimeWindow = 300000;
 
 	async function fixedTimeWindowStrategy() {
 		let messageCount = await DatabaseHelper.getTotalMessageCount();
