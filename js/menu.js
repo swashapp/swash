@@ -23,13 +23,13 @@ document.getElementById("open_setting").addEventListener('click', function(event
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html#/Messages");
+    let url = browser.runtime.getURL("dashboard/index.html#/Data");
     showPageOnTab(url);
 });
 
 
 document.getElementById("open_logs").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html#/Messages");
+    let url = browser.runtime.getURL("dashboard/index.html#/Help");
     showPageOnTab(url);
 });
 
@@ -47,6 +47,7 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 
 window.helper.load().then(db => {
 	window.helper.getDataBalance().then(balance => {
+		balance = (balance === '' || balance === 'undefined' || typeof(balance) ==='undefined') ? '0.00':balance;
 		updateBalance(balance);
 	})
     window.helper.getVersion().then(version => {
