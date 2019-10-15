@@ -27,7 +27,7 @@ var stream = function(streamId, apiKey) {
 	  client.publish(streamId, msg)
 		.then(() => {
 			DatabaseHelper.updateMessageCount(msg.header.module);
-		  	console.log('Sent successfully: ' + JSON.stringify(msg))
+		  	console.log('Message sent successfully')
 		})
 		.catch((err) => {
 		  console.error(err)

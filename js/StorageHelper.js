@@ -3,7 +3,7 @@ import {Utils} from './Utils.js';
 var StorageHelper = (function() {  
     
     var messages = {};
-    const functionList = ["content", "browsing", "apiCall", "survey",  "context", "devtools", "task"]
+    const functionList = ["content", "browsing", "apiCall", "context", "task"]
     function retrieveProfile(){
         return retrieveData("profile");
     }
