@@ -6,9 +6,7 @@ import {DataHandler} from './DataHandler.js';
 import {Browsing} from './functions/Browsing.js';
 import {Content} from './functions/Content.js';
 import {ApiCall} from './functions/ApiCall.js';
-import {Survey} from './functions/Survey.js';
 import {Context} from './functions/Context.js';
-import {Devtools} from './functions/Devtools.js';
 import {Task} from './functions/Task.js';
 import {Utils} from './Utils.js';
 import {filterUtils} from './filterUtils.js';
@@ -118,9 +116,7 @@ var Loader = (function() {
 			Content.load();
 			Browsing.load();
 			ApiCall.load();	
-			Survey.load();
 			Context.load();
-			Devtools.load();
 			Task.load();
 		})	
     }
@@ -134,9 +130,7 @@ var Loader = (function() {
 				Content.unload();
 				Browsing.unload();
 				ApiCall.unload();
-				Survey.unload();
 				Context.unload();
-				Devtools.unload();
 				Task.unload();				
 			})		
 		})
@@ -151,9 +145,7 @@ var Loader = (function() {
 		Content.load_module(module);
 		Browsing.load_module(module);
 		ApiCall.load_module(module);
-		Survey.load_module(module);
 		Context.load_module(module);
-		Devtools.load_module(module);
 		Task.load_module(module);
 	}
 	
@@ -161,9 +153,7 @@ var Loader = (function() {
 		Content.unload_module(module);
 		Browsing.unload_module(module);
 		ApiCall.unload_module(module);
-		Survey.unload_module(module);
 		Context.unload_module(module);
-		Devtools.unload_module(module);
 		Task.unload_module(module);
 	}
 	
@@ -179,9 +169,7 @@ var Loader = (function() {
 				Content.load();
 				Browsing.load();
 				ApiCall.load();
-				Survey.load();
 				Context.load();
-				Devtools.load();
 				Task.load();
 			} 
 			else {
@@ -189,9 +177,7 @@ var Loader = (function() {
 				Content.unload();
 				Browsing.unload();
 				ApiCall.unload();								
-				Survey.unload();
 				Context.unload();
-				Devtools.unload();
 				Task.unload();
 			}			
 		})		
@@ -209,18 +195,14 @@ var Loader = (function() {
 			Content.unload();
 			Browsing.unload();
 			ApiCall.unload();								
-			Survey.unload();
 			Context.unload();
-			Devtools.unload();
 			Task.unload();
 			if(c.configs.is_enabled) {
 				init(true);
 				Content.load();
 				Browsing.load();
 				ApiCall.load();
-				Survey.load();
 				Context.load();
-				Devtools.load();
 				Task.load();
 			}					
 		})		

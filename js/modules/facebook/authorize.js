@@ -61,7 +61,7 @@ function fbBatchCall(apiInfoList)
 				batch: JSON.stringify(batch)
 			}
 		}
-		apiCall(endpoint, aInfo, access_token).then(verifyBatchResponse).then(resp => console.log(resp));				
+		apiCall(endpoint, aInfo, access_token).then(verifyBatchResponse);
 	})	
 }
 

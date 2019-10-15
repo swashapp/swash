@@ -10,9 +10,7 @@ import {communityHelper} from './communityHelper.js';
 import {AllModules} from './modules.js';
 import {ApiCall} from './functions/ApiCall.js';
 import {Content} from './functions/Content.js';
-import {Survey} from './functions/Survey.js';
 import {Context} from './functions/Context.js';
-import {Devtools} from './functions/Devtools.js';
 import {Task} from './functions/Task.js';
 import {pushStream} from './push.js';
 
@@ -43,9 +41,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		Content: Content,
         DataHandler: DataHandler,
         pushStream: pushStream,
-		Survey: Survey,
-		Context: Context,
-		Devtools: Devtools,
+		Context: Context,		
 		Task: Task,
 		communityHelper: communityHelper
 	}
