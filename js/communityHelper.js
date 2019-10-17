@@ -1,8 +1,8 @@
 import {communityConfig} from './communityConfig.js';
 var communityHelper = (function() {
 
-	let wallet
-	let contract
+	let wallet;
+	let contract;
 	const provider = ethers.getDefaultProvider();
 	let client;
 
@@ -18,12 +18,12 @@ var communityHelper = (function() {
 		  }
 		};
 		let encryptedWallet = await wallet.encrypt(password, options);
-		return encryptedWallet;	
+		return encryptedWallet;
 	}
 
 	async function loadWallet(encryptedWallet, password) {
 		wallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password);
-		wallet.connect(provider)
+		wallet.connect(provider);
 		contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 	}
 
@@ -33,9 +33,8 @@ var communityHelper = (function() {
 			address: wallet.address,
 			privateKey: wallet.privateKey
 		}
-	} 
-	
-	
+	}
+
 	function getWalletInfo() {
 		return {
 			address: wallet.address,
@@ -49,13 +48,13 @@ var communityHelper = (function() {
 			auth: {
 				privateKey: wallet.privateKey,
 			}
-		})
+		});
 	}
 
 	async function join() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		return client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
+		return client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
 	}
 
 	function part() {
@@ -105,23 +104,23 @@ var communityHelper = (function() {
 	async function withdrawEarnings() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		//client.withdraw(communityConfig.communityAddress, wallet.address, wallet)
-		return withrawEarningsFor(wallet.address)
+		return withrawEarningsFor(wallet.address);
 	}
 
-	async function withdrawEarningsFor(recipient) {
+	async function withdrawEarningsFor(memberAddress) {
 		if (!contract) return;
 
-		const member = await client.memberStats(communityConfig.communityAddress, recipient);
+		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
 		if (member.withdrawableEarnings < 1) {
-			throw new Error("Nothing to withdraw")
+			throw new Error("Nothing to withdraw");
 		}
 
-		return contract.withdrawAll(
+		return contract.withdrawAllFor(
+			memberAddress,
 			member.withdrawableBlockNumber,
 			member.withdrawableEarnings,
-			member.proof
-		).then(tx => tx.wait(1))
+			member.proof,
+		).then(tx => tx.wait(1));
 	}
 
 	return {
