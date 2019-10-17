@@ -64,6 +64,7 @@ var communityHelper = (function() {
 		//client.partCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
+	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
 	async function getBalance() {
 		if (!wallet || !provider) return;
 		let datacoin = new ethers.Contract(communityConfig.datacoinAddress, communityConfig.datacoinAbi, provider);
@@ -71,12 +72,30 @@ var communityHelper = (function() {
 		return ethers.utils.formatEther(balance);
 	}
 
-	async function getAvailableBalance() {
+	// In UI: "current DATA balance in the community", latest and biggest known figure, some of it is not recorded yet
+	// Balance = Earnings - Withdrawn
+	async function getCommunityBalance() {
 		if (!client) clientConnect();
+		if (!contract) return;
+		const withdrawnBN = await contract.withdrawn(wallet.address);
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		return stats.withdrawableEarnings;
+		const earningsBN = new BigNumber(stats.earnings);
+		const balanceBN = earningsBN.sub(withdrawnBN);
+		return balanceBN.toString();
 	}
 
+	// In UI: "current DATA balance in the community", actually withdrawable number, what you get if you withdraw now
+	async function getAvailableBalance() {
+		if (!client) clientConnect();
+		if (!contract) return;
+		const withdrawnBN = await contract.withdrawn(wallet.address);
+		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		const earningsBN = new BigNumber(stats.withdrawableEarnings);
+		const unwithdrawnEarningsBN = earningsBN.sub(withdrawnBN);
+		return unwithdrawnEarningsBN.toString();
+	}
+
+	// In UI: "lifetime DATA earnings in the community", latest and biggest known figure, some of it is not recorded yet
 	async function getCumulativeEarnings() {
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
