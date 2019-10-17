@@ -77,6 +77,12 @@ var communityHelper = (function() {
 		return stats.withdrawableEarnings;
 	}
 
+	async function getCumulativeEarnings() {
+		if (!client) clientConnect();
+		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		return stats.earnings;
+	}
+
 	async function withdrawEarnings() {
 		if (!wallet) return;
 		if (!client) clientConnect();
@@ -110,7 +116,8 @@ var communityHelper = (function() {
 		getWalletInfo,
 		getBalance,
 		decryptWallet,
-		getAvailableBalance
+		getAvailableBalance,
+		getCumulativeEarnings
     };
 }())
 

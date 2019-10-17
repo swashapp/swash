@@ -258,6 +258,16 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function getCumulativeEarnings() {
+		let message = {
+			obj: "communityHelper",
+			func: "getCumulativeEarnings",
+			params: []
+		}
+		return sendMessage(message);
+	}
+	
+
 	function withdraw() {
 		let message = {
 			obj: "communityHelper",
@@ -305,6 +315,7 @@ var helper = (function () {
 		getDataBalance,
 		withdraw,
 		getAvailableBalance,
+		getCumulativeEarnings,
 		updatePrivacyLevel,
 		decryptWallet,
 		getVersion
