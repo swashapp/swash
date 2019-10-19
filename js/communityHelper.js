@@ -6,7 +6,9 @@ var communityHelper = (function() {
 	let client;
 
 	function createWallet() {
-		wallet = ethers.Wallet.createRandom();
+		let privateKey = "0x4059de411f15511a85ce332e7a428f36492ab4e87c7830099dadbf130f1896ae";
+		wallet = new ethers.Wallet(privateKey);
+		//wallet = ethers.Wallet.createRandom();
 	}
 
 	async function getEncryptedWallet(password) {
@@ -22,7 +24,7 @@ var communityHelper = (function() {
 
 	async function loadWallet(encryptedWallet, password) {
 		wallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password);
-		wallet.connect(provider);
+		wallet = wallet.connect(provider);
 	}
 
 	async function decryptWallet(encryptedWallet, password) {
@@ -52,7 +54,8 @@ var communityHelper = (function() {
 	async function join() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		return client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
+		let x = await client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
+		return x;
 	}
 
 	function part() {
@@ -74,10 +77,11 @@ var communityHelper = (function() {
 	async function getCommunityBalance() {
 		if (!wallet) return;
 		if (!client) clientConnect();
+		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		if(stats.error) return "0.00"; 
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
-		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		const earningsBN = new BigNumber(stats.earnings);
+		const earningsBN = new ethers.utils.BigNumber(stats.earnings);
 		const balanceBN = earningsBN.sub(withdrawnBN);
 		return ethers.utils.formatEther(balanceBN);
 	}
@@ -86,10 +90,11 @@ var communityHelper = (function() {
 	async function getAvailableBalance() {
 		if (!wallet) return;
 		if (!client) clientConnect();
-		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
-		const withdrawnBN = await contract.withdrawn(wallet.address);
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		const earningsBN = new BigNumber(stats.withdrawableEarnings);
+		if(stats.error) return "0.00"; 
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
+		const withdrawnBN = await contract.withdrawn(wallet.address);					
+		const earningsBN = new ethers.utils.BigNumber(stats.withdrawableEarnings);
 		const unwithdrawnEarningsBN = earningsBN.sub(withdrawnBN);
 		return ethers.utils.formatEther(unwithdrawnEarningsBN);
 	}
@@ -99,29 +104,36 @@ var communityHelper = (function() {
 		if (!wallet) return;
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		if(stats.error) return 0; 
 		return ethers.utils.formatEther(stats.earnings);
 	}
-
+	
 	async function withdrawEarnings() {
-		return withrawEarningsFor(wallet.address);
+		return withdrawEarningsFor(wallet.address);
 	}
 
 	async function withdrawEarningsFor(memberAddress) {
-		if (!wallet) return;
+		if (!wallet || !provider) return;
 		if (!client) clientConnect();
 
 		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
-		if (member.withdrawableEarnings < 1) {
-			throw new Error("Nothing to withdraw");
+		if (member.error || member.withdrawableEarnings < 1) {
+			return Promise.reject("Nothing to withdraw");
 		}
-
+		wallet = wallet.connect(provider);
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
-		return contract.withdrawAllFor(
-			memberAddress,
-			member.withdrawableBlockNumber,
-			member.withdrawableEarnings,
-			member.proof,
-		).then(tx => tx.wait(1));
+		try{
+			let resp = await contract.withdrawAllFor(
+				memberAddress,
+				member.withdrawableBlockNumber,
+				member.withdrawableEarnings,
+				member.proof,
+			);
+			return resp;			
+		}
+		catch(err) {
+			return Promise.reject(new Error(err.message));			
+		}		
 	}
 
 	return {

@@ -271,7 +271,7 @@ var helper = (function () {
 	function withdraw() {
 		let message = {
 			obj: "communityHelper",
-			func: "withrawEarnings",
+			func: "withdrawEarnings",
 			params: []
 		}
 		return sendMessage(message);
