@@ -60,7 +60,7 @@ the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
 	if(confs) {
-		let mgmtInterval = setInterval(memberManager.dynamicTimeWindowStrategy, 60000);
+		let mgmtInterval = setInterval(memberManager.dynamicTimeWindowStrategy, 6000);
 		Loader.reload();
 	}		
 })
