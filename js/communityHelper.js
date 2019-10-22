@@ -5,10 +5,8 @@ var communityHelper = (function() {
 	const provider = ethers.getDefaultProvider();
 	let client;
 
-	function createWallet() {
-		let privateKey = "0x4059de411f15511a85ce332e7a428f36492ab4e87c7830099dadbf130f1896ae";
-		wallet = new ethers.Wallet(privateKey);
-		//wallet = ethers.Wallet.createRandom();
+	function createWallet() {		
+		wallet = ethers.Wallet.createRandom();
 	}
 
 	async function getEncryptedWallet(password) {
