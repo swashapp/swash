@@ -42,6 +42,11 @@ var communityHelper = (function() {
 		}
 	}
 
+	function getStreamrClient() {
+		if (!client) clientConnect();
+		return client
+	}
+
 	function clientConnect() {
 		if (!wallet) return;
 		client = new StreamrClient({
@@ -78,7 +83,7 @@ var communityHelper = (function() {
 		if (!wallet) return;
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return "0.00"; 
+		if(stats.error) return "0.00";
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
 		const earningsBN = new ethers.utils.BigNumber(stats.earnings);
@@ -91,9 +96,9 @@ var communityHelper = (function() {
 		if (!wallet) return;
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return "0.00"; 
+		if(stats.error) return "0.00";
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
-		const withdrawnBN = await contract.withdrawn(wallet.address);					
+		const withdrawnBN = await contract.withdrawn(wallet.address);
 		const earningsBN = new ethers.utils.BigNumber(stats.withdrawableEarnings);
 		const unwithdrawnEarningsBN = earningsBN.sub(withdrawnBN);
 		return ethers.utils.formatEther(unwithdrawnEarningsBN);
@@ -104,10 +109,10 @@ var communityHelper = (function() {
 		if (!wallet) return;
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return 0; 
+		if(stats.error) return 0;
 		return ethers.utils.formatEther(stats.earnings);
 	}
-	
+
 	async function withdrawEarnings() {
 		return withdrawEarningsFor(wallet.address);
 	}
@@ -129,11 +134,11 @@ var communityHelper = (function() {
 				member.withdrawableEarnings,
 				member.proof,
 			);
-			return resp;			
+			return resp;
 		}
 		catch(err) {
-			return Promise.reject(new Error(err.message));			
-		}		
+			return Promise.reject(new Error(err.message));
+		}
 	}
 
 	return {
@@ -148,7 +153,8 @@ var communityHelper = (function() {
 		getBalance,
 		decryptWallet,
 		getAvailableBalance,
-		getCumulativeEarnings
+		getCumulativeEarnings,
+		getStreamrClient,
     };
 }())
 
