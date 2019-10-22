@@ -1,7 +1,7 @@
 import { DatabaseHelper } from './DatabaseHelper.js';
 import { communityHelper } from './communityHelper.js'
 
-var stream = function(streamId, apiKey) {
+var stream = function(streamId) {
 
 	const sessionTimeout = 2*60*1000;
 	var client;
