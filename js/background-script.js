@@ -41,7 +41,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		Content: Content,
         DataHandler: DataHandler,
         pushStream: pushStream,
-		Context: Context,		
+		Context: Context,
 		Task: Task,
 		communityHelper: communityHelper
 	}
@@ -59,10 +59,9 @@ After a successful load of add-on,
 the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
-	if(confs) {
-		let mgmtInterval = setInterval(memberManager.dynamicTimeWindowStrategy, 6000);
+	if (confs) {
+		let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);
 		Loader.reload();
-	}		
+	}
 })
 
- 
