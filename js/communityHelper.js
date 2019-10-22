@@ -57,7 +57,7 @@ var communityHelper = (function() {
 	}
 
 	async function join() {
-		if (!wallet) return;
+		if (!wallet) return false;
 		if (!client) clientConnect();
 		let x = await client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
 		return x;

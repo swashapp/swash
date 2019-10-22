@@ -38,8 +38,11 @@ var memberManager = (function() {
 
 	function immediateJoinStrategy() {
 		if (!joined) {
-			joined = true
-			communityHelper.join()
+			communityHelper.join().then(result => {
+				if (result) {
+					joined = true
+				}
+			})
 		}
 	}
 
