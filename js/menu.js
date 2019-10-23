@@ -16,6 +16,11 @@ function updateVersion(version){
     document.getElementById("version").innerText  = `V${version}`;
 }
 
+function purgeNumber(num) {
+	if(num.indexOf('.') < 0)
+		return num;
+	return num.slice(0, num.indexOf('.') + 5)
+}
   
 document.getElementById("open_setting").addEventListener('click', function(eventObj) {
     let url = browser.runtime.getURL("dashboard/index.html");
@@ -46,9 +51,9 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 
 
 window.helper.load().then(db => {
-	window.helper.getDataBalance().then(balance => {
+	window.helper.getTotalBalance().then(balance => {
 		balance = (balance === '' || balance === 'undefined' || typeof(balance) ==='undefined') ? '0.00':balance;
-		updateBalance(balance);
+		updateBalance(purgeNumber(balance));
 	})
     window.helper.getVersion().then(version => {
 		updateVersion(version);
