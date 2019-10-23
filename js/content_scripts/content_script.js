@@ -330,8 +330,10 @@ var contentScript = (function () {
         let targetNode = document.querySelector(obj.observingTargetNode)
 		let targetEventId = uuid();
         let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId,cbName)});
-        observer.observe(targetNode, obj.observingConfig);		
-		targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
+        observer.observe(targetNode, obj.observingConfig);
+		if(event.event_name == "."){	
+			targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
+		}
     }
     
 	function handleResponse(message) {	  

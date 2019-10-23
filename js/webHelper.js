@@ -267,6 +267,14 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 	
+	function getTotalBalance() {
+		let message = {
+			obj: "communityHelper",
+			func: "getTotalBalance",
+			params: []
+		}
+		return sendMessage(message);
+	}
 
 	function withdraw() {
 		let message = {
@@ -316,6 +324,7 @@ var helper = (function () {
 		withdraw,
 		getAvailableBalance,
 		getCumulativeEarnings,
+		getTotalBalance,
 		updatePrivacyLevel,
 		decryptWallet,
 		getVersion

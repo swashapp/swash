@@ -107,10 +107,17 @@ var communityHelper = (function() {
 		if (!wallet) return;
 		if (!client) clientConnect();
 		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return 0;
+		if(stats.error) return "0.00";
 		return ethers.utils.formatEther(stats.earnings);
 	}
 
+	// on-chain balance + available balance
+	async function getTotalBalance() {
+		let balance = ethers.utils.parseEther(await getBalance());
+		let aBalance = ethers.utils.parseEther(await getAvailableBalance());
+		return ethers.utils.formatEther(balance.add(aBalance));
+	}
+	
 	async function withdrawEarnings() {
 		return withdrawEarningsFor(wallet.address);
 	}
@@ -152,6 +159,7 @@ var communityHelper = (function() {
 		decryptWallet,
 		getAvailableBalance,
 		getCumulativeEarnings,
+		getTotalBalance,
 		getStreamrClient,
     };
 }())
