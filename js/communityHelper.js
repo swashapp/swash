@@ -58,6 +58,7 @@ var communityHelper = (function() {
 		if (!wallet) return false;
 		if (!client) clientConnect();
 		let x = await client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
+		console.log("Join: ", x);
 		return x;
 	}
 
@@ -131,13 +132,17 @@ var communityHelper = (function() {
 			return Promise.reject("Nothing to withdraw");
 		}
 		wallet = wallet.connect(provider);
-		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);		
 		try{
+			let overrides = {
+				gasPrice: ethers.utils.parseUnits('18', 'gwei'),
+			};
 			let resp = await contract.withdrawAllFor(
 				memberAddress,
 				member.withdrawableBlockNumber,
 				member.withdrawableEarnings,
 				member.proof,
+				overrides
 			);
 			return resp;
 		}
