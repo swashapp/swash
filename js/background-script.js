@@ -60,8 +60,8 @@ the main loop will start.
 */
 StorageHelper.retrieveConfigs().then(confs => {
 	if (confs) {
-		let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);
 		Loader.reload();
 	}
 })
+let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);
 

@@ -167,7 +167,7 @@ Amazon.content = [
 		url_match: "*://*.amazon.com/s*",
         description: "This item collects information about a search result link that has been clicked by user",
 		viewGroup: "UX",
-        title: "clicked search result",
+        title: "clicked search results",
         type: "event",        
         is_enabled: true,
         events: [
@@ -293,7 +293,7 @@ Amazon.content = [
     {
         name: "addToCart",
 		url_match: "*://*.amazon.com/*",
-        description: "This item collects all products in amazon web pages that has been added to cart by user",
+        description: "This item collects all products in amazon web pages that has been added to the cart by user",
 		viewGroup: "UX",
         title: "Items in cart",
         type: "event",        

@@ -99,7 +99,7 @@ Search.content = [
 		url_match: "*://www.google.com/search?*",
         description: "This item collects links clicked by user from Google search result",
 		viewGroup: "Google",
-        title: "clicked link",
+        title: "Clicked link",
         type: "event",        
         is_enabled: true,
         events: [

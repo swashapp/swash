@@ -196,7 +196,7 @@ Facebook.apiCall = [
 	{
 		name: "UserBusinesses",
 		description: "Businesses associated with the user",
-        title: "businesses",
+        title: "Businesses",
 		viewGroup: "API",
         is_enabled: false,        
 		method: "GET",
@@ -285,7 +285,7 @@ Facebook.apiCall = [
 	},
 	{
 		name: "UserPublishedPosts",
-		description: "shows only the posts that were published by this person.",
+		description: "Shows only the posts that were published by this person.",
         title: "Published posts",
 		viewGroup: "API",
         is_enabled: false,        
@@ -303,7 +303,7 @@ Facebook.apiCall = [
 	},
 	{
 		name: "UserTaggedPosts",
-		description: "shows only the posts that this person was tagged in.",
+		description: "Shows only the posts that this person was tagged in.",
         title: "Tagged posts",
 		viewGroup: "API",
         is_enabled: false,        
@@ -321,7 +321,7 @@ Facebook.apiCall = [
 	},
 	{
 		name: "UserFriends",
-		description: "get the User's friends who have installed the app making the query",
+		description: "Get the User's friends who have installed the app making the query",
         title: "Friends",
 		viewGroup: "API",
         is_enabled: false,        
@@ -379,7 +379,7 @@ Facebook.apiCall = [
 	{
 		name: "UserMusics",
 		description: "Music this person likes.",
-        title: "Musics",
+        title: "Music",
 		viewGroup: "API",
         is_enabled: false,        
 		method: "GET",

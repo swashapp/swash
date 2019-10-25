@@ -5,15 +5,15 @@ Surfing.browsing_extraInfoSpec= [];
 Surfing.browsing = [
     {
         name: "Page Visit",
-        title: "Page visits",
-		description: "This item collects all permitted pages that a user has visited",
+        title: "Visited pages",
+		description: "This item collects all pages that a user has visited",
 		viewGroup: "UX",
         is_enabled: true,                
         target_listener: "inspectVisit"
     },
     {
         name: "Visiting Graph",
-        title: "User experience",
+        title: "Visiting Graph",
 		description: "This item collects all navigation that a user does in all web pages",
 		viewGroup: "UX",
         is_enabled: true,       

@@ -6,7 +6,7 @@ Facebook.browsing = [
     {
         name: "Search",
         title: "Facebook Search",
-        description: "This item collects all search queries that a user has entered in Facebook search bar",
+        description: "This item collects all search queries that a user has entered on Facebook search bar",
 		viewGroup: "UX",
 		is_enabled: true,
         patterns: [
