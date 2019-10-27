@@ -7,10 +7,8 @@ Facebook.apiConfig = {
     api_endpoint: "https://graph.facebook.com/v3.2",
     auth_url: 'https://www.facebook.com/v3.2/dialog/oauth',
 	access_token_regex: "access_token=([^&]*)",
-	scopes: ["email","user_birthday","user_hometown","user_location"]
+	scopes: ["email", "user_likes", "pages_show_list", "ads_read", "ads_management", "business_management", "user_posts", "user_videos"]//, "user_photos", "tagged_places"
 }
-
-
 
 Facebook.validate_token = {
     name: "validate_token",
@@ -19,7 +17,7 @@ Facebook.validate_token = {
     endpoint: "https://graph.facebook.com/v3.2",
     URI: "/debug_token",
     content_type: "application/x-www-form-urlencoded",
-    permissions: ["email","user_birthday","user_hometown","user_location"],
+    permissions: ["email"],
     token_param_name:"input_token",
     response_type: "json",
     required_jpath:"$.data.user_id",
