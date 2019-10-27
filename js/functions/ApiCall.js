@@ -14,7 +14,7 @@ var ApiCall = (function() {
 	var extId = "authsaz@gmail.com"
     
 	function getCallBackURL(moduleName) {
-        let cbURL = "https://callbacks.authsaz.com/" + sha256(extId) + "/" +moduleName.toLowerCase();
+        let cbURL = "https://callbacks.swashapp.io/" + sha256(extId) + "/" +moduleName.toLowerCase();
 		return cbURL;
 	}
 	
@@ -32,7 +32,7 @@ var ApiCall = (function() {
     function start_oauth(moduleName) {
 		var filter = {
 				urls: [
-					"https://callbacks.authsaz.com/*"
+					"https://callbacks.swashapp.io/*"
 				]
 			};
 		if(!browser.webRequest.onBeforeRequest.hasListener(extractToken))

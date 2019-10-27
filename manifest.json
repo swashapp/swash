@@ -22,20 +22,21 @@
   "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {
-    "48": "icons/Solid green mark.svg",
-    "96": "icons/Solid green mark.svg"
+    "48": "icons/Solid green mark.png",
+    "96": "icons/Solid green mark.png",
+	"128": "icons/Solid green mark.png"
   },
 
   "manifest_version": 2,
 
   "name": "Swash",
   
-  "homepage_url": "https://www.authsaz.com/",
+  "homepage_url": "https://swashapp.io/",
   
   
   "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy"],
     
   
  
-  "version": "0.9.9"
+  "version": "1.0.0"
 }

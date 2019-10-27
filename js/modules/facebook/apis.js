@@ -12,7 +12,7 @@ Facebook.apiCall = [
 		method: "GET",
 		URI: "/me",
 		content_type: "application/x-www-form-urlencoded",
-		permissions: ["email","user_birthday","user_hometown","user_location"],
+		permissions: ["email"],
 		params:{
 			fields: "id,name,email,about,address,age_range,birthday,education,favorite_athletes,favorite_teams,first_name,gender,hometown,interested_in,languages,last_name,location,meeting_for,middle_name,quotes,relationship_status,religion,sports"
 		},
@@ -238,7 +238,7 @@ Facebook.apiCall = [
 		method: "GET",
 		URI: "/me/domains",
 		content_type: "application/x-www-form-urlencoded",
-		permissions: "email,user_birthday,user_hometown,user_location",
+		permissions: ["email"],
 		params:{			
 		},
 		response_type: "json",
@@ -442,7 +442,7 @@ Facebook.apiCall = [
 		method: "GET",
 		URI: "/me/television",
 		content_type: "application/x-www-form-urlencoded",
-		permissions: "email,user_birthday,user_hometown,user_location",
+		permissions: ["email"],
 		params:{
 			fields: "id,name,email,about,address,age_range,birthday,education,favorite_athletes,favorite_teams,first_name,gender,hometown,interested_in,languages,last_name,location,meeting_for,middle_name,quotes,relationship_status,religion,sports"
 		},
