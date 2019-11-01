@@ -5,6 +5,11 @@ var internalFilters = [
     "internal": true
   },
   {
+    "value": "https://*.dropbox.com/*",
+    "type": "wildcard",
+    "internal": true
+  },
+  {
     "value": "https://www.amazon.com/ap/signin*",
     "type": "wildcard",
     "internal": true

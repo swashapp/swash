@@ -12,8 +12,8 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "19": "icons/Solid green mark.svg",
-      "38": "icons/Solid green mark.svg"
+      "19": "icons/green_mark_19.png",
+      "38": "icons/green_mark_38.png"
     },
     "default_title": "Swash",
     "default_popup": "popup/popup.html"
@@ -22,9 +22,9 @@
   "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {
-    "48": "icons/Solid green mark.png",
-    "96": "icons/Solid green mark.png",
-	"128": "icons/Solid green mark.png"
+    "48": "icons/green_mark_48.png",
+    "96": "icons/green_mark_96.png",
+	"128": "icons/green_mark_128.png"
   },
 
   "manifest_version": 2,
@@ -38,5 +38,5 @@
     
   
  
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

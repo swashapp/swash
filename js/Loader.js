@@ -24,6 +24,7 @@ var Loader = (function() {
 				db.configs.delay = 2;
 				communityHelper.createWallet();
 				db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
+				Utils.jsonUpdate(db.configs, ssConfig);
             }
             try{
                 let newFilters = db.filters.filter(function(f, index, arr){
@@ -33,27 +34,23 @@ var Loader = (function() {
                     newFilters.push(f)
                 }
                 db.filters = newFilters;
-				Utils.jsonUpdate(db.configs, ssConfig);
-                allModules.forEach(module=>{            
-					if(!db.modules[module.name])
-                    {
+                allModules.forEach(module=>{
+					if(!db.modules[module.name] || module.version != db.modules[module.name].version) {				
 						db.modules[module.name] = {};
                         module.mId = Utils.uuid();
                         module.mSalt = Utils.uuid();
+						if(module.functions.includes("apiCall"))
+						{
+							module.apiConfig.redirect_url = ApiCall.getCallBackURL(module.name)
+						}
+						
+						Utils.jsonUpdate(db.modules[module.name], module);                
                     }
-                    if(module.functions.includes("apiCall"))
-					{
-						module.apiConfig.redirect_url = ApiCall.getCallBackURL(module.name)
-					}
-					
-                    Utils.jsonUpdate(db.modules[module.name], module);                
                 });
             }
             catch(exp){
                 console.log(exp);
             }
-            //TODO: prefrences: apply previous user configuration
-            // Utils.jsonUpdate(db.modules, db.prefrence);
            return StorageHelper.storeAll(db);
            
         });
@@ -66,9 +63,9 @@ var Loader = (function() {
 		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 			StorageHelper.retrieveFilters().then(filters => {
 					if(filterUtils.filter(tabInfo.url, filters))
-						browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});
+						browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
 					else 
-						browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});
+						browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
 				});		
 			}			
 		})
@@ -80,9 +77,9 @@ var Loader = (function() {
 				StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 					StorageHelper.retrieveFilters().then(filters => {
 							if(filterUtils.filter(tabInfo.url, filters))
-								browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});
+								browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
 							else 
-								browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});
+								browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
 						});		
 					}			
 				})							
@@ -96,14 +93,14 @@ var Loader = (function() {
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.addListener(changeIconOnActivated)
-			browser.browserAction.setIcon({path: "icons/Solid green mark.svg"});			
+			browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});			
 		}
 		else {			
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.removeListener(changeIconOnActivated);
-			browser.browserAction.setIcon({path: "icons/Solid mono mark.svg"});					
+			browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});					
 		}			
 	}
 

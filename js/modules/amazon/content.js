@@ -1,10 +1,10 @@
 console.log("modules/amazon/content.js");
 import {Amazon} from './manifest.js';
-Amazon.content_matches = ["*://*.amazon.com/*"]
+Amazon.content_matches = ["*://*.amazon.com/*", "*://*.amazon.de/*","*://*.amazon.nl/*"]
 Amazon.content = [
 	{
         name: "searchQuery",
-		url_match: "*://www.amazon.com/*",
+		url_match: "*://www.amazon.*/*",
         description: "This item collects Amazon search query and search category",
 		viewGroup: "UX",
         title: "Search Query",
@@ -43,7 +43,7 @@ Amazon.content = [
     },
 	{
         name: "searchSuggestionSelect",
-		url_match: "*://www.amazon.com/*",
+		url_match: "*://www.amazon.*/*",
         description: "This item collects a search suggestion that has been selected by user",
 		viewGroup: "UX",
         title: "Search Suggestion",
@@ -89,7 +89,7 @@ Amazon.content = [
     },
     {
         name: "searchResult",
-		url_match: "*://www.amazon.com/s*",
+		url_match: "*://www.amazon.*/s*",
         description: "This item collects Amazon search results, search category, and corresponding search query",
 		viewGroup: "UX",
         title: "Search Result",
@@ -164,7 +164,7 @@ Amazon.content = [
     },
 	{
         name: "clickSearchResult",
-		url_match: "*://*.amazon.com/s*",
+		url_match: "*://*.amazon.*/s*",
         description: "This item collects information about a search result link that has been clicked by user",
 		viewGroup: "UX",
         title: "clicked search results",
@@ -233,7 +233,7 @@ Amazon.content = [
     },
     {
         name: "selectedItem",
-		url_match: "*://*.amazon.com/*",
+		url_match: "*://*.amazon.*/*",
         description: "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
 		viewGroup: "UX",
         title: "Selected Items",
@@ -292,7 +292,7 @@ Amazon.content = [
     },
     {
         name: "addToCart",
-		url_match: "*://*.amazon.com/*",
+		url_match: "*://*.amazon.*/*",
         description: "This item collects all products in amazon web pages that has been added to the cart by user",
 		viewGroup: "UX",
         title: "Items in cart",
@@ -366,7 +366,7 @@ Amazon.content = [
     {
         name: "addToWishlist",
         description: "This item collects all products in amazon web pages that has been added by user in wish list",
-		url_match: "*://*.amazon.com/*",
+		url_match: "*://*.amazon.*/*",
 		viewGroup: "UX",
         title: "Items in wishlist",
         type: "event",        
@@ -429,7 +429,7 @@ Amazon.content = [
     {
         name: "buyNow",
         description: "This item collects all products in amazon web pages that has been selected by user for buying",
-		url_match: "*://*.amazon.com/*",
+		url_match: "*://*.amazon.*/*",
 		viewGroup: "UX",
         title: "Items for buy",
         type: "event",        
