@@ -15,7 +15,7 @@ var Amazon = (function() {
 			}
 		],
         is_enabled: false,
-        URL: ["https://www.amazon.com/"],
+        URL: ["https://www.amazon.com/", "https://www.amazon.de/", "https://www.amazon.nl/"],
         privacy_level: 2,
         style: 'simple',
         status: "enabled",
