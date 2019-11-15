@@ -37,13 +37,13 @@ var memberManager = (function() {
 	}
 
 	function immediateJoinStrategy() {
-		if (!joined) {
+		/*if (!joined) {
 			communityHelper.join().then(result => {
 				if (result) {
 					joined = true
 				}
 			})
-		}
+		}*/
 	}
 
 	return {

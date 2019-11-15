@@ -1,5 +1,5 @@
 console.log("background-script.js");
-
+import {pageAction} from './pageAction.js';
 import {memberManager} from './memberManager.js';
 import {Loader} from './Loader.js';
 import {DataHandler} from './DataHandler.js';
@@ -13,6 +13,9 @@ import {Content} from './functions/Content.js';
 import {Context} from './functions/Context.js';
 import {Task} from './functions/Task.js';
 import {pushStream} from './push.js';
+
+
+//browser.pageAction.onClicked.addListener(pageAction.handleFilter);
 
 /* ***
 This function will invoke on:
