@@ -11,12 +11,11 @@ var Browsing = (function() {
     function inspectStatusCode(moduleName, data, requestDetails) {
         
     }
-    function inspectReferrer(moduleName, data, requestDetails) {
+    function inspectReferrer(moduleName, data, requestDetails, origin) {
         if(requestDetails.type != "main_frame" || (!requestDetails.originUrl && !requestDetails.initiator))
-            return;
-		requestDetails.originUrl = requestDetails.originUrl || requestDetails.initiator;
+            return;                
         let message = {
-            origin: requestDetails.originUrl,
+            origin: origin,
 			header:{
 				function: "browsing",
 				module: moduleName,
@@ -25,7 +24,7 @@ var Browsing = (function() {
 			data: {
 				out: {
 					url: requestDetails.url,
-					originUrl: requestDetails.originUrl		                                                
+					originUrl: origin		                                                
 				},
 				schems: [
 					{jpath:"$.url",type:"url"},
@@ -216,14 +215,16 @@ var Browsing = (function() {
 	}    
 	
 
-	function hook_webrequest(module,data){
-        callbacks[module.name + "_" + data.name] = function(x){
+	async function hook_webrequest(module,data){
+        callbacks[module.name + "_" + data.name] = async function(x){
             let local_data = data;
             let retval = null;
             if(!local_data.target_listener || local_data.target_listener == "inspectRequest")
                 retval = inspectRequest_patterns(module.name, local_data, x)
-            if(local_data.target_listener == "inspectReferrer")
-                retval = inspectReferrer(module.name, local_data, x)
+            if(local_data.target_listener == "inspectReferrer") {
+                let origin = (await browser.tabs.get(x.tabId)).url;
+                retval = inspectReferrer(module.name, local_data, x, origin)
+            }                
             if(local_data.target_listener == "inspectVisit")
                 retval = inspectVisit(module.name, local_data, x)
             if(retval != null)

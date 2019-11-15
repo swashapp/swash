@@ -21,7 +21,11 @@ var StorageHelper = (function() {
     }
 
     function updateConfigs(info){
-        storeData("configs",info)
+        storeData("configs",info);
+    }
+
+    function storeFilters(filters){
+        return storeData("filters",filters)
     }
 
     function retrieveModules(){
@@ -156,7 +160,8 @@ var StorageHelper = (function() {
 		storeAll,
 		saveModuleSettings,
 		retrieveData,
-		storeData,
+        storeData,
+        storeFilters,
         saveMessage,
 		removeMessage,
         retrieveMessages,

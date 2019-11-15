@@ -9,7 +9,7 @@ import {ApiCall} from './functions/ApiCall.js';
 import {Context} from './functions/Context.js';
 import {Task} from './functions/Task.js';
 import {Utils} from './Utils.js';
-import {filterUtils} from './filterUtils.js';
+import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 var Loader = (function() {
@@ -27,6 +27,7 @@ var Loader = (function() {
 				Utils.jsonUpdate(db.configs, ssConfig);
             }
             try{
+				db.configs.version = ssConfig.version;
                 let newFilters = db.filters.filter(function(f, index, arr){
 								return (!f.internal);
 							});
@@ -60,29 +61,13 @@ var Loader = (function() {
 	function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
 		if(!changeInfo.url || !tabInfo.active)		
 			return;		
-		StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
-			StorageHelper.retrieveFilters().then(filters => {
-					if(filterUtils.filter(tabInfo.url, filters))
-						browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
-					else 
-						browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
-				});		
-			}			
-		})
+		pageAction.loadIcons(tabInfo);
     }
 
 	function changeIconOnActivated(activeInfo) {
 		browser.tabs.get(activeInfo.tabId).then((tabInfo) => {
 			if(tabInfo.url) {
-				StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
-					StorageHelper.retrieveFilters().then(filters => {
-							if(filterUtils.filter(tabInfo.url, filters))
-								browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
-							else 
-								browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
-						});		
-					}			
-				})							
+				pageAction.loadIcons(tabInfo);
 			}
 		})
     }
