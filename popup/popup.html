@@ -37,6 +37,7 @@
         <button id="open_setting" class="button-setting hastooltip"><span class="tooltiptext">Setting</span></button>
         <button id="open_messages" class="button-list hastooltip"><span class="tooltiptext">Data</span></button>
         <button id="open_logs" class="button-help hastooltip"><span class="tooltiptext">Help</span></button>
+        <button id="add_filter" class="button-filter hastooltip"><span class="tooltiptext">Exclude current domain</span></button>
         <div class='switch-container'>
             <input class='switch' type='checkbox' id="streaming"/>
             <div>
@@ -92,6 +93,10 @@
           left: -10px;
         }
 
+        .button-filter .tooltiptext {
+          width: 144px;
+          left: -58px;
+        }
         /* roboto-mono-regular - latin */
         @font-face {
           font-family: 'RobotoMono-Regular';
@@ -237,7 +242,7 @@ text-align: center;
         .button-list {
             background: url(svg/Data_default.svg) no-repeat;
             top: 27px;
-            left: 82px;
+            left: 70px;
         }
         .button-list:hover {
             background: url(svg/Data_hover.svg) no-repeat;
@@ -247,12 +252,32 @@ text-align: center;
         .button-help {
             background: url(svg/question-circle.svg) no-repeat;
             top: 27px;
-            left: 131px;
+            left: 105px;
         }
         .button-help:hover {
             background: url(svg/Help_hover.svg) no-repeat;
             background-size: 20px 20px;
         }
+
+        .button-filter {
+            background: url(svg/filter-default.png) no-repeat;
+            top: 27px;
+            left: 140px;
+            background-size: 18.75px 18.75px !important;
+        }
+        .button-filter.active{
+            background: url(svg/filter-hover.png) no-repeat;
+            top: 27px;
+            left: 140px;
+            background-size: 18.75px 18.75px !important;
+        }
+        .button-filter:hover {            
+            cursor: pointer;
+        }
+		
+		.button-filter:focus, .button-help:focus, .button-list:focus, .button-setting:focus{
+			outline: none;
+		}
 
         .switch-status{
             color: rgb(59, 62, 76);

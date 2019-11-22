@@ -15,7 +15,6 @@ import {Task} from './functions/Task.js';
 import {pushStream} from './push.js';
 
 
-//browser.pageAction.onClicked.addListener(pageAction.handleFilter);
 
 /* ***
 This function will invoke on:
@@ -46,7 +45,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
         pushStream: pushStream,
 		Context: Context,
 		Task: Task,
-		communityHelper: communityHelper
+		communityHelper: communityHelper,
+		pageAction: pageAction
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

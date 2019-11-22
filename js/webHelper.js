@@ -3,6 +3,22 @@ function sendMessage(message) {
 }
 
 var helper = (function () {
+	function handleFilter() {
+		let message = {
+			obj: "pageAction",
+			func: "handleFilter",
+			params: []
+		}
+		return sendMessage(message);
+	}
+	function isCurrentDomainFiltered() {
+		let message = {
+			obj: "pageAction",
+			func: "isCurrentDomainFiltered",
+			params: []
+		}
+		return sendMessage(message);
+	}	
 	function loadFilters() {
 		let message = {
 			obj: "StorageHelper",
@@ -327,7 +343,9 @@ var helper = (function () {
 		getTotalBalance,
 		updatePrivacyLevel,
 		decryptWallet,
-		getVersion
+		getVersion,
+		handleFilter,
+		isCurrentDomainFiltered
 	};
 }());
 

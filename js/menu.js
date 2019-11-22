@@ -1,3 +1,13 @@
+function filterIconStat(filtered) {
+	let target = document.getElementById("add_filter");
+	if(filtered) {
+		target.classList.add("active");
+	}
+	else {
+		target.classList.remove("active");
+	}
+}
+
 function showPageOnTab(url_to_show) {
 	return browser.windows.getAll({
 		populate: true,
@@ -38,6 +48,12 @@ document.getElementById("open_logs").addEventListener('click', function(eventObj
     showPageOnTab(url);
 });
 
+document.getElementById("add_filter").addEventListener('click', function(eventObj) {
+	window.helper.handleFilter().then(res => {
+		filterIconStat(res);		
+	});	
+});
+
 
 document.getElementById("streaming").addEventListener('click', function(eventObj) {
     let is_enabled = document.getElementById("streaming").checked;
@@ -49,6 +65,10 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 	}
 });
 
+
+window.helper.isCurrentDomainFiltered().then(filtered => {
+	filterIconStat(filtered);
+})
 
 window.helper.load().then(db => {
 	window.helper.getTotalBalance().then(balance => {
