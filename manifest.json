@@ -19,16 +19,6 @@
     "default_popup": "popup/popup.html"
   },
  
-  /*"page_action": {
-    "browser_style": false,
-    "default_icon": {
-      "19": "icons/outline_mark_19.png",
-      "38": "icons/outline_mark_38.png"
-    },
-    "default_title": "Exclude this domain",
-    "show_matches": ["<all_urls>"]
-  },*/
-
   "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {

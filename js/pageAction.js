@@ -18,6 +18,11 @@ var pageAction = (function() {
          
     }
 
+    async function isCurrentDomainFiltered() {
+        let tabs = await browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT});
+        let tab = await browser.tabs.get(tabs[0].id);
+        return isDomainFiltered(tab);
+    }
     function loadIcons(tabInfo) {
         StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 			StorageHelper.retrieveFilters().then(filters => {
@@ -27,35 +32,36 @@ var pageAction = (function() {
 						browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
 				});		
 			}			
-        })
-        isDomainFiltered(tabInfo).then(res => {
-            if(res)
-                browser.pageAction.setIcon({tabId: tabInfo.id, path: {"19": "icons/outline_mark_filter_19.png", "38": "icons/outline_mark_filter_38.png"}});                
-            else
-                browser.pageAction.setIcon({tabId: tabInfo.id, path: {"38":"icons/outline_mark_38.png", "19":"icons/outline_mark_19.png"}});
-                
-        })            
+        })              
     }
 
-    function handleFilter(tab) {
-        isDomainFiltered(tab).then(res => {
-            if(res)
+    async function handleFilter() {
+        let tabs = await browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT});
+        let tab = await browser.tabs.get(tabs[0].id);
+        return isDomainFiltered(tab).then(res => {
+            if(res) {
                 removeFilter(tab);
-            else
+                return false;
+            }                
+            else {
                 addFilter(tab);
+                return true;
+            }
+                
         })
     }
 
     function addFilter(tab) {        
-        let domain = new URL(tab.url)
+        let domain = new URL(tab.url)        
+        if(!domain.host || typeof domain.host ==='undefined' || domain.host === '') {
+            return;
+        }
         let f = {
             value: `*://${domain.host}/*`,
             type: 'wildcard',
             internal: false
         };
-        if(!f.value || f.value==='undefined') {
-            return;
-        }
+        
 
         let allow = true;
         StorageHelper.retrieveFilters().then(filter => {
@@ -99,6 +105,7 @@ var pageAction = (function() {
     }
 
     return {
+        isCurrentDomainFiltered,
         loadIcons,
         handleFilter,
         addFilter,
