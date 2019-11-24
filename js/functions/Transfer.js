@@ -5,7 +5,7 @@ import {DataHandler} from '../DataHandler.js';
 
 var Transfer = (function() {
 	var pattern = "https://transfer.swashapp.io/*";
-	const regexp = "https:\/\/transfer\.swashapp\.io\/(.*)"
+	const regexp = "https:\/\/transfer\.swashapp\.io\/(0x[a-fA-F0-9]{40})"
 	
 	function showPageOnTab(url_to_show) {
 		return browser.windows.getAll({

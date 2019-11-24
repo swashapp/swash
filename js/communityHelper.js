@@ -141,12 +141,10 @@ var communityHelper = (function() {
 			let overrides = {
 				gasPrice: ethers.utils.parseUnits('18', 'gwei'),
 			};
-			let resp = await contract.withdrawAllFor(
+			let resp = await contract.withdrawTo(
 				memberAddress,
-				member.withdrawableBlockNumber,
-				amount,
-				member.proof,
-				overrides
+				wallet.address,
+				amount
 			);
 			return resp;
 		}
