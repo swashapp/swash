@@ -7,6 +7,7 @@ import {Browsing} from './functions/Browsing.js';
 import {Content} from './functions/Content.js';
 import {ApiCall} from './functions/ApiCall.js';
 import {Context} from './functions/Context.js';
+import {Transfer} from './functions/Transfer.js';
 import {Task} from './functions/Task.js';
 import {Utils} from './Utils.js';
 import {pageAction} from './pageAction.js';
@@ -100,6 +101,7 @@ var Loader = (function() {
 			ApiCall.load();	
 			Context.load();
 			Task.load();
+			Transfer.load();
 		})	
     }
     
@@ -114,6 +116,7 @@ var Loader = (function() {
 				ApiCall.unload();
 				Context.unload();
 				Task.unload();				
+				Transfer.unload();
 			})		
 		})
     }
@@ -153,6 +156,7 @@ var Loader = (function() {
 				ApiCall.load();
 				Context.load();
 				Task.load();
+				Transfer.load();
 			} 
 			else {
 				init(false);
@@ -161,6 +165,7 @@ var Loader = (function() {
 				ApiCall.unload();								
 				Context.unload();
 				Task.unload();
+				Transfer.unload();
 			}			
 		})		
 	}
@@ -179,6 +184,8 @@ var Loader = (function() {
 			ApiCall.unload();								
 			Context.unload();
 			Task.unload();
+
+			Transfer.unload();
 			if(c.configs.is_enabled) {
 				init(true);
 				Content.load();
@@ -186,6 +193,7 @@ var Loader = (function() {
 				ApiCall.load();
 				Context.load();
 				Task.load();
+				Transfer.load();
 			}					
 		})		
 	}

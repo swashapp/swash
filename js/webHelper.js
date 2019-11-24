@@ -310,6 +310,33 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function loadWallets(){
+		let message = {
+			obj: "StorageHelper",
+			func: "retrieveData",
+			params: ["wallets"]
+		}
+		return sendMessage(message);
+	}
+
+	function saveWallets(data){
+		let message = {
+			obj: "StorageHelper",
+			func: "storeData",
+			params: ["wallets", data]
+		}
+		return sendMessage(message);
+	}
+
+	function withdrawFor(address, amount) {
+		let message = {
+			obj: "communityHelper",
+			func: "withdrawEarningsForAmount",
+			params: [address, amount]
+		}
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -345,7 +372,9 @@ var helper = (function () {
 		decryptWallet,
 		getVersion,
 		handleFilter,
-		isCurrentDomainFiltered
+		isCurrentDomainFiltered,
+		loadWallets,
+		saveWallets
 	};
 }());
 
