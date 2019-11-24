@@ -19,7 +19,7 @@ var Loader = (function() {
     async function install(allModules){		
         return StorageHelper.retrieveAll().then(async (db) => {
             if (db == null || db == undefined || Object.keys(db).length==0){
-                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
+                db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}};                
                 db.configs.Id = Utils.uuid();
                 db.configs.salt = Utils.uuid();
 				db.configs.delay = 2;

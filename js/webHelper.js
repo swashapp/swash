@@ -328,10 +328,10 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function withdrawFor(address, amount) {
+	function withdrawTo(address, amount) {
 		let message = {
 			obj: "communityHelper",
-			func: "withdrawEarningsForAmount",
+			func: "withdrawTo",
 			params: [address, amount]
 		}
 		return sendMessage(message);
@@ -374,7 +374,8 @@ var helper = (function () {
 		handleFilter,
 		isCurrentDomainFiltered,
 		loadWallets,
-		saveWallets
+		saveWallets,
+		withdrawTo
 	};
 }());
 

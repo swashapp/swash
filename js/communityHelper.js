@@ -123,7 +123,7 @@ var communityHelper = (function() {
 		return withdrawEarningsFor(wallet.address);
 	}
 
-	async function withdrawEarningsForAmount(memberAddress, amount) {
+	async function withdrawTo(memberAddress, amount) {
 		// TODO check with ebi
 		if (!wallet || !provider) return;
 		if (!client) clientConnect();
@@ -189,6 +189,7 @@ var communityHelper = (function() {
 		part,
 		withdrawEarnings,
 		withdrawEarningsFor,
+		withdrawTo,
 		getWalletInfo,
 		getBalance,
 		decryptWallet,
