@@ -1,5 +1,5 @@
 dashboard/
 chrome-artifacts/
-web-ext-artifacts/
+#web-ext-artifacts/
 js/streamConfig.js
 
