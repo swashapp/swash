@@ -1,6 +1,6 @@
 console.log("modules/youtube/manifest.js");
-import {AllModules} from '../../modules.js';
-var Youtube = (function() {
+import {allModules} from '../../modules.js';
+var youtube = (function() {
     'use strict';
     
     return {
@@ -27,11 +27,9 @@ var Youtube = (function() {
         version: 1,
         changelog: [],		
 		type: "builtin",
-        streamId: "2gItuFWsQvyEDpuSdaE9Bw",
-        apiKey: "ccXn0lptQNmA6Htu2wNNrQDmEnlphjTq20fxvUV38gLg",
 		is_verified: false		
 		
     };
 }());
-AllModules.push(Youtube);
-export {Youtube};
+allModules.push(youtube);
+export {youtube};

@@ -1,11 +1,12 @@
-console.log("DataHandler.js");
+console.log("dataHandler.js");
 import {filterUtils} from './filterUtils.js';
 import {privacyUtils} from './privacyUtils.js';
-import {StorageHelper} from './StorageHelper.js';
-import {DatabaseHelper} from './DatabaseHelper.js';
+import {storageHelper} from './storageHelper.js';
+import {databaseHelper} from './databaseHelper.js';
 import {stream} from './stream.js';
+import {streamConfig} from './streamConfig.js'
 
-var DataHandler = (function() {
+var dataHandler = (function() {
     'use strict';
     var streams = {}
 	function getUserAgent()
@@ -47,26 +48,26 @@ var DataHandler = (function() {
     }
     
 	function cancelSending(msgId) {
-		DatabaseHelper.removeMessage(msgId);
+		databaseHelper.removeMessage(msgId);
 		//clearTimeout(msgId);
-		//StorageHelper.removeMessage(msgId);	
+		//storageHelper.removeMessage(msgId);	
 	}
 	
 	async function sendDelayedMessages() {
-		let confs = await StorageHelper.retrieveConfigs();
+		let confs = await storageHelper.retrieveConfigs();
 		let time = Number((new Date()).getTime()) - confs.delay*60000;
-		let rows = await DatabaseHelper.getReadyMessages(time);
+		let rows = await databaseHelper.getReadyMessages(time);
 		for(let row of rows) {
 			let message = row.message;
 			delete message.origin;
 			streams[message.header.module].produceNewEvent(message);
 		}
-		DatabaseHelper.removeReadyMessages(time);
+		databaseHelper.removeReadyMessages(time);
 	}
 	
 	async function sendData(message, delay) {
 		if(delay) {
-			DatabaseHelper.insertMessage(message);			
+			databaseHelper.insertMessage(message);			
 		}
 		else {
 			delete message.origin;
@@ -77,7 +78,7 @@ var DataHandler = (function() {
 	
     async function prepareAndSend(message, module, delay, tabId) {
         if(!streams[message.header.module])
-            streams[message.header.module] = stream(module.streamId, module.apiKey);
+            streams[message.header.module] = stream(streamConfig[module.name].streamId, streamConfig[module.name].apiKey);
 		if(module.context){
 			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
 			if(bct_attrs.length > 0) {
@@ -130,7 +131,7 @@ var DataHandler = (function() {
     async function handle(message, tabId) {        
 		if(!message.origin)
 			message.origin = "undetermined";
-		let db = await StorageHelper.retrieveAll();
+		let db = await storageHelper.retrieveAll();
         let filters = db.filters;
         if(filterUtils.filter(message.origin, filters))
             return;
@@ -176,4 +177,4 @@ var DataHandler = (function() {
         enforcePolicy
     };
 }());
-export {DataHandler};
+export {dataHandler};

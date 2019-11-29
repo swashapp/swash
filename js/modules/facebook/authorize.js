@@ -1,7 +1,7 @@
 console.log("modules/facebook/authorize.js");
-import {Facebook} from './manifest.js';
-import {ApiCall} from '../../functions/ApiCall.js';
-Facebook.apiConfig = {
+import {facebook} from './manifest.js';
+import {apiCall} from '../../functions/ApiCall.js';
+facebook.apiConfig = {
     redirect_url: "",
     client_id: "355488065290314",
     api_endpoint: "https://graph.facebook.com/v3.2",
@@ -10,7 +10,7 @@ Facebook.apiConfig = {
 	scopes: ["email", "user_likes", "pages_show_list", "ads_read", "ads_management", "business_management", "user_posts", "user_videos"]//, "user_photos", "tagged_places"
 }
 
-Facebook.validate_token = {
+facebook.validate_token = {
     name: "validate_token",
     description: "",
     method: "GET",

@@ -73,7 +73,7 @@ var contextScript = (function () {
 	
 if(typeof window.surfStreamrContextMessage === 'undefined') {
 	window.surfStreamrContextMessage = {
-		obj: "Context",
+		obj: "context",
 		func: "injectAttrCollectors",
 		params: [window.location.href]
 	}

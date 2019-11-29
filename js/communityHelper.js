@@ -7,6 +7,7 @@ var communityHelper = (function() {
 
 	function createWallet() {		
 		wallet = ethers.Wallet.createRandom();
+		return wallet;
 	}
 
 	async function getEncryptedWallet(password) {

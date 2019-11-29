@@ -92,7 +92,7 @@ var taskScript = (function () {
 
 	function start_callback(task, moduleName, event) {
 		let message = {
-			obj: "Task",
+			obj: "task",
 			func: "manageTask",
 			params: [{
 						moduleName: moduleName,
@@ -136,7 +136,7 @@ var taskScript = (function () {
 
 		
 		let message = {
-			obj: "Task",
+			obj: "task",
 			func: "manageTask",
 			params: [{
 						url: window.location.href,                
@@ -208,7 +208,7 @@ var taskScript = (function () {
 
 if(typeof window.surfStreamrTaskMessage === 'undefined') {
 	window.surfStreamrTaskMessage = {
-		obj: "Task",
+		obj: "task",
 		func: "injectTasks",
 		params: [window.location.href]
 	}

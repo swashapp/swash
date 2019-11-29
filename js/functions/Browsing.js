@@ -1,12 +1,16 @@
-console.log("Browsing.js");
-import {StorageHelper} from '../StorageHelper.js';
-import {Utils} from '../Utils.js';
-import {DataHandler} from '../DataHandler.js';
+console.log("browsing.js");
+import {storageHelper} from '../storageHelper.js';
+import {utils} from '../utils.js';
+import {dataHandler} from '../dataHandler.js';
 
-var Browsing = (function() {
+var browsing = (function() {
     'use strict';
     
     var callbacks = {};
+	
+	function initModule(module){
+		
+	}
     
     function inspectStatusCode(moduleName, data, requestDetails) {
         
@@ -80,7 +84,7 @@ var Browsing = (function() {
             }
         }
         if(patt.pattern_type === "wildcard"){
-            var res = Utils.wildcard(requestDetails.url, patt.url_pattern);
+            var res = utils.wildcard(requestDetails.url, patt.url_pattern);
             if(res != null) 
                 failed = false;
         }
@@ -140,30 +144,31 @@ var Browsing = (function() {
     
 
     function load(){
-        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
-            if(modules[module].is_enabled)
-                load_module(modules[module]);
+        storageHelper.retrieveModules().then(modules => {for(var module in modules) {            
+                loadModule(modules[module]);
         }});
     }
 	
 	function unload(){        
-        StorageHelper.retrieveModules().then(modules => {for(var module in modules){
-            unload_module(modules[module]);
+        storageHelper.retrieveModules().then(modules => {for(var module in modules){
+            unloadModule(modules[module]);
         }});
     }
 	
-	function load_module(module){
-       if(module.functions.includes("browsing")){
-            module.browsing.forEach(data=>{
-                if(data.is_enabled)
-                {
-					load_collector(module, data)
-                }                
-            });
-        }
+	function loadModule(module){
+		if(module.is_enabled){
+			if(module.functions.includes("browsing")){
+				module.browsing.forEach(data=>{
+					if(data.is_enabled)
+					{
+						load_collector(module, data)
+					}                
+				});
+			}			
+		}
     }
 
-    function unload_module(module){
+    function unloadModule(module){
         if(module.functions.includes("browsing")){
             module.browsing.forEach(data=>{    
 				if(callbacks[module.name+ "_" + data.name]) {
@@ -228,7 +233,7 @@ var Browsing = (function() {
             if(local_data.target_listener == "inspectVisit")
                 retval = inspectVisit(module.name, local_data, x)
             if(retval != null)
-                DataHandler.handle(retval, x.tabId);
+                dataHandler.handle(retval, x.tabId);
         };
         if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
             // default for filter and extraInfo
@@ -240,7 +245,7 @@ var Browsing = (function() {
     
     function hook_bookmarks(module,data){
         callbacks[module.name + "_" + data.name] = function(id, bookmark){
-            DataHandler.handle({
+            dataHandler.handle({
                 origin: bookmark.url,
                 header:{
                     function: "browsing",
@@ -267,7 +272,7 @@ var Browsing = (function() {
 
         callbacks[module.name + "_" + data.name + "_change"] = function(id, changeInfo){
 			changeInfo.id = id;
-            DataHandler.handle({
+            dataHandler.handle({
                 origin: changeInfo.url,
                 header:{
                     function: "browsing",
@@ -307,7 +312,7 @@ var Browsing = (function() {
                 }
             }
             if(matched) {
-                DataHandler.handle({
+                dataHandler.handle({
                     origin: details.url,
                     header:{
                         function: "browsing",
@@ -334,10 +339,11 @@ var Browsing = (function() {
     }
     
     return {
-        load: load,
-        unload: unload,
-        unload_module: unload_module,
-        load_module: load_module
+		initModule,
+        load,
+        unload,
+        unloadModule,
+        loadModule
     };
 }());
-export {Browsing};
+export {browsing};

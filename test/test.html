@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mocha Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+	<script src="../lib/ethers.js"></script>
+    <script src="../lib/jsonpath.js"></script>
+    <script src="../lib/jsonpointer.js"></script>
+	<script src="../lib/streamr-client.js"></script>
+	<script src="../lib/sha256.js"></script>
+    <script src="../lib/jsstore.js"></script>
+	<script src="../lib/jsstore.worker.js"></script>
+	<script src="../lib/browser-polyfill.js"></script>
+
+	
+    <script src="js/lib/chai.js"></script>
+    <script src="js/lib/mocha.js"></script>
+	<script src="js/lib/expect.js"></script>
+
+	<script src="js/lib/mocha-setup.js" class="mocha-init"></script>  
+	<script type="module" src="js/unit/utils.test.js"></script>
+	<script type="module" src="js/unit/filterUtils.test.js"></script>
+    <script type="module" src="js/unit/privacyUtils.test.js"></script>
+	<script type="module" src="js/unit/communityHelper.test.js"></script>
+	<script type="module" src="js/unit/databaseHelper.test.js"></script>
+	<script type="module" src="js/unit/storageHelper.test.js"></script>
+    <script src="js/lib/mocha-run.js" class="mocha-exec"></script>
+  </body>
+</html>

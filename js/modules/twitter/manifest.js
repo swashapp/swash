@@ -1,12 +1,12 @@
 console.log("modules/twitter/manifest.js");
-import {AllModules} from '../../modules.js';
-var Twitter = (function() {
+import {allModules} from '../../modules.js';
+var twitter = (function() {
     'use strict';
     
     return {
         name: "Twitter",
         description: "This module looks through all activities of a user on Twitter and captures those activities that the user has permitted",
-        URL: ["https://www.authsaz.com/v3"],
+        URL: ["https://twitter.com/v3"],
         functions: ["browsing"],
 		viewGroups: [
 			{
@@ -22,11 +22,9 @@ var Twitter = (function() {
         version: 1,
         changelog: [],		
 		type: "builtin",
-        streamId: "a9rsTWJvRe-0U2v1Lrwo-A",
-        apiKey: "lgGPZYrAQW6GWLLufuzlkgrdRnnVopTUCdkeV3hYcu9w",
 		is_verified: false		
 
     };
 }());
-AllModules.push(Twitter);
-export {Twitter};
+allModules.push(twitter);
+export {twitter};

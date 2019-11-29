@@ -1,9 +1,9 @@
 console.log("modules/search/browsing.js");
-import {Search} from './manifest.js';
-Search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*://www.google.com/search?*", 
+import {search} from './manifest.js';
+search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*://www.google.com/search?*", 
         "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*"]};
-Search.browsing_extraInfoSpec= [];
-Search.browsing = [
+search.browsing_extraInfoSpec= [];
+search.browsing = [
     {
         name: "bingQuery",
         title: "Search Query",

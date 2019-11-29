@@ -1,5 +1,5 @@
-console.log("Utils.js");
-var Utils = (function() {
+console.log("utils.js");
+var utils = (function() {
     'use strict';
     
     function notify(message) {
@@ -104,13 +104,13 @@ var Utils = (function() {
 	}
 	    
     return {
-        jsonUpdate: jsonUpdate,
-        wildcard: wildcard,
-        notify: notify,
-        uuid: uuid,
-		serialize: serialize,
-        isEmpty: isEmpty,
-        arrayRemove: arrayRemove
+        jsonUpdate,
+        wildcard,
+        notify,
+        uuid,
+		serialize,
+        isEmpty,
+        arrayRemove
     };
 }());
-export {Utils};
+export {utils};

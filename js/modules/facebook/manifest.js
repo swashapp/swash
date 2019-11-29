@@ -1,6 +1,6 @@
 console.log("modules/facebook/manifest.js");
-import {AllModules} from '../../modules.js';
-var Facebook = (function() {
+import {allModules} from '../../modules.js';
+var facebook = (function() {
     'use strict';
     
     return {
@@ -26,10 +26,8 @@ var Facebook = (function() {
         version: 1,
         changelog: [],		
 		type: "builtin",
-        streamId: "QNd64f8uTX-zZNlz8gXqZw",
-        apiKey: "WWRhZpD5SYW3lZd5yUwidgpYcmKfrKRfKWRDOWbj70Mg",
 		is_verified: false
     };
 }());
-AllModules.push(Facebook);
-export {Facebook};
+allModules.push(facebook);
+export {facebook};

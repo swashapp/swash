@@ -1,17 +1,22 @@
-import {Utils} from '../Utils.js';
-import {AllModules} from '../modules.js';
-import {DataHandler} from '../DataHandler.js';
-import {StorageHelper} from '../StorageHelper.js';
+import {utils} from '../utils.js';
+import {allModules} from '../modules.js';
+import {dataHandler} from '../dataHandler.js';
+import {storageHelper} from '../storageHelper.js';
 
 // TODO: handle ETAG
 // TODO: handle batch requests
-var ApiCall = (function() {
+var apiCall = (function() {
 	
     const API_CALL_INTERVAL = 60*60*1000;
 	const DELAY_BETWEEN_CALLS = 60*1000;
 		
     var callbacks = [];
 	var extId = "authsaz@gmail.com"
+	
+	function initModule(module){
+		if(module.functions.includes("apiCall"))
+			module.apiConfig.redirect_url = getCallBackURL(module.name)
+	}
     
 	function getCallBackURL(moduleName) {
         let cbURL = "https://callbacks.swashapp.io/" + sha256(extId) + "/" +moduleName.toLowerCase();
@@ -19,7 +24,7 @@ var ApiCall = (function() {
 	}
 	
 	async function isConnected(moduleName) {
-		let modules = await StorageHelper.retrieveModules();
+		let modules = await storageHelper.retrieveModules();
 		for(var moduleN in modules) {
 			var module = modules[moduleN]
 			if(module.name == moduleName){
@@ -37,7 +42,7 @@ var ApiCall = (function() {
 			};
 		if(!browser.webRequest.onBeforeRequest.hasListener(extractToken))
 			browser.webRequest.onBeforeRequest.addListener(extractToken, filter);			
-        StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
+        storageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
@@ -50,7 +55,7 @@ var ApiCall = (function() {
     }
     
     function extractToken(details) {
-		StorageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
+		storageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
 			if(module.functions.includes("apiCall")){
 				//let urlObj = new URL(details.url);
@@ -70,11 +75,11 @@ var ApiCall = (function() {
         var data = {};
 		data[module.name] = {};
         data[module.name].access_token = token;
-        StorageHelper.updateModules(data);
+        storageHelper.updateModules(data);
     }
     
     function get_access_token(moduleName){
-        return StorageHelper.retrieveModules().then(mds => {
+        return storageHelper.retrieveModules().then(mds => {
             for(var m in mds){
                 if(mds[m].name == moduleName){
                     if(validateToken(mds[m]))
@@ -96,14 +101,14 @@ var ApiCall = (function() {
     }
     
     function saveEtags(module_name, eTags){
-        StorageHelper.retrieveModules().then(modules=>{        
+        storageHelper.retrieveModules().then(modules=>{        
             var data = {};
             data[module_name] = {};
             data[module_name].apiCall = modules[module_name].apiCall            
             for(let aapi of data[module_name].apiCall){
                 aapi.etag = eTags[aapi.name]
             }
-            StorageHelper.updateModules(data);
+            storageHelper.updateModules(data);
             // TODO: review when concorent saveEtags called, what will done!
         });
     }
@@ -169,7 +174,7 @@ var ApiCall = (function() {
 		let data = "";
 		switch (apiInfo.content_type) {
 			case "application/x-www-form-urlencoded":						
-				data = Utils.serialize(apiInfo.params);
+				data = utils.serialize(apiInfo.params);
 				break;
 			case "application/json":
 				data = JSON.stringify(apiInfo.params);			
@@ -183,7 +188,7 @@ var ApiCall = (function() {
 					data = formData;
 				break;
 			default:
-				data = Utils.serialize(apiInfo.params);
+				data = utils.serialize(apiInfo.params);
 
 		}
 
@@ -200,24 +205,23 @@ var ApiCall = (function() {
 	}
     
     function unload(){        
-        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
+        storageHelper.retrieveModules().then(modules => {for(var module in modules) {
 			if(modules[module].functions.includes("apiCall")){
-					unload_module(modules[module]);
+					unloadModule(modules[module]);
 			}
         }});
     }
 
     function load(){
-        StorageHelper.retrieveModules().then(modules => {for(var module in modules) {
+        storageHelper.retrieveModules().then(modules => {for(var module in modules) {
 			if(modules[module].functions.includes("apiCall")){
-				if(modules[module].is_enabled)
-					load_module(modules[module]);
+					loadModule(modules[module]);
 			}
         }});
     }
     
     function send_message(module,data, msg){
-        DataHandler.handle({
+        dataHandler.handle({
                     origin: module.apiConfig.api_endpoint + data.URI,
                     header:{
                         function: "apiCall",
@@ -243,7 +247,7 @@ var ApiCall = (function() {
                 resp.module.apiCall.forEach((data)=>{                    
                     if(data.is_enabled){
                         var s = setTimeout(function(){
-                                callbacks[moduleName].apiCalls = Utils.arrayRemove(callbacks[moduleName].apiCalls, s);
+                                callbacks[moduleName].apiCalls = utils.arrayRemove(callbacks[moduleName].apiCalls, s);
                                 apiCall(resp.module.apiConfig.api_endpoint, data, resp.token)
                                     .then(q=> {
                                         let et = getEtag(q);
@@ -258,12 +262,12 @@ var ApiCall = (function() {
                 });
             } 
         }).then(a=>{
-            if(!Utils.isEmpty(etags))
+            if(!utils.isEmpty(etags))
                 saveEtags(resp.module.name, etags)
         });
     }
     
-    function unload_module(module){
+    function unloadModule(module){
 		if(module.functions.includes("apiCall")) {
 			if(callbacks[module.name]) {
 				clearInterval(callbacks[module.name].interval);
@@ -276,25 +280,28 @@ var ApiCall = (function() {
 		}
 	}
 
-    function load_module(module){
-		unload_module(module);
-		if(module.functions.includes("apiCall")) {			
-			let crURL = getCallBackURL(module.name);			
-			callbacks[module.name] = {interval: -1, apiCalls: []};
-			callbacks[module.name].interval = setInterval(function(x){
-				fetch_apis(module.name);
-			},API_CALL_INTERVAL);
+    function loadModule(module){
+		unloadModule(module);
+		if(module.is_enabled){
+			if(module.functions.includes("apiCall")) {			
+				let crURL = getCallBackURL(module.name);			
+				callbacks[module.name] = {interval: -1, apiCalls: []};
+				callbacks[module.name].interval = setInterval(function(x){
+					fetch_apis(module.name);
+				},API_CALL_INTERVAL);
+			}			
 		}
     }
     
     return {
-        load: load,
-        unload: unload,
-        unload_module: unload_module,
-        load_module: load_module,
-		start_oauth: start_oauth,
-		getCallBackURL: getCallBackURL,
-		isConnected: isConnected
+		initModule,
+        load,
+        unload,
+        unloadModule,
+        loadModule,
+		start_oauth,
+		getCallBackURL,
+		isConnected
     };
 }());
-export {ApiCall};
+export {apiCall};

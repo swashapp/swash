@@ -1,17 +1,17 @@
-console.log("background-script.js");
+console.log("backgroundScript.js");
 import {pageAction} from './pageAction.js';
 import {memberManager} from './memberManager.js';
-import {Loader} from './Loader.js';
-import {DataHandler} from './DataHandler.js';
-import {StorageHelper} from './StorageHelper.js';
-import {DatabaseHelper} from './DatabaseHelper.js';
+import {loader} from './loader.js';
+import {dataHandler} from './dataHandler.js';
+import {storageHelper} from './storageHelper.js';
+import {databaseHelper} from './databaseHelper.js';
 import {privacyUtils} from './privacyUtils.js';
 import {communityHelper} from './communityHelper.js';
-import {AllModules} from './modules.js';
-import {ApiCall} from './functions/ApiCall.js';
-import {Content} from './functions/Content.js';
-import {Context} from './functions/Context.js';
-import {Task} from './functions/Task.js';
+import {allModules} from './modules.js';
+import {apiCall} from './functions/apiCall.js';
+import {content} from './functions/content.js';
+import {context} from './functions/context.js';
+import {task} from './functions/task.js';
 import {pushStream} from './push.js';
 
 
@@ -24,7 +24,7 @@ This function will invoke on:
 */
 browser.runtime.onInstalled.addListener((info) => {
 	if(info.reason == "update" || info.reason == "install")
-		Loader.install(AllModules).then(() => {Loader.reload()});
+		loader.install(allModules).then(() => {loader.reload()});
 });
 
 /* ***
@@ -35,16 +35,16 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
     if(sender.tab)
 		message.params.push(sender.tab.id);
 	let objList = {
-		StorageHelper: StorageHelper,
-		DatabaseHelper: DatabaseHelper,
+		storageHelper: storageHelper,
+		databaseHelper: databaseHelper,
 		privacyUtils: privacyUtils,
-		ApiCall: ApiCall,
-		Loader: Loader,
-		Content: Content,
-        DataHandler: DataHandler,
+		apiCall: apiCall,
+		loader: loader,
+		content: content,
+        dataHandler: dataHandler,
         pushStream: pushStream,
-		Context: Context,
-		Task: Task,
+		context: context,
+		task: task,
 		communityHelper: communityHelper,
 		pageAction: pageAction
 	}
@@ -55,15 +55,15 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 If UI has changed a config in data storage, a reload should be performed.
 UI will modify data storage directly.
 */
-//browser.storage.onChanged.addListener(Loader.reload);
+//browser.storage.onChanged.addListener(loader.reload);
 
 /* ***
 After a successful load of add-on,
 the main loop will start.
 */
-StorageHelper.retrieveConfigs().then(confs => {
+storageHelper.retrieveConfigs().then(confs => {
 	if (confs) {
-		Loader.reload();
+		loader.reload();
 	}
 })
 let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);

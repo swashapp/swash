@@ -66,17 +66,19 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 });
 
 
-window.helper.isCurrentDomainFiltered().then(filtered => {
-	filterIconStat(filtered);
-})
-
 window.helper.load().then(db => {
+    window.helper.getVersion().then(version => {
+		updateVersion(version);
+	})
+
+    document.getElementById("streaming").checked = db.configs.is_enabled;            
+	
 	window.helper.getTotalBalance().then(balance => {
 		balance = (balance === '' || balance === 'undefined' || typeof(balance) ==='undefined') ? '0.00':balance;
 		updateBalance(purgeNumber(balance));
 	})
-    window.helper.getVersion().then(version => {
-		updateVersion(version);
-	})
-    document.getElementById("streaming").checked = db.configs.is_enabled;            
+})
+
+window.helper.isCurrentDomainFiltered().then(filtered => {
+	filterIconStat(filtered);
 })

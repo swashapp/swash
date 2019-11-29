@@ -1,29 +1,32 @@
-console.log("Task.js");
-import {StorageHelper} from '../StorageHelper.js';
-import {Utils} from '../Utils.js';
-import {DataHandler} from '../DataHandler.js';
+console.log("task.js");
+import {storageHelper} from '../storageHelper.js';
+import {utils} from '../utils.js';
+import {dataHandler} from '../dataHandler.js';
 
 
-var Task = (function() {
+var task = (function() {
     'use strict';
     
 	var cfilter = {urls: [], properties: ["status"]};
     
+	function initModule(module){
+		
+	}
+	
     function unload(){        
 		if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
 			browser.tabs.onUpdated.removeListener(registerTaskScripts);
     }
 
     function load(){        
-        StorageHelper.retrieveModules().then(modules => {
-            for (var module in modules) {
-				if(modules[module].is_enabled)
-					load_module(modules[module]);
+        storageHelper.retrieveModules().then(modules => {
+            for (var module in modules) {				
+					loadModule(modules[module]);
             }        
         });
     }
     
-    function unload_module(module){
+    function unloadModule(module){
 		function arrayRemove(arr, value) {
 		   return arr.filter(function(ele){
 			   return ele != value;
@@ -40,24 +43,25 @@ var Task = (function() {
 		}
     }
 
-    function load_module(module){
-		if(module.functions.includes("task")){
-			for(var item of module.task_matches) {
-				cfilter.urls.push(item);
-			}
-	        if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
-				browser.tabs.onUpdated.removeListener(registerTaskScripts);  
-            if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerTaskScripts);            
+    function loadModule(module){
+		if(module.is_enabled){
+			if(module.functions.includes("task")){
+				for(var item of module.task_matches) {
+					cfilter.urls.push(item);
+				}
+				if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
+					browser.tabs.onUpdated.removeListener(registerTaskScripts);  
+				if(cfilter.urls.length > 0) 			
+					browser.tabs.onUpdated.addListener(registerTaskScripts);            
+			}			
 		}
-
     }
 	
 
 	function registerTaskScripts(tabId, changeInfo, tabInfo) {
 		let injectScript = false;
 		for(let filter of cfilter.urls) {
-			if(Utils.wildcard(tabInfo.url, filter)) {
+			if(utils.wildcard(tabInfo.url, filter)) {
 				injectScript = true;
 				break;
 			}
@@ -79,14 +83,14 @@ var Task = (function() {
 
 	function createTask(info) {
 		info.startTime = Date();
-		StorageHelper.createTask(info);
+		storageHelper.createTask(info);
 	}
 	
 	async function sendTaskResult(info) {
-		let task = await StorageHelper.endTask(info);
+		let task = await storageHelper.endTask(info);
 		task.endTime = Date();
 		task.success = info.success;
-		DataHandler.handle({
+		dataHandler.handle({
 			origin: info.url,
 			header:{
 				function: "Task",
@@ -116,16 +120,16 @@ var Task = (function() {
 	}
 	
 	async function injectTasks(url) {
-        var modules = await StorageHelper.retrieveModules();
+        var modules = await storageHelper.retrieveModules();
 		for (var module in modules) {
 			if(modules[module].functions.includes("task")){			
 					if(modules[module].is_enabled)
 						for(var item of modules[module].task_matches) {
-							if(Utils.wildcard(url, item)) {
+							if(utils.wildcard(url, item)) {
 								let tasks = modules[module].task.filter(function(cnt, index, arr){
 									return cnt.is_enabled;
 								});
-                                let startedTasks = await StorageHelper.loadAllModuleTaskIds( modules[module].name);
+                                let startedTasks = await storageHelper.loadAllModuleTaskIds( modules[module].name);
 								return {moduleName: modules[module].name, tasks: tasks, startedTasks: startedTasks};
 							}							
 				}
@@ -134,12 +138,13 @@ var Task = (function() {
 		return;	
 	}
     return {
-        load: load,
-        unload: unload,
-        unload_module: unload_module,
-        load_module: load_module,
+		initModule,
+        load,
+        unload,
+        unloadModule,
+        loadModule,
 		injectTasks: injectTasks,
 		manageTask: manageTask
     };
 }());
-export {Task};
+export {task};

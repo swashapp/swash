@@ -1,8 +1,8 @@
 console.log("modules/facebook/browsing.js");
-import {Facebook} from './manifest.js';
-Facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
-Facebook.browsing_extraInfoSpec= [];
-Facebook.browsing = [
+import {facebook} from './manifest.js';
+facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
+facebook.browsing_extraInfoSpec= [];
+facebook.browsing = [
     {
         name: "Search",
         title: "Facebook Search",

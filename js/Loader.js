@@ -1,30 +1,26 @@
-console.log("Loader.js");
-import {StorageHelper} from './StorageHelper.js';
-import {DatabaseHelper} from './DatabaseHelper.js';
+console.log("loader.js");
+import {storageHelper} from './storageHelper.js';
+import {databaseHelper} from './databaseHelper.js';
 import {communityHelper} from './communityHelper.js';
-import {DataHandler} from './DataHandler.js';
-import {Browsing} from './functions/Browsing.js';
-import {Content} from './functions/Content.js';
-import {ApiCall} from './functions/ApiCall.js';
-import {Context} from './functions/Context.js';
-import {Task} from './functions/Task.js';
-import {Utils} from './Utils.js';
+import {dataHandler} from './dataHandler.js';
+import {utils} from './utils.js';
+import {functions} from './functions.js';
 import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
-var Loader = (function() {
+var loader = (function() {
     'use strict';
     var dbHelperInterval;
     async function install(allModules){		
-        return StorageHelper.retrieveAll().then(async (db) => {
+        return storageHelper.retrieveAll().then(async (db) => {
             if (db == null || db == undefined || Object.keys(db).length==0){
                 db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
-                db.configs.Id = Utils.uuid();
-                db.configs.salt = Utils.uuid();
+                db.configs.Id = utils.uuid();
+                db.configs.salt = utils.uuid();
 				db.configs.delay = 2;
 				communityHelper.createWallet();
 				db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
-				Utils.jsonUpdate(db.configs, ssConfig);
+				utils.jsonUpdate(db.configs, ssConfig);
             }
             try{
 				db.configs.version = ssConfig.version;
@@ -35,24 +31,22 @@ var Loader = (function() {
                     newFilters.push(f)
                 }
                 db.filters = newFilters;
-                allModules.forEach(module=>{
-					if(!db.modules[module.name] || module.version != db.modules[module.name].version) {				
+				for(let module of allModules){
+					if(!db.modules[module.name] || module.version == db.modules[module.name].version) {				
 						db.modules[module.name] = {};
-                        module.mId = Utils.uuid();
-                        module.mSalt = Utils.uuid();
-						if(module.functions.includes("apiCall"))
-						{
-							module.apiConfig.redirect_url = ApiCall.getCallBackURL(module.name)
+                        module.mId = utils.uuid();
+                        module.mSalt = utils.uuid();
+						for(let func of functions){
+							await func.initModule(module);
 						}
-						
-						Utils.jsonUpdate(db.modules[module.name], module);                
-                    }
-                });
+						utils.jsonUpdate(db.modules[module.name], module);                
+                    }					
+				}                
             }
             catch(exp){
                 console.log(exp);
             }
-           return StorageHelper.storeAll(db);
+           return storageHelper.storeAll(db);
            
         });
         
@@ -88,33 +82,45 @@ var Loader = (function() {
 			browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});					
 		}			
 	}
-
 	
-    function start(){				
-		browser.storage.local.get("configs").then(c => {
-			c.configs.is_enabled = true;
-			browser.storage.local.set(c);
+	function loadFunctions() {
+		for(let func of functions){
+			func.load();
+		}
+	}
+	
+	function unloadFunctions() {
+		for(let func of functions){
+			func.unload();
+		}
+	}
+	
+	function functionsLoadModule(module){
+		for(let func of functions){
+			func.loadModule(module);
+		}
+	}
+	
+	function functionsUnLoadModule(module){
+		for(let func of functions){
+			func.unloadModule(module);
+		}
+	}
+	
+    function start(){
+		let config = {is_enabled: true}
+		storageHelper.updateConfigs(config).then(() => {
 			init(true);
-			Content.load();
-			Browsing.load();
-			ApiCall.load();	
-			Context.load();
-			Task.load();
+			loadFunctions();
 		})	
     }
     
 
     function stop(){		
-		browser.storage.local.get("configs").then(c => {
-			c.configs.is_enabled = false;
-			browser.storage.local.set(c).then(() => {
-				init(false);
-				Content.unload();
-				Browsing.unload();
-				ApiCall.unload();
-				Context.unload();
-				Task.unload();				
-			})		
+		let config = {is_enabled: false};
+		storageHelper.updateConfigs(config).then(() => {
+			init(false);
+			unloadFunctions();				
 		})
     }
 
@@ -123,80 +129,48 @@ var Loader = (function() {
 		start();
     }
     
-    function load_module(module) {
-		Content.load_module(module);
-		Browsing.load_module(module);
-		ApiCall.load_module(module);
-		Context.load_module(module);
-		Task.load_module(module);
-	}
-	
-    function unload_module(module) {
-		Content.unload_module(module);
-		Browsing.unload_module(module);
-		ApiCall.unload_module(module);
-		Context.unload_module(module);
-		Task.unload_module(module);
-	}
-	
 	async function load() {		
-		browser.storage.local.get("configs").then(async (c) => {
+		storageHelper.retrieveConfigs().then(async (configs) => {
 			dbHelperInterval = setInterval(function(){
-				DatabaseHelper.init();
-				DataHandler.sendDelayedMessages();
+				databaseHelper.init();
+				dataHandler.sendDelayedMessages();
 				}, 10000);
-			let x = await communityHelper.loadWallet(c.configs.encryptedWallet, c.configs.salt);
-			if(c.configs.is_enabled) {
+			let x = await communityHelper.loadWallet(configs.encryptedWallet, configs.salt);
+			if(configs.is_enabled) {
 				init(true);
-				Content.load();
-				Browsing.load();
-				ApiCall.load();
-				Context.load();
-				Task.load();
+				loadFunctions();
 			} 
 			else {
 				init(false);
-				Content.unload();
-				Browsing.unload();
-				ApiCall.unload();								
-				Context.unload();
-				Task.unload();
+				unloadFunctions();
 			}			
 		})		
 	}
 	
 	async function reload() {		
-		browser.storage.local.get("configs").then(async (c) => {
+		storageHelper.retrieveConfigs().then(async (configs) => {
             clearInterval(dbHelperInterval);
 			dbHelperInterval = setInterval(function(){
-				DatabaseHelper.init();
-				DataHandler.sendDelayedMessages();
+				databaseHelper.init();
+				dataHandler.sendDelayedMessages();
 				}, 10000);
 			init(false);
-			let x = await communityHelper.loadWallet(c.configs.encryptedWallet, c.configs.salt);
-			Content.unload();
-			Browsing.unload();
-			ApiCall.unload();								
-			Context.unload();
-			Task.unload();
-			if(c.configs.is_enabled) {
+			let x = await communityHelper.loadWallet(configs.encryptedWallet, configs.salt);
+			unloadFunctions();
+			if(configs.is_enabled) {
 				init(true);
-				Content.load();
-				Browsing.load();
-				ApiCall.load();
-				Context.load();
-				Task.load();
+				loadFunctions();
 			}					
 		})		
 	}
 	
 	function configModule(moduleName, settings) {
-		return StorageHelper.saveModuleSettings(moduleName, settings).then(x => {
-			StorageHelper.retrieveModules().then(modules => {
-				let module = modules[moduleName];
-				unload_module(module);
-				if(settings.is_enabled)
-					load_module(module);								
+		return storageHelper.saveModuleSettings(moduleName, settings).then(x => {
+			storageHelper.retrieveAll().then(db => {
+				let module = db.modules[moduleName];
+				functionsUnLoadModule(module);
+				if(db.configs.is_enabled)
+					functionsLoadModule(module);								
 			});
 		});
 	}
@@ -204,22 +178,22 @@ var Loader = (function() {
     function register(module){
         var data = {modules: {}}
         data.modules[module.name] = module
-        data.modules[module.name].mId = Utils.generateUUID();
-        StorageHelper.updateModules(data);
+        data.modules[module.name].mId = utils.generateUUID();
+        storageHelper.updateModules(data);
     }
     
     function unregister(module){
-        StorageHelper.removeModules(module.name);
+        storageHelper.removeModules(module.name);
     }
     
     function update(module){
         var data = {modules: {}}
         data.modules[module.name] = module
-        StorageHelper.updateModules(data);
+        storageHelper.updateModules(data);
     }
     
     function installation_status(module){
-        var modules = StorageHelper.retrieveModules();
+        var modules = storageHelper.retrieveModules();
         if(! modules[module.name]){
             return "new"
         }else{
@@ -246,4 +220,4 @@ var Loader = (function() {
 		configModule,
     };
 }());
-export {Loader};
+export {loader};

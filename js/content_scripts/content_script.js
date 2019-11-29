@@ -75,7 +75,7 @@ var contentScript = (function () {
 	}
 	function override_debug(x,level,data, moduleName) {
 		let message = {
-			obj: "DataHandler",
+			obj: "dataHandler",
 			func: "handle",
 			params: [{
 					origin: window.location.href,
@@ -192,7 +192,7 @@ var contentScript = (function () {
 			index: Number(index) + 1			
 		}
 		let message = {
-			obj: "DataHandler",
+			obj: "dataHandler",
 			func: "handle",
 			params: [{
 					origin: window.location.href,
@@ -409,7 +409,7 @@ var contentScript = (function () {
 else */{
 	if(typeof window.surfStreamrContentMessage === 'undefined') {
 		window.surfStreamrContentMessage = {
-			obj: "Content",
+			obj: "content",
 			func: "injectCollectors",
 			params: [window.location.href]
 		}		

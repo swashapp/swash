@@ -1,8 +1,8 @@
 console.log("modules/youtube/browsing.js");
-import {Youtube} from './manifest.js';
-Youtube.browsing_filter = {urls: ["https://www.youtube.com/*"]};
-Youtube.browsing_extraInfoSpec= [];
-Youtube.browsing = [
+import {youtube} from './manifest.js';
+youtube.browsing_filter = {urls: ["https://www.youtube.com/*"]};
+youtube.browsing_extraInfoSpec= [];
+youtube.browsing = [
     {
         name: "Page Action",
         title: "Page actions",
