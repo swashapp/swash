@@ -1,6 +1,6 @@
-console.log("StorageHelper.js");
-import {Utils} from './Utils.js';
-var StorageHelper = (function() {  
+console.log("storageHelper.js");
+import {utils} from './utils.js';
+var storageHelper = (function() {  
     
     var messages = {};
     const functionList = ["content", "browsing", "apiCall", "context", "task"]
@@ -9,7 +9,7 @@ var StorageHelper = (function() {
     }
 
     function updateProfile(info){
-        storeData("profile",info)
+        return storeData("profile",info)
     }
 
     function retrieveFilters() {
@@ -21,7 +21,7 @@ var StorageHelper = (function() {
     }
 
     function updateConfigs(info){
-        storeData("configs",info);
+        return storeData("configs",info);
     }
 
     function storeFilters(filters){
@@ -33,7 +33,7 @@ var StorageHelper = (function() {
     }
 
     function updateModules(info){
-        storeData("modules",info)
+        return storeData("modules",info)
     }
     
     async function removeModule(moduleName){
@@ -71,10 +71,10 @@ var StorageHelper = (function() {
 	async function storeData(key, info)
 	{
 		var data = await retrieveData(key);   
-		Utils.jsonUpdate(data,info);
+		utils.jsonUpdate(data,info);
 		let x = {};
 		x[key] = data;
-		browser.storage.local.set(x);
+		return browser.storage.local.set(x);
 	}
     
     async function retrieveData(key)
@@ -127,7 +127,7 @@ var StorageHelper = (function() {
 	function updatePrivacyLevel(privacyLevel) {
 		let key = "configs";
 		let info = {privacyLevel: privacyLevel}
-		storeData(key, info);
+		return storeData(key, info);
 	}	
     
     async function saveModuleSettings(moduleName, settings) {
@@ -139,7 +139,7 @@ var StorageHelper = (function() {
 			if(typeof settings[f] !="undefined")
 				updateFunctionSettings(ret, f, settings);
 		}
-        browser.storage.local.set({modules: modules});        
+        return browser.storage.local.set({modules: modules});        
     }
 
 	async function getVersion(){
@@ -172,4 +172,4 @@ var StorageHelper = (function() {
 		getVersion
     };
 }());
-export {StorageHelper};
+export {storageHelper};

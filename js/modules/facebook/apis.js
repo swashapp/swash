@@ -1,8 +1,8 @@
 console.log("modules/facebook/apis.js");
-import {Facebook} from './manifest.js';
+import {facebook} from './manifest.js';
 
 
-Facebook.apiCall = [
+facebook.apiCall = [
 	{
 		name: "userInfo",
         title: "User Info",

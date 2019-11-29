@@ -1,5 +1,5 @@
 console.log("modules.js");
-var AllModules = (function() {
+var allModules = (function() {
         return [];
 }());
-export {AllModules};
+export {allModules};

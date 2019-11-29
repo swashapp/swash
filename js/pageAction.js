@@ -1,4 +1,4 @@
-import {StorageHelper} from './StorageHelper.js';
+import {storageHelper} from './storageHelper.js';
 import {filterUtils} from './filterUtils.js';
 var pageAction = (function() {
     async function isDomainFiltered(tabInfo) {
@@ -8,7 +8,7 @@ var pageAction = (function() {
             type: 'wildcard',
             internal: false
         };
-        let filter = await StorageHelper.retrieveFilters();
+        let filter = await storageHelper.retrieveFilters();
         for (let i in filter) {
             if (filter[i].value === f.value && filter[i].type === f.type && filter[i].internal === f.internal) {
                 return true;
@@ -24,8 +24,8 @@ var pageAction = (function() {
         return isDomainFiltered(tab);
     }
     function loadIcons(tabInfo) {
-        StorageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
-			StorageHelper.retrieveFilters().then(filters => {
+        storageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
+			storageHelper.retrieveFilters().then(filters => {
 					if(filterUtils.filter(tabInfo.url, filters))
 						browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
 					else 
@@ -64,7 +64,7 @@ var pageAction = (function() {
         
 
         let allow = true;
-        StorageHelper.retrieveFilters().then(filter => {
+        storageHelper.retrieveFilters().then(filter => {
             for (let i in filter) {
                 if (filter[i].value === f.value) {
                     allow = false;
@@ -72,7 +72,7 @@ var pageAction = (function() {
             }
             if (allow) {
                 filter.push(f);
-                StorageHelper.storeFilters(filter).then(res => {
+                storageHelper.storeFilters(filter).then(res => {
                     loadIcons(tab);                
                 })                
             }
@@ -90,14 +90,14 @@ var pageAction = (function() {
             return;
         }
 
-        StorageHelper.retrieveFilters().then(filters => {
+        storageHelper.retrieveFilters().then(filters => {
             filters = filters.filter(fl => {
                 if (fl.value !== f.value || fl.type !== f.type || fl.internal !== f.internal) {
                     return fl;
                 }
             })
             
-            StorageHelper.storeFilters(filters).then(res => {
+            storageHelper.storeFilters(filters).then(res => {
                 loadIcons(tab);            
             });
             

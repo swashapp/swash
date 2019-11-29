@@ -1,6 +1,6 @@
 console.log("modules/search/manifest.js");
-import {AllModules} from '../../modules.js';
-var Search = (function() {
+import {allModules} from '../../modules.js';
+var search = (function() {
     'use strict';
     
     return {
@@ -47,10 +47,8 @@ var Search = (function() {
         version: 1,		
 		type: "builtin",
         contextAttributes: ["agent", "installedPlugins", "platform", "screenshot"],
-        streamId: "CFkiERmsTxyV1-AGDjL9Tw",
-        apiKey: "3bKwyq-gTwyZa02V_YaMrwbTUZvyZNS-Wx_OP8-oi45g",
 		is_verified: false		
     };
 }());
-AllModules.push(Search);
-export {Search};
+allModules.push(search);
+export {search};

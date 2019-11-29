@@ -1,8 +1,8 @@
 console.log("modules/surfing/browsing.js");
-import {Surfing} from './manifest.js';
-Surfing.browsing_filter = {urls: ["<all_urls>"]};
-Surfing.browsing_extraInfoSpec= [];
-Surfing.browsing = [
+import {surfing} from './manifest.js';
+surfing.browsing_filter = {urls: ["<all_urls>"]};
+surfing.browsing_extraInfoSpec= [];
+surfing.browsing = [
     {
         name: "Page Visit",
         title: "Visited pages",

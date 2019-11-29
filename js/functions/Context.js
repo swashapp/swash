@@ -1,29 +1,32 @@
-console.log("Context.js");
-import {StorageHelper} from '../StorageHelper.js';
-import {Utils} from '../Utils.js';
-import {DataHandler} from '../DataHandler.js';
+console.log("context.js");
+import {storageHelper} from '../storageHelper.js';
+import {utils} from '../utils.js';
+import {dataHandler} from '../dataHandler.js';
 
 
-var Context = (function() {
+var context = (function() {
     'use strict';
     
 	var cfilter = {urls: [], properties: ["status"]};            
     
+	function initModule(module){
+		
+	}
+	
     function unload(){        
 		if(browser.tabs.onUpdated.hasListener(registerContextScripts))
 			browser.tabs.onUpdated.removeListener(registerContextScripts);
     }
 
     function load(){        
-        StorageHelper.retrieveModules().then(modules => {
-            for (var module in modules) {
-				if(modules[module].is_enabled)
-					load_module(modules[module]);
+        storageHelper.retrieveModules().then(modules => {
+            for (var module in modules) {				
+					loadModule(modules[module]);
             }        
         });
     }
     
-    function unload_module(module){
+    function unloadModule(module){
 		function arrayRemove(arr, value) {
 		   return arr.filter(function(ele){
 			   return ele != value;
@@ -40,24 +43,25 @@ var Context = (function() {
 		}
     }
 
-    function load_module(module){
-		if(module.functions.includes("context")){
-			for(var item of module.context_matches) {
-				cfilter.urls.push(item);
-			}
-	        if(browser.tabs.onUpdated.hasListener(registerContextScripts))
-				browser.tabs.onUpdated.removeListener(registerContextScripts);  
-            if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerContextScripts);            
+    function loadModule(module){
+		if(module.is_enabled){
+			if(module.functions.includes("context")){
+				for(var item of module.context_matches) {
+					cfilter.urls.push(item);
+				}
+				if(browser.tabs.onUpdated.hasListener(registerContextScripts))
+					browser.tabs.onUpdated.removeListener(registerContextScripts);  
+				if(cfilter.urls.length > 0) 			
+					browser.tabs.onUpdated.addListener(registerContextScripts);            
+			}			
 		}
-
     }
 	
 
 	function registerContextScripts(tabId, changeInfo, tabInfo) {
 		let injectScript = false;
 		for(let filter of cfilter.urls) {
-			if(Utils.wildcard(tabInfo.url, filter)) {
+			if(utils.wildcard(tabInfo.url, filter)) {
 				injectScript = true;
 				break;
 			}
@@ -77,12 +81,12 @@ var Context = (function() {
     }
 
 	async function injectAttrCollectors(url) {
-        var modules = await StorageHelper.retrieveModules();
+        var modules = await storageHelper.retrieveModules();
 		for (var module in modules) {
 			if(modules[module].functions.includes("context")){			
 					if(modules[module].is_enabled)
 						for(var item of modules[module].context_matches) {
-							if(Utils.wildcard(url, item)) {
+							if(utils.wildcard(url, item)) {
 								let context = modules[module].context.filter(function(cnt, index, arr){
 									return (cnt.is_enabled && cnt.type=="content");
 								});
@@ -94,11 +98,12 @@ var Context = (function() {
 		return;	
 	}
     return {
-        load: load,
-        unload: unload,
-        unload_module: unload_module,
-        load_module: load_module,
+		initModule,
+        load,
+        unload,
+        unloadModule,
+        loadModule,
 		injectAttrCollectors: injectAttrCollectors
     };
 }());
-export {Context};
+export {context};

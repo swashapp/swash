@@ -1,6 +1,6 @@
-console.log("DatabaseHelper.js");
+console.log("databaseHelper.js");
 
-var DatabaseHelper = (function() {
+var databaseHelper = (function() {
 	'use strict';
 
 	var dbName;
@@ -76,7 +76,7 @@ var DatabaseHelper = (function() {
 
 	function updateMessageCount(moduleName) {		
 		let currentTime = Number((new Date()).getTime());		
-		connection.update({
+		return connection.update({
 			in: 'stats',
 			set: {
 				'messageCount': {
@@ -146,7 +146,7 @@ var DatabaseHelper = (function() {
 			message: message
 		}
 		//since Id is autoincrement column, so the row will be automatically generated.
-		connection.insert({
+		return connection.insert({
 			into: 'messages',
 			values: [row]
 		}).then(function(rowsInserted) {
@@ -176,7 +176,7 @@ var DatabaseHelper = (function() {
 	}
 	
 	function removeReadyMessages(time) {
-		connection.remove({
+		return connection.remove({
 			from: 'messages',
 			where: {
 				createTime: {
@@ -190,7 +190,7 @@ var DatabaseHelper = (function() {
 	}
 
 	function removeMessage(id) {
-		connection.remove({
+		return connection.remove({
 			from: 'messages',
 			where: {
 				id: id
@@ -214,4 +214,4 @@ var DatabaseHelper = (function() {
 		removeMessage,
     };
 }());
-export {DatabaseHelper};
+export {databaseHelper};

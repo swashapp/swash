@@ -1,19 +1,19 @@
 console.log("push.js");
-import {streamrConf} from './streamConfig.js';
-import {StorageHelper} from './StorageHelper.js';
+import {streamConfig} from './streamConfig.js';
+import {storageHelper} from './storageHelper.js';
 
 
 // Create the client and give the API key to use by default
 var pushStream = (function() {
     var client = new StreamrClient({
-      apiKey: streamrConf.PUSH_API_KEY
+      apiKey: streamConfig.PUSH_API_KEY
     })
     
     var subscription;
     
     async function callback(message) {
             // This function will be called when new messages occur
-            let configs = await StorageHelper.retrieveConfigs();    
+            let configs = await storageHelper.retrieveConfigs();    
             let pushId = configs.Id;
             if(message.pushId != pushId)
                 return;

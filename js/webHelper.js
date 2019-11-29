@@ -21,7 +21,7 @@ var helper = (function () {
 	}	
 	function loadFilters() {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "retrieveData",
 			params: ["filters"]
 		}
@@ -29,7 +29,7 @@ var helper = (function () {
 	}
 	function loadPrivacyData() {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "retrieveData",
 			params: ["privacyData"]
 		}
@@ -38,7 +38,7 @@ var helper = (function () {
 
 	function loadMessages() {
 		let message = {
-			obj: "DatabaseHelper",
+			obj: "databaseHelper",
 			func: "getAllMessages",
 			params: []
 		}
@@ -47,7 +47,7 @@ var helper = (function () {
 
 	function cancelSending(msgId) {
 		let message = {
-			obj: "DataHandler",
+			obj: "dataHandler",
 			func: "cancelSending",
 			params: [msgId]
 		}
@@ -56,7 +56,7 @@ var helper = (function () {
 
 	function loadModules() {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "retrieveModules",
 			params: []
 		}
@@ -65,7 +65,7 @@ var helper = (function () {
 
 	function load() {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "retrieveAll",
 			params: []
 		}
@@ -75,7 +75,7 @@ var helper = (function () {
 	}
 	function saveFilters(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "storeData",
 			params: ["filters", data]
 		}
@@ -85,7 +85,7 @@ var helper = (function () {
 
 	function savePrivacyData(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "storeData",
 			params: ["privacyData", data]
 		}
@@ -94,7 +94,7 @@ var helper = (function () {
 
 	function saveProfile(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "storeData",
 			params: ["profile", data]
 		}
@@ -103,7 +103,7 @@ var helper = (function () {
 
 	function saveModule(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "storeData",
 			params: ["modules", data]
 		}
@@ -112,7 +112,7 @@ var helper = (function () {
 
 	function removeModule(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "removeModule",
 			params: [data]
 		}
@@ -121,7 +121,7 @@ var helper = (function () {
 
 	function saveConfigs(data) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "storeData",
 			params: ["configs", data]
 		}
@@ -129,7 +129,7 @@ var helper = (function () {
 	}
 	function configModule(moduleName, settings) {
 		let message = {
-			obj: "Loader",
+			obj: "loader",
 			func: "configModule",
 			params: [moduleName, settings]
 		}
@@ -137,8 +137,8 @@ var helper = (function () {
 	}
 	function startAuth(moduleName) {
 		let message = {
-			obj: "ApiCall",
-			func: "start_oauth",
+			obj: "apiCall",
+			func: "startOauth",
 			params: [moduleName]
 		}
 		return sendMessage(message);
@@ -148,7 +148,7 @@ var helper = (function () {
 		param[moduleName] = {};
 		param[moduleName].access_token = "";
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "updateModules",
 			params: [param]
 		}
@@ -157,7 +157,7 @@ var helper = (function () {
 
 	function isConnected(moduleName) {
 		let message = {
-			obj: "ApiCall",
+			obj: "apiCall",
 			func: "isConnected",
 			params: [moduleName]
 		}
@@ -166,7 +166,7 @@ var helper = (function () {
 
 	function start() {
 		let message = {
-			obj: "Loader",
+			obj: "loader",
 			func: "start",
 			params: []
 		}
@@ -175,7 +175,7 @@ var helper = (function () {
 
 	function reload() {
 		let message = {
-			obj: "Loader",
+			obj: "loader",
 			func: "reload",
 			params: []
 		}
@@ -185,7 +185,7 @@ var helper = (function () {
 
 	function stop() {
 		let message = {
-			obj: "Loader",
+			obj: "loader",
 			func: "stop",
 			params: []
 		}
@@ -212,7 +212,7 @@ var helper = (function () {
 
 	function enforcePolicy(msg, mSalt, salt, privacyData) {
 		let message = {
-			obj: "DataHandler",
+			obj: "dataHandler",
 			func: "enforcePolicy",
 			params: [msg, mSalt, salt, privacyData]
 		}
@@ -231,7 +231,7 @@ var helper = (function () {
 
 	function updatePrivacyLevel(privacyLevel) {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "updatePrivacyLevel",
 			params: [privacyLevel]
 		}
@@ -303,7 +303,7 @@ var helper = (function () {
 	
 	function getVersion() {
 		let message = {
-			obj: "StorageHelper",
+			obj: "storageHelper",
 			func: "getVersion",
 			params: []
 		}

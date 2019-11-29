@@ -1,9 +1,9 @@
 console.log("modules/twitter/browsing.js");
-import {Twitter} from './manifest.js';
-Twitter.browsing_filter = {urls: ["https://*.twitter.com/*"]};
-Twitter.browsing_extraInfoSpec= [];
+import {twitter} from './manifest.js';
+twitter.browsing_filter = {urls: ["https://*.twitter.com/*"]};
+twitter.browsing_extraInfoSpec= [];
 
-Twitter.browsing = [
+twitter.browsing = [
     {
         name: "Post Tweet",
         title: "Post a new tweet",

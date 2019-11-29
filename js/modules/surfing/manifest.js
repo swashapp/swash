@@ -1,6 +1,6 @@
 console.log("modules/surfing/manifest.js");
-import {AllModules} from '../../modules.js';
-var Surfing = (function() {
+import {allModules} from '../../modules.js';
+var surfing = (function() {
     'use strict';    
     return {
         name: "Surfing",
@@ -27,11 +27,8 @@ var Surfing = (function() {
         version: 2,
         changelog: [],		
 		type: "builtin",
-        streamId: "CAf4NInVRISZYQ-qk8KI1Q",
-        apiKey: "JZR2aUVLSSuHwTUAu7hy5gyUeETk8CRP2DJ1_dpY4MKg",
 		is_verified: false		
-
     };
 }());
-AllModules.push(Surfing);
-export {Surfing};
+allModules.push(surfing);
+export {surfing};

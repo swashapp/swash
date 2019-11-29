@@ -1,4 +1,4 @@
-import {DatabaseHelper} from './DatabaseHelper.js';
+import {databaseHelper} from './databaseHelper.js';
 // Create the client and give the API key to use by default
 
 
@@ -16,7 +16,7 @@ var stream = function(streamId, apiKey) {
 	  
 	  client.publish(streamId, msg)
 		.then(() => {
-			DatabaseHelper.updateMessageCount(msg.header.module);
+			databaseHelper.updateMessageCount(msg.header.module);
 		  	console.log('Message sent successfully')
 		})
 		.catch((err) => {

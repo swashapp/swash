@@ -1,29 +1,39 @@
-console.log("Content.js");
-import {StorageHelper} from '../StorageHelper.js';
-import {Utils} from '../Utils.js';
-import {DataHandler} from '../DataHandler.js';
+console.log("content.js");
+import {storageHelper} from '../storageHelper.js';
+import {utils} from '../utils.js';
+import {dataHandler} from '../dataHandler.js';
 
 
-var Content = (function() {
+var content = (function() {
     'use strict';
     
 	var cfilter = {urls: [], properties: ["status"]};            
     
+	async function initModule(module){
+		if(module.functions.includes("content")) {			
+			let info = await browser.runtime.getPlatformInfo();
+			let platform = module.content_mapping[info.os];
+			if(!platform || typeof platform === "undefined")
+				platform = 'desktop';
+			module.content = module[platform];
+		}
+	}
+		
+	
     function unload(){        
 		if(browser.tabs.onUpdated.hasListener(registerContentScripts))
 			browser.tabs.onUpdated.removeListener(registerContentScripts);
     }
 
     function load(){        
-        StorageHelper.retrieveModules().then(modules => {
+        storageHelper.retrieveModules().then(modules => {
             for (var module in modules) {
-				if(modules[module].is_enabled)
-					load_module(modules[module]);
+					loadModule(modules[module]);
             }        
         });
     }
     
-    function unload_module(module){
+    function unloadModule(module){
 		function arrayRemove(arr, value) {
 		   return arr.filter(function(ele){
 			   return ele != value;
@@ -40,17 +50,18 @@ var Content = (function() {
 		}
     }
 
-    function load_module(module){
-		if(module.functions.includes("content")){
-			for(var item of module.content_matches) {
-				cfilter.urls.push(item);
-			}
-	        if(browser.tabs.onUpdated.hasListener(registerContentScripts))
-				browser.tabs.onUpdated.removeListener(registerContentScripts);  
-            if(cfilter.urls.length > 0) 			
-				browser.tabs.onUpdated.addListener(registerContentScripts);            
+    function loadModule(module){
+		if(module.is_enabled){
+			if(module.functions.includes("content")){
+				for(var item of module.content_matches) {
+					cfilter.urls.push(item);
+				}
+				if(browser.tabs.onUpdated.hasListener(registerContentScripts))
+					browser.tabs.onUpdated.removeListener(registerContentScripts);  
+				if(cfilter.urls.length > 0) 			
+					browser.tabs.onUpdated.addListener(registerContentScripts);            
+			}			
 		}
-
     }
 	
 
@@ -58,7 +69,7 @@ var Content = (function() {
 		if(changeInfo.status == "loading") {
 			let injectScript = false;
 			for(let filter of cfilter.urls) {
-				if(Utils.wildcard(tabInfo.url, filter)) {
+				if(utils.wildcard(tabInfo.url, filter)) {
 					injectScript = true;
 					break;
 				}
@@ -80,14 +91,14 @@ var Content = (function() {
     }
 
 	async function injectCollectors(url) {
-        var modules = await StorageHelper.retrieveModules();
+        var modules = await storageHelper.retrieveModules();
 		for (var module in modules) {
 			if(modules[module].functions.includes("content")){	
 				if(modules[module].is_enabled)
 					for(var item of modules[module].content_matches) {
-						if(Utils.wildcard(url, item)) {
+						if(utils.wildcard(url, item)) {
 							let content = modules[module].content.filter(function(cnt, index, arr){
-								return (cnt.is_enabled && Utils.wildcard(url, cnt.url_match));
+								return (cnt.is_enabled && utils.wildcard(url, cnt.url_match));
 							});
 							return {moduleName: modules[module].name, content: content};
 						}
@@ -97,11 +108,12 @@ var Content = (function() {
 		return;	
 	}
     return {
-        load: load,
-        unload: unload,
-        unload_module: unload_module,
-        load_module: load_module,
-		injectCollectors: injectCollectors
+		initModule,
+        load,
+        unload,
+        unloadModule,
+        loadModule,
+		injectCollectors
     };
 }());
-export {Content};
+export {content};

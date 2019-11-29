@@ -1,3 +1,4 @@
+import {utils} from './utils.js'
 var privacyUtils = (function() {
     'use strict';
     
@@ -16,9 +17,9 @@ var privacyUtils = (function() {
                 date.setMinutes(0, 0, 0);
                 return {id: sha256(mId + date.getTime()), expireTime: date.setMinutes(60, 0, 0)};
             case 4:
-                return {id: sha256(mId + date.getTime()), expireTime: 0};
+                return {id: sha256(utils.uuid()), expireTime: 0};
             default:
-                return {id: sha256(mId + date.getTime()), expireTime: 0};
+                return {id: sha256(utils.uuid()), expireTime: 0};
         }
                 
     }

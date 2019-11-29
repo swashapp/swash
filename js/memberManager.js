@@ -1,4 +1,4 @@
-import {DatabaseHelper} from './DatabaseHelper.js'
+import {databaseHelper} from './databaseHelper.js'
 import {communityHelper} from './communityHelper.js'
 var memberManager = (function() {
 
@@ -7,8 +7,8 @@ var memberManager = (function() {
 	let joined = false
 
 	async function fixedTimeWindowStrategy() {
-		let messageCount = await DatabaseHelper.getTotalMessageCount();
-		let lastSentDate = await DatabaseHelper.getLastSentDate();
+		let messageCount = await databaseHelper.getTotalMessageCount();
+		let lastSentDate = await databaseHelper.getLastSentDate();
 		let currentTime = (new Date()).getTime();
 		if (!joined && messageCount >= minimumMessageNumber && lastSentDate + sendTimeWindow >= currentTime) {
 			communityHelper.join();
@@ -22,8 +22,8 @@ var memberManager = (function() {
 	}
 
 	async function dynamicTimeWindowStrategy() {
-		let messageCount = await DatabaseHelper.getTotalMessageCount();
-		let lastSentDate = await DatabaseHelper.getLastSentDate();
+		let messageCount = await databaseHelper.getTotalMessageCount();
+		let lastSentDate = await databaseHelper.getLastSentDate();
 		let currentTime = (new Date()).getTime();
 		if (!joined && messageCount >= minimumMessageNumber && (lastSentDate + messageCount*60*1000) >= currentTime) {
 			communityHelper.join();
@@ -37,13 +37,13 @@ var memberManager = (function() {
 	}
 
 	function immediateJoinStrategy() {
-		if (!joined) {
+		/*if (!joined) {
 			communityHelper.join().then(result => {
 				if (result) {
 					joined = true
 				}
 			})
-		}
+		}*/
 	}
 
 	return {

@@ -1,6 +1,6 @@
 console.log("modules/youtube/apis.js");
-import {Youtube} from './manifest.js';
-Youtube.apiCall = [
+import {youtube} from './manifest.js';
+youtube.apiCall = [
 	{
 		name: "recentActivities",
 		description: "This item collect recent activities of a user in Youtube",

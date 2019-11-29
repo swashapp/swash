@@ -1,8 +1,8 @@
 console.log("modules/amazon/browsing.js");
-import {Amazon} from './manifest.js';
-Amazon.browsing_filter = {urls: ["https://www.amazon.com/*", "https://www.amazon.de/*", "https://www.amazon.nl/*"]};
-Amazon.browsing_extraInfoSpec= [];
-Amazon.browsing = [   
+import {amazon} from './manifest.js';
+amazon.browsing_filter = {urls: ["https://www.amazon.com/*", "https://www.amazon.de/*", "https://www.amazon.nl/*"]};
+amazon.browsing_extraInfoSpec= [];
+amazon.browsing = [   
     {
         name: "Page Visit",
 		viewGroup: "UX",

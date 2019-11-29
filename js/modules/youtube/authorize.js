@@ -1,8 +1,8 @@
 console.log("modules/youtube/authorize.js");
-import {Youtube} from './manifest.js';
+import {youtube} from './manifest.js';
 
 // TODO: remove scopes that are not necessary
-Youtube.apiConfig = {
+youtube.apiConfig = {
             client_id: "279095781364-1q6ki5adn4ufvfu0689hh3pl8u1upqoi.apps.googleusercontent.com",
             api_endpoint: "https://www.googleapis.com/youtube/v3",
             auth_url: 'https://accounts.google.com/o/oauth2/v2/auth',
@@ -15,7 +15,7 @@ Youtube.apiConfig = {
                         "https://www.googleapis.com/auth/youtubepartner-channel-audit"
                         ]
         }
-Youtube.validate_token = {
+youtube.validate_token = {
     name: "validate_token",
     description: "",
     method: "GET",
