@@ -1,4 +1,4 @@
-var streamrConf = {
+var streamConfig = {
 	PUSH_STREAM_ID: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 	PUSH_API_KEY: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 	Amazon:{
@@ -26,4 +26,4 @@ var streamrConf = {
         apiKey: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",		
 	}	
 }
-export {streamrConf};
+export {streamConfig};
