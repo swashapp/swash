@@ -1,11 +1,8 @@
 console.log("Transfer.js");
-import {StorageHelper} from '../StorageHelper.js';
-import {Utils} from '../Utils.js';
-import {DataHandler} from '../DataHandler.js';
 
 var Transfer = (function() {
-	var pattern = "https://transfer.swashapp.io/*";
-	const regexp = "https:\/\/transfer\.swashapp\.io\/(0x[a-fA-F0-9]{40})"
+	var pattern = "swash://*";
+	const regexp = "swash:\/\/(0x[a-fA-F0-9]{40})"
 	
 	function showPageOnTab(url_to_show) {
 		return browser.windows.getAll({
@@ -25,18 +22,48 @@ var Transfer = (function() {
 	function load(){
 		if(!browser.webRequest.onBeforeRequest.hasListener(listener)){
             browser.webRequest.onBeforeRequest.addListener(listener, {urls: [pattern]}, ["blocking"]);
-        }   
+        }
+		
+		if(browser.tabs.onUpdated.hasListener(registerContentScripts))
+			browser.tabs.onUpdated.removeListener(registerContentScripts);  
+		browser.tabs.onUpdated.addListener(registerContentScripts);            
 	}
 
 	function unload(){
+		if(browser.tabs.onUpdated.hasListener(registerContentScripts))
+			browser.tabs.onUpdated.removeListener(registerContentScripts);
+
+		
 		if(browser.webRequest.onBeforeRequest.hasListener(listener)){
             browser.webRequest.onBeforeRequest.removeListener(listener);
         }   
 	}
 	
+	function registerContentScripts(tabId, changeInfo, tabInfo) {
+		if(changeInfo.status == "loading") {
+			browser.tabs.executeScript(tabId, {
+			  file: "/lib/browser-polyfill.js",
+			  allFrames: false,
+			  runAt: "document_start"
+			}).then(result => {
+				browser.tabs.executeScript(tabId, {
+				  file: "/js/content_scripts/transfer_script.js",
+				  allFrames: false,
+				  runAt: "document_start"
+				})				
+			}).then(result => {
+					browser.tabs.insertCSS(tabId, {
+					file: "/css/transfer.css",
+					allFrames: false,
+					runAt: "document_start"
+					})
+			})
+		}
+    }
+	
 	return {
-        load: load,
-        unload: unload
+        load,
+        unload
     };
 }());
 export {Transfer};
