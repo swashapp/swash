@@ -13,6 +13,13 @@ var Transfer = (function() {
 		  });
 	}
 
+	function openTransferDialog(wallet){
+		let url = browser.runtime.getURL("dashboard/index.html#/Transfer/" + wallet);
+		return browser.windows.create({
+			url: url,
+			type: "popup"
+		});						
+	}
 	function listener(requestDetails){
 		let res = requestDetails.url.match(regexp);
 	    let url = browser.runtime.getURL("dashboard/index.html#/Transfer/"+ res[1]);
@@ -63,7 +70,8 @@ var Transfer = (function() {
 	
 	return {
         load,
-        unload
+        unload,
+		openTransferDialog
     };
 }());
 export {Transfer};

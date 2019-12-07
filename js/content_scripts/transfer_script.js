@@ -1,12 +1,17 @@
 var timeout = 0;
+function send_msg(msg){
+	browser.runtime.sendMessage(msg);
+}
 
 function openTransferDialog(){
-	let wallet = "0x34343";
-	let url = browser.runtime.getURL("dashboard/index.html#/Transfer/" + wallet);
-	return browser.windows.create({
-		url: url,
-		type: "popup"
-	});				
+	
+	let wallet = "0x6546546";
+	let message = {
+		obj: "Transfer",
+		func: "openTransferDialog",
+		params: [wallet]
+	}
+	send_msg(message);	
 }
 	
 function initSwashMe() {
