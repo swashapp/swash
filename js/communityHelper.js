@@ -128,7 +128,7 @@ var communityHelper = (function() {
 		// TODO check with ebi
 		if (!wallet || !provider) return;
 		if (!client) clientConnect();
-
+			
 		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
 		if (member.error || member.withdrawableEarnings < 1) {
 			return Promise.reject("Nothing to withdraw");
@@ -145,7 +145,7 @@ var communityHelper = (function() {
 			let resp = await contract.withdrawTo(
 				memberAddress,
 				wallet.address,
-				amount
+				String(amount)
 			);
 			return resp;
 		}

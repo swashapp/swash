@@ -5,6 +5,28 @@ var communityConfig = {
 	secret: "swash-secret2",
 	communityAbi: [
 		{
+			"constant":false,
+			"inputs":[
+				{
+					"name":"recipient",
+					"type":"address"
+				},
+				{
+					"name":"account",
+					"type":"address"
+				},
+				{
+					"name":"amount",
+					"type":"uint256"
+				}
+			],
+			"name":"withdrawTo",
+			"outputs":[],
+			"payable":false,
+			"stateMutability":"nonpayable",
+			"type":"function"
+		},
+		{
 			"constant": true,
 			"inputs": [
 			  {
