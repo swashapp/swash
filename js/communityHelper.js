@@ -124,6 +124,36 @@ var communityHelper = (function() {
 		return withdrawEarningsFor(wallet.address);
 	}
 
+	async function withdrawTo(memberAddress, amount) {
+		// TODO check with ebi
+		if (!wallet || !provider) return;
+		if (!client) clientConnect();
+
+		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
+		if (member.error || member.withdrawableEarnings < 1) {
+			return Promise.reject("Nothing to withdraw");
+		}
+		if(member.withdrawableEarnings < amount){
+			return Promise.reject("Insufficient balance");
+		}
+		wallet = wallet.connect(provider);
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);		
+		try{
+			let overrides = {
+				gasPrice: ethers.utils.parseUnits('18', 'gwei'),
+			};
+			let resp = await contract.withdrawTo(
+				memberAddress,
+				wallet.address,
+				amount
+			);
+			return resp;
+		}
+		catch(err) {
+			return Promise.reject(new Error(err.message));
+		}
+	}
+
 	async function withdrawEarningsFor(memberAddress) {
 		if (!wallet || !provider) return;
 		if (!client) clientConnect();
@@ -160,6 +190,7 @@ var communityHelper = (function() {
 		part,
 		withdrawEarnings,
 		withdrawEarningsFor,
+		withdrawTo,
 		getWalletInfo,
 		getBalance,
 		decryptWallet,

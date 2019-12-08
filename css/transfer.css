@@ -1,0 +1,32 @@
+.showSwashMe{
+	display: block !important;
+	position: fixed !important;
+}
+
+#swashMe img{
+	cursor: pointer;
+	width: 30px;
+	height: 30px;
+	opacity: 0.2;
+}
+
+#swashMe:hover img{
+	opacity: 1;
+	transform: scale(1.05);  
+}
+
+
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}

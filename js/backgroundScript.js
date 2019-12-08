@@ -12,6 +12,7 @@ import {apiCall} from './functions/apiCall.js';
 import {content} from './functions/content.js';
 import {context} from './functions/context.js';
 import {task} from './functions/task.js';
+import {transfer} from './functions/transfer.js';
 import {pushStream} from './push.js';
 
 
@@ -46,7 +47,8 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		context: context,
 		task: task,
 		communityHelper: communityHelper,
-		pageAction: pageAction
+		pageAction: pageAction,
+		transfer: transfer
 	}
 	sendResponse(objList[message.obj][message.func](...message.params));
 });

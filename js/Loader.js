@@ -14,13 +14,13 @@ var loader = (function() {
     async function install(allModules){		
         return storageHelper.retrieveAll().then(async (db) => {
             if (db == null || db == undefined || Object.keys(db).length==0){
-                db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], tasks: {}};                
-                db.configs.Id = utils.uuid();
+                db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}};                
+		db.configs.Id = utils.uuid();
                 db.configs.salt = utils.uuid();
-				db.configs.delay = 2;
-				communityHelper.createWallet();
-				db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
-				utils.jsonUpdate(db.configs, ssConfig);
+		db.configs.delay = 2;
+		communityHelper.createWallet();
+		db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
+		utils.jsonUpdate(db.configs, ssConfig);
             }
             try{
 				db.configs.version = ssConfig.version;
