@@ -1,11 +1,11 @@
 var timeout = 0;
+var wallet = "0x0"
 function send_msg(msg){
 	browser.runtime.sendMessage(msg);
 }
 
 function openTransferDialog(){
 	
-	let wallet = "0x6546546";
 	let message = {
 		obj: "Transfer",
 		func: "openTransferDialog",
@@ -27,9 +27,11 @@ function initSwashMe() {
 }
 
 
-function showSwashMe(x, y) {		
+function showSwashMe(e) {		
 	if(timeout)
 		clearTimeout(timeout);
+	let x = e.clientX;
+	let y = e.clientY;
 	let el = document.querySelector("#swashMe")
 	el.style.top = y - 40 + 'px';
 	el.style.left = x - 15 + 'px';
@@ -48,13 +50,11 @@ function swashMe(e){
 	if(cNodes.length > 0) {
 		let text = cNodes[0].nodeValue;		
 		if(text){
-			let x = e.clientX;
-			let y = e.clientY;
-			let wallets = [...text.matchAll(/swash:\/\/(0x[a-fA-F0-9]+)/)]
+			let wallets = [...text.matchAll(/swash:\/\/(0x[a-fA-F0-9]{40})/)]
 			if(wallets.length > 0) {
-				for(wallet of wallets) {
-					showSwashMe(x,y);
-				}
+				//TODO: show all identified wallets
+				wallet = wallets[0][1];
+				showSwashMe(e);
 			}
 			else {
 				hideSwashMe();
