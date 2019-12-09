@@ -14,15 +14,18 @@ var loader = (function() {
     async function install(allModules){		
         return storageHelper.retrieveAll().then(async (db) => {
             if (db == null || db == undefined || Object.keys(db).length==0){
-                db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}};                
-		db.configs.Id = utils.uuid();
-                db.configs.salt = utils.uuid();
-		db.configs.delay = 2;
-		communityHelper.createWallet();
-		db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
-		utils.jsonUpdate(db.configs, ssConfig);
+				db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}};                
+				db.configs.Id = utils.uuid();
+				db.configs.salt = utils.uuid();
+				db.configs.delay = 2;
+				communityHelper.createWallet();
+				db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt); 
+				utils.jsonUpdate(db.configs, ssConfig);
             }
             try{
+				//wallets added from version 1.0.3
+				if(!db.wallets)
+					db.wallets = [];
 				db.configs.version = ssConfig.version;
                 let newFilters = db.filters.filter(function(f, index, arr){
 								return (!f.internal);
@@ -32,7 +35,7 @@ var loader = (function() {
                 }
                 db.filters = newFilters;
 				for(let module of allModules){
-					if(!db.modules[module.name] || module.version == db.modules[module.name].version) {				
+					if(!db.modules[module.name] || module.version != db.modules[module.name].version) {				
 						db.modules[module.name] = {};
                         module.mId = utils.uuid();
                         module.mSalt = utils.uuid();
