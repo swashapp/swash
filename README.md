@@ -65,16 +65,16 @@ Swash extension consists of two separate projects:
 * *swash-ui*: This project has been developed using React and provides user interface for the extension
 * *swash*: This project is the source code for the extension engine
 
-*swash-ui* project should be built and copied to the */dashboard* before you build *swash* project. The instruction for building *swash-ui* can be found [here](https://gitlab.com/surf-streamr/swash-ui)
+*swash-ui* project should be built and copied to the */dashboard* before you build *swash* project. The instruction for building *swash-ui* can be found [here](https://github.com/swashapp/swash-ui)
  
 #### Build instruction for swash
 
 ```
-git clone https://gitlab.com/surf-streamr/firefox
-cd firefox
+git clone https://github.com/swashapp/swash
+cd swash
 cp js/streamConfig.sample.js js/streamConfig.js 
 ```
-Open streamConfig.js file and replace stream ids and api keys with your own. Then copy the built files from *swash-ui build* directory to */dashboard*. Now, you can build the extension.
+Open streamConfig.js file and replace stream ids and API keys with your own. Then copy the built files from *swash-ui build* directory to */dashboard*. Now, you can build the extension.
 
 ```
 ./swash.sh build
@@ -101,8 +101,8 @@ This command starts Firefox and loads Swash temporarily in the browser:
 
 * **Ebrahim Khalilzadeh**  - [ebkhalilzadeh](https://github.com/ebkhalilzadeh)
 * **Mehrdad Abdi**  - [mabdi](https://github.com/mabdi)
-* **Masoud Sarabadani**  - [mabdi](https://github.com/mabdi)
+* **Masoud Sarabadani**  - [sarab2009](https://github.com/sarab2009)
 
 ## License
 
-This project is licensed under the Attribution-NonCommercial-ShareAlike 3.0 Unported License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International License - see the [LICENSE.md](LICENSE.md) file for details
