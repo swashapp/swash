@@ -34,9 +34,9 @@
   "homepage_url": "https://swashapp.io/",
   
   
-  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy"],
+  "permissions": ["webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy", "webRequestBlocking"],
     
   
  
-  "version": "1.0.2"
+  "version": "1.0.3b"
 }
