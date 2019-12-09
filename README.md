@@ -72,8 +72,9 @@ Swash extension consists of two separate projects:
 ```
 git clone https://gitlab.com/surf-streamr/firefox
 cd firefox
+cp js/streamConfig.sample.js js/streamConfig.js 
 ```
-After copying built files from *swash-ui build* directory to */dashboard*, you can build the extension.
+Open streamConfig.js file and replace stream ids and api keys with your own. Then copy the built files from *swash-ui build* directory to */dashboard*. Now, you can build the extension.
 
 ```
 ./swash.sh build
