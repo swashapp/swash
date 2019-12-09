@@ -70,7 +70,7 @@ Swash extension consists of two separate projects:
 #### Build instruction for swash
 
 ```
-git clone https://github.com/swashapp/swash
+git clone https://github.com/swashapp/swash.git
 cd swash
 cp js/streamConfig.sample.js js/streamConfig.js 
 ```
