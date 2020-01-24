@@ -46,18 +46,20 @@ var apiCall = (function() {
             var module = modules[moduleN]
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
-				if(browserUtils.isMobileDevice()) {
-					return browser.tabs.create({
+				return browserUtils.isMobileDevice().then((result) =>{
+					if(result) {
+						return browser.tabs.create({
 							url: auth_url
 						});
-				}
-				return browser.windows.create({
-					url: auth_url,
-                    type: "popup"
-				  });				
+					}
+					return browser.windows.create({
+						url: auth_url,
+						type: "popup"
+					});
+				});
             }
         }});
-    }
+	}
     
     function extractToken(details) {
 		storageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
@@ -67,7 +69,7 @@ var apiCall = (function() {
 				if(details.url.startsWith(getCallBackURL(moduleN))){
 					var rst = details.url.match(module.apiConfig.access_token_regex);
 					if(rst){
-						save_access_token(module, rst[1]);
+						saveAccessToken(module, rst[1]);
 					}
                     browser.tabs.remove(details.tabId);
 				}
@@ -76,14 +78,14 @@ var apiCall = (function() {
 		
 		return null;               
 	}
-    function save_access_token(module,token) {
+    function saveAccessToken(module,token) {
         var data = {};
 		data[module.name] = {};
         data[module.name].access_token = token;
         storageHelper.updateModules(data);
     }
     
-    function get_access_token(moduleName){
+    function getAccessToken(moduleName){
         return storageHelper.retrieveModules().then(mds => {
             for(var m in mds){
                 if(mds[m].name == moduleName){
@@ -123,8 +125,8 @@ var apiCall = (function() {
         });
     }
 	
-    function purge_access_token(module){
-        save_access_token(module,null);
+    function purgeAccessToken(module){
+        saveAccessToken(module,null);
         // TODO notify token has expired
     }
     
@@ -136,7 +138,7 @@ var apiCall = (function() {
                 
             return apiCall(module.validate_token.endpoint, apiInfo, module.access_token).then(response=> {
                 if (response.status != 200) {
-                    purge_access_token(module);
+                    purgeAccessToken(module);
                     return false;
                 }
                 return response.json().then((json) => {
@@ -144,14 +146,14 @@ var apiCall = (function() {
                     if (jpointers.length >0) {
                       return true;
                     } else {
-                        purge_access_token(module);                        
+                        purgeAccessToken(module);                        
                         return false;
                     }
                 }).catch(error => {
-					purge_access_token(module);
+					purgeAccessToken(module);
 				});
             }).catch(error => {
-				purge_access_token(module);
+				purgeAccessToken(module);
 				});
         }
         return false;
@@ -230,7 +232,7 @@ var apiCall = (function() {
         }});
     }
     
-    function send_message(module,data, msg){
+    function sendMessage(module,data, msg){
         dataHandler.handle({
                     origin: module.apiConfig.api_endpoint + data.URI,
                     header:{
@@ -249,9 +251,9 @@ var apiCall = (function() {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
     
-    function fetch_apis(moduleName){
+    function fetchApis(moduleName){
         var etags = {}
-        get_access_token(moduleName).then(resp => {
+        getAccessToken(moduleName).then(resp => {
             if(resp.token){
 				let i = 0;
                 resp.module.apiCall.forEach((data)=>{                    
@@ -264,7 +266,7 @@ var apiCall = (function() {
                                         etags[data.name] = et
                                         return prepareMessage(q) 
                                     })
-                                    .then(msg =>{ send_message(resp.module,data,msg)});
+                                    .then(msg =>{ sendMessage(resp.module,data,msg)});
                         }, DELAY_BETWEEN_CALLS*i);
 						i++;
                         callbacks[moduleName].apiCalls.push(s);
@@ -298,7 +300,7 @@ var apiCall = (function() {
 				let crURL = getCallBackURL(module.name);			
 				callbacks[module.name] = {interval: -1, apiCalls: []};
 				callbacks[module.name].interval = setInterval(function(x){
-					fetch_apis(module.name);
+					fetchApis(module.name);
 				},API_CALL_INTERVAL);
 			}			
 		}

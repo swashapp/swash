@@ -15,7 +15,7 @@ import {task} from './functions/task.js';
 import {transfer} from './functions/transfer.js';
 import {pushStream} from './push.js';
 import {browserUtils} from './browserUtils.js'
-
+import {onBoarding} from './onboarding/onBoarding.js';
 
 /* ***
 This function will invoke on:
@@ -24,33 +24,43 @@ This function will invoke on:
     3. update add-on
 */
 browser.runtime.onInstalled.addListener((info) => {
-	if(info.reason == "update" || info.reason == "install")
-		loader.install(allModules).then(() => {loader.reload()});
+    // debugger;
+    if (info.reason === "update" || info.reason === "install") {
+        onBoarding.isNeededOnBoarding().then((isNeeded) => {
+            if (isNeeded)
+                loader.openOnBoarding();
+            else
+                loader.install(allModules, null).then(() => {
+                    loader.reload()
+                });
+        });
+    }
 });
 
 /* ***
 Each content script, after successful injection on a page, will send a message to background script to request data.
 This part handles such requests.
 */
-browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
-    if(sender.tab)
-		message.params.push(sender.tab.id);
-	let objList = {
-		storageHelper: storageHelper,
-		databaseHelper: databaseHelper,
-		privacyUtils: privacyUtils,
-		apiCall: apiCall,
-		loader: loader,
-		content: content,
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (sender.tab)
+        message.params.push(sender.tab.id);
+    let objList = {
+        storageHelper: storageHelper,
+        databaseHelper: databaseHelper,
+        privacyUtils: privacyUtils,
+        apiCall: apiCall,
+        loader: loader,
+        content: content,
         dataHandler: dataHandler,
         pushStream: pushStream,
-		context: context,
-		task: task,
-		communityHelper: communityHelper,
-		pageAction: pageAction,
-		transfer: transfer
-	}
-	sendResponse(objList[message.obj][message.func](...message.params));	
+        context: context,
+        task: task,
+        communityHelper: communityHelper,
+        pageAction: pageAction,
+        transfer: transfer,
+        onBoarding: onBoarding,
+    };
+    sendResponse(objList[message.obj][message.func](...message.params));
 });
 
 
@@ -81,10 +91,10 @@ After a successful load of add-on,
 the main loop will start.
 */
 storageHelper.retrieveConfigs().then(confs => {
-	if (confs) {
-		loader.reload();
-	}
-})
+    if (confs) {
+        loader.reload();
+    }
+});
 let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);
 
 

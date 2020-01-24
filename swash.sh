@@ -13,17 +13,17 @@ then
 	exit
 fi
 
-case $1 in	
-	test)
+case "$1" in	
+	'test')
 	cp environment/test/manifest.json .
-	web-ext run --ignore-files "dashboard*" "popup*" "swash.sh" "environment*
+	web-ext run --ignore-files "dashboard*" "popup*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
 	;;
-	run)
-	mv environment/dev/manifest.json .
-	web-ext run --ignore-files "test*" "swash.sh" "environment*
+	'run')
+	cp environment/dev/manifest.json .
+	web-ext run --ignore-files "test*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
 	;;
-	* )
+	*)
 	cp environment/production/manifest.json .
-	web-ext $1 --ignore-files "swash.sh" "test*" "environment*"
+	web-ext $1 --ignore-files "test*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
 	;;
 esac
