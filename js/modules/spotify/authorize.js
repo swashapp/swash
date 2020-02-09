@@ -5,7 +5,7 @@ import {spotify} from './manifest.js';
 spotify.apiConfig = {
             client_id: "39c1107e38e04d0a85546f34327e87bb",			
             api_endpoint: "https://api.spotify.com/v1",
-            auth_url: 'https://accounts.spotify.com/authorizeh',
+            auth_url: 'https://accounts.spotify.com/authorize',
             access_token_regex: "access_token=([^&]*)",
             scopes: [   "user-read-playback-state",
                         "playlist-read-collaborative",
@@ -14,7 +14,8 @@ spotify.apiConfig = {
                         "playlist-read-private",
                         "user-follow-read",
 						"user-read-recently-played",
-						"user-library-read"
+						"user-library-read",
+						"user-read-private"
                         ]
         }
 spotify.validate_token = {
@@ -26,5 +27,6 @@ spotify.validate_token = {
     token_param_name:"id",
     content_type: "application/x-www-form-urlencoded",
     response_type: "json",
-    required_jpath:"$.expires_in",
+    required_jpath:"$.id",
+	bearer: true
 }

@@ -2,6 +2,34 @@ console.log("modules/spotify/apis.js");
 import {spotify} from './manifest.js';
 spotify.apiCall = [
 	{
+		name: "userProfile",
+		description: "Get detailed profile information about the current user (including the current user’s username).",
+        title: "User's Profile",
+		viewGroup: "API",
+        is_enabled: false,
+		method: "GET",
+		URI: "/me",
+        bearer: true,
+		content_type: "application/x-www-form-urlencoded",
+        permissions: [],
+		params:{			
+		},			
+        schems: [
+            {jpath:"$.country",type:"text"},
+            {jpath:"$.display_name",type:"userAttr"},
+            {jpath:"$.email",type:"userAttr"},
+            {jpath:"$.external_urls.spotify",type:"url"},
+            {jpath:"$.followers",type:"text"},
+            {jpath:"$.href",type:"url"},
+            {jpath:"$.id",type:"id"},
+            {jpath:"$.images",type:"text"},
+			{jpath:"$.product",type:"text"},
+			{jpath:"$.type",type:"text"},
+			{jpath:"$.uri",type:"id"}
+        ],
+		response_type: "json"
+	},
+	{
 		name: "savedTracks",
 		description: "Get a list of the songs saved in the current Spotify user’s ‘Your Music’ library.",
         title: "Saved Tracks",
@@ -94,7 +122,7 @@ spotify.apiCall = [
 		name: "currentPlayedTracks",
 		description: "Get the object currently being played on the user’s Spotify account.",
 		method: "GET",
-        title: "Currently Playing Track",
+        title: "Currently Playing",
 		viewGroup: "API",
         is_enabled: false,        
 		URI: "/me/player/currently-playing",
@@ -142,7 +170,7 @@ spotify.apiCall = [
     {
 		name: "recentlyPlayedTracks",
 		description: "Get tracks from the current user’s recently played tracks.",
-        title: "Recently Played Tracks",
+        title: "Recently Played",
 		viewGroup: "API",
         is_enabled: false,        
 		method: "GET",
