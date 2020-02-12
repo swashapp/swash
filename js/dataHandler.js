@@ -5,47 +5,11 @@ import {storageHelper} from './storageHelper.js';
 import {databaseHelper} from './databaseHelper.js';
 import {stream} from './stream.js';
 import {streamConfig} from './streamConfig.js'
+import {browserUtils} from './browserUtils.js'
 
 var dataHandler = (function() {
     'use strict';
     var streams = {}
-	function getUserAgent()
-    {
-		if(typeof browser.runtime.getBrowserInfo === "function")
-			return browser.runtime.getBrowserInfo();
-		return navigator.userAgent;
-    }
-
-    function getAllInstalledPlugins()
-    {
-        return browser.management.getAll();
-    }
-
-	function getBrowserLanguage()
-    {
-        return navigator.language;
-    }
-	
-    function getPlatformInfo()
-    {
-        return browser.runtime.getPlatformInfo();
-    }
-    
-	async function getProxyStatus() {
-		let proxySetting = await browser.proxy.settings.get({});
-		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS, proxyMode: proxySetting.value.mode};
-	}
-    
-	function getVersion(){
-        return browser.runtime.getManifest().version;
-    }
-	
-    async function getScreenshot() {
-		let img = "";
-		if(typeof browser.tabs.captureTab === "function")
-			img = await browser.tabs.captureTab();
-		return img;
-    }
     
 	function cancelSending(msgId) {
 		databaseHelper.removeMessage(msgId);
@@ -85,22 +49,22 @@ var dataHandler = (function() {
 				for(let ct of bct_attrs){
 					switch(ct.name) {
 						case "agent":
-							message.header.agent = await getUserAgent();
+							message.header.agent = await browserUtils.getUserAgent();
 							break;
 						case "installedPlugins":
-							message.header.installedPlugins = await getAllInstalledPlugins();
+							message.header.installedPlugins = await browserUtils.getAllInstalledPlugins();
 							break;
 						case "platform":
-							message.header.platform = await getPlatformInfo();
+							message.header.platform = await browserUtils.getPlatformInfo();
 							break;
 						case "screenshot":
-							message.header.screenshot = await getScreenshot();
+							message.header.screenshot = await browserUtils.getScreenshot();
 							break;        
 						case "language":
-							message.header.language = getBrowserLanguage();
+							message.header.language = browserUtils.getBrowserLanguage();
 							break;
 						case "proxyStatus":
-							message.header.proxyStatus = await getProxyStatus();
+							message.header.proxyStatus = await browserUtils.getProxyStatus();
 					}
 				}
 			}
@@ -146,7 +110,7 @@ var dataHandler = (function() {
         //message.identity.walletId = profile.walletId;
         //message.identity.email = profile.email;
         message.header.privacyLevel = configs.privacyLevel;
-        message.header.version = getVersion();   
+        message.header.version = browserUtils.getVersion();   
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)
     }

@@ -14,7 +14,7 @@ import {context} from './functions/context.js';
 import {task} from './functions/task.js';
 import {transfer} from './functions/transfer.js';
 import {pushStream} from './push.js';
-
+import {browserUtils} from './browserUtils.js'
 
 
 /* ***
@@ -53,6 +53,23 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 	sendResponse(objList[message.obj][message.func](...message.params));
 });
 
+
+/* Set popup menu for desktop versions */
+
+browserUtils.getPlatformInfo().then(info => {
+	if(info.os === 'android') {
+		browser.browserAction.onClicked.addListener(async () => 
+			browser.tabs.create({ url: '/dashboard/index.html#/Settings', })
+		);		
+	} 
+	else {
+		browser.browserAction.setPopup({ popup: 'popup/popup.html', });		
+	}
+})
+
+
+
+
 /* ***
 If UI has changed a config in data storage, a reload should be performed.
 UI will modify data storage directly.
@@ -69,4 +86,5 @@ storageHelper.retrieveConfigs().then(confs => {
 	}
 })
 let mgmtInterval = setInterval(memberManager.immediateJoinStrategy, 6000);
+
 

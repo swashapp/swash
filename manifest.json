@@ -15,8 +15,7 @@
       "19": "icons/green_mark_19.png",
       "38": "icons/green_mark_38.png"
     },
-    "default_title": "Swash",
-    "default_popup": "popup/popup.html"
+    "default_title": "Swash"
   },
  
   "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
@@ -38,5 +37,5 @@
     
   
  
-  "version": "1.0.5"
+  "version": "1.0.7"
 }

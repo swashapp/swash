@@ -256,15 +256,24 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function getDataBalance() {
+	function getDataBalance(address) {
 		let message = {
 			obj: "communityHelper",
-			func: "getBalance",
-			params: []
+			func: "getDataBalance",
+			params: [address]
 		}
 		return sendMessage(message);
 	}
 
+	function getEthBalance(address) {
+		let message = {
+			obj: "communityHelper",
+			func: "getEthBalance",
+			params: [address]
+		}
+		return sendMessage(message);
+	}
+	
 	function getAvailableBalance() {
 		let message = {
 			obj: "communityHelper",
@@ -364,6 +373,7 @@ var helper = (function () {
 		identityPrivacy,
 		getKeyInfo,
 		getDataBalance,
+		getEthBalance,
 		withdraw,
 		getAvailableBalance,
 		getCumulativeEarnings,

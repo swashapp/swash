@@ -70,10 +70,18 @@ var communityHelper = (function() {
 	}
 
 	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
-	async function getBalance() {
-		if (!wallet || !provider) return;
+	async function getDataBalance(address) {
+		if (!provider) return;
 		const datacoin = new ethers.Contract(communityConfig.datacoinAddress, communityConfig.datacoinAbi, provider);
-		const balance = await datacoin.balanceOf(wallet.address);
+		const balance = await datacoin.balanceOf(address);
+		return ethers.utils.formatEther(balance);
+	}
+	
+	
+	// In UI: "current ETH balance in your wallet"
+	async function getEthBalance(address) {
+		if (!provider) return;
+		const balance = await provider.getBalance(address);
 		return ethers.utils.formatEther(balance);
 	}
 
@@ -125,7 +133,6 @@ var communityHelper = (function() {
 	}
 
 	async function withdrawTo(memberAddress, amount) {
-		// TODO check with ebi
 		if (!wallet || !provider) return;
 		if (!client) clientConnect();
 			
@@ -192,7 +199,8 @@ var communityHelper = (function() {
 		withdrawEarningsFor,
 		withdrawTo,
 		getWalletInfo,
-		getBalance,
+		getDataBalance,
+		getEthBalance,
 		decryptWallet,
 		getAvailableBalance,
 		getCumulativeEarnings,
