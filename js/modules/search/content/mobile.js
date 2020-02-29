@@ -724,7 +724,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [
@@ -839,7 +839,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [
@@ -892,11 +892,11 @@ search.mobile = [
         is_enabled: true,
         events: [
             {
-                selector: ".AdsCard",
+                selector: ".ads .s-titleHdr",
                 event_name: "click"
             },
 			{
-                selector: ".AdsCard",
+                selector: ".ads .s-titleHdr",
                 event_name: "contextmenu"
             }
         ],
@@ -954,7 +954,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [
