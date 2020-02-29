@@ -378,7 +378,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -403,7 +403,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -455,7 +455,7 @@ search.mobile = [
                 event_name: "click"
             },
 			{
-                selector: ".b_algo h2",
+                selector: ".b_algo a",
                 event_name: "contextmenu"
             }
         ],
@@ -473,14 +473,13 @@ search.mobile = [
             {
                 selector:"",
                 properties: [
-                    {
-						selector:"a",
+                    {						
                         property: "href",
                         name: "link",
                         type: "url"
                     },
                     {
-						selector:"a",
+						selector:"h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -499,7 +498,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -524,7 +523,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -601,7 +600,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-						selector:"h2 a",
+						selector:"a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -620,7 +619,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -645,7 +644,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
