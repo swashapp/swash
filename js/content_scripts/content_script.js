@@ -158,24 +158,50 @@ var contentScript = (function () {
 		return false;
 	};
 	
+	function hasAncestor(elem, selector) {		
+		var ancestor = elem.parentElement;
+		if (!selector) return true;
+		while(ancestor) {
+			if(ancestor.matches(selector))
+				return true;
+			ancestor = ancestor.parentElement;
+		}
+		return false;
+	};
+	
+	function hasDescendant(elem, selector) {
+		if (!selector) return true;
+		var childs = elem.querySelectorAll(selector);
+		if(childs.length > 0)
+			return true;
+		return false;
+	};
+	
+	
+	
 	function isCollectable(obj, conditions) {
 		let res;
 		for(let condition of conditions) {
 			res = true;
-			let expressions = Object.keys(condition);
-			for(let expr of expressions) {
-				switch(expr) {
+			for(let expr of condition) {
+				switch(expr.type) {
 					case "previousSibling":
-						res = condition[expr].contain? (res && hasPreviousSibling(obj, condition[expr].val)): (res && !hasPreviousSibling(obj, condition[expr].val))
+						res = expr.contain? (res && hasPreviousSibling(obj, expr.val)): (res && !hasPreviousSibling(obj, expr.val))
 						break;
 					case "nextSibling":
-						res = condition[expr].contain? (res && hasNextSibling(obj, condition[expr].val)): (res && !hasNextSibling(obj, condition[expr].val))
+						res = expr.contain? (res && hasNextSibling(obj, expr.val)): (res && !hasNextSibling(obj, expr.val))
 						break;
 					case "parent":
-						res = condition[expr].contain? (res && hasParent(obj, condition[expr].val)): (res && !hasParent(obj, condition[expr].val))
+						res = expr.contain? (res && hasParent(obj, expr.val)): (res && !hasParent(obj, expr.val))
 						break;
 					case "child":
-						res = condition[expr].contain? (res && hasChild(obj, condition[expr].val)): (res && !hasChild(obj, condition[expr].val))
+						res = expr.contain? (res && hasChild(obj, expr.val)): (res && !hasChild(obj, expr.val))
+						break;
+					case "ancestor":
+						res = expr.contain? (res && hasAncestor(obj, expr.val)): (res && !hasAncestor(obj, expr.val))
+						break;
+					case "descendant":
+						res = expr.contain? (res && hasDescendant(obj, expr.val)): (res && !hasDescendant(obj, expr.val))
 						break;
 				}
 				if(!res)
@@ -270,7 +296,7 @@ var contentScript = (function () {
 						}
                     })
                 }
-                else if(!(x.conditions && !isCollectable(obj, x.conditions))){											
+                else {											
                     x.properties.forEach(y=>{                        
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;

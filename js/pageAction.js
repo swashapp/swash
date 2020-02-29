@@ -1,5 +1,7 @@
 import {storageHelper} from './storageHelper.js';
 import {filterUtils} from './filterUtils.js';
+import {browserUtils} from './browserUtils.js';
+
 var pageAction = (function() {
     async function isDomainFiltered(tabInfo) {
         let domain = new URL(tabInfo.url)
@@ -24,15 +26,19 @@ var pageAction = (function() {
         return isDomainFiltered(tab);
     }
     function loadIcons(tabInfo) {
-        storageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
-			storageHelper.retrieveFilters().then(filters => {
-					if(filterUtils.filter(tabInfo.url, filters))
-						browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
-					else 
-						browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
-				});		
-			}			
-        })              
+		browserUtils.isMobileDevice().then(res => {
+				if(!res) {
+					storageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
+						storageHelper.retrieveFilters().then(filters => {
+								if(filterUtils.filter(tabInfo.url, filters))
+									browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
+								else 
+									browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
+							});		
+						}			
+					})              					
+				}
+		})
     }
 
     async function handleFilter() {

@@ -19,7 +19,7 @@ search.desktop = [
         objects: [
             {
                 selector:".bkWMgd .g .rc",
-				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
+				conditions: [[{type: 'parent' ,contain: false, val: ".related-question-pair"}]],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [
@@ -104,12 +104,12 @@ search.desktop = [
         events: [
             {
                 selector: ".g .rc .r",
-				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
+				conditions: [[{type: 'parent' ,contain: false, val: ".related-question-pair"}]],				
                 event_name: "click"
             },
 			{
                 selector: ".g .rc .r",
-				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
+				conditions: [[{type: 'parent' ,contain: false, val: ".related-question-pair"}]],
                 event_name: "contextmenu"
             }
         ],
@@ -143,7 +143,7 @@ search.desktop = [
             },
 			{
                 selector:".bkWMgd .g .rc",
-				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
+				conditions: [[{type: 'parent' ,contain: false, val: ".related-question-pair"}]],				
                 name: "searchResult",
 				indexName: "rank",
                 properties: [
@@ -281,7 +281,7 @@ search.desktop = [
             },
 			{
                 selector:".bkWMgd .g .rc",
-				conditions: [{parent: {contain: false, val: ".related-question-pair"}}],
+				conditions: [[{type: 'parent' ,contain: false, val: ".related-question-pair"}]],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [

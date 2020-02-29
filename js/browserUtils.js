@@ -16,13 +16,20 @@ var browserUtils = (function() {
         return navigator.language;
     }
 	
-    function getPlatformInfo()
+    async function getPlatformInfo()
     {
         if(typeof browser.runtime.getPlatformInfo === "function")
 			return browser.runtime.getPlatformInfo();
-		return resolve({os: 'win'});
+		return {os: 'win'};
     }
     
+	async function isMobileDevice() {
+		let os = (await getPlatformInfo()).os;
+		if(os === 'android')
+			return true;
+		return false;
+	}
+	
 	async function getProxyStatus() {
 		let proxySetting = await browser.proxy.settings.get({});
 		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS, proxyMode: proxySetting.value.mode};
@@ -46,6 +53,7 @@ var browserUtils = (function() {
 		getProxyStatus,
 		getVersion,
 		getScreenshot,
+		isMobileDevice
     };
 }())
 
