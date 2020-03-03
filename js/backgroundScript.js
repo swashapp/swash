@@ -50,7 +50,7 @@ browser.runtime.onMessage.addListener((message,sender, sendResponse) =>{
 		pageAction: pageAction,
 		transfer: transfer
 	}
-	sendResponse(objList[message.obj][message.func](...message.params));
+	sendResponse(objList[message.obj][message.func](...message.params));	
 });
 
 
