@@ -2,7 +2,7 @@ import {utils} from '../utils.js';
 import {allModules} from '../modules.js';
 import {dataHandler} from '../dataHandler.js';
 import {storageHelper} from '../storageHelper.js';
-
+import {browserUtils} from '../browserUtils.js';
 // TODO: handle ETAG
 // TODO: handle batch requests
 var apiCall = (function() {
@@ -46,6 +46,11 @@ var apiCall = (function() {
             var module = modules[moduleN]
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
+				if(browserUtils.isMobileDevice()) {
+					return browser.tabs.create({
+							url: auth_url
+						});
+				}
 				return browser.windows.create({
 					url: auth_url,
                     type: "popup"
