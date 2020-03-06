@@ -2,13 +2,13 @@ import {utils} from '../utils.js';
 import {allModules} from '../modules.js';
 import {dataHandler} from '../dataHandler.js';
 import {storageHelper} from '../storageHelper.js';
-
+import {browserUtils} from '../browserUtils.js';
 // TODO: handle ETAG
 // TODO: handle batch requests
 var apiCall = (function() {
 	
-    const API_CALL_INTERVAL = 60*60*1000;
-	const DELAY_BETWEEN_CALLS = 60*1000;
+    const API_CALL_INTERVAL = 15*1000;
+	const DELAY_BETWEEN_CALLS = 1*1000;
 		
     var callbacks = [];
 	var extId = "authsaz@gmail.com"
@@ -34,7 +34,7 @@ var apiCall = (function() {
 			}
 		}
 	}
-    function start_oauth(moduleName) {
+    function startOauth(moduleName) {
 		var filter = {
 				urls: [
 					"https://callbacks.swashapp.io/*"
@@ -46,6 +46,11 @@ var apiCall = (function() {
             var module = modules[moduleN]
             if(module.name == moduleName){
 				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
+				if(browserUtils.isMobileDevice()) {
+					return browser.tabs.create({
+							url: auth_url
+						});
+				}
 				return browser.windows.create({
 					url: auth_url,
                     type: "popup"
@@ -93,7 +98,12 @@ var apiCall = (function() {
     }
     
 	function prepareMessage(response,module,data) {
-		return response.json();
+		try {
+			return response.json();			
+		}
+		catch {
+			return {};
+		}
 	}
     
     function getEtag(response){
@@ -284,6 +294,7 @@ var apiCall = (function() {
 		unloadModule(module);
 		if(module.is_enabled){
 			if(module.functions.includes("apiCall")) {			
+				fetch_apis(module.name);
 				let crURL = getCallBackURL(module.name);			
 				callbacks[module.name] = {interval: -1, apiCalls: []};
 				callbacks[module.name].interval = setInterval(function(x){
@@ -299,7 +310,7 @@ var apiCall = (function() {
         unload,
         unloadModule,
         loadModule,
-		start_oauth,
+		startOauth,
 		getCallBackURL,
 		isConnected
     };

@@ -90,38 +90,38 @@ var privacyUtils = (function() {
     }
 
     function textPrivacy(text, privacyLevel, mSalt, salt, privacyData) {
-        var retText = text? text.toString(): '';
+        var retText = JSON.stringify(text);
         switch(privacyLevel) {
             case 0:        
-                return retText;
+                break;
             case 1:
                 for(var i = 0; i < privacyData.length ; i++) {  
 					retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (sha256(privacyData[i].value + salt).substring(0,privacyData[i].value.length)));                    
                 }
-                return retText;
+                break;
             case 2:
                 for(var i = 0; i < privacyData.length ; i++) {                 
                     retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
                 }
-                return retText;
+                break;
             case 3:
                 for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "\"\"");
                 }
-                return retText;
+                break;
             case 4:
                 for(var i = 0; i < privacyData.length ; i++) {
 					let res = retText.match(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'));
                     if(res) {
-                        retText = "";
+                        retText = "\"\"";
                         break;
                     }
                 }            
-                return retText;
-
+                break;
 			default:
                 return "";
         }
+		return JSON.parse(retText);
     }
     
     function userInfoPrivacy(user, privacyLevel, mSalt, salt) {

@@ -2,6 +2,7 @@ console.log("content.js");
 import {storageHelper} from '../storageHelper.js';
 import {utils} from '../utils.js';
 import {dataHandler} from '../dataHandler.js';
+import {browserUtils} from '../browserUtils.js'
 
 
 var content = (function() {
@@ -11,10 +12,12 @@ var content = (function() {
     
 	async function initModule(module){
 		if(module.functions.includes("content")) {			
-			let info = await browser.runtime.getPlatformInfo();
-			let platform = module.content_mapping[info.os];
+			let info = await browserUtils.getPlatformInfo();
+			let platform = 'mobile';
+/*			let platform = module.content_mapping[info.os];
 			if(!platform || typeof platform === "undefined")
 				platform = 'desktop';
+*/
 			module.content = module[platform];
 		}
 	}

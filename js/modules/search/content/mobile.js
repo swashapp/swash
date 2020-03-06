@@ -19,6 +19,7 @@ search.mobile = [
         objects: [
             {
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
+				conditions: [[{type: 'child', contain: true, val: ".x54gtf"}, {type: 'ancestor', contain: false, val: ".Z8j5ae"}]],
                 name: "searchResult",
 				indexName: "rank",
                 properties: [
@@ -44,14 +45,15 @@ search.mobile = [
             },
 			{
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
-                name: "adsResult",
+				name: "adsResult",
+				conditions: [[{type: 'child', contain: true, val: ".BUybKe"}]],
 				indexName: "rank",
                 properties: [
                     {
                         selector: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
                         property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
                         selector: "a .MUxGbd.v0nnCb",
@@ -103,13 +105,13 @@ search.mobile = [
         events: [
             {
                 selector: ".ZINbbc.xpd.O9g5cc.uUPGi",
-				conditions: [{parent: {contain: true, val: ".kCrYT a .BNeawe.UPmit.AP7Wnd"}}],
+				conditions: [[{type: 'child', contain: true, val: ".x54gtf"}, {type: 'ancestor', contain: false, val: ".Z8j5ae"}]],
                 event_name: "click"
             },
 			{
                 selector: ".ZINbbc.xpd.O9g5cc.uUPGi",
-				conditions: [{parent: {contain: true, val: ".kCrYT a .BNeawe.UPmit.AP7Wnd"}}],
-                event_name: "contextmenu"
+				conditions: [[{type: 'child', contain: true, val: ".x54gtf"}, {type: 'ancestor', contain: false, val: ".Z8j5ae"}]],
+				event_name: "contextmenu"
             }
         ],
         objects: [
@@ -142,7 +144,8 @@ search.mobile = [
             },
 			{
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
-                name: "searchResult",
+				conditions: [[{type: 'child', contain: true, val: ".x54gtf"}, {type: 'ancestor', contain: false, val: ".Z8j5ae"}]],
+                name: "searchResult",				
 				indexName: "rank",
                 properties: [
                     {
@@ -168,13 +171,14 @@ search.mobile = [
 			{
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
                 name: "adsResult",
+				conditions: [[{type: 'child', contain: true, val: ".BUybKe"}]],
 				indexName: "rank",
                 properties: [
                     {
                         selector: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
                         property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
                         selector: "a .MUxGbd.v0nnCb",
@@ -226,26 +230,16 @@ search.mobile = [
         events: [
             {
                 selector: ".ZINbbc.xpd.O9g5cc.uUPGi",
-				conditions: [{parent: {contain: true, val: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe"}}],
+				conditions: [[{type: 'child', contain: true, val: ".BUybKe"}]],
                 event_name: "click"
             },
 			{
                 selector: ".ZINbbc.xpd.O9g5cc.uUPGi",
-				conditions: [{parent: {contain: true, val: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe"}}],
+				conditions: [[{type: 'child', contain: true, val: ".BUybKe"}]],
                 event_name: "contextmenu"
             }
         ],
-        objects: [
-			{
-                selector:"#", //event properties
-                properties: [
-                    {
-                        property: "index",
-                        name: "rank",
-                        type: "text"
-                    }
-                ]
-            },		
+        objects: [			
 			{
                 selector:"#", //event properties
                 properties: [
@@ -263,7 +257,7 @@ search.mobile = [
                         selector: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
                         property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
                         selector: "a .MUxGbd.v0nnCb",
@@ -282,6 +276,7 @@ search.mobile = [
 			{
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
                 name: "searchResult",
+				conditions: [[{type: 'child', contain: true, val: ".x54gtf"}, {type: 'ancestor', contain: false, val: ".Z8j5ae"}]],
 				indexName: "rank",
                 properties: [
                     {
@@ -307,13 +302,14 @@ search.mobile = [
 			{
                 selector:".ZINbbc.xpd.O9g5cc.uUPGi",
                 name: "adsResult",
+				conditions: [[{type: 'child', contain: true, val: ".BUybKe"}]],
 				indexName: "rank",
                 properties: [
                     {
                         selector: "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
                         property: "innerText",
                         name: "link",
-                        type: "url"
+                        type: "text"
                     },
                     {
                         selector: "a .MUxGbd.v0nnCb",
@@ -382,7 +378,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -407,7 +403,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -459,7 +455,7 @@ search.mobile = [
                 event_name: "click"
             },
 			{
-                selector: ".b_algo h2",
+                selector: ".b_algo a",
                 event_name: "contextmenu"
             }
         ],
@@ -477,14 +473,13 @@ search.mobile = [
             {
                 selector:"",
                 properties: [
-                    {
-						selector:"a",
+                    {						
                         property: "href",
                         name: "link",
                         type: "url"
                     },
                     {
-						selector:"a",
+						selector:"h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -503,7 +498,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -528,7 +523,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -605,7 +600,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-						selector:"h2 a",
+						selector:"a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -624,7 +619,7 @@ search.mobile = [
                         type: "url"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -649,7 +644,7 @@ search.mobile = [
                         type: "text"
                     },
                     {
-                        selector: "a",
+                        selector: "a h2",
                         property: "innerText",
                         name: "title",
                         type: "text"
@@ -729,7 +724,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [
@@ -844,7 +839,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [
@@ -897,11 +892,11 @@ search.mobile = [
         is_enabled: true,
         events: [
             {
-                selector: ".AdsCard",
+                selector: ".ads .s-titleHdr",
                 event_name: "click"
             },
 			{
-                selector: ".AdsCard",
+                selector: ".ads .s-titleHdr",
                 event_name: "contextmenu"
             }
         ],
@@ -959,7 +954,7 @@ search.mobile = [
                 ]
             },
 			{
-                selector:".AdsCard",
+                selector:".ads",
                 name: "adsResult",
 				indexName: "rank",
                 properties: [

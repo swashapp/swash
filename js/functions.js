@@ -11,6 +11,6 @@ var functions = [
 	apiCall,
 	context,
 	task,
-	transfer
+	//transfer
 ]
 export {functions};

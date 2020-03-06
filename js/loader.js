@@ -8,6 +8,8 @@ import {functions} from './functions.js';
 import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
+import {browserUtils} from './browserUtils.js';
+
 var loader = (function() {
     'use strict';
     var dbHelperInterval;
@@ -75,14 +77,20 @@ var loader = (function() {
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.addListener(changeIconOnActivated)
-			browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});			
+			browserUtils.isMobileDevice().then(res => {
+				if(!res)
+					browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});			
+			})
 		}
 		else {			
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.removeListener(changeIconOnActivated);
-			browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});					
+			browserUtils.isMobileDevice().then(res => {
+				if(!res)
+					browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
+			})
 		}			
 	}
 	
