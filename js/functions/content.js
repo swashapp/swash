@@ -13,11 +13,9 @@ var content = (function() {
 	async function initModule(module){
 		if(module.functions.includes("content")) {			
 			let info = await browserUtils.getPlatformInfo();
-			let platform = 'mobile';
-/*			let platform = module.content_mapping[info.os];
+			let platform = module.content_mapping[info.os];
 			if(!platform || typeof platform === "undefined")
 				platform = 'desktop';
-*/
 			module.content = module[platform];
 		}
 	}

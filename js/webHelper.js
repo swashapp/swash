@@ -143,6 +143,7 @@ var helper = (function () {
 		}
 		return sendMessage(message);
 	}
+
 	function removeAuth(moduleName) {
 		param = {};
 		param[moduleName] = {};
@@ -346,6 +347,105 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function isExtensionUpdated() {
+		let message = {
+			obj: "onBoarding",
+			func: "isExtensionUpdated",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function submitOnBoarding() {
+		let message = {
+			obj: "onBoarding",
+			func: "submitOnBoarding",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function startOnBoarding(onBoardingName, tabId) {
+		let message = {
+			obj: "onBoarding",
+			func: "startOnBoarding",
+			params: [onBoardingName, tabId]
+		};
+		return sendMessage(message);
+	}
+
+	function startOnBoardingOAuth(onBoardingName) {
+		let message = {
+			obj: "onBoarding",
+			func: "startOnBoardingOAuth",
+			params: [onBoardingName]
+		};
+		return sendMessage(message);
+	}
+
+	function newUserOnBoarding() {
+		let message = {
+			obj: "onBoarding",
+			func: "newUserOnBoarding",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function loadFile(file) {
+		let message = {
+			obj: "onBoarding",
+			func: "loadFile",
+			params: [file]
+		};
+		return sendMessage(message);
+	}
+
+	function applyConfig(config) {
+		let message = {
+			obj: "onBoarding",
+			func: "applyConfig",
+			params: [config]
+		};
+		return sendMessage(message);
+	}
+
+	function saveConfig() {
+		let message = {
+			obj: "onBoarding",
+			func: "saveConfig",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function getFilesList(onBoardingName) {
+		let message = {
+			obj: "onBoarding",
+			func: "getFilesList",
+			params: [onBoardingName]
+		};
+		return sendMessage(message);
+	}
+
+	function downloadFile(onBoardingName, fileId) {
+		let message = {
+			obj: "onBoarding",
+			func: "downloadFile",
+			params: [onBoardingName, fileId]
+		};
+		return sendMessage(message);
+	}
+
+	function uploadFile(onBoardingName) {
+		let message = {
+			obj: "onBoarding",
+			func: "uploadFile",
+			params: [onBoardingName]
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -385,7 +485,18 @@ var helper = (function () {
 		isCurrentDomainFiltered,
 		loadWallets,
 		saveWallets,
-		withdrawTo
+		withdrawTo,
+		startOnBoarding,
+		isExtensionUpdated,
+		submitOnBoarding,
+		startOnBoardingOAuth,
+		newUserOnBoarding,
+		loadFile,
+		applyConfig,
+		saveConfig,
+		getFilesList,
+		downloadFile,
+		uploadFile
 	};
 }());
 
