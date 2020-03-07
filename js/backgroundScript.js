@@ -67,17 +67,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 /* Set popup menu for desktop versions */
 
 browserUtils.getPlatformInfo().then(info => {
-	if(info.os === 'android') {
-		browser.browserAction.onClicked.addListener(async () => 
-			browser.tabs.create({ url: '/dashboard/index.html#/Settings', })
-		);		
-	} 
-	else {
-		browser.browserAction.setPopup({ popup: 'popup/popup.html', });		
-	}
-})
-
-
+    browserUtils.isMobileDevice().then(res => {
+        if (res) {
+            browser.browserAction.onClicked.addListener(async () =>
+                browser.tabs.create({url: '/dashboard/index.html#/Settings',})
+            );
+        } else {
+            browser.browserAction.setPopup({popup: 'popup/popup.html',});
+        }
+    })
+});
 
 
 /* ***
