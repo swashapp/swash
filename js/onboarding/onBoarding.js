@@ -194,7 +194,7 @@ let onBoarding = (function () {
     }
 
     function createConfigFile(text) {
-        return new Blob([text], {type: 'text/plain'});
+        return new Blob([text], {type: 'application/octet-stream'});
     }
 
     async function saveConfig() {
@@ -270,7 +270,7 @@ let onBoarding = (function () {
 
                     let currentDate = new Date().toISOString().slice(0, 19);
                     let fileContent = JSON.stringify(db);
-                    let file = new Blob([fileContent], {type: 'text/plain'});
+                    let file = createConfigFile(fileContent);
                     let metadata = {
                         'name': "swash-" + currentDate + ".conf",
                         'mimeType': 'text/plain'
