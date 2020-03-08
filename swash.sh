@@ -16,14 +16,14 @@ fi
 case "$1" in	
 	'test')
 	cp environment/test/manifest.json .
-	web-ext run --ignore-files "dashboard*" "popup*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
+	web-ext run --ignore-files "dashboard*" "popup*" "swash.sh" "environment*" 
 	;;
 	'run')
 	cp environment/dev/manifest.json .
-	web-ext run --ignore-files "test*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
+	web-ext run --ignore-files "test*" "swash.sh" "environment*"
 	;;
 	*)
 	cp environment/production/manifest.json .
-	web-ext $1 --ignore-files "test*" "swash.sh" "environment*" --keep-profile-changes --firefox-profile=dev
+	web-ext $1 --ignore-files "test*" "swash.sh" "environment*"
 	;;
 esac
