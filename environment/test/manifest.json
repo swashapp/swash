@@ -29,5 +29,5 @@
 
   "permissions": ["clipboardRead","webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy", "webRequestBlocking", "downloads"],
 
-  "version": "1.0.6"
+  "version": "1.0.8-b"
 }
