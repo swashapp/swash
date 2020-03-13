@@ -1,4 +1,3 @@
-console.log("modules/youtube/content/desktop.js");
 import {youtube} from '../manifest.js';
 youtube.desktop = [
     {

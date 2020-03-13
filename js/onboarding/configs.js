@@ -1,5 +1,3 @@
-console.log("onBoarding/configs.js");
-
 let onBoardingConfigs = [
     {
         name: "File",

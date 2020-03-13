@@ -1,4 +1,3 @@
-console.log("modules/surfing/content/desktop.js");
 import {surfing} from '../manifest.js';
 surfing.desktop = [
 	{

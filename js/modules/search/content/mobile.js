@@ -1,4 +1,3 @@
-console.log("modules/search/content/mobile.js");
 import {search} from '../manifest.js';
 search.mobile = [
 	//google

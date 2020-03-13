@@ -1,6 +1,4 @@
-console.log("task_script.js");
-
-var taskScript = (function () {	
+var taskScript = (function () {
 	var callbacks = {};
     var startedTasks = {};
 
@@ -193,7 +191,7 @@ var taskScript = (function () {
 	}
 
 	function handleError(error) {
-	  console.log(`Error: ${error}`);
+	  console.error(`Error: ${error}`);
 	}
 	
 	return {

@@ -1,4 +1,3 @@
-console.log("modules/youtube/apis.js");
 import {youtube} from './manifest.js';
 youtube.apiCall = [
 	{

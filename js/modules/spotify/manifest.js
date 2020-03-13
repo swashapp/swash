@@ -1,4 +1,3 @@
-console.log("modules/spotify/manifest.js");
 import {allModules} from '../../modules.js';
 var spotify = (function() {
     'use strict';

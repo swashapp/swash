@@ -1,4 +1,3 @@
-console.log("modules/youtube/content/mobile.js");
 import {youtube} from '../manifest.js';
 youtube.mobile = [
     {

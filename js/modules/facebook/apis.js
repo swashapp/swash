@@ -1,4 +1,3 @@
-console.log("modules/facebook/apis.js");
 import {facebook} from './manifest.js';
 
 

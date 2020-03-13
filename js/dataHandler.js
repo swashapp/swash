@@ -1,4 +1,3 @@
-console.log("dataHandler.js");
 import {filterUtils} from './filterUtils.js';
 import {privacyUtils} from './privacyUtils.js';
 import {storageHelper} from './storageHelper.js';

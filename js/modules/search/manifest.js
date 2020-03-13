@@ -1,4 +1,3 @@
-console.log("modules/search/manifest.js");
 import {allModules} from '../../modules.js';
 var search = (function() {
     'use strict';

@@ -1,4 +1,3 @@
-console.log("loader.js");
 import {storageHelper} from './storageHelper.js';
 import {databaseHelper} from './databaseHelper.js';
 import {communityHelper} from './communityHelper.js';
@@ -59,7 +58,7 @@ var loader = (function() {
                 }
             }
         } catch (exp) {
-            console.log(exp);
+            console.error(exp);
         }
         return storageHelper.storeAll(db);
     }
@@ -228,14 +227,6 @@ var loader = (function() {
         return "unknown";
     }
 
-    function openOnBoarding() {
-        let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
-
-        browser.tabs.create({
-            url: fullURL
-        });
-    }
-
     return {
         isDbCreated,
         install,
@@ -244,8 +235,7 @@ var loader = (function() {
         load,
         reload,
         restart,
-        configModule,
-        openOnBoarding
+        configModule
     };
 }());
 export {loader};

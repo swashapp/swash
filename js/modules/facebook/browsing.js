@@ -1,4 +1,3 @@
-console.log("modules/facebook/browsing.js");
 import {facebook} from './manifest.js';
 facebook.browsing_filter = {urls: ["https://www.facebook.com/*"]};
 facebook.browsing_extraInfoSpec= [];

@@ -1,4 +1,3 @@
-console.log("modules/facebook/manifest.js");
 import {allModules} from '../../modules.js';
 var facebook = (function() {
     'use strict';

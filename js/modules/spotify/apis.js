@@ -1,4 +1,3 @@
-console.log("modules/spotify/apis.js");
 import {spotify} from './manifest.js';
 spotify.apiCall = [
 	{

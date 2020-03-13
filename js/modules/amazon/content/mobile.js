@@ -1,4 +1,3 @@
-console.log("modules/amazon/content/mobile.js");
 import {amazon} from '../manifest.js';
 amazon.mobile = [
 	{

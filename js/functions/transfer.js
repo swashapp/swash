@@ -1,5 +1,3 @@
-console.log("Transfer.js");
-
 var transfer = (function() {
 	var pattern = "swash://*";
 	const regexp = "swash:\/\/(0x[a-fA-F0-9]{40})"

@@ -1,4 +1,3 @@
-console.log("transfer_script.js");
 var timeout = 0;
 var wallet = "0x0"
 function send_msg(msg){

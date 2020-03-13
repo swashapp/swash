@@ -1,4 +1,3 @@
-console.log("modules/amazon/content.js");
 import {amazon} from './manifest.js';
 amazon.content_matches = ["*://*.amazon.com/*", "*://*.amazon.de/*","*://*.amazon.nl/*"]
 amazon.content_mapping = {

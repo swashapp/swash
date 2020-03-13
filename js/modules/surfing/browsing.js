@@ -1,4 +1,3 @@
-console.log("modules/surfing/browsing.js");
 import {surfing} from './manifest.js';
 surfing.browsing_filter = {urls: ["<all_urls>"]};
 surfing.browsing_extraInfoSpec= [];

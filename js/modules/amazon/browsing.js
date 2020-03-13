@@ -1,4 +1,3 @@
-console.log("modules/amazon/browsing.js");
 import {amazon} from './manifest.js';
 amazon.browsing_filter = {urls: ["https://www.amazon.com/*", "https://www.amazon.de/*", "https://www.amazon.nl/*"]};
 amazon.browsing_extraInfoSpec= [];

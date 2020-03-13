@@ -1,4 +1,3 @@
-console.log("modules/search/browsing.js");
 import {search} from './manifest.js';
 search.browsing_filter = {urls: ["*://www.bing.com/*", "*://*.yahoo.com/*", "*://www.google.com/search?*", 
         "*://search.aol.com/aol/*", "*://www.ask.com/*", "*://*.baidu.com/*"]};

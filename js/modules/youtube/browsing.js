@@ -1,4 +1,3 @@
-console.log("modules/youtube/browsing.js");
 import {youtube} from './manifest.js';
 youtube.browsing_filter = {urls: ["https://www.youtube.com/*"]};
 youtube.browsing_extraInfoSpec= [];

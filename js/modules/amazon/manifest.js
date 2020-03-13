@@ -1,4 +1,3 @@
-console.log("modules/amazon/manifest.js");
 import {allModules} from '../../modules.js';
 var amazon = (function() {
     'use strict';

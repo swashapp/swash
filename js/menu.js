@@ -9,12 +9,16 @@ function filterIconStat(filtered) {
 }
 
 function showPageOnTab(url_to_show) {
-	return browser.windows.getAll({
-		populate: true,
-		windowTypes: ["normal"]
-	  }).then((windowInfoArray) => {
-		  browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
-	  });
+	window.helper.isNeededOnBoarding().then((result) => {
+		if (result)
+			url_to_show = browser.runtime.getURL("dashboard/index.html#/OnBoarding");
+		return browser.windows.getAll({
+			populate: true,
+			windowTypes: ["normal"]
+		  }).then((windowInfoArray) => {
+			  browser.tabs.create({url: url_to_show, active: true}).then(x=>{ window.close(); });
+		  });
+	});
 }
 
 
@@ -67,18 +71,22 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 
 
 window.helper.load().then(db => {
-    window.helper.getVersion().then(version => {
-		updateVersion(version);
-	})
+	window.helper.isNeededOnBoarding().then((result) => {
+		if (!result) {
+			window.helper.getVersion().then(version => {
+				updateVersion(version);
+			});
 
-    document.getElementById("streaming").checked = db.configs.is_enabled;            
-	
-	window.helper.getTotalBalance().then(balance => {
-		balance = (balance === '' || balance === 'undefined' || typeof(balance) ==='undefined') ? '0.00':balance;
-		updateBalance(purgeNumber(balance));
-	})
-})
+			document.getElementById("streaming").checked = db.configs.is_enabled;
+
+			window.helper.getTotalBalance().then(balance => {
+				balance = (balance === '' || balance === 'undefined' || typeof (balance) === 'undefined') ? '0.00' : balance;
+				updateBalance(purgeNumber(balance));
+			})
+		}
+	});
+});
 
 window.helper.isCurrentDomainFiltered().then(filtered => {
 	filterIconStat(filtered);
-})
+});

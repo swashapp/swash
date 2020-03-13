@@ -1,4 +1,3 @@
-console.log("modules/search/content/desktop.js");
 import {search} from '../manifest.js';
 search.desktop = [
 	//google

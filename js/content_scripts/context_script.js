@@ -1,6 +1,4 @@
-console.log("context_script.js");
-
-var contextScript = (function () {	
+var contextScript = (function () {
 	var cta_callbacks = [];
 
 
@@ -62,7 +60,7 @@ var contextScript = (function () {
 	}
 
 	function handleError(error) {
-	  console.log(`Error: ${error}`);
+	  console.error(`Error: ${error}`);
 	}
 
 	return {

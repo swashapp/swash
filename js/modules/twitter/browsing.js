@@ -1,4 +1,3 @@
-console.log("modules/twitter/browsing.js");
 import {twitter} from './manifest.js';
 twitter.browsing_filter = {urls: ["https://*.twitter.com/*"]};
 twitter.browsing_extraInfoSpec= [];

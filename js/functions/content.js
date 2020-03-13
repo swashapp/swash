@@ -1,4 +1,3 @@
-console.log("content.js");
 import {storageHelper} from '../storageHelper.js';
 import {utils} from '../utils.js';
 import {dataHandler} from '../dataHandler.js';

@@ -1,4 +1,3 @@
-console.log("backgroundScript.js");
 import {pageAction} from './pageAction.js';
 import {memberManager} from './memberManager.js';
 import {loader} from './loader.js';
@@ -28,7 +27,7 @@ browser.runtime.onInstalled.addListener((info) => {
     if (info.reason === "update" || info.reason === "install") {
         onBoarding.isNeededOnBoarding().then((isNeeded) => {
             if (isNeeded)
-                loader.openOnBoarding();
+                onBoarding.openOnBoarding();
             else
                 loader.install(allModules, null).then(() => {
                     loader.reload()

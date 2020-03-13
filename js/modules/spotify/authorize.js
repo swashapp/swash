@@ -1,4 +1,3 @@
-console.log("modules/spotify/authorize.js");
 import {spotify} from './manifest.js';
 
 // TODO: remove scopes that are not necessary

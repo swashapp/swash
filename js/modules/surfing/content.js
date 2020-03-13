@@ -1,4 +1,3 @@
-console.log("modules/surfing/content.js");
 import {surfing} from './manifest.js';
 surfing.content_matches = ["*://*/*"]
 surfing.content_mapping = {

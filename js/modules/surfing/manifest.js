@@ -1,4 +1,3 @@
-console.log("modules/surfing/manifest.js");
 import {allModules} from '../../modules.js';
 var surfing = (function() {
     'use strict';    

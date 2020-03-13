@@ -1,4 +1,3 @@
-console.log("utils.js");
 var utils = (function() {
     'use strict';
     

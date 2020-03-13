@@ -1,4 +1,3 @@
-console.log("modules/facebook/authorize.js");
 import {facebook} from './manifest.js';
 import {apiCall} from '../../functions/apiCall.js';
 facebook.apiConfig = {

@@ -1,4 +1,3 @@
-console.log("modules/amazon/content/desktop.js");
 import {amazon} from '../manifest.js';
 amazon.desktop = [
 	{

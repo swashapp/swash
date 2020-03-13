@@ -1,4 +1,3 @@
-console.log("push.js");
 import {streamConfig} from './streamConfig.js';
 import {storageHelper} from './storageHelper.js';
 

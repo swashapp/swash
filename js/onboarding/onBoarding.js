@@ -54,6 +54,7 @@ let onBoarding = (function () {
         db.onBoardings.completionDate = currentDate;
 
         await storageHelper.storeAll(db);
+        await loader.reload();
         return true;
     }
 
@@ -73,7 +74,7 @@ let onBoarding = (function () {
             browser.tabs.onRemoved.addListener(handleRemoved);
         }
 
-        if (!data[onBoardingName]) {
+        if (!data[onBoardingName] || await getOnBoardingAccessToken(onBoardingName) === "") {
             startOnBoardingOAuth(onBoardingName).then((response) => {
                 oauthTabId = response.id;
             });
@@ -109,7 +110,7 @@ let onBoarding = (function () {
                 if (onBoarding.name === onBoardingName) {
                     onBoarding.apiConfig.redirect_url = getCallBackURL(onBoarding.name);
                     let auth_url = `${onBoarding.apiConfig.auth_url}?client_id=${onBoarding.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(onBoarding.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(onBoarding.apiConfig.scopes.join(' '))}`
-                    if(await browserUtils.isMobileDevice()) {
+                    if (await browserUtils.isMobileDevice()) {
                         return browser.tabs.create({
                             url: auth_url
                         });
@@ -148,21 +149,59 @@ let onBoarding = (function () {
     }
 
     async function getOnBoardingAccessToken(onBoardingName) {
-        return storageHelper.retrieveOnBoardings().then(confs => {
-            for (let confIndex in confs) {
-                if (confs.hasOwnProperty(confIndex)) {
-                    let conf = confs[confIndex];
-                    if (confIndex === onBoardingName) {
+        let confs = await storageHelper.retrieveOnBoardings();
+        for (let confIndex in confs) {
+            if (confs.hasOwnProperty(confIndex)) {
+                let conf = confs[confIndex];
+                if (confIndex === onBoardingName) {
+                    if(await validateOnBoardingToken(onBoardingName))
                         return conf.access_token;
-                    }
+                    return "";
                 }
             }
-            return "";
-        })
+        }
+        return "";
+    }
+
+    function purgeOnBoardingAccessToken(onBoardingName) {
+        saveOnBoardingAccessToken(onBoardingName, null);
+    }
+
+    async function validateOnBoardingToken(onBoardingName) {
+        let data = await storageHelper.retrieveOnBoardings();
+        let conf = data[onBoardingName];
+
+        for (let onBoardingIndex in onBoardingConfigs) {
+            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
+                let onBoarding = onBoardingConfigs[onBoardingIndex];
+                if (onBoardingName === onBoarding.name) {
+                    return apiCall(onBoarding.validate_token.endpoint, onBoarding.access_token).then(response => {
+                        if (response.status !== 200) {
+                            purgeOnBoardingAccessToken(onBoarding);
+                            return false;
+                        }
+                        return response.json().then((json) => {
+                            let jpointers = JSONPath.JSONPath({path: onBoarding.validate_token.required_jpath, json: json});
+                            if (jpointers.length > 0) {
+                                return true;
+                            } else {
+                                purgeOnBoardingAccessToken(onBoarding);
+                                return false;
+                            }
+                        }).catch(error => {
+                            purgeOnBoardingAccessToken(onBoarding);
+                        });
+                    }).catch(error => {
+                        purgeOnBoardingAccessToken(onBoarding);
+                    });
+                }
+            }
+        }
+        return false;
     }
 
     async function newUserOnBoarding() {
-        return loader.install(allModules, null).then(() => {
+        return loader.install(allonBoardings, null).then(() => {
             loader.reload()
         });
     }
@@ -353,6 +392,14 @@ let onBoarding = (function () {
         return fetch(url, req);
     }
 
+    function openOnBoarding() {
+        let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
+
+        browser.tabs.create({
+            url: fullURL
+        });
+    }
+
     return {
         isNeededOnBoarding,
         isExtensionUpdated,
@@ -365,7 +412,8 @@ let onBoarding = (function () {
         saveConfig,
         getFilesList,
         downloadFile,
-        uploadFile
+        uploadFile,
+        openOnBoarding
     };
 }());
 export {onBoarding};

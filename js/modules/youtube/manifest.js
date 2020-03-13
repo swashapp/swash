@@ -1,4 +1,3 @@
-console.log("modules/youtube/manifest.js");
 import {allModules} from '../../modules.js';
 var youtube = (function() {
     'use strict';

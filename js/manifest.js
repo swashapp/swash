@@ -1,4 +1,3 @@
-console.log("manifest.js");
 var ssConfig = (function() {
     'use strict';
     

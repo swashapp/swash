@@ -347,6 +347,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function isNeededOnBoarding() {
+		let message = {
+			obj: "onBoarding",
+			func: "isNeededOnBoarding",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	function isExtensionUpdated() {
 		let message = {
 			obj: "onBoarding",
@@ -446,6 +455,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function openOnBoarding() {
+		let message = {
+			obj: "onBoarding",
+			func: "openOnBoarding",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -487,6 +505,7 @@ var helper = (function () {
 		saveWallets,
 		withdrawTo,
 		startOnBoarding,
+		isNeededOnBoarding,
 		isExtensionUpdated,
 		submitOnBoarding,
 		startOnBoardingOAuth,
@@ -496,8 +515,7 @@ var helper = (function () {
 		saveConfig,
 		getFilesList,
 		downloadFile,
-		uploadFile
+		uploadFile,
+		openOnBoarding
 	};
 }());
-
-console.log(helper);

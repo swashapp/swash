@@ -1,4 +1,3 @@
-console.log("storageHelper.js");
 import {utils} from './utils.js';
 
 var storageHelper = (function () {

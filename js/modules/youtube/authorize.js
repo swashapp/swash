@@ -1,4 +1,3 @@
-console.log("modules/youtube/authorize.js");
 import {youtube} from './manifest.js';
 
 // TODO: remove scopes that are not necessary
@@ -43,14 +42,12 @@ function validate(requestDetails) {
 }
 
 
-function storeToken(data) {   
-    console.log("saving access token", data);
+function storeToken(data) {
     info = {
         tokenInfo: data[1],
     }
     info.tokenInfo.token = data[0];
     storeData(config.name, info);
-    console.log("access token save done");    
 }
 
 

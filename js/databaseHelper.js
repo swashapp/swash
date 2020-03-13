@@ -1,5 +1,3 @@
-console.log("databaseHelper.js");
-
 var databaseHelper = (function() {
 	'use strict';
 
@@ -101,11 +99,11 @@ var databaseHelper = (function() {
 					values: [row]
 				}).then(function(rowsInserted) {
 				}).catch(function(err) {
-					console.log(err);
+					console.error(err);
 				});
 			}
 		}).catch(function(err) {
-			console.log(err);
+			console.error(err);
 		});
 	}
 
@@ -151,7 +149,7 @@ var databaseHelper = (function() {
 			values: [row]
 		}).then(function(rowsInserted) {
 		}).catch(function(err) {
-			console.log(err);
+			console.error(err);
 		});
 
 	}
@@ -185,7 +183,7 @@ var databaseHelper = (function() {
 			}
 		}).then(function(rowsDeleted) {
 		}).catch(function(err) {
-			console.log(err);
+			console.error(err);
 		});	
 	}
 
@@ -197,7 +195,7 @@ var databaseHelper = (function() {
 			}
 		}).then(function(rowsDeleted) {
 		}).catch(function(err) {
-			console.log(err);
+			console.error(err);
 		});	
 	}
 	

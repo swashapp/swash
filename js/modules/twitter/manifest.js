@@ -1,4 +1,3 @@
-console.log("modules/twitter/manifest.js");
 import {allModules} from '../../modules.js';
 var twitter = (function() {
     'use strict';

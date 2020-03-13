@@ -1,6 +1,4 @@
-console.log("content_script.js");
-
-var contentScript = (function () {	
+var contentScript = (function () {
 	var callbacks = {};
     var oCallbacks = {};
 	
@@ -411,7 +409,7 @@ var contentScript = (function () {
 	}
 
 	function handleError(error) {
-	  console.log(`Error: ${error}`);
+	  console.error(`Error: ${error}`);
 	}
 
 	return {
