@@ -455,6 +455,42 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function writeTo3BoxSpace(seed) {
+		let message = {
+			obj: "onBoarding",
+			func: "writeTo3BoxSpace",
+			params: [seed]
+		};
+		return sendMessage(message);
+	}
+
+	function getFrom3BoxSpace(seed) {
+		let message = {
+			obj: "onBoarding",
+			func: "getFrom3BoxSpace",
+			params: [seed]
+		};
+		return sendMessage(message);
+	}
+
+	function save3BoxMnemonic(mnemonic) {
+		let message = {
+			obj: "onBoarding",
+			func: "save3BoxMnemonic",
+			params: [mnemonic]
+		};
+		return sendMessage(message);
+	}
+
+	function get3BoxMnemonic() {
+		let message = {
+			obj: "onBoarding",
+			func: "get3BoxMnemonic",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	function openOnBoarding() {
 		let message = {
 			obj: "onBoarding",
@@ -516,6 +552,10 @@ var helper = (function () {
 		getFilesList,
 		downloadFile,
 		uploadFile,
+		writeTo3BoxSpace,
+		getFrom3BoxSpace,
+		save3BoxMnemonic,
+		get3BoxMnemonic,
 		openOnBoarding
 	};
 }());
