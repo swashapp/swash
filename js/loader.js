@@ -66,13 +66,13 @@ var loader = (function() {
     function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
         if (!changeInfo.url || !tabInfo.active)
             return;
-        pageAction.loadIcons(tabInfo);
+        pageAction.loadIcons(tabInfo.url);
     }
 
     function changeIconOnActivated(activeInfo) {
         browser.tabs.get(activeInfo.tabId).then((tabInfo) => {
             if (tabInfo.url) {
-                pageAction.loadIcons(tabInfo);
+                pageAction.loadIcons(tabInfo.url);
             }
         })
     }
@@ -83,20 +83,20 @@ var loader = (function() {
 				browser.tabs.onUpdated.addListener(changeIconOnUpdated);
 			if(!browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.addListener(changeIconOnActivated)
-			browserUtils.isMobileDevice().then(res => {
-				if(!res)
-					browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});			
-			})
+			browser.tabs.query({active: true, currentWindow: true}).then(activeTab => {
+				if(activeTab.length > 0)
+					pageAction.loadIcons(activeTab[0].url);				
+			});	
 		}
 		else {			
 			if(browser.tabs.onUpdated.hasListener(changeIconOnUpdated))	
 				browser.tabs.onUpdated.removeListener(changeIconOnUpdated);
 			if(browser.tabs.onActivated.hasListener(changeIconOnActivated))	
 				browser.tabs.onActivated.removeListener(changeIconOnActivated);
-			browserUtils.isMobileDevice().then(res => {
-				if(!res)
-					browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
-			})
+			browser.tabs.query({active: true, currentWindow: true}).then(activeTab => {
+				if(activeTab.length > 0)
+					pageAction.loadIcons(activeTab[0].url);				
+			});
 		}			
 	}
 	
@@ -128,7 +128,7 @@ var loader = (function() {
 		let config = {is_enabled: true}
 		storageHelper.updateConfigs(config).then(() => {
 			init(true);
-			loadFunctions();
+			loadFunctions();			
 		})	
     }
     
@@ -137,7 +137,7 @@ var loader = (function() {
 		let config = {is_enabled: false};
 		storageHelper.updateConfigs(config).then(() => {
 			init(false);
-			unloadFunctions();				
+			unloadFunctions();			
 		})
     }
 

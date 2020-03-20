@@ -25,17 +25,20 @@ var pageAction = (function() {
         let tab = await browser.tabs.get(tabs[0].id);
         return isDomainFiltered(tab);
     }
-    function loadIcons(tabInfo) {
+    function loadIcons(url) {
 		browserUtils.isMobileDevice().then(res => {
 				if(!res) {
 					storageHelper.retrieveConfigs().then(configs => { if(configs.is_enabled) {
 						storageHelper.retrieveFilters().then(filters => {
-								if(filterUtils.filter(tabInfo.url, filters))
+								if(filterUtils.filter(url, filters))
 									browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
 								else 
 									browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
 							});		
-						}			
+						}
+						else {
+							browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
+						}
 					})              					
 				}
 		})
@@ -79,7 +82,7 @@ var pageAction = (function() {
             if (allow) {
                 filter.push(f);
                 storageHelper.storeFilters(filter).then(res => {
-                    loadIcons(tab);                
+                    loadIcons(tab.url);                
                 })                
             }
         })
@@ -104,7 +107,7 @@ var pageAction = (function() {
             })
             
             storageHelper.storeFilters(filters).then(res => {
-                loadIcons(tab);            
+                loadIcons(tab.url);            
             });
             
         })

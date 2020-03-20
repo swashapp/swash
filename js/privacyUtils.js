@@ -93,20 +93,23 @@ var privacyUtils = (function() {
         var retText = JSON.stringify(text);
         switch(privacyLevel) {
             case 0:        
-                break;
-            case 1:
-                for(var i = 0; i < privacyData.length ; i++) {  
-					retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (sha256(privacyData[i].value + salt).substring(0,privacyData[i].value.length)));                    
-                }
-                break;
-            case 2:
                 for(var i = 0; i < privacyData.length ; i++) {                 
                     retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
                 }
                 break;
+            case 1:
+                for(var i = 0; i < privacyData.length ; i++) {                 
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
+                }
+                break;
+            case 2:
+                for(var i = 0; i < privacyData.length ; i++) {                 
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
+                }
+                break;
             case 3:
                 for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "\"\"");
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
                 }
                 break;
             case 4:

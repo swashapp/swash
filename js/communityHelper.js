@@ -7,8 +7,8 @@ var communityHelper = (function() {
 	let client;
 	const GAS_PRICE_LIMIT = ethers.utils.parseUnits('18', 'gwei')
 	const overrides = {
-		gasPrice: ethers.utils.parseUnits('18', 'gwei'),
-		/*
+		/*gasPrice: ethers.utils.parseUnits('18', 'gwei'),
+		
 		gasPrice: async () => {
 			const gasPrice = await provider.getGasPrice()
 			if (gasPrice.gt(GAS_PRICE_LIMIT)) {
@@ -20,6 +20,12 @@ var communityHelper = (function() {
 		*/
 	};
 
+	function etherjsErrorMapping(error) {
+		if(error.indexOf('insufficient funds') >= 0)
+			return "Insufficient ETH to pay for the gas fee";
+		return error;
+	}
+	
 	function createWallet() {
 		wallet = ethers.Wallet.createRandom();
 		return wallet;
@@ -84,17 +90,17 @@ var communityHelper = (function() {
 	}
 
 	async function getEthBalance(address) {
-		if (!wallet || !provider) return {error: "Wallet is not provided"};;
-		let balance = await provider.getBalance(wallet.address);
+		if (!provider) return {error: "provider is not provided"};;
+		let balance = await provider.getBalance(address);
 		return ethers.utils.formatEther(balance);
 	}
 	
 	
 	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
-	async function getDataBalance() {
-		if (!wallet || !provider) return {error: "Wallet is not provided"};;
+	async function getDataBalance(address) {
+		if (!provider) return {error: "provider is not provided"};;
 		const datacoin = new ethers.Contract(communityConfig.datacoinAddress, communityConfig.datacoinAbi, provider);
-		const balance = await datacoin.balanceOf(wallet.address);
+		const balance = await datacoin.balanceOf(address);
 		return ethers.utils.formatEther(balance);
 	}
 
@@ -136,7 +142,8 @@ var communityHelper = (function() {
 
 	// on-chain balance + available balance
 	async function getTotalBalance() {
-		let balance = ethers.utils.parseEther(await getDataBalance());
+		if (!wallet) return {error: "Wallet is not provided"};
+		let balance = ethers.utils.parseEther(await getDataBalance(wallet.address));
 		let aBalance = ethers.utils.parseEther(await getAvailableBalance());
 		return ethers.utils.formatEther(balance.add(aBalance));
 	}
@@ -167,7 +174,7 @@ var communityHelper = (function() {
 			return resp;
 		}
 		catch(err) {
-			return {error: err.message};			
+			return {error: etherjsErrorMapping(err.message)};
 		}
 	}
 
@@ -177,7 +184,7 @@ var communityHelper = (function() {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};;
 		if (!client) clientConnect();
 		let memberAddress = wallet.address;
-		const amountBN = ethers.utils.bigNumberify(amount)
+		const amountBN = ethers.utils.bigNumberify(ethers.utils.parseEther(amount));
 
 		wallet = wallet.connect(provider);
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
@@ -187,34 +194,35 @@ var communityHelper = (function() {
 		if (member.error || member.withdrawableEarnings < 1) {			
 			return {error: "Nothing to withdraw"};
 		}
-		if (new Bignumber(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){			
+		if (ethers.utils.bigNumberify(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){			
 			return {error: "Insufficient balance"};
 		}
 
 		// have we proven enough earnings previously?
-		const provenEarnings = await contract.earnings(memberAddress)		
-		if (provenEarnings.sub(withdrawn).lt(amountBN)) {
-			// function prove(uint blockNumber, address account, uint balance, bytes32[] memory proof)
-			await contract.prove(
-				member.withdrawableBlockNumber,
-				memberAddress,
-				member.withdrawableEarnings,
-				member.proof,
-				overrides
-			)
-		}
-
 		try {
+			const provenEarnings = await contract.earnings(memberAddress)		
+			if (provenEarnings.sub(withdrawn).lt(amountBN)) {
+				// function prove(uint blockNumber, address account, uint balance, bytes32[] memory proof)
+
+				await contract.prove(
+					member.withdrawableBlockNumber,
+					memberAddress,
+					member.withdrawableEarnings,
+					member.proof,
+					overrides
+				)								
+			}
+
 			let resp = await contract.withdrawTo(
+				targetAddress,
 				memberAddress,
-				wallet.address,
 				amountBN,
 				overrides
 			);
 			return resp;
 		}
-		catch(err) {			
-			return {error: err.message};
+		catch(err) {
+			return {error: etherjsErrorMapping(err.message)};
 		}
 	}
 
@@ -239,7 +247,7 @@ var communityHelper = (function() {
 			return resp;
 		}
 		catch(err) {
-			return {error: err.message};
+			return {error: etherjsErrorMapping(err.message)};
 		}
 	}
 

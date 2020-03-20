@@ -1,4 +1,5 @@
 var communityConfig = {
+	version: 1,
 	apiBaseURL: 'https://www.streamr.com/api/v1/communities',
 	datacoinAddress: '0x0cf0ee63788a0849fe5297f3407f701e122cc023',
 	communityAddress: '0xF24197f71fC9b2F4F4c24ecE461fB0Ff7C91FD23',
@@ -25,6 +26,51 @@ var communityConfig = {
 			"payable":false,
 			"stateMutability":"nonpayable",
 			"type":"function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+			  {
+				"name": "",
+				"type": "address"
+			  }
+			],
+			"name": "earnings",
+			"outputs": [
+			  {
+				"name": "",
+				"type": "uint256"
+			  }
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+		  "constant": false,
+		  "inputs": [
+			{
+			  "name": "blockNumber",
+			  "type": "uint256"
+			},
+			{
+			  "name": "account",
+			  "type": "address"
+			},
+			{
+			  "name": "balance",
+			  "type": "uint256"
+			},
+			{
+			  "name": "proof",
+			  "type": "bytes32[]"
+			}
+		  ],
+		  "name": "prove",
+		  "outputs": [],
+		  "payable": false,
+		  "stateMutability": "nonpayable",
+		  "type": "function"
 		},
 		{
 			"constant": true,

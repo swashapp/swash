@@ -201,7 +201,7 @@ let onBoarding = (function () {
     }
 
     async function newUserOnBoarding() {
-        return loader.install(allonBoardings, null).then(() => {
+        return loader.install(allModules, null).then(() => {
             loader.reload()
         });
     }
