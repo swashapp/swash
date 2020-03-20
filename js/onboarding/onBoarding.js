@@ -154,7 +154,7 @@ let onBoarding = (function () {
             if (confs.hasOwnProperty(confIndex)) {
                 let conf = confs[confIndex];
                 if (confIndex === onBoardingName) {
-                    if(await validateOnBoardingToken(onBoardingName))
+                    if (await validateOnBoardingToken(onBoardingName))
                         return conf.access_token;
                     return "";
                 }
@@ -392,6 +392,53 @@ let onBoarding = (function () {
         return fetch(url, req);
     }
 
+    async function get3BoxSpace(seed) {
+        const getConsent = function () {
+            return true
+        };
+        const idWallet = new IdentityWallet(getConsent, {seed});
+        const provider = idWallet.get3idProvider();
+        const box = await Box.openBox(null, provider);
+        return await box.openSpace('Swash');
+    }
+
+    async function writeTo3BoxSpace(seed) {
+        const space = await get3BoxSpace(seed);
+
+        let db = await storageHelper.retrieveAll();
+        delete db.onBoardings['3Box'];
+        let data = JSON.stringify(db);
+        let currentDate = new Date().toISOString().slice(0, 19);
+        return space.private.set("swash-" + currentDate + ".conf", data);
+    }
+
+    async function getFrom3BoxSpace(seed) {
+        const space = await get3BoxSpace(seed);
+
+        const spaceData = await space.private.all();
+        console.log(spaceData);
+        return JSON.stringify(spaceData);
+    }
+
+    function save3BoxMnemonic(mnemonic) {
+        let data = {};
+        data['3Box'] = {};
+        data['3Box'].mnemonic = mnemonic;
+        storageHelper.updateOnBoardings(data).then(result => {
+        });
+    }
+
+    async function get3BoxMnemonic() {
+        let data = await storageHelper.retrieveOnBoardings();
+        let conf = data['3Box'];
+
+        if (conf && conf.mnemonic)
+            return conf.mnemonic;
+        else
+            return "";
+
+    }
+
     function openOnBoarding() {
         let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
 
@@ -413,7 +460,11 @@ let onBoarding = (function () {
         getFilesList,
         downloadFile,
         uploadFile,
-        openOnBoarding
+        openOnBoarding,
+        writeTo3BoxSpace,
+        getFrom3BoxSpace,
+        save3BoxMnemonic,
+        get3BoxMnemonic
     };
 }());
 export {onBoarding};
