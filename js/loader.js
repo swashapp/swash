@@ -1,3 +1,4 @@
+import {configManager} from './configManager.js'
 import {storageHelper} from './storageHelper.js';
 import {databaseHelper} from './databaseHelper.js';
 import {communityHelper} from './communityHelper.js';
@@ -27,7 +28,7 @@ var loader = (function() {
             db.configs.salt = utils.uuid();
             db.configs.delay = 2;
             communityHelper.createWallet();
-            db.configs.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
+            db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
             utils.jsonUpdate(db.configs, ssConfig);
         }
         try {
@@ -35,9 +36,13 @@ var loader = (function() {
             if (!db.wallets)
                 db.wallets = [];
 
+			//onBoarding added from version 1.0.8
             if (!db.onBoardings)
                 db.onBoardings = {};
-
+			//from version 1.0.9 move wallet to profile object for safety
+			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet)
+				db.profile.encryptedWallet = db.configs.encryptedWallet;
+			
             db.configs.version = ssConfig.version;
             let newFilters = db.filters.filter(function (f, index, arr) {
                 return (!f.internal);
@@ -57,6 +62,7 @@ var loader = (function() {
                     utils.jsonUpdate(db.modules[module.name], module);
                 }
             }
+			utils.jsonUpdate(db.configs, configManager.getAll())
         } catch (exp) {
             console.error(exp);
         }
@@ -147,13 +153,13 @@ var loader = (function() {
     }
     
 	async function load() {		
-		storageHelper.retrieveConfigs().then(async (configs) => {
+		storageHelper.retrieveAll().then(async (db) => {
 			dbHelperInterval = setInterval(function(){
 				databaseHelper.init();
 				dataHandler.sendDelayedMessages();
 				}, 10000);
-			let x = await communityHelper.loadWallet(configs.encryptedWallet, configs.salt);
-			if(configs.is_enabled) {
+			let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
+			if(db.configs.is_enabled) {
 				init(true);
 				loadFunctions();
 			} 
@@ -165,16 +171,16 @@ var loader = (function() {
 	}
 	
 	async function reload() {		
-		storageHelper.retrieveConfigs().then(async (configs) => {
+		storageHelper.retrieveAll().then(async (db) => {
             clearInterval(dbHelperInterval);
             dbHelperInterval = setInterval(function () {
                 databaseHelper.init();
                 dataHandler.sendDelayedMessages();
             }, 10000);
             init(false);
-            let x = await communityHelper.loadWallet(configs.encryptedWallet, configs.salt);
+            let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
             unloadFunctions();
-            if (configs.is_enabled) {
+            if (db.configs.is_enabled) {
                 init(true);
                 loadFunctions();
             }

@@ -1,4 +1,6 @@
-import {communityConfig} from './communityConfig.js';
+import {configManager} from './configManager.js';
+
+var communityConfig = configManager.get('community');
 
 var communityHelper = (function() {
 

@@ -3,8 +3,10 @@ import {privacyUtils} from './privacyUtils.js';
 import {storageHelper} from './storageHelper.js';
 import {databaseHelper} from './databaseHelper.js';
 import {stream} from './stream.js';
-import {streamConfig} from './streamConfig.js'
+import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
+
+var streamConfig = configManager.get('stream')
 
 var dataHandler = (function() {
     'use strict';

@@ -1,0 +1,19 @@
+{
+	"version": 1,	
+	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/master/js/configs/",
+	"updateInterval": 3600000,
+	"files": {
+		"community": {
+			"version": 1
+		},
+		"stream": {
+			"version": 1
+		},
+		"onboarding": {
+			"version": 1
+		},
+		"memberManager": {
+			"version": 1
+		}		
+	}
+}

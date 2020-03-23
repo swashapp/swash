@@ -1,0 +1,6 @@
+{
+	"minimumMessageNumber": 0,
+	"sendTimeWindow": 300000,
+	"strategy": "immediateJoinStrategy",
+	"tryInterval": 6000
+}

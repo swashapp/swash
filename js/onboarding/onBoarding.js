@@ -2,9 +2,10 @@ import {utils} from '../utils.js';
 import {allModules} from "../modules.js";
 import {loader} from '../loader.js';
 import {storageHelper} from '../storageHelper.js';
-import {onBoardingConfigs} from '../onboarding/configs.js'
 import {browserUtils} from "../browserUtils.js";
+import {configManager} from '../configManager.js';
 
+var onBoardingConfigs =  configManager.get('onboarding');
 
 let onBoarding = (function () {
     let oauthTabId = 0;
