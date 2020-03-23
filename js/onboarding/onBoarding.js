@@ -56,6 +56,7 @@ let onBoarding = (function () {
 
         await storageHelper.storeAll(db);
         await loader.reload();
+		configManager.updateSchedule();		
         return true;
     }
 
@@ -203,7 +204,8 @@ let onBoarding = (function () {
 
     async function newUserOnBoarding() {
         return loader.install(allModules, null).then(() => {
-            loader.reload()
+            loader.reload();
+			configManager.updateSchedule();
         });
     }
 

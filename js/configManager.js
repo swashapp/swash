@@ -1,7 +1,6 @@
 import {storageHelper} from './storageHelper.js';
 var configManager = (function() {
 	const localPath = "js/configs/";
-	var manifest = {}
 	var configs = {};
 	var intervalId = 0;
 	async function loadAll() {
@@ -23,8 +22,7 @@ var configManager = (function() {
 	async function importAll() {
 		console.log("Try importing...");
 		try {
-			if(Object.keys(manifest).length == 0)
-				manifest = await (await fetch(`${localPath}manifest.json`)).json();
+			let	manifest = await (await fetch(`${localPath}manifest.json`)).json();
 			configs['manifest'] = manifest;
 			for(let file in manifest.files) {
 				await load(file);
@@ -42,7 +40,7 @@ var configManager = (function() {
 			configs[name] = conf			
 		}
 		catch(err) {
-			console.log(`Load file ${name} error: ${err}`)
+			console.log(`Error on loading file ${name}: ${err}`)
 		}
     }
 	
@@ -53,13 +51,13 @@ var configManager = (function() {
 	async function updateAll() {    
 		console.log("Try updating...");
 		try {
-			if(Object.keys(manifest).length == 0)
-				manifest = await (await fetch(`${localPath}manifest.json`)).json();
-			const manifestPath = `${manifest.remotePath}manifest.json`;
+			if(!configs.manifest)
+				configs.manifest = await (await fetch(`${localPath}manifest.json`)).json();
+			const manifestPath = `${configs.manifest.remotePath}manifest.json`;
 			let remoteManifest = await (await fetch(manifestPath)).json();
 			for(let file in remoteManifest.files) {
-				if(manifest.files[file] && remoteManifest.files[file].version > manifest.files[file].version)				
-					await update(file);
+				if(configs.manifest.files[file] && remoteManifest.files[file].version > configs.manifest.files[file].version)				
+					await update(file, remoteManifest.files[file].version);
 				storageHelper.storeData("configs", configs);	
 			}			
 		}
@@ -68,27 +66,30 @@ var configManager = (function() {
 		}
     }
 	
-    async function update(file) {
+    async function update(file, version) {
 		console.log(`Updating file ${file}`);
-		const confPath = `${manifest.remotePath}${file}.json`; 
+		const confPath = `${configs.manifest.remotePath}${file}.json`; 
 		try {
 			let conf = await (await fetch(confPath)).json();
-			if (conf && conf.version && conf.version > configs[name].version)
-				configs[name] = conf;			
+			if (conf) {
+				console.log(`file ${file} updated from version ${configs.manifest.files[file].version} to ${version}`)
+				configs[file] = conf;
+				configs.manifest.files[file].version = version;
+			}
 		}
 		catch(err) {
-			console.log(`Update file ${file} error: ${err}`)
+			console.log(`Error on Updating file ${file}: ${err}`)
 		}
     }
 
 	
 	async function updateSchedule() {
-		if(Object.keys(manifest).length == 0)
-			manifest = await (await fetch(`${localPath}manifest.json`)).json();
+		if(!configs.manifest)
+			configs.manifest = await (await fetch(`${localPath}manifest.json`)).json();
 		if(intervalId > 0)
 			clearInterval(intervalId);
 		updateAll();
-		intervalId = setInterval(updateAll, manifest.updateInterval)
+		intervalId = setInterval(updateAll, configs.manifest.updateInterval)
 	}
 	
 	function get(name) {

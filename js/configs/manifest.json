@@ -4,13 +4,13 @@
 	"updateInterval": 3600000,
 	"files": {
 		"community": {
-			"version": 2
+			"version": 1
 		},
 		"stream": {
 			"version": 1
 		},
 		"onboarding": {
-			"version": 2
+			"version": 1
 		},
 		"memberManager": {
 			"version": 1

@@ -46,7 +46,8 @@ browser.runtime.onInstalled.addListener(async (info) => {
 				objList.onBoarding.openOnBoarding();
 			else
 				objList.loader.install(allModules, null).then(() => {
-					objList.loader.reload()
+					objList.loader.reload();
+					configManager.updateSchedule();
 				});
 		});			
 	}
@@ -97,10 +98,9 @@ configManager.loadAll().then(async () => {
 	storageHelper.retrieveConfigs().then(confs => {
 		if (confs) {
 			objList.loader.reload();
-			
+			configManager.updateSchedule();				
 		}
 	});
 	
 	objList.memberManager.tryJoin();
-	configManager.updateSchedule();	
 })	
