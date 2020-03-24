@@ -31,7 +31,7 @@ var configManager = (function() {
 		console.log("Try importing configuration files...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`)).json();
+				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
 			//importing configuration files
 			for(let file in configs.manifest.files) {
 				await importConfig(file);
@@ -47,7 +47,7 @@ var configManager = (function() {
 		console.log("Try importing modules...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`)).json();			
+				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();			
 			//importing modules
 			for(let file in configs.manifest.modules) {
 				await importModule(file);
@@ -60,7 +60,7 @@ var configManager = (function() {
 	async function importConfig(name) {
 		const cPath = `${confPath}${name}.json`; 
 		try{
-			let conf = await (await fetch(cPath)).json();
+			let conf = await (await fetch(cPath, {cache: "no-store"})).json();
 			configs[name] = conf;
 			console.log(`Configuration file ${name} is imported`);
 		}
@@ -73,14 +73,14 @@ var configManager = (function() {
 	async function importModule(name) {
 		const mPath = `${modulePath}${name}/manifest.json`; 
 		try{
-			let module = await (await fetch(mPath)).json();	
+			let module = await (await fetch(mPath, {cache: "no-store"})).json();	
 			if(!module || !module.functions)
 				throw "Bad configuration file";
 			let mFunctions = module.functions;
 			for(let func of mFunctions) {
 				module[func] = await importModuleFunction(name, func);
 			}
-			modules[name] = module;
+			modules[module.name] = module;
 			console.log(`Module ${name} is imported`);
 		}
 		catch(err) {
@@ -91,7 +91,7 @@ var configManager = (function() {
 	async function importModuleFunction(name, func) {
 		const mFPath = `${modulePath}${name}/${func}.json`; 
 		try{
-			let mFunc = await (await fetch(mFPath)).json();	
+			let mFunc = await (await fetch(mFPath, {cache: "no-store"})).json();	
 			if(!mFunc)
 				throw "Bad configuration file";
 			console.log(`Function ${func} for module ${name} is imported`);
@@ -115,15 +115,14 @@ var configManager = (function() {
 		console.log("Try updating...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`)).json();
+				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
 			const manifestPath = `${configs.manifest.remotePath}/configs/manifest.json`;
-			let remoteManifest = await (await fetch(manifestPath)).json();
+			let remoteManifest = await (await fetch(manifestPath, {cache: "no-store"})).json();
 			//update configuration files
 			for(let file in remoteManifest.files) {
 				if(configs.manifest.files[file] && remoteManifest.files[file].version > configs.manifest.files[file].version)				
 				{
-					await updateConfig(file, remoteManifest.files[file].version);
-					storageHelper.storeData("configs", configs);						
+					await updateConfig(file, remoteManifest.files[file].version);					
 				}
 			}
 			
@@ -131,9 +130,10 @@ var configManager = (function() {
 			for(let module in remoteManifest.modules) {
 				if(remoteManifest.modules[module].version > configs.manifest.modules[module].version) {
 					await updateModule(module, remoteManifest.modules[module].version);
-					storageHelper.storeData("modules", modules);	
 				}
 			}
+			await storageHelper.updateData("modules", modules);
+			await storageHelper.updateData("configs", configs);
 		}
 		catch(err) {
 			console.log(`Updating error: ${err}`)
@@ -144,7 +144,7 @@ var configManager = (function() {
 		console.log(`Updating configuration file ${file}`);
 		const confPath = `${configs.manifest.remotePath}configs/${file}.json`; 
 		try {
-			let conf = await (await fetch(confPath)).json();
+			let conf = await (await fetch(confPath, {cache: "no-store"})).json();
 			if (conf) {
 				console.log(`Configuration file ${file} updated from version ${configs.manifest.files[file].version} to ${version}`)
 				configs[file] = conf;
@@ -156,23 +156,24 @@ var configManager = (function() {
 		}
     }
 	
-	async function updateModule(module, version) {
-		console.log(`Updating module ${module}`);
-		const mPath = `${configs.manifest.remotePath}modules/${module}/manifest.json`; 		
+	async function updateModule(name, version) {
+		console.log(`Updating module ${name}`);
+		const mPath = `${configs.manifest.remotePath}modules/${name}/manifest.json`; 		
 		try{
-			let module = await (await fetch(mPath)).json();
+			let module = await (await fetch(mPath, {cache: "no-store"})).json();
 			if(!module || !module.functions)
 				throw "Bad configuration file";
 			let mFunctions = module.functions;
 			for(let func of mFunctions) {
-				let mFPath = `${configs.manifest.remotePath}modules/${module}/${func}.json`;
-				let mFunc = await (await fetch(mFPath)).json();
+				let mFPath = `${configs.manifest.remotePath}modules/${name}/${func}.json`;
+				let mFunc = await (await fetch(mFPath, {cache: "no-store"})).json();
 				if(!mFunc)
 					throw "Bad configuration file";
 				module[func] = mFunc;				
 			}
-			modules[name] = module;
-			console.log(`Module ${module} updated from version ${configs.manifest.modules[module].version} to ${version}`)
+			modules[module.name] = module;
+			console.log(`Module ${name} updated from version ${configs.manifest.modules[name].version} to ${version}`)
+			configs.manifest.modules[name].version = version;
 		}
 		catch(err) {
 			console.log(`Error while updating module ${name}: ${err}`)
@@ -182,7 +183,7 @@ var configManager = (function() {
 	
 	async function updateSchedule() {
 		if(!configs.manifest)
-			configs.manifest = await (await fetch(`${confPath}manifest.json`)).json();
+			configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
 		if(intervalId > 0)
 			clearInterval(intervalId);
 		updateAll();
