@@ -32,7 +32,7 @@ var task = (function() {
 		   });
 		}
 		if(module.functions.includes("task")){
-			for(var item of module.task_matches) {
+			for(var item of module.task.task_matches) {
 				cfilter.urls = arrayRemove(cfilter.urls,item);
 			}
 	        if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
@@ -45,7 +45,7 @@ var task = (function() {
     function loadModule(module){
 		if(module.is_enabled){
 			if(module.functions.includes("task")){
-				for(var item of module.task_matches) {
+				for(var item of module.task.task_matches) {
 					cfilter.urls.push(item);
 				}
 				if(browser.tabs.onUpdated.hasListener(registerTaskScripts))
@@ -123,9 +123,9 @@ var task = (function() {
 		for (var module in modules) {
 			if(modules[module].functions.includes("task")){			
 					if(modules[module].is_enabled)
-						for(var item of modules[module].task_matches) {
+						for(var item of modules[module].task.task_matches) {
 							if(utils.wildcard(url, item)) {
-								let tasks = modules[module].task.filter(function(cnt, index, arr){
+								let tasks = modules[module].task.items.filter(function(cnt, index, arr){
 									return cnt.is_enabled;
 								});
                                 let startedTasks = await storageHelper.loadAllModuleTaskIds( modules[module].name);

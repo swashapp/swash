@@ -1,21 +1,23 @@
 import {utils} from '../utils.js';
-import {allModules} from '../modules.js';
 import {dataHandler} from '../dataHandler.js';
 import {storageHelper} from '../storageHelper.js';
 import {browserUtils} from '../browserUtils.js';
+import {configManager} from '../configManager.js';
+
+var apiCallConfig = configManager.getConfig("apiCall")
 // TODO: handle ETAG
 // TODO: handle batch requests
 var apiCall = (function() {
 	
-    const API_CALL_INTERVAL = 15*1000;
-	const DELAY_BETWEEN_CALLS = 1*1000;
+    const API_CALL_INTERVAL = apiCallConfig.interval;
+	const DELAY_BETWEEN_CALLS = apiCallConfig.delay;
 		
     var callbacks = [];
 	var extId = "authsaz@gmail.com"
 	
 	function initModule(module){
 		if(module.functions.includes("apiCall"))
-			module.apiConfig.redirect_url = getCallBackURL(module.name)
+			module.apiCall.apiConfig.redirect_url = getCallBackURL(module.name)
 	}
     
 	function getCallBackURL(moduleName) {
@@ -28,7 +30,7 @@ var apiCall = (function() {
 		for(var moduleN in modules) {
 			var module = modules[moduleN]
 			if(module.name == moduleName){
-				if(module.access_token && module.access_token != "")
+				if(module.apiCall.access_token && module.apiCall.access_token != "")
 					return (true);
 				return (false);
 			}
@@ -45,7 +47,7 @@ var apiCall = (function() {
         storageHelper.retrieveModules().then(modules => {for(var moduleN in modules) {
             var module = modules[moduleN]
             if(module.name == moduleName){
-				let auth_url = `${module.apiConfig.auth_url}?client_id=${module.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiConfig.scopes.join(' '))}`
+				let auth_url = `${module.apiCall.apiConfig.auth_url}?client_id=${module.apiCall.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(module.apiCall.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(module.apiCall.apiConfig.scopes.join(' '))}`
 				return browserUtils.isMobileDevice().then((result) =>{
 					if(result) {
 						return browser.tabs.create({
@@ -67,7 +69,7 @@ var apiCall = (function() {
 			if(module.functions.includes("apiCall")){
 				//let urlObj = new URL(details.url);
 				if(details.url.startsWith(getCallBackURL(moduleN))){
-					var rst = details.url.match(module.apiConfig.access_token_regex);
+					var rst = details.url.match(module.apiCall.apiConfig.access_token_regex);
 					if(rst){
 						saveAccessToken(module, rst[1]);
 					}
@@ -80,8 +82,8 @@ var apiCall = (function() {
 	}
     function saveAccessToken(module,token) {
         var data = {};
-		data[module.name] = {};
-        data[module.name].access_token = token;
+		data[module.name] = {apiCall: {}};
+        data[module.name].apiCall.access_token = token;
         storageHelper.updateModules(data);
     }
     
@@ -90,7 +92,7 @@ var apiCall = (function() {
             for(var m in mds){
                 if(mds[m].name == moduleName){
                     if(validateToken(mds[m]))
-                        return {token: mds[m].access_token, module: mds[m]}
+                        return {token: mds[m].apiCall.access_token, module: mds[m]}
                     return {token: "", module: mds[m]}
                 }                
             }
@@ -117,7 +119,7 @@ var apiCall = (function() {
             var data = {};
             data[module_name] = {};
             data[module_name].apiCall = modules[module_name].apiCall            
-            for(let aapi of data[module_name].apiCall){
+            for(let aapi of data[module_name].apiCall.items){
                 aapi.etag = eTags[aapi.name]
             }
             storageHelper.updateModules(data);
@@ -131,18 +133,18 @@ var apiCall = (function() {
     }
     
 	function validateToken(module){
-        if(module.access_token){
-            let apiInfo = module.validate_token
+        if(module.apiCall.access_token){
+            let apiInfo = module.apiCall.validate_token
             apiInfo.params= {};
-            apiInfo.params[apiInfo.token_param_name] = module.access_token
+            apiInfo.params[apiInfo.token_param_name] = module.apiCall.access_token
                 
-            return apiCall(module.validate_token.endpoint, apiInfo, module.access_token).then(response=> {
+            return apiCall(module.apiCall.validate_token.endpoint, apiInfo, module.apiCall.access_token).then(response=> {
                 if (response.status != 200) {
                     purgeAccessToken(module);
                     return false;
                 }
                 return response.json().then((json) => {
-                    let jpointers = JSONPath.JSONPath({path: module.validate_token.required_jpath, json: json});
+                    let jpointers = JSONPath.JSONPath({path: module.apiCall.validate_token.required_jpath, json: json});
                     if (jpointers.length >0) {
                       return true;
                     } else {
@@ -234,7 +236,7 @@ var apiCall = (function() {
     
     function sendMessage(module,data, msg){
         dataHandler.handle({
-                    origin: module.apiConfig.api_endpoint + data.URI,
+                    origin: module.apiCall.apiConfig.api_endpoint + data.URI,
                     header:{
                         function: "apiCall",
                         module: module.name,
@@ -256,11 +258,11 @@ var apiCall = (function() {
         getAccessToken(moduleName).then(resp => {
             if(resp.token){
 				let i = 0;
-                resp.module.apiCall.forEach((data)=>{                    
+                resp.module.apiCall.items.forEach((data)=>{                    
                     if(data.is_enabled){
                         var s = setTimeout(function(){
                                 callbacks[moduleName].apiCalls = utils.arrayRemove(callbacks[moduleName].apiCalls, s);
-                                apiCall(resp.module.apiConfig.api_endpoint, data, resp.token)
+                                apiCall(resp.module.apiCall.apiConfig.api_endpoint, data, resp.token)
                                     .then(q=> {
                                         let et = getEtag(q);
                                         etags[data.name] = et

@@ -2,7 +2,7 @@ import {databaseHelper} from './databaseHelper.js'
 import {communityHelper} from './communityHelper.js'
 import {configManager} from './configManager.js'
 
-let memberManagerConfig = configManager.get('memberManager');
+let memberManagerConfig = configManager.getConfig('memberManager');
 
 
 var memberManager = (function() {

@@ -1,7 +1,7 @@
 import {configManager} from './configManager.js';
 import {storageHelper} from './storageHelper.js';
 
-var streamConfig = configManager.get('stream');
+var streamConfig = configManager.getConfig('stream');
 
 // Create the client and give the API key to use by default
 var pushStream = (function() {

@@ -9,6 +9,7 @@ import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 import {browserUtils} from './browserUtils.js';
+import {memberManager} from './memberManager.js';
 
 var loader = (function() {
     'use strict';
@@ -51,7 +52,8 @@ var loader = (function() {
                 newFilters.push(f)
             }
             db.filters = newFilters;
-            for (let module of allModules) {
+            for (let moduleName in allModules) {
+				let module = allModules[moduleName];
                 if (!db.modules[module.name] || module.version !== db.modules[module.name].version) {
                     db.modules[module.name] = {};
                     module.mId = utils.uuid();
@@ -62,13 +64,20 @@ var loader = (function() {
                     utils.jsonUpdate(db.modules[module.name], module);
                 }
             }
-			utils.jsonUpdate(db.configs, configManager.getAll())
+			utils.jsonUpdate(db.configs, configManager.getAllConfigs())
         } catch (exp) {
             console.error(exp);
         }
         return storageHelper.storeAll(db);
     }
 
+	function onInstalled() {
+		reload();
+		configManager.updateSchedule();
+		memberManager.tryJoin();	
+	}
+
+	
     function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
         if (!changeInfo.url || !tabInfo.active)
             return;
@@ -236,6 +245,7 @@ var loader = (function() {
     return {
         isDbCreated,
         install,
+		onInstalled,
         start,
         stop,
         load,

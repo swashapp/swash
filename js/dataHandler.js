@@ -6,7 +6,7 @@ import {stream} from './stream.js';
 import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
 
-var streamConfig = configManager.get('stream')
+var streamConfig = configManager.getConfig('stream')
 
 var dataHandler = (function() {
     'use strict';

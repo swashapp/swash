@@ -5,7 +5,7 @@ import {storageHelper} from '../storageHelper.js';
 import {browserUtils} from "../browserUtils.js";
 import {configManager} from '../configManager.js';
 
-var onBoardingConfigs =  configManager.get('onboarding');
+var onBoardingConfigs =  configManager.getConfig('onboarding');
 
 let onBoarding = (function () {
     let oauthTabId = 0;
@@ -55,8 +55,7 @@ let onBoarding = (function () {
         db.onBoardings.completionDate = currentDate;
 
         await storageHelper.storeAll(db);
-        await loader.reload();
-		configManager.updateSchedule();		
+        loader.onInstalled();
         return true;
     }
 
@@ -204,8 +203,7 @@ let onBoarding = (function () {
 
     async function newUserOnBoarding() {
         return loader.install(allModules, null).then(() => {
-            loader.reload();
-			configManager.updateSchedule();
+            loader.onInstalled();
         });
     }
 

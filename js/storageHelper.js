@@ -116,7 +116,7 @@ var storageHelper = (function () {
 
     function updateFunctionSettings(module, functionName, settings) {
         if (module.functions.includes(functionName)) {
-            for (let item of module[functionName]) {
+            for (let item of module[functionName].items) {
                 item.is_enabled = settings[functionName][item.name]
             }
         }

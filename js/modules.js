@@ -1,4 +1,5 @@
-var allModules = (function() {
-        return [];
-}());
+import {configManager} from './configManager.js'
+
+const allModules = configManager.getAllModules();
+
 export {allModules};

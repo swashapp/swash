@@ -1,6 +1,6 @@
 import {configManager} from './configManager.js';
 
-var communityConfig = configManager.get('community');
+var communityConfig = configManager.getConfig('community');
 
 var communityHelper = (function() {
 

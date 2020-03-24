@@ -1,6 +1,6 @@
 {
 	"version": 1,	
-	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/autoUpdate/js/configs/",
+	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/autoUpdate/js/",	
 	"updateInterval": 3600000,
 	"files": {
 		"community": {
@@ -14,6 +14,32 @@
 		},
 		"memberManager": {
 			"version": 1
+		},
+		"apiCall": {
+			"version": 1
 		}		
+	},
+	"modules": {
+		"amazon": {
+			"version": 2
+		},
+		"facebook": {
+			"version": 1
+		},
+		"search": {
+			"version": 2
+		},
+		"spotify": {
+			"version": 1
+		},
+		"surfing": {
+			"version": 3
+		},
+		"twitter": {
+			"version": 1
+		},
+		"youtube": {
+			"version": 2
+		}
 	}
 }
