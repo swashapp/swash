@@ -21,25 +21,25 @@
 	},
 	"modules": {
 		"amazon": {
-			"version": 2
-		},
-		"facebook": {
-			"version": 1
-		},
-		"search": {
-			"version": 2
-		},
-		"spotify": {
-			"version": 1
-		},
-		"surfing": {
 			"version": 3
 		},
+		"facebook": {
+			"version": 2
+		},
+		"search": {
+			"version": 3
+		},
+		"spotify": {
+			"version": 2
+		},
+		"surfing": {
+			"version": 4
+		},
 		"twitter": {
-			"version": 1
+			"version": 2
 		},
 		"youtube": {
-			"version": 2
+			"version": 3
 		}
 	}
 }

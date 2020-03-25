@@ -92,7 +92,7 @@ var task = (function() {
 		dataHandler.handle({
 			origin: info.url,
 			header:{
-				function: "Task",
+				function: "task",
 				module: info.moduleName,
 				collector: info.name                                
 			},

@@ -146,8 +146,8 @@ var helper = (function () {
 
 	function removeAuth(moduleName) {
 		param = {};
-		param[moduleName] = {};
-		param[moduleName].access_token = "";
+		param[moduleName] = {apiCall: {}};
+		param[moduleName].apiCall.access_token = "";
 		let message = {
 			obj: "storageHelper",
 			func: "updateModules",

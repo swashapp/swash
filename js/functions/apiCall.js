@@ -298,7 +298,7 @@ var apiCall = (function() {
 		unloadModule(module);
 		if(module.is_enabled){
 			if(module.functions.includes("apiCall")) {			
-				fetch_apis(module.name);
+				fetchApis(module.name);
 				let crURL = getCallBackURL(module.name);			
 				callbacks[module.name] = {interval: -1, apiCalls: []};
 				callbacks[module.name].interval = setInterval(function(x){

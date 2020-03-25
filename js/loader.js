@@ -45,6 +45,8 @@ var loader = (function() {
 				db.profile.encryptedWallet = db.configs.encryptedWallet;
 			
             db.configs.version = ssConfig.version;
+			
+			//keeping defined filters and updating internal filters
             let newFilters = db.filters.filter(function (f, index, arr) {
                 return (!f.internal);
             });
@@ -52,9 +54,11 @@ var loader = (function() {
                 newFilters.push(f)
             }
             db.filters = newFilters;
+			
+			//updating modules
             for (let moduleName in allModules) {
 				let module = allModules[moduleName];
-                if (!db.modules[module.name] || module.version !== db.modules[module.name].version) {
+                if (!db.modules[module.name] || module.version > db.modules[module.name].version) {
                     db.modules[module.name] = {};
                     module.mId = utils.uuid();
                     module.mSalt = utils.uuid();

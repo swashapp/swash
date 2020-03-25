@@ -34,7 +34,7 @@
          ],
          "objects": [
             {
-               "selector": ".bkWMgd .g .rc",
+               "selector": ".g .rc",
                "conditions": [
                   [
                      {
