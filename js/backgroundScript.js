@@ -20,7 +20,6 @@ import {memberManager} from "./memberManager.js"
 
 var isConfigReady = false;
 var tryCount = 0;
-var allModules = {} 
 
 
 function initConfigs() {
@@ -30,7 +29,7 @@ function initConfigs() {
 	communityHelper.init();
 	onBoarding.init();
 	apiCall.init();
-	allModules = configManager.getAllModules();	
+	loader.initConfs();
 }
 
 
@@ -38,7 +37,7 @@ async function installSwash(info) {
 	// debugger;
 	console.log("Start installing...")
 	if(!isConfigReady) {
-		console.log("Configuration files is not ready yet, will try it install it later")
+		console.log("Configuration files is not ready yet, will try install it later")
 		if(tryCount < 120) {
 			setTimeout(() => installSwash(info), 1000)
 			tryCount++
@@ -49,12 +48,14 @@ async function installSwash(info) {
 	}
 	tryCount = 0;
 	
+	await configManager.importAll();
+	initConfigs();
 	if (info.reason === "update" || info.reason === "install") {
 		onBoarding.isNeededOnBoarding().then((isNeeded) => {
 			if (isNeeded)
 				onBoarding.openOnBoarding();
 			else
-				loader.install(allModules, null).then(() => {
+				loader.install().then(() => {
 					loader.onInstalled();
 				});
 		});			

@@ -76,6 +76,12 @@ var storageHelper = (function () {
         return browser.storage.local.set(x);
     }
 
+	async function storeData(key, info) {
+        let x = {};
+        x[key] = info;
+        return browser.storage.local.set(x);
+    }
+	
     async function retrieveData(key) {
         let x = await browser.storage.local.get(key);
         return x[key];
@@ -173,6 +179,7 @@ var storageHelper = (function () {
         saveModuleSettings,
         retrieveData,
         updateData,
+		storeData,
         storeFilters,
         saveMessage,
         removeMessage,

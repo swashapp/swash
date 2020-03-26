@@ -10,29 +10,46 @@ import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 import {browserUtils} from './browserUtils.js';
 import {memberManager} from './memberManager.js';
+import {apiCall} from "./functions/apiCall.js";
+import {pushStream} from "./push.js"
+import {onBoarding} from "./onBoarding.js"
+
 
 var loader = (function() {
     'use strict';
     var dbHelperInterval;
+	var configs;
+	var modules;
+	var intervalId = 0;
+
+	
+	function initConfs() {
+		configs = configManager.getAllConfigs();
+		modules = configManager.getAllModules();
+	}
 
     async function isDbCreated(db) {
         return !(db == null || Object.keys(db).length === 0);
     }
 
-    async function install(allModules, db) {
-        if (db == null)
-            db = await storageHelper.retrieveAll();
+    async function install() {
+        
+        let db = await storageHelper.retrieveAll();		
 
         if (!await isDbCreated(db)) {
+			console.log("Creating new DB");
             db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}, onBoardings: {}};
             db.configs.Id = utils.uuid();
             db.configs.salt = utils.uuid();
             db.configs.delay = 2;
-            communityHelper.createWallet();
+            await communityHelper.createWallet();
             db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
             utils.jsonUpdate(db.configs, ssConfig);
         }
         try {
+			//backup old database
+			db._backup = JSON.stringify(db);
+			
             //wallets added from version 1.0.3
             if (!db.wallets)
                 db.wallets = [];
@@ -41,12 +58,16 @@ var loader = (function() {
             if (!db.onBoardings)
                 db.onBoardings = {};
 			//from version 1.0.9 move wallet to profile object for safety
-			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet)
+			console.log(`Update Swash from version ${db.configs.version} to ${ssConfig.version}`);
+			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet) {
+				console.log(`moving private key from configs to profile`);
 				db.profile.encryptedWallet = db.configs.encryptedWallet;
+			}
 			
             db.configs.version = ssConfig.version;
 			
 			//keeping defined filters and updating internal filters
+			console.log(`Updating exculde urls`);
             let newFilters = db.filters.filter(function (f, index, arr) {
                 return (!f.internal);
             });
@@ -56,29 +77,23 @@ var loader = (function() {
             db.filters = newFilters;
 			
 			//updating modules
-            for (let moduleName in allModules) {
-				let module = allModules[moduleName];
-                if (!db.modules[module.name] || module.version > db.modules[module.name].version) {
-                    db.modules[module.name] = {};
-                    module.mId = utils.uuid();
-                    module.mSalt = utils.uuid();
-                    for (let func of functions) {
-                        await func.initModule(module);
-                    }
-                    utils.jsonUpdate(db.modules[module.name], module);
-                }
-            }
-			utils.jsonUpdate(db.configs, configManager.getAllConfigs())
+			console.log(`Updating modules`);
+			db.modules = await onModulesUpdated();
+			
+			//updating configurations
+			utils.jsonUpdate(db.configs, configs)
         } catch (exp) {
             console.error(exp);
         }
         return storageHelper.storeAll(db);
     }
 
+	
+	
 	function onInstalled() {
 		reload();
-		configManager.updateSchedule();
-		memberManager.tryJoin();	
+		updateSchedule();
+		memberManager.tryJoin();
 	}
 
 	
@@ -211,42 +226,62 @@ var loader = (function() {
         });
     }
 
-    function register(module) {
-        var data = {modules: {}}
-        data.modules[module.name] = module
-        data.modules[module.name].mId = utils.generateUUID();
-        storageHelper.updateModules(data);
-    }
-
-    function unregister(module) {
-        storageHelper.removeModules(module.name);
-    }
-
-    function update(module) {
-        var data = {modules: {}}
-        data.modules[module.name] = module
-        storageHelper.updateModules(data);
-    }
-
-    function installation_status(module) {
-        var modules = storageHelper.retrieveModules();
-        if (!modules[module.name]) {
-            return "new"
-        } else {
-            if (module.dead === 1) {
-                return "dead"
-            }
-            if (module.version > modules[module.name].version) {
-                return "version"
-            }
-            if (module.version === modules[module.name].version) {
-                return "unchanged"
-            }
-        }
-        return "unknown";
-    }
-
+	
+	async function onModulesUpdated() {
+		let dbModules = await storageHelper.retrieveModules();
+		if(!dbModules)
+			dbModules = {};
+		for (let moduleName in modules){
+			let module = modules[moduleName];
+			if (!dbModules[module.name] || module.version > dbModules[module.name].version) {
+				console.log(`Module ${module.name} updated to ${module.version}`);
+				module.mId = utils.uuid();
+				module.mSalt = utils.uuid();
+				for (let func of functions) {
+					await func.initModule(module);
+				}
+				dbModules[module.name] = module;
+			}
+		}
+		return dbModules;
+	}
+	
+	
+	function onConfigsUpdated() {
+		pushStream.init();
+		memberManager.init();
+		dataHandler.init();
+		communityHelper.init();
+		onBoarding.init();
+		apiCall.init();
+		initConfs();
+	}
+	
+	async function onUpdatedAll() {		
+		console.log("Storing updated configs");
+		onConfigsUpdated();
+		await storageHelper.updateData("configs", configs);		
+		
+		console.log("Storing updated modules");				
+		let dbModules = await onModulesUpdated();
+		await storageHelper.storeData("modules", dbModules);
+	}
+	
+	
+	async function updateSchedule() {
+		async function update() {
+			await configManager.updateAll();
+			await onUpdatedAll();
+		}
+		if(intervalId > 0)
+			clearInterval(intervalId);
+		await update();		
+		intervalId = setInterval(update, configs.manifest.updateInterval)
+	}
+	
+	
     return {
+		initConfs,
         isDbCreated,
         install,
 		onInstalled,

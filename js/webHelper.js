@@ -392,15 +392,6 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function newUserOnBoarding() {
-		let message = {
-			obj: "onBoarding",
-			func: "newUserOnBoarding",
-			params: []
-		};
-		return sendMessage(message);
-	}
-
 	function loadFile(file) {
 		let message = {
 			obj: "onBoarding",
@@ -545,7 +536,6 @@ var helper = (function () {
 		isExtensionUpdated,
 		submitOnBoarding,
 		startOnBoardingOAuth,
-		newUserOnBoarding,
 		loadFile,
 		applyConfig,
 		saveConfig,

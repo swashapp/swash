@@ -1,10 +1,11 @@
 import {storageHelper} from './storageHelper.js';
+
+
 var configManager = (function() {
 	const confPath = "js/configs/";
 	const modulePath = "js/modules/";
 	var configs = {};
 	var modules = {};
-	var intervalId = 0;
 	async function loadAll() {
 		console.log("Try loading configuration files and modules...");
 		//First check memory configs
@@ -18,7 +19,7 @@ var configManager = (function() {
 		else
 			await importConfs();
 		
-		//Next check storage configs
+		//Next check storage modules
 		let sModules = await storageHelper.retrieveModules()
 		if(sModules && Object.keys(sModules).length > 0) 
 			modules = sModules;
@@ -27,6 +28,13 @@ var configManager = (function() {
 		
     }
 
+	async function importAll() {
+		configs = {};
+		modules = {};
+		await importConfs();
+		await importModules()
+	}
+	
 	async function importConfs() {
 		console.log("Try importing configuration files...");
 		try {
@@ -129,11 +137,10 @@ var configManager = (function() {
 			//update modules
 			for(let module in remoteManifest.modules) {
 				if(remoteManifest.modules[module].version > configs.manifest.modules[module].version) {
-					await updateModule(module, remoteManifest.modules[module].version);
+					await updateModule(module, remoteManifest.modules[module].version);					
 				}
 			}
-			await storageHelper.updateData("modules", modules);
-			await storageHelper.updateData("configs", configs);
+			
 		}
 		catch(err) {
 			console.log(`Updating error: ${err}`)
@@ -179,16 +186,7 @@ var configManager = (function() {
 			console.log(`Error while updating module ${name}: ${err}`)
 		}			
     }
-
 	
-	async function updateSchedule() {
-		if(!configs.manifest)
-			configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
-		if(intervalId > 0)
-			clearInterval(intervalId);
-		updateAll();
-		intervalId = setInterval(updateAll, configs.manifest.updateInterval)
-	}
 	
 	function getConfig(name) {
 		return configs[name];
@@ -207,6 +205,7 @@ var configManager = (function() {
 	}
 	
 	return {
+		importAll,
 		importConfs,
 		importModules,
 		loadAll,
@@ -215,7 +214,6 @@ var configManager = (function() {
 		storeConfigs,
 		storeModules,
 		updateAll,
-		updateSchedule,
 		getConfig,
 		getAllConfigs,
 		getModule,

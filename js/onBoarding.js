@@ -11,11 +11,9 @@ let onBoarding = (function () {
     let obName = '';
     const extId = "authsaz@gmail.com";
 	var onBoardingConfigs;
-	var allModules;
 	
 	function init() {
 		onBoardingConfigs =  configManager.getConfig('onboarding');
-		allModules = configManager.getAllModules();
 	}
 	
     function getCallBackURL(onBoardingName) {
@@ -46,7 +44,8 @@ let onBoarding = (function () {
         return isDbValid(db);
     }
 
-    async function submitOnBoarding() {
+    async function submitOnBoarding() {		
+		await loader.install();
         let db = await storageHelper.retrieveAll();
 
         if (!isDbValid(db))
@@ -60,7 +59,8 @@ let onBoarding = (function () {
         db.onBoardings.completionDate = currentDate;
 
         await storageHelper.storeAll(db);
-        loader.onInstalled();
+		loader.onInstalled();
+		
         return true;
     }
 
@@ -206,12 +206,6 @@ let onBoarding = (function () {
         return false;
     }
 
-    async function newUserOnBoarding() {
-        return loader.install(allModules, null).then(() => {
-            loader.onInstalled();
-        });
-    }
-
     function loadFile(file) {
         const temporaryFileReader = new FileReader();
 
@@ -232,7 +226,7 @@ let onBoarding = (function () {
         let db = JSON.parse(config);
 
         if (isDbValid(db)) {
-            await loader.install(allModules, JSON.parse(config));
+			await storageHelper.storeAll(JSON.parse(config));
             return true;
         }
         return false;
@@ -460,7 +454,6 @@ let onBoarding = (function () {
         submitOnBoarding,
         startOnBoarding,
         startOnBoardingOAuth,
-        newUserOnBoarding,
         loadFile,
         applyConfig,
         saveConfig,
