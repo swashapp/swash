@@ -4,16 +4,23 @@ import {storageHelper} from '../storageHelper.js';
 import {browserUtils} from '../browserUtils.js';
 import {configManager} from '../configManager.js';
 
-var apiCallConfig = configManager.getConfig("apiCall")
 // TODO: handle ETAG
 // TODO: handle batch requests
 var apiCall = (function() {
 	
-    const API_CALL_INTERVAL = apiCallConfig.interval;
-	const DELAY_BETWEEN_CALLS = apiCallConfig.delay;
 		
     var callbacks = [];
 	var extId = "authsaz@gmail.com"
+	var apiCallConfig;
+	var API_CALL_INTERVAL;
+	var DELAY_BETWEEN_CALLS;
+
+	
+	function init(){
+		apiCallConfig = configManager.getConfig("apiCall")
+		API_CALL_INTERVAL = apiCallConfig.interval;
+		DELAY_BETWEEN_CALLS = apiCallConfig.delay;
+	}
 	
 	function initModule(module){
 		if(module.functions.includes("apiCall"))
@@ -309,6 +316,7 @@ var apiCall = (function() {
     }
     
     return {
+		init,
 		initModule,
         load,
         unload,

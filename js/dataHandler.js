@@ -6,12 +6,17 @@ import {stream} from './stream.js';
 import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
 
-var streamConfig = configManager.getConfig('stream')
 
 var dataHandler = (function() {
     'use strict';
     var streams = {}
+	var streamConfig;
     
+	
+	function init() {
+		streamConfig = configManager.getConfig('stream')
+	}
+	
 	function cancelSending(msgId) {
 		databaseHelper.removeMessage(msgId);
 		//clearTimeout(msgId);
@@ -141,6 +146,7 @@ var dataHandler = (function() {
     }
     
     return {
+		init,
         handle,
 		cancelSending,
 		sendDelayedMessages,

@@ -2,7 +2,6 @@ import {databaseHelper} from './databaseHelper.js'
 import {communityHelper} from './communityHelper.js'
 import {configManager} from './configManager.js'
 
-let memberManagerConfig = configManager.getConfig('memberManager');
 
 
 var memberManager = (function() {
@@ -10,6 +9,11 @@ var memberManager = (function() {
 	let joined = false;
 	let mgmtInterval = 0;
 	let joinStatus = "notJoined";
+	let memberManagerConfig;
+	
+	function init() {
+		memberManagerConfig = configManager.getConfig('memberManager');		
+	}
 	
 	var strategies = (function() {
 		async function fixedTimeWindowStrategy() {
@@ -56,7 +60,7 @@ var memberManager = (function() {
 						joinStatus = "notJoined";
 					}
 				}).catch(res => {
-					console.log("error on joining");
+					console.log(`error on joining: ${res.message}`);
 					joinStatus = "notJoined";
 				})
 			}
@@ -78,6 +82,7 @@ var memberManager = (function() {
 	}
 
 	return {
+		init,
 		tryJoin
     };
 }())

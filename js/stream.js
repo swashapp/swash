@@ -16,10 +16,11 @@ var stream = function(streamId, apiKey) {
 	  
 	  client.publish(streamId, msg)
 		.then(() => {
+			console.log("message published successfully");
 			databaseHelper.updateMessageCount(msg.header.module);
 		})
 		.catch((err) => {
-		  console.error(err)
+		  console.error(`"Error on publishing message: ${err}`)
 		})
 	}
     return {

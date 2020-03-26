@@ -1,18 +1,23 @@
-import {utils} from '../utils.js';
-import {allModules} from "../modules.js";
-import {loader} from '../loader.js';
-import {storageHelper} from '../storageHelper.js';
-import {browserUtils} from "../browserUtils.js";
-import {configManager} from '../configManager.js';
+import {utils} from './utils.js';
+import {loader} from './loader.js';
+import {storageHelper} from './storageHelper.js';
+import {browserUtils} from "./browserUtils.js";
+import {configManager} from './configManager.js';
 
-var onBoardingConfigs =  configManager.getConfig('onboarding');
 
 let onBoarding = (function () {
     let oauthTabId = 0;
     let parentId = 0;
     let obName = '';
     const extId = "authsaz@gmail.com";
-
+	var onBoardingConfigs;
+	var allModules;
+	
+	function init() {
+		onBoardingConfigs =  configManager.getConfig('onboarding');
+		allModules = configManager.getAllModules();
+	}
+	
     function getCallBackURL(onBoardingName) {
         return "https://callbacks.swashapp.io/" + sha256(extId) + "/" + onBoardingName.toLowerCase();
     }
@@ -449,6 +454,7 @@ let onBoarding = (function () {
     }
 
     return {
+		init,
         isNeededOnBoarding,
         isExtensionUpdated,
         submitOnBoarding,

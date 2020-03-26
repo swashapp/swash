@@ -3,26 +3,26 @@
 	"PUSH_API_KEY": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 	"Amazon":{
 		"streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	},
 	"Facebook":{
         "streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	},
 	"Search":{
         "streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	},
 	"Surfing":{
         "streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",		
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"		
 	},
 	"Twitter":{
         "streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",		
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"		
 	},
 	"Youtube":{
         "streamId": "aaaaaaaaaaaaaaaaaaaaaa",
-        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",		
+        "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"	
 	}	
 }

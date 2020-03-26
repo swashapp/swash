@@ -1,33 +1,36 @@
-console.log("background.js");
+import {browserUtils} from "./browserUtils.js";
+import {configManager} from "./configManager.js";
+import {storageHelper} from "./storageHelper.js"
+import {databaseHelper} from "./databaseHelper.js"
+import {privacyUtils} from "./privacyUtils.js"
+import {apiCall} from "./functions/apiCall.js"
+import {loader} from "./loader.js"
+import {content} from "./functions/content.js"
+import {dataHandler} from "./dataHandler.js"
+import {pushStream} from "./push.js"
+import {context} from "./functions/context.js"
+import {communityHelper} from "./communityHelper.js"
+import {task} from "./functions/task.js"
+import {pageAction} from "./pageAction.js"
+import {transfer} from "./functions/transfer.js"
+import {onBoarding} from "./onBoarding.js"
+import {memberManager} from "./memberManager.js"
 
-import {allModules} from './modules.js';
-import {browserUtils} from './browserUtils.js'
-import {configManager} from './configManager.js'
-import {storageHelper} from './storageHelper.js';
 
-var objList = {}
+
 var isConfigReady = false;
 var tryCount = 0;
+var allModules = {} 
 
-async function dynamicImport() {
-	return {
-		storageHelper: (await import('./storageHelper.js')).storageHelper,
-		databaseHelper: (await import('./databaseHelper.js')).databaseHelper,
-		privacyUtils: (await import('./privacyUtils.js')).privacyUtils,
-		apiCall: (await import('./functions/apiCall.js')).apiCall,
-		loader: (await import('./loader.js')).loader,
-		content: (await import('./functions/content.js')).content,
-		dataHandler: (await import('./dataHandler.js')).dataHandler,
-		pushStream: (await import('./push.js')).pushStream,
-		context: (await import('./functions/context.js')).context,
-		communityHelper: (await import('./communityHelper.js')).communityHelper,
-		task: (await import('./functions/task.js')).task,
-		pageAction: (await import('./pageAction.js')).pageAction,
-		transfer: (await import('./functions/transfer.js')).transfer,
-		onBoarding: (await import ('./onboarding/onBoarding.js')).onBoarding,
-		memberManager: (await import ('./memberManager.js')).memberManager,
-		allModules: (await import ('./modules.js')).allModules
-	}
+
+function initConfigs() {
+	pushStream.init();
+	memberManager.init();
+	dataHandler.init();
+	communityHelper.init();
+	onBoarding.init();
+	apiCall.init();
+	allModules = configManager.getAllModules();	
 }
 
 
@@ -47,12 +50,12 @@ async function installSwash(info) {
 	tryCount = 0;
 	
 	if (info.reason === "update" || info.reason === "install") {
-		objList.onBoarding.isNeededOnBoarding().then((isNeeded) => {
+		onBoarding.isNeededOnBoarding().then((isNeeded) => {
 			if (isNeeded)
-				objList.onBoarding.openOnBoarding();
+				onBoarding.openOnBoarding();
 			else
-				objList.loader.install(objList.allModules, null).then(() => {
-					objList.loader.onInstalled();
+				loader.install(allModules, null).then(() => {
+					loader.onInstalled();
 				});
 		});			
 	}
@@ -82,10 +85,9 @@ browserUtils.getPlatformInfo().then(info => {
 
 configManager.loadAll().then(async () => {
 	console.log("Start loading...")
-	if(Object.keys(objList).length == 0)
-		objList = await dynamicImport();
 	
 	//Now the configuration is avaliable
+	initConfigs();
 	isConfigReady = true;
 	
 	
@@ -100,6 +102,22 @@ configManager.loadAll().then(async () => {
 
 		if (sender.tab)
 			message.params.push(sender.tab.id);
+		let objList = {
+			storageHelper: storageHelper,
+			databaseHelper: databaseHelper,
+			privacyUtils: privacyUtils,
+			apiCall: apiCall,
+			loader: loader,
+			content: content,
+			dataHandler: dataHandler,
+			pushStream: pushStream,
+			context: context,
+			task: task,
+			communityHelper: communityHelper,
+			pageAction: pageAction,
+			transfer: transfer,
+			onBoarding: onBoarding,
+		};		
 		sendResponse(objList[message.obj][message.func](...message.params));
 	});
 
@@ -117,7 +135,7 @@ configManager.loadAll().then(async () => {
 	*/
 	storageHelper.retrieveConfigs().then(confs => {
 		if (confs) {
-			objList.loader.onInstalled();
+			loader.onInstalled();
 		}
 	});
 	

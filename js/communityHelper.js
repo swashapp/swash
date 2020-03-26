@@ -1,10 +1,15 @@
 import {configManager} from './configManager.js';
 
-var communityConfig = configManager.getConfig('community');
 
 var communityHelper = (function() {
 
 	let wallet;
+	var communityConfig;
+	
+	function init() {
+		communityConfig = configManager.getConfig('community');	
+	}
+	
 	const provider = ethers.getDefaultProvider();
 	let client;
 	const GAS_PRICE_LIMIT = ethers.utils.parseUnits('18', 'gwei')
@@ -254,6 +259,7 @@ var communityHelper = (function() {
 	}
 
 	return {
+		init,
 		createWallet,
         loadWallet,
 		getEncryptedWallet,
