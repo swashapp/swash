@@ -39,7 +39,7 @@ var configManager = (function() {
 		console.log("Try importing configuration files...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
+				configs.manifest = await (await fetch(`${confPath}config.json`, {cache: "no-store"})).json();
 			//importing configuration files
 			for(let file in configs.manifest.files) {
 				await importConfig(file);
@@ -55,7 +55,7 @@ var configManager = (function() {
 		console.log("Try importing modules...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();			
+				configs.manifest = await (await fetch(`${confPath}config.json`, {cache: "no-store"})).json();			
 			//importing modules
 			for(let file in configs.manifest.modules) {
 				await importModule(file);
@@ -79,7 +79,7 @@ var configManager = (function() {
 	
 	
 	async function importModule(name) {
-		const mPath = `${modulePath}${name}/manifest.json`; 
+		const mPath = `${modulePath}${name}/config.json`; 
 		try{
 			let module = await (await fetch(mPath, {cache: "no-store"})).json();	
 			if(!module || !module.functions)
@@ -123,8 +123,8 @@ var configManager = (function() {
 		console.log("Try updating...");
 		try {
 			if(!configs.manifest)
-				configs.manifest = await (await fetch(`${confPath}manifest.json`, {cache: "no-store"})).json();
-			const manifestPath = `${configs.manifest.remotePath}/configs/manifest.json`;
+				configs.manifest = await (await fetch(`${confPath}config.json`, {cache: "no-store"})).json();
+			const manifestPath = `${configs.manifest.remotePath}/configs/config.json`;
 			let remoteManifest = await (await fetch(manifestPath, {cache: "no-store"})).json();
 			//update configuration files
 			for(let file in remoteManifest.files) {
@@ -165,7 +165,7 @@ var configManager = (function() {
 	
 	async function updateModule(name, version) {
 		console.log(`Updating module ${name}`);
-		const mPath = `${configs.manifest.remotePath}modules/${name}/manifest.json`; 		
+		const mPath = `${configs.manifest.remotePath}modules/${name}/config.json`; 		
 		try{
 			let module = await (await fetch(mPath, {cache: "no-store"})).json();
 			if(!module || !module.functions)
