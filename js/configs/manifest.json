@@ -1,0 +1,45 @@
+{
+	"version": 1,	
+	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/autoUpdate/js/",	
+	"updateInterval": 3600000,
+	"files": {
+		"community": {
+			"version": 1
+		},
+		"stream": {
+			"version": 1
+		},
+		"onboarding": {
+			"version": 1
+		},
+		"memberManager": {
+			"version": 1
+		},
+		"apiCall": {
+			"version": 1
+		}		
+	},
+	"modules": {
+		"amazon": {
+			"version": 3
+		},
+		"facebook": {
+			"version": 2
+		},
+		"search": {
+			"version": 3
+		},
+		"spotify": {
+			"version": 2
+		},
+		"surfing": {
+			"version": 4
+		},
+		"twitter": {
+			"version": 2
+		},
+		"youtube": {
+			"version": 3
+		}
+	}
+}

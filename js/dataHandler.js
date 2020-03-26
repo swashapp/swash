@@ -3,13 +3,20 @@ import {privacyUtils} from './privacyUtils.js';
 import {storageHelper} from './storageHelper.js';
 import {databaseHelper} from './databaseHelper.js';
 import {stream} from './stream.js';
-import {streamConfig} from './streamConfig.js'
+import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
+
 
 var dataHandler = (function() {
     'use strict';
     var streams = {}
+	var streamConfig;
     
+	
+	function init() {
+		streamConfig = configManager.getConfig('stream')
+	}
+	
 	function cancelSending(msgId) {
 		databaseHelper.removeMessage(msgId);
 		//clearTimeout(msgId);
@@ -95,10 +102,15 @@ var dataHandler = (function() {
 		if(!message.origin)
 			message.origin = "undetermined";
 		let db = await storageHelper.retrieveAll();
+		//Return if Swash is disabled or the origin is excluded or module/collector is disabled
         let filters = db.filters;
-        if(filterUtils.filter(message.origin, filters))
-            return;
         let modules = db.modules;
+		let collector = modules[message.header.module][message.header.function].items.find(element => {return(element.name ===  message.header.collector)})
+        if(!db.configs.is_enabled
+			|| filterUtils.filter(message.origin, filters)
+			|| !modules[message.header.module].is_enabled
+			|| !collector.is_enabled)
+            return;
         let configs = db.configs;
         let profile = db.profile;
 		let privacyData = db.privacyData;
@@ -134,6 +146,7 @@ var dataHandler = (function() {
     }
     
     return {
+		init,
         handle,
 		cancelSending,
 		sendDelayedMessages,

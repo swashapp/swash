@@ -12,10 +12,10 @@ var content = (function() {
 	async function initModule(module){
 		if(module.functions.includes("content")) {			
 			let info = await browserUtils.getPlatformInfo();
-			let platform = module.content_mapping[info.os];
+			let platform = module.content.content_mapping[info.os];
 			if(!platform || typeof platform === "undefined")
 				platform = 'desktop';
-			module.content = module[platform];
+			module.content.items = module.content[platform];
 		}
 	}
 		
@@ -40,7 +40,7 @@ var content = (function() {
 		   });
 		}
 		if(module.functions.includes("content")){
-			for(var item of module.content_matches) {
+			for(var item of module.content.content_matches) {
 				cfilter.urls = arrayRemove(cfilter.urls,item);
 			}
 	        if(browser.tabs.onUpdated.hasListener(registerContentScripts))
@@ -53,7 +53,7 @@ var content = (function() {
     function loadModule(module){
 		if(module.is_enabled){
 			if(module.functions.includes("content")){
-				for(var item of module.content_matches) {
+				for(var item of module.content.content_matches) {
 					cfilter.urls.push(item);
 				}
 				if(browser.tabs.onUpdated.hasListener(registerContentScripts))
@@ -95,9 +95,9 @@ var content = (function() {
 		for (var module in modules) {
 			if(modules[module].functions.includes("content")){	
 				if(modules[module].is_enabled)
-					for(var item of modules[module].content_matches) {
+					for(var item of modules[module].content.content_matches) {
 						if(utils.wildcard(url, item)) {
-							let content = modules[module].content.filter(function(cnt, index, arr){
+							let content = modules[module].content.items.filter(function(cnt, index, arr){
 								return (cnt.is_enabled && utils.wildcard(url, cnt.url_match));
 							});
 							return {moduleName: modules[module].name, content: content};

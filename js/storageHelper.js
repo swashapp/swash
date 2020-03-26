@@ -10,7 +10,7 @@ var storageHelper = (function () {
     }
 
     function updateProfile(info) {
-        return storeData("profile", info)
+        return updateData("profile", info)
     }
 
     function retrieveFilters() {
@@ -22,11 +22,11 @@ var storageHelper = (function () {
     }
 
     function updateConfigs(info) {
-        return storeData("configs", info);
+        return updateData("configs", info);
     }
 
     function storeFilters(filters) {
-        return storeData("filters", filters)
+        return updateData("filters", filters)
     }
 
     function retrieveModules() {
@@ -34,7 +34,7 @@ var storageHelper = (function () {
     }
 
     function updateModules(info) {
-        return storeData("modules", info)
+        return updateData("modules", info)
     }
 
     async function removeModule(moduleName) {
@@ -68,7 +68,7 @@ var storageHelper = (function () {
         return browser.storage.local.get();
     }
 
-    async function storeData(key, info) {
+    async function updateData(key, info) {
         var data = await retrieveData(key);
         utils.jsonUpdate(data, info);
         let x = {};
@@ -76,6 +76,12 @@ var storageHelper = (function () {
         return browser.storage.local.set(x);
     }
 
+	async function storeData(key, info) {
+        let x = {};
+        x[key] = info;
+        return browser.storage.local.set(x);
+    }
+	
     async function retrieveData(key) {
         let x = await browser.storage.local.get(key);
         return x[key];
@@ -116,7 +122,7 @@ var storageHelper = (function () {
 
     function updateFunctionSettings(module, functionName, settings) {
         if (module.functions.includes(functionName)) {
-            for (let item of module[functionName]) {
+            for (let item of module[functionName].items) {
                 item.is_enabled = settings[functionName][item.name]
             }
         }
@@ -125,7 +131,7 @@ var storageHelper = (function () {
     function updatePrivacyLevel(privacyLevel) {
         let key = "configs";
         let info = {privacyLevel: privacyLevel}
-        return storeData(key, info);
+        return updateData(key, info);
     }
 
     async function saveModuleSettings(moduleName, settings) {
@@ -150,7 +156,7 @@ var storageHelper = (function () {
     }
 
     function updateOnBoardings(info) {
-        return storeData("onBoardings", info)
+        return updateData("onBoardings", info)
     }
 
     async function removeOnBoardings(onBoardingName) {
@@ -172,7 +178,8 @@ var storageHelper = (function () {
         storeAll,
         saveModuleSettings,
         retrieveData,
-        storeData,
+        updateData,
+		storeData,
         storeFilters,
         saveMessage,
         removeMessage,

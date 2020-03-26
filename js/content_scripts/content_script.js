@@ -79,7 +79,7 @@ var contentScript = (function () {
 					origin: window.location.href,
 					header: {
 						module: moduleName,
-						function: "Content",
+						function: "content",
 						collector: data.name
 					},
 					data: {
@@ -222,7 +222,7 @@ var contentScript = (function () {
 					origin: window.location.href,
 					header: {
 						module: moduleName,
-						function: "Content",
+						function: "content",
 						collector: data.name
 					},
 					data: {

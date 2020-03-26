@@ -76,7 +76,7 @@ var helper = (function () {
 	function saveFilters(data) {
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["filters", data]
 		}
 		return sendMessage(message);
@@ -86,7 +86,7 @@ var helper = (function () {
 	function savePrivacyData(data) {
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["privacyData", data]
 		}
 		return sendMessage(message);
@@ -95,7 +95,7 @@ var helper = (function () {
 	function saveProfile(data) {
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["profile", data]
 		}
 		return sendMessage(message);
@@ -104,7 +104,7 @@ var helper = (function () {
 	function saveModule(data) {
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["modules", data]
 		}
 		return sendMessage(message);
@@ -122,7 +122,7 @@ var helper = (function () {
 	function saveConfigs(data) {
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["configs", data]
 		}
 		return sendMessage(message);
@@ -146,8 +146,8 @@ var helper = (function () {
 
 	function removeAuth(moduleName) {
 		param = {};
-		param[moduleName] = {};
-		param[moduleName].access_token = "";
+		param[moduleName] = {apiCall: {}};
+		param[moduleName].apiCall.access_token = "";
 		let message = {
 			obj: "storageHelper",
 			func: "updateModules",
@@ -332,7 +332,7 @@ var helper = (function () {
 	function saveWallets(data){
 		let message = {
 			obj: "storageHelper",
-			func: "storeData",
+			func: "updateData",
 			params: ["wallets", data]
 		}
 		return sendMessage(message);
@@ -388,15 +388,6 @@ var helper = (function () {
 			obj: "onBoarding",
 			func: "startOnBoardingOAuth",
 			params: [onBoardingName]
-		};
-		return sendMessage(message);
-	}
-
-	function newUserOnBoarding() {
-		let message = {
-			obj: "onBoarding",
-			func: "newUserOnBoarding",
-			params: []
 		};
 		return sendMessage(message);
 	}
@@ -545,7 +536,6 @@ var helper = (function () {
 		isExtensionUpdated,
 		submitOnBoarding,
 		startOnBoardingOAuth,
-		newUserOnBoarding,
 		loadFile,
 		applyConfig,
 		saveConfig,

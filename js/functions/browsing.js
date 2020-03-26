@@ -157,7 +157,7 @@ var browsing = (function() {
 	function loadModule(module){
 		if(module.is_enabled){
 			if(module.functions.includes("browsing")){
-				module.browsing.forEach(data=>{
+				module.browsing.items.forEach(data=>{
 					if(data.is_enabled)
 					{
 						load_collector(module, data)
@@ -169,7 +169,7 @@ var browsing = (function() {
 
     function unloadModule(module){
         if(module.functions.includes("browsing")){
-            module.browsing.forEach(data=>{    
+            module.browsing.items.forEach(data=>{    
 				if(callbacks[module.name+ "_" + data.name]) {
 					unload_collector(module, data)
 				}
@@ -236,8 +236,8 @@ var browsing = (function() {
         };
         if(!browser.webRequest.onBeforeRequest.hasListener(callbacks[module.name+ "_" + data.name])){
             // default for filter and extraInfo
-            let filter = data.filter?data.filter:module.browsing_filter
-            let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing_extraInfoSpec
+            let filter = data.filter?data.filter:module.browsing.browsing_filter
+            let extraInfoSpec = data.extraInfoSpec?data.extraInfoSpec:module.browsing.browsing_extraInfoSpec
             browser.webRequest.onBeforeRequest.addListener(callbacks[module.name+ "_" + data.name], filter, extraInfoSpec);
         }
     }
@@ -332,7 +332,7 @@ var browsing = (function() {
             }
         }
         if(!browser.webRequest.onHeadersReceived.hasListener(callbacks[module.name + "_" + data.name])){
-            let filter = data.filter?data.filter:module.browsing_filter
+            let filter = data.filter?data.filter:module.browsing.browsing_filter
             browser.webRequest.onHeadersReceived.addListener(callbacks[module.name + "_" + data.name], filter);
         }        
     }

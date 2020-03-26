@@ -1,0 +1,465 @@
+{
+   "apiConfig": {
+      "client_id": "39c1107e38e04d0a85546f34327e87bb",
+      "api_endpoint": "https://api.spotify.com/v1",
+      "auth_url": "https://accounts.spotify.com/authorize",
+      "access_token_regex": "access_token=([^&]*)",
+      "scopes": [
+         "user-read-playback-state",
+         "playlist-read-collaborative",
+         "user-top-read",
+         "user-read-currently-playing",
+         "playlist-read-private",
+         "user-follow-read",
+         "user-read-recently-played",
+         "user-library-read",
+         "user-read-private"
+      ]
+   },
+   "validate_token": {
+      "name": "validate_token",
+      "description": "",
+      "method": "GET",
+      "endpoint": "https://api.spotify.com/v1",
+      "URI": "/me",
+      "token_param_name": "id",
+      "content_type": "application/x-www-form-urlencoded",
+      "response_type": "json",
+      "required_jpath": "$.id",
+      "bearer": true
+   },
+   "items": [
+      {
+         "name": "userProfile",
+         "description": "Get detailed profile information about the current user (including the current user’s username).",
+         "title": "User's Profile",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.country",
+               "type": "text"
+            },
+            {
+               "jpath": "$.display_name",
+               "type": "userAttr"
+            },
+            {
+               "jpath": "$.email",
+               "type": "userAttr"
+            },
+            {
+               "jpath": "$.external_urls.spotify",
+               "type": "url"
+            },
+            {
+               "jpath": "$.followers",
+               "type": "text"
+            },
+            {
+               "jpath": "$.href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.id",
+               "type": "id"
+            },
+            {
+               "jpath": "$.images",
+               "type": "text"
+            },
+            {
+               "jpath": "$.product",
+               "type": "text"
+            },
+            {
+               "jpath": "$.type",
+               "type": "text"
+            },
+            {
+               "jpath": "$.uri",
+               "type": "id"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "savedTracks",
+         "description": "Get a list of the songs saved in the current Spotify user’s ‘Your Music’ library.",
+         "title": "Saved Tracks",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/tracks",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].added_at",
+               "type": "timeString"
+            },
+            {
+               "jpath": "$.items[*].track",
+               "type": "text"
+            },
+            {
+               "jpath": "$.limit",
+               "type": "text"
+            },
+            {
+               "jpath": "$.next",
+               "type": "url"
+            },
+            {
+               "jpath": "$.offset",
+               "type": "text"
+            },
+            {
+               "jpath": "$.previous",
+               "type": "text"
+            },
+            {
+               "jpath": "$.total",
+               "type": "text"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "savedAlbums",
+         "description": "Get a list of the albums saved in the current Spotify user’s ‘Your Music’ library.",
+         "title": "Saved Albums",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/albums",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].added_at",
+               "type": "timeString"
+            },
+            {
+               "jpath": "$.items[*].album",
+               "type": "text"
+            },
+            {
+               "jpath": "$.limit",
+               "type": "text"
+            },
+            {
+               "jpath": "$.next",
+               "type": "url"
+            },
+            {
+               "jpath": "$.offset",
+               "type": "text"
+            },
+            {
+               "jpath": "$.previous",
+               "type": "text"
+            },
+            {
+               "jpath": "$.total",
+               "type": "text"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "currentPlaylists",
+         "description": "Get a list of the playlists owned or followed by the current Spotify user.",
+         "title": "Current Playlists",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/playlists",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].collaborative",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].external_urls.spotify",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].id",
+               "type": "id"
+            },
+            {
+               "jpath": "$.items[*].images",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].name",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].owner.external_urls.spotify",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].owner.href",
+               "type": "url"
+            },
+            {
+               "jpath": "$.items[*].owner.id",
+               "type": "id"
+            },
+            {
+               "jpath": "$.items[*].owner.type",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].owner.uri",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].snapshot_id",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].tracks.href",
+               "type": "uri"
+            },
+            {
+               "jpath": "$.items[*].tracks.total",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].type",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].uri",
+               "type": "text"
+            },
+            {
+               "jpath": "$.limit",
+               "type": "text"
+            },
+            {
+               "jpath": "$.next",
+               "type": "url"
+            },
+            {
+               "jpath": "$.offset",
+               "type": "text"
+            },
+            {
+               "jpath": "$.previous",
+               "type": "text"
+            },
+            {
+               "jpath": "$.total",
+               "type": "text"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "currentPlayedTracks",
+         "description": "Get the object currently being played on the user’s Spotify account.",
+         "method": "GET",
+         "title": "Currently Playing",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "URI": "/me/player/currently-playing",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.context",
+               "type": "text"
+            },
+            {
+               "jpath": "$.timestamp",
+               "type": "time"
+            },
+            {
+               "jpath": "$.progress_ms",
+               "type": "text"
+            },
+            {
+               "jpath": "$.is_playing",
+               "type": "text"
+            },
+            {
+               "jpath": "$.currently_playing_type",
+               "type": "text"
+            },
+            {
+               "jpath": "$.item",
+               "type": "text"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "currentPlayback",
+         "description": "Get information about the user’s current playback state, including track, track progress, and active device.",
+         "title": "Current Playback",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/player",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.timestamp",
+               "type": "time"
+            },
+            {
+               "jpath": "$.device",
+               "type": "text"
+            },
+            {
+               "jpath": "$.progress_ms",
+               "type": "text"
+            },
+            {
+               "jpath": "$.is_playing",
+               "type": "text"
+            },
+            {
+               "jpath": "$.currently_playing_type",
+               "type": "text"
+            },
+            {
+               "jpath": "$.item",
+               "type": "text"
+            },
+            {
+               "jpath": "$.shuffle_state",
+               "type": "text"
+            },
+            {
+               "jpath": "$.repeat_state",
+               "type": "text"
+            },
+            {
+               "jpath": "$.context",
+               "type": "text"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "recentlyPlayedTracks",
+         "description": "Get tracks from the current user’s recently played tracks.",
+         "title": "Recently Played",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/player/recently-played",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.items[*].track",
+               "type": "text"
+            },
+            {
+               "jpath": "$.items[*].played_at",
+               "type": "timeString"
+            },
+            {
+               "jpath": "$.items[*].context",
+               "type": "text"
+            },
+            {
+               "jpath": "$.next",
+               "type": "text"
+            },
+            {
+               "jpath": "$.cursors",
+               "type": "text"
+            },
+            {
+               "jpath": "$.limit",
+               "type": "text"
+            },
+            {
+               "jpath": "$.href",
+               "type": "url"
+            }
+         ],
+         "response_type": "json"
+      },
+      {
+         "name": "followedArtists",
+         "description": "Get the current user’s followed artists.",
+         "title": "Followed Artists",
+         "viewGroup": "API",
+         "is_enabled": false,
+         "method": "GET",
+         "URI": "/me/following",
+         "bearer": true,
+         "content_type": "application/x-www-form-urlencoded",
+         "permissions": [],
+         "params": {},
+         "schems": [
+            {
+               "jpath": "$.artists",
+               "type": "text"
+            },
+            {
+               "jpath": "$.next",
+               "type": "url"
+            },
+            {
+               "jpath": "$.total",
+               "type": "text"
+            },
+            {
+               "jpath": "$.limit",
+               "type": "text"
+            },
+            {
+               "jpath": "$.href",
+               "type": "url"
+            }
+         ],
+         "response_type": "json"
+      }
+   ]
+}
