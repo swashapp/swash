@@ -10,12 +10,12 @@ let onBoarding = (function () {
     let parentId = 0;
     let obName = '';
     const extId = "authsaz@gmail.com";
-	var onBoardingConfigs;
-	
-	function init() {
-		onBoardingConfigs =  configManager.getConfig('onboarding');
-	}
-	
+    var onBoardingConfigs;
+
+    function init() {
+        onBoardingConfigs = configManager.getConfig('onboarding');
+    }
+
     function getCallBackURL(onBoardingName) {
         return "https://callbacks.swashapp.io/" + sha256(extId) + "/" + onBoardingName.toLowerCase();
     }
@@ -44,8 +44,8 @@ let onBoarding = (function () {
         return isDbValid(db);
     }
 
-    async function submitOnBoarding() {		
-		await loader.install();
+    async function submitOnBoarding() {
+        await loader.install();
         let db = await storageHelper.retrieveAll();
 
         if (!isDbValid(db))
@@ -59,8 +59,8 @@ let onBoarding = (function () {
         db.onBoardings.completionDate = currentDate;
 
         await storageHelper.storeAll(db);
-		loader.onInstalled();
-		
+        loader.onInstalled();
+
         return true;
     }
 
@@ -181,28 +181,35 @@ let onBoarding = (function () {
             if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
                 let onBoarding = onBoardingConfigs[onBoardingIndex];
                 if (onBoardingName === onBoarding.name) {
-                    return apiCall(onBoarding.validate_token.endpoint, onBoarding.access_token).then(response => {
-                        if (response.status !== 200) {
-                            purgeOnBoardingAccessToken(onBoarding);
-                            return false;
-                        }
-                        return response.json().then((json) => {
-                            let jpointers = JSONPath.JSONPath({path: onBoarding.validate_token.required_jpath, json: json});
-                            if (jpointers.length > 0) {
-                                return true;
-                            } else {
+                    if (conf.access_token) {
+                        let apiInfo = onBoarding.validateToken;
+                        apiInfo.params = {};
+                        apiInfo.params[apiInfo.token_param_name] = conf.access_token;
+
+                        return apiCall(apiInfo, conf.access_token).then(response => {
+                            if (response.status !== 200) {
                                 purgeOnBoardingAccessToken(onBoarding);
                                 return false;
                             }
+                            return response.json().then((json) => {
+                                let jpointers = JSONPath.JSONPath({path: onBoarding.validateToken.required_jpath, json: json});
+                                if (jpointers.length > 0) {
+                                    return true;
+                                } else {
+                                    purgeOnBoardingAccessToken(onBoarding);
+                                    return false;
+                                }
+                            }).catch(error => {
+                                purgeOnBoardingAccessToken(onBoarding);
+                            });
                         }).catch(error => {
                             purgeOnBoardingAccessToken(onBoarding);
                         });
-                    }).catch(error => {
-                        purgeOnBoardingAccessToken(onBoarding);
-                    });
+                    }
                 }
             }
         }
+
         return false;
     }
 
@@ -226,7 +233,7 @@ let onBoarding = (function () {
         let db = JSON.parse(config);
 
         if (isDbValid(db)) {
-			await storageHelper.storeAll(JSON.parse(config));
+            await storageHelper.storeAll(JSON.parse(config));
             return true;
         }
         return false;
@@ -448,7 +455,7 @@ let onBoarding = (function () {
     }
 
     return {
-		init,
+        init,
         isNeededOnBoarding,
         isExtensionUpdated,
         submitOnBoarding,
