@@ -7,6 +7,7 @@ import {configManager} from './configManager.js';
 
 let onBoarding = (function () {
     let oauthTabId = 0;
+    let oauthWinId = 0;
     let parentId = 0;
     let obName = '';
     const extId = "authsaz@gmail.com";
@@ -82,7 +83,11 @@ let onBoarding = (function () {
 
         if (!data[onBoardingName] || await getOnBoardingAccessToken(onBoardingName) === "") {
             startOnBoardingOAuth(onBoardingName).then((response) => {
-                oauthTabId = response.id;
+                let tab = response;
+                if (response.type === "popup")
+                    tab = response.tabs[0];
+                oauthTabId = tab.id;
+                oauthWinId = tab.windowId;
             });
         } else {
             browser.tabs.sendMessage(
@@ -93,7 +98,7 @@ let onBoarding = (function () {
     }
 
     function handleRemoved(tid, removeInfo) {
-        if (oauthTabId === removeInfo.windowId) {
+        if (oauthTabId === tid && oauthWinId === removeInfo.windowId) {
             browser.tabs.onRemoved.removeListener(handleRemoved);
             browser.tabs.sendMessage(
                 parentId,
