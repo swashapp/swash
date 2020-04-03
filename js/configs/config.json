@@ -1,6 +1,6 @@
 {
 	"version": 1,	
-	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/master/js/",				   
+	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/autoUpdateTest/js/",				   
 	"updateInterval": 3600000,
 	"files": {
 		"community": {
