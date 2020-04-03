@@ -10,7 +10,7 @@ var internalFilters = [
     "internal": true
   },
   {
-    "value": "https://www.amazon.com/ap/signin*",
+    "value": "https://www.amazon.*/ap/signin*",
     "type": "wildcard",
     "internal": true
   },

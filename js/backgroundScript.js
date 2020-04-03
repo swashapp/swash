@@ -38,16 +38,15 @@ async function installSwash(info) {
 	console.log("Start installing...")
 	if(!isConfigReady) {
 		console.log("Configuration files is not ready yet, will try install it later")
-		if(tryCount < 120) {
+		if(tryCount < 10) {
 			setTimeout(() => installSwash(info), 1000)
 			tryCount++
 			return;
 		}
-		console.log("Configuration files couldn't be loaded successfully. Installation aborted");
-		return;
+		console.log("Configuration files couldn't be loaded successfully");
 	}
 	tryCount = 0;
-	
+	console.log("Loading configuration files in installation process");
 	await configManager.importAll();
 	initConfigs();
 	if (info.reason === "update" || info.reason === "install") {
