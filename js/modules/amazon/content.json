@@ -382,11 +382,11 @@
       "is_enabled": true,
       "events": [
         {
-          "selector": "#add-to-wishlist-button-submit",
+          "selector": "#wishListMainButton-announce",
           "event_name": "click"
         },
         {
-          "selector": "#add-to-wishlist-button-submit",
+          "selector": "#wishListMainButton-announce",
           "event_name": "submit"
         }
       ],
@@ -810,11 +810,11 @@
       "is_enabled": true,
       "events": [
         {
-          "selector": "#add-to-wishlist-button-submit",
+          "selector": "#wishListMainButton-announce",
           "event_name": "click"
         },
         {
-          "selector": "#add-to-wishlist-button-submit",
+          "selector": "#wishListMainButton-announce",
           "event_name": "submit"
         }
       ],

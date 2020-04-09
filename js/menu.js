@@ -70,13 +70,11 @@ document.getElementById("streaming").addEventListener('click', function(eventObj
 });
 
 
+updateVersion(browser.runtime.getManifest().version);
+
 window.helper.load().then(db => {
 	window.helper.isNeededOnBoarding().then((result) => {
-		if (!result) {
-			window.helper.getVersion().then(version => {
-				updateVersion(version);
-			});
-
+		if (!result) {			
 			document.getElementById("streaming").checked = db.configs.is_enabled;
 
 			window.helper.getTotalBalance().then(balance => {

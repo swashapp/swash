@@ -21,7 +21,7 @@
 	},
 	"modules": {
 		"amazon": {
-			"version": 3
+			"version": 4
 		},
 		"facebook": {
 			"version": 2

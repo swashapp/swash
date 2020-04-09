@@ -249,7 +249,7 @@ var browsing = (function() {
                 header:{
                     function: "browsing",
                     module: module.name,
-                    collector: "Create Bookmark"                                
+                    collector: "New Bookmark"                                
                 },
                 data: {
                     out: {
@@ -276,7 +276,7 @@ var browsing = (function() {
                 header:{
                     function: "browsing",
                     module: module.name,
-                    collector: "Create Bookmark"                                
+                    collector: "New Bookmark"                                
                 },
                 data: {
                     out: {
