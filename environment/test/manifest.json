@@ -29,7 +29,7 @@
 
   "permissions": ["clipboardRead","webNavigation","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "identity", "notifications", "management", "proxy", "webRequestBlocking", "downloads"],
 
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  "content_security_policy": "script-src 'self'; object-src 'self';",
 
   "version": "1.1.2"
 }
