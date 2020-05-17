@@ -221,8 +221,7 @@ var communityHelper = (function() {
 			}
 
 			let resp = await contract.withdrawTo(
-				targetAddress,
-				memberAddress,
+				targetAddress,				
 				amountBN,
 				overrides
 			);
