@@ -8,7 +8,7 @@ var browserUtils = (function() {
 
     function getAllInstalledPlugins()
     {
-        return browser.management.getAll();
+        /*return browser.management.getAll();*/
     }
 
 	function getBrowserLanguage()
@@ -31,8 +31,10 @@ var browserUtils = (function() {
 	}
 	
 	async function getProxyStatus() {
+		/*
 		let proxySetting = await browser.proxy.settings.get({});
 		return {httpProxyAll: proxySetting.value.httpProxyAll, proxyDNS: proxySetting.value.proxyDNS, proxyMode: proxySetting.value.mode};
+		*/
 	}
     
 	function getVersion(){

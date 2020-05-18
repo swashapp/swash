@@ -2,12 +2,12 @@ var utils = (function() {
     'use strict';
     
     function notify(message) {
-      browser.notifications.create({
+      /*browser.notifications.create({
         "type": "basic",
         "iconUrl": browser.extension.getURL("icons/surf48.png"),
         "title": message.header.module + ":" + message.header.function + ":" + message.header.collector,
         "message": JSON.stringify(message)
-      });
+      });*/
     }
 
 	function jsonUpdate(src, newObj) {

@@ -267,6 +267,7 @@ var communityHelper = (function() {
 		withdrawEarnings,
 		withdrawEarningsFor,
 		withdrawTo,
+		withdrawAllTo,
 		getWalletInfo,
 		getDataBalance,
 		decryptWallet,

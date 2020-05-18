@@ -22,12 +22,12 @@ var pushStream = (function() {
             if(message.pushId != pushId)
                 return;
             
-            browser.notifications.create({
+            /*browser.notifications.create({
                 "type": "basic",
                 "title": message.title,
                 "message": message.content,
                 "iconUrl": message.iconUrl
-      });
+      });*/
 
     }
     

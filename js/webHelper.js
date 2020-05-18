@@ -347,6 +347,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function withdrawAllTo(address, amount) {
+		let message = {
+			obj: "communityHelper",
+			func: "withdrawAllTo",
+			params: [address, amount]
+		}
+		return sendMessage(message);
+	}
+
 	function isNeededOnBoarding() {
 		let message = {
 			obj: "onBoarding",
@@ -531,6 +540,7 @@ var helper = (function () {
 		loadWallets,
 		saveWallets,
 		withdrawTo,
+		withdrawAllTo,
 		startOnBoarding,
 		isNeededOnBoarding,
 		isExtensionUpdated,
