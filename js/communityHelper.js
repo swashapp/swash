@@ -5,17 +5,17 @@ var communityHelper = (function() {
 
 	let wallet;
 	var communityConfig;
-	
+
 	function init() {
-		communityConfig = configManager.getConfig('community');	
+		communityConfig = configManager.getConfig('community');
 	}
-	
+
 	const provider = ethers.getDefaultProvider();
 	let client;
 	const GAS_PRICE_LIMIT = ethers.utils.parseUnits('18', 'gwei')
 	const overrides = {
 		/*gasPrice: ethers.utils.parseUnits('18', 'gwei'),
-		
+
 		gasPrice: async () => {
 			const gasPrice = await provider.getGasPrice()
 			if (gasPrice.gt(GAS_PRICE_LIMIT)) {
@@ -32,7 +32,7 @@ var communityHelper = (function() {
 			return "Insufficient ETH to pay for the gas fee";
 		return error;
 	}
-	
+
 	function createWallet() {
 		wallet = ethers.Wallet.createRandom();
 		return wallet;
@@ -101,8 +101,8 @@ var communityHelper = (function() {
 		let balance = await provider.getBalance(address);
 		return ethers.utils.formatEther(balance);
 	}
-	
-	
+
+
 	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
 	async function getDataBalance(address) {
 		if (!provider) return {error: "provider is not provided"};;
@@ -198,30 +198,32 @@ var communityHelper = (function() {
 		const withdrawn = await contract.withdrawn(memberAddress)
 
 		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
-		if (member.error || member.withdrawableEarnings < 1) {			
+		if (member.error || member.withdrawableEarnings < 1) {
 			return {error: "Nothing to withdraw"};
 		}
-		if (ethers.utils.bigNumberify(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){			
+		if (ethers.utils.bigNumberify(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){
 			return {error: "Insufficient balance"};
 		}
 
 		// have we proven enough earnings previously?
 		try {
-			const provenEarnings = await contract.earnings(memberAddress)		
+			const provenEarnings = await contract.earnings(memberAddress)
 			if (provenEarnings.sub(withdrawn).lt(amountBN)) {
 				// function prove(uint blockNumber, address account, uint balance, bytes32[] memory proof)
 
-				await contract.prove(
+				const tx = await contract.prove(
 					member.withdrawableBlockNumber,
 					memberAddress,
 					member.withdrawableEarnings,
 					member.proof,
 					overrides
-				)								
+				)
+				const tr = await tx.wait(1)
+				console.log(`Prove success, Ethereum receipt: ${JSON.stringify(tr)}`)
 			}
 
 			let resp = await contract.withdrawTo(
-				targetAddress,				
+				targetAddress,
 				amountBN,
 				overrides
 			);
@@ -237,7 +239,7 @@ var communityHelper = (function() {
 		if (!client) clientConnect();
 
 		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
-		if (member.error || member.withdrawableEarnings < 1) {			
+		if (member.error || member.withdrawableEarnings < 1) {
 			return {error: "Nothing  to withdraw"};
 		}
 		wallet = wallet.connect(provider);
