@@ -5,6 +5,7 @@ import {databaseHelper} from './databaseHelper.js';
 import {stream} from './stream.js';
 import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
+import {gatewayHelper} from './gatewayHelper.js'
 
 
 var dataHandler = (function() {
@@ -48,9 +49,9 @@ var dataHandler = (function() {
 	
     async function prepareAndSend(message, module, delay, tabId) {
         if(!streams[message.header.module])
-            streams[message.header.module] = stream(streamConfig[module.name].streamId, streamConfig[module.name].apiKey);
+            streams[message.header.module] = stream(streamConfig[module.name].streamId);
 		if(module.context){
-			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
+			let bct_attrs = module.context.filter(function(ele,val){return (ele.type==="browser" && ele.is_enabled)});
 			if(bct_attrs.length > 0) {
 				for(let ct of bct_attrs){
 					switch(ct.name) {
@@ -76,7 +77,7 @@ var dataHandler = (function() {
 			}
 
 			
-			let cct_attrs = module.context.filter(function(ele,val){return (ele.type=="content" && ele.is_enabled) });			
+			let cct_attrs = module.context.filter(function(ele,val){return (ele.type==="content" && ele.is_enabled) });
 			            
 			if(cct_attrs.length > 0 && tabId) {
 				var connectPort = browser.tabs.connect(
@@ -118,10 +119,19 @@ var dataHandler = (function() {
             
         message.identity = {};
         message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, configs.privacyLevel*2).id ;
-        //message.identity.walletId = profile.walletId;
-        //message.identity.email = profile.email;
+
+		let country = '';
+		profile.country ? country = profile.country : country = gatewayHelper.getUserCountry();
+		message.identity.country = country;
+		message.identity.gender = profile.gender;
+		message.identity.age = profile.age;
+		message.identity.income = profile.income;
+
         message.header.privacyLevel = configs.privacyLevel;
-        message.header.version = browserUtils.getVersion();   
+        message.header.version = browserUtils.getVersion();
+		message.header.agent = await browserUtils.getUserAgent();
+		message.header.platform = await browserUtils.getPlatformInfo();
+		message.header.language = browserUtils.getBrowserLanguage();
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)
     }

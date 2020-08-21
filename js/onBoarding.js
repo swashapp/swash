@@ -459,6 +459,19 @@ let onBoarding = (function () {
         });
     }
 
+    async function saveProfileInfo(gender, age, income) {
+        let data = await storageHelper.retrieveProfile();
+        try {
+            data.gender = gender;
+            data.age = age;
+            data.income = income;
+            await storageHelper.updateProfile(data)
+        } catch (err) {
+            console.error(`Could not to save user profile: ${gender} ${age} ${income}`)
+            console.error(`Error message: ${err.message}`)
+        }
+    }
+
     return {
         init,
         isNeededOnBoarding,
@@ -476,7 +489,8 @@ let onBoarding = (function () {
         writeTo3BoxSpace,
         getFrom3BoxSpace,
         save3BoxMnemonic,
-        get3BoxMnemonic
+        get3BoxMnemonic,
+        saveProfileInfo,
     };
 }());
 export {onBoarding};

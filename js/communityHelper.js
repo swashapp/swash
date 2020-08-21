@@ -1,10 +1,9 @@
 import {configManager} from './configManager.js';
 
-
-var communityHelper = (function() {
+let communityHelper = (function() {
 
 	let wallet;
-	var communityConfig;
+	let communityConfig;
 	
 	function init() {
 		communityConfig = configManager.getConfig('community');	
@@ -86,8 +85,7 @@ var communityHelper = (function() {
 	async function join() {
 		if (!wallet) return false;
 		if (!client) clientConnect();
-		let x = await client.joinCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret);
-		return x;
+		return await client.joinDataUnion(communityConfig.communityAddress, communityConfig.secret);
 	}
 
 	function part() {
@@ -116,7 +114,7 @@ var communityHelper = (function() {
 	async function getCommunityBalance() {
 		if (!wallet) return {error: "Wallet is not provided"};;
 		if (!client) clientConnect();
-		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		const stats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
 		if(stats.error) return {error: "Member status error"};
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
@@ -129,7 +127,7 @@ var communityHelper = (function() {
 	async function getAvailableBalance() {
 		if (!wallet) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
-		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		const stats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
 		if(stats.error) return {error: "Member status error"};
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
@@ -142,8 +140,8 @@ var communityHelper = (function() {
 	async function getCumulativeEarnings() {
 		if (!wallet) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
-		const stats = await client.memberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return {error: "Member status error"};;
+		const stats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
+		if(stats.error) return {error: "Member status error"};
 		return ethers.utils.formatEther(stats.earnings);
 	}
 
@@ -164,7 +162,7 @@ var communityHelper = (function() {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
 
-		const member = await client.memberStats(communityConfig.communityAddress, wallet.address);
+		const member = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
 		if (member.error || member.withdrawableEarnings < 1) {
 			return {error: "Nothing to withdraw"};
 		}
@@ -197,7 +195,7 @@ var communityHelper = (function() {
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 		const withdrawn = await contract.withdrawn(memberAddress)
 
-		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
+		const member = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
 		if (member.error || member.withdrawableEarnings < 1) {			
 			return {error: "Nothing to withdraw"};
 		}
@@ -236,7 +234,7 @@ var communityHelper = (function() {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
 
-		const member = await client.memberStats(communityConfig.communityAddress, memberAddress);
+		const member = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
 		if (member.error || member.withdrawableEarnings < 1) {			
 			return {error: "Nothing  to withdraw"};
 		}
@@ -257,6 +255,17 @@ var communityHelper = (function() {
 		}
 	}
 
+	function generateJWT() {
+		const payload = {
+			address: wallet.address,
+			publicKey: wallet.signingKey.keyPair.compressedPublicKey,
+			timestamp: Date.now()
+		}
+		return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
+	}
+
+
+
 	return {
 		init,
 		createWallet,
@@ -275,7 +284,8 @@ var communityHelper = (function() {
 		getCumulativeEarnings,
 		getTotalBalance,
 		getStreamrClient,
-		getEthBalance
+		getEthBalance,
+		generateJWT,
     };
 }())
 

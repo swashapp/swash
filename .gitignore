@@ -4,3 +4,4 @@ web-ext-artifacts/
 js/streamConfig.js
 js/configs/streamConfig.json
 
+/.idea/

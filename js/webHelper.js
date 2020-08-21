@@ -1,5 +1,5 @@
 function sendMessage(message) {
-	return browser.runtime.sendMessage(message)
+	return browser.runtime.sendMessage(message);
 }
 
 var helper = (function () {
@@ -500,6 +500,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function saveProfileInOnBoarding(gender, age, income) {
+		let message = {
+			obj: "onBoarding",
+			func: "saveProfileInfo",
+			params: [gender, age, income]
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -556,6 +565,7 @@ var helper = (function () {
 		getFrom3BoxSpace,
 		save3BoxMnemonic,
 		get3BoxMnemonic,
-		openOnBoarding
+		openOnBoarding,
+		saveProfileInOnBoarding,
 	};
 }());

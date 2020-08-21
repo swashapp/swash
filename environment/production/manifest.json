@@ -4,11 +4,11 @@
         "id": "authsaz@gmail.com"
         }
   },
-  
+
   "background": {
     "page": "background.html"
   },
-  
+
   "browser_action": {
     "browser_style": false,
     "default_icon": {
@@ -17,7 +17,7 @@
     },
     "default_title": "Swash"
   },
- 
+
   "description": "Swash is a Streamr Community Product that collects information about users browsing activities",
 
   "icons": {
@@ -29,7 +29,7 @@
   "manifest_version": 2,
 
   "name": "Swash",
-  
+
   "homepage_url": "https://swashapp.io/",
 
   "permissions": ["clipboardRead","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "webRequestBlocking", "downloads"],

@@ -8,7 +8,6 @@ import {functions} from './functions.js';
 import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
-import {browserUtils} from './browserUtils.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
 import {pushStream} from "./push.js"
@@ -94,6 +93,7 @@ var loader = (function() {
 		reload();
 		updateSchedule();
 		memberManager.tryJoin();
+
 	}
 
 	
