@@ -2,6 +2,24 @@ var contentScript = (function () {
 	var callbacks = {};
     var oCallbacks = {};
 	
+	function querySelectorAll(node, selector) {
+		while(selector && selector.length > 0 && selector[0] == '<') { 
+			if(node)
+				node = node.parentElement;
+			selector = selector.slice(1);
+		}
+		return node.querySelectorAll(selector)
+	}
+	
+	function querySelector(node, selector) {
+		while(selector && selector.length > 0 && selector[0] == '<') { 
+			if(node)
+				node = node.parentElement;
+			selector = selector.slice(1);
+		}		
+		return node.querySelector(selector)
+	}
+	
 	function uuid() {
         function randomDigit() {
             if (crypto && crypto.getRandomValues) {
@@ -169,7 +187,7 @@ var contentScript = (function () {
 	
 	function hasDescendant(elem, selector) {
 		if (!selector) return true;
-		var childs = elem.querySelectorAll(selector);
+		var childs = querySelectorAll(elem, selector);
 		if(childs.length > 0)
 			return true;
 		return false;
@@ -252,10 +270,10 @@ var contentScript = (function () {
 					break;
 				default:
                     if(x.name) {                        
-                        objList = document.querySelectorAll(x.selector);
+                        objList = querySelectorAll(document, x.selector);
                     } 
                     else {
-                        objList = document.querySelector(x.selector);
+                        objList = querySelector(document, x.selector);
                     }
 					break;
 			}
@@ -278,7 +296,7 @@ var contentScript = (function () {
                         x.properties.forEach(y=>{
                             let prop;
                             if(y.selector)
-                                prop = obj.querySelector(y.selector);
+                                prop = querySelector(obj, y.selector);
                             else
                                 prop = obj;
 							if(prop)
@@ -299,7 +317,7 @@ var contentScript = (function () {
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
                         if(y.selector)
-                            prop = objList.querySelector(y.selector);
+                            prop = querySelector(objList, y.selector);
                         else
                             prop = objList;
 						if(prop)
@@ -314,7 +332,7 @@ var contentScript = (function () {
 	}
 	
 	function documentReadyCallback(event, callback) {
-		let doms = document.querySelectorAll(event.selector)
+		let doms = querySelectorAll(document, event.selector)
 		if(doms) {			
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
@@ -332,7 +350,7 @@ var contentScript = (function () {
             targetNode.dispatchEvent(ev);
             return;
         }		
-        let doms = document.querySelectorAll(event.selector)
+        let doms = querySelectorAll(document, event.selector)
 		if(doms){
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
@@ -351,7 +369,7 @@ var contentScript = (function () {
 	}
     
     function observeReadyCallback(event, callback, obj,cbName) {
-        let targetNode = document.querySelector(obj.observingTargetNode)
+        let targetNode = querySelector(document, obj.observingTargetNode)
 		let targetEventId = uuid();
         let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId,cbName)});
         observer.observe(targetNode, obj.observingConfig);

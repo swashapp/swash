@@ -118,7 +118,7 @@ var dataHandler = (function() {
 		let delay = configs.delay;
             
         message.identity = {};
-        message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, configs.privacyLevel*2).id ;
+        message.identity.uid = privacyUtils.identityPrivacy(configs.Id, modules[message.header.module].mId, configs.privacyLevel).id ;
 
 		let country = '';
 		profile.country ? country = profile.country : country = gatewayHelper.getUserCountry();
@@ -135,8 +135,7 @@ var dataHandler = (function() {
         enforcePolicy(message, modules[message.header.module].mSalt, configs.salt, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)
     }
-    function enforcePolicy(message, mSalt, salt, privacyData) {
-		message.header.privacyLevel *=2;
+    function enforcePolicy(message, mSalt, salt, privacyData) {		
         let data = {};
         let schems = message.data.schems;               
         var ptr = JsonPointer;

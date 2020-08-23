@@ -3,7 +3,7 @@ var privacyUtils = (function() {
     'use strict';
     
     
-    function identityPrivacy(id, mId, privacyLevel) {
+    function identityPrivacy(id, mId, privacyLevel) {       
         var date = new Date();
         switch(privacyLevel) {
             case 0:            
@@ -18,6 +18,8 @@ var privacyUtils = (function() {
                 return {id: sha256(mId + date.getTime()), expireTime: date.setMinutes(60, 0, 0)};
             case 4:
                 return {id: sha256(utils.uuid()), expireTime: 0};
+            case 'auto':
+                return {id: sha256(id), expireTime: -1};
             default:
                 return {id: sha256(utils.uuid()), expireTime: 0};
         }
@@ -56,7 +58,12 @@ var privacyUtils = (function() {
                 var retUrl = urlObj.origin + path;
                 return retUrl;
             case 4:
-                return  urlObj.origin;			
+                return  urlObj.origin;
+            case 'auto':
+                for (let item of urlObj.searchParams)
+                    urlObj.searchParams.set(item[0], "")
+                return urlObj.href;
+
             default:
                 return  urlObj.origin;
         }
@@ -83,7 +90,9 @@ var privacyUtils = (function() {
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), 0)
                 return date2.getTime();
-
+            case 'auto':
+                date.setHours(0, 0, 0, 0)
+                return date.getTime();
 			default:
                 return date.getTime();
         }
@@ -121,6 +130,11 @@ var privacyUtils = (function() {
                     }
                 }            
                 break;
+            case 'auto':
+                for(var i = 0; i < privacyData.length ; i++) {                 
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
+                }
+                break;
 			default:
                 return "";
         }
@@ -144,7 +158,9 @@ var privacyUtils = (function() {
                 return retUserInfo;            
             case 4:
                 return "";
-
+            case 'auto':
+                retUserInfo = sha256(user + salt);            
+                return retUserInfo;
 			default:
                 return "";
         }
@@ -169,6 +185,9 @@ var privacyUtils = (function() {
                 return retId;            
             case 4:
                 return "";
+            case 'auto':
+                retId = sha256(id + salt);            
+                return retId;
 
 			default:
                 return "";
@@ -194,6 +213,9 @@ var privacyUtils = (function() {
                 return retAttr;            
             case 4:
                 return "";
+            case 'auto':
+                retAttr = sha256(userAttr + salt);            
+                return retAttr;                
 			default:
                 return "";
         }
