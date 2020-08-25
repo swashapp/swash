@@ -8,6 +8,8 @@ var contentScript = (function () {
 				node = node.parentElement;
 			selector = selector.slice(1);
 		}
+		if(selector.length == 0)
+			return node;
 		return node.querySelectorAll(selector)
 	}
 	
@@ -16,7 +18,9 @@ var contentScript = (function () {
 			if(node)
 				node = node.parentElement;
 			selector = selector.slice(1);
-		}		
+		}
+		if(selector.length == 0)
+			return node;
 		return node.querySelector(selector)
 	}
 	
@@ -269,11 +273,14 @@ var contentScript = (function () {
 					objList = event.target;                    
 					break;
 				default:
+					let node = document;
+					if(x.selector[0] === '<')
+						node = event.currentTarget;
                     if(x.name) {                        
-                        objList = querySelectorAll(document, x.selector);
+                        objList = querySelectorAll(node, x.selector);
                     } 
                     else {
-                        objList = querySelector(document, x.selector);
+                        objList = querySelector(node, x.selector);
                     }
 					break;
 			}

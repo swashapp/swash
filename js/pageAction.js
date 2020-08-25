@@ -114,25 +114,12 @@ var pageAction = (function() {
         
     }
 
-    function ReadReferral() {
-        function onCreated(tab) {
-            console.log(`Created new tab: ${tab.id}`)
-        }
-          
-        function onError(error) {
-            console.log(`Error: ${error}`);
-        }
-        browser.tabs.create({
-            url:"https://swashapp.io"
-        }).then(onCreated, onError);;
-    }
-
     return {
         isCurrentDomainFiltered,
         loadIcons,
         handleFilter,
         addFilter,
-        removeFilter
+        removeFilter,     
     };
             
 }());
