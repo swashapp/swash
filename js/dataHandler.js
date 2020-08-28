@@ -48,7 +48,7 @@ var dataHandler = (function() {
 	
     async function prepareAndSend(message, module, delay, tabId) {
         if(!streams[message.header.module])
-            streams[message.header.module] = stream(streamConfig[module.name].streamId, streamConfig[module.name].apiKey);
+            streams[message.header.module] = stream(streamConfig[module.name].streamId);
 		if(module.context){
 			let bct_attrs = module.context.filter(function(ele,val){return (ele.type=="browser" && ele.is_enabled)});
 			if(bct_attrs.length > 0) {

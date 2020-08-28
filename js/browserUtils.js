@@ -18,9 +18,14 @@ var browserUtils = (function() {
 	
     async function getPlatformInfo()
     {
-        if(typeof browser.runtime.getPlatformInfo === "function")
-			return browser.runtime.getPlatformInfo();
-		return {os: 'win'};
+		if(navigator.platform && navigator.platform.startsWith("Win"))
+			return {os: 'win'};	
+		let platformInfoPromise =  browser.runtime.getPlatformInfo();
+		return platformInfoPromise.then((platformInfo) => {
+			return platformInfo;
+		}).catch((error) => {	
+			return {os: 'android'};
+		})		
     }
     
 	async function isMobileDevice() {

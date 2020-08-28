@@ -1,14 +1,11 @@
 import {databaseHelper} from './databaseHelper.js';
+import {communityHelper} from './communityHelper.js'
 // Create the client and give the API key to use by default
 
 
-var stream = function(streamId, apiKey) {
+var stream = function(streamId) {
 		
-	var client = new StreamrClient({
-		auth:{
-			apiKey: apiKey
-		}
-	})	
+	var client = communityHelper.getStreamrClient();
 	// Wrap event generation and producion into this method
 	function produceNewEvent(msg) {
 	  

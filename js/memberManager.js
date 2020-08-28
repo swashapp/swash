@@ -3,7 +3,6 @@ import {communityHelper} from './communityHelper.js'
 import {configManager} from './configManager.js'
 
 
-
 var memberManager = (function() {
 
 	let joined = false;
