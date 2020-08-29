@@ -82,18 +82,6 @@ let communityHelper = (function() {
 		});
 	}
 
-	async function join() {
-		if (!wallet) return false;
-		if (!client) clientConnect();
-		return await client.joinDataUnion(communityConfig.communityAddress, communityConfig.secret);
-	}
-
-	function part() {
-		if (!wallet) return;
-		if (!client) clientConnect();
-		//client.partCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
-	}
-
 	async function getEthBalance(address) {
 		if (!provider) return {error: "provider is not provided"};;
 		let balance = await provider.getBalance(address);
@@ -235,7 +223,7 @@ let communityHelper = (function() {
 		if (!client) clientConnect();
 
 		const member = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
-		if (member.error || member.withdrawableEarnings < 1) {			
+		if (member.error || member.withdrawableEarnings < 1) {
 			return {error: "Nothing  to withdraw"};
 		}
 		wallet = wallet.connect(provider);
@@ -255,6 +243,33 @@ let communityHelper = (function() {
 		}
 	}
 
+	async function getSponsoredWithdrawTransactionFee(recipient) {
+		if (!wallet || !provider) return {error: "Wallet is not provided"};
+		if (!client) clientConnect();
+		const memberAddress = wallet.address;
+
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+		const withdrawn = await contract.withdrawn(memberAddress)
+		const memberStats = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
+		// if (memberStats.error || memberStats.withdrawableEarnings < 1) {
+		// 	return {error: "Nothing  to withdraw"};
+		// }
+		const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
+		const message = recipient + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
+		console.log('message: ')
+		console.log(message)
+
+		const hashData = ethers.utils.arrayify(message);
+		const signature = await wallet.signMessage(hashData)
+		console.log('signature: ')
+		console.log(signature)
+
+		debugger;
+		const estimatedGas = await contract.estimate.withdrawAllToSigned(recipient, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
+		console.log('estimatedGas')
+		console.log(estimatedGas)
+	}
+
 	function generateJWT() {
 		const payload = {
 			address: wallet.address,
@@ -264,15 +279,11 @@ let communityHelper = (function() {
 		return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
 	}
 
-
-
 	return {
 		init,
 		createWallet,
         loadWallet,
 		getEncryptedWallet,
-		join,
-		part,
 		withdrawEarnings,
 		withdrawEarningsFor,
 		withdrawTo,
@@ -286,6 +297,7 @@ let communityHelper = (function() {
 		getStreamrClient,
 		getEthBalance,
 		generateJWT,
+		getSponsoredWithdrawTransactionFee,
     };
 }())
 

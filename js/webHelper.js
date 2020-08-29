@@ -356,6 +356,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	async function getSponsoredWithdrawTransactionFee(recipient) {
+		let message = {
+			obj: "communityHelper",
+			func: "getSponsoredWithdrawTransactionFee",
+			params: [recipient]
+		}
+		return sendMessage(message);
+	}
+
 	function isNeededOnBoarding() {
 		let message = {
 			obj: "onBoarding",
@@ -509,6 +518,24 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function joinSwash(recaptchaToken) {
+		let message = {
+			obj: "swashApiHelper",
+			func: "joinSwash",
+			params: [recaptchaToken]
+		};
+		return sendMessage(message);
+	}
+
+	function getReferralRewards() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getReferralRewards",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -550,6 +577,7 @@ var helper = (function () {
 		saveWallets,
 		withdrawTo,
 		withdrawAllTo,
+		getSponsoredWithdrawTransactionFee,
 		startOnBoarding,
 		isNeededOnBoarding,
 		isExtensionUpdated,
@@ -567,5 +595,7 @@ var helper = (function () {
 		get3BoxMnemonic,
 		openOnBoarding,
 		saveProfileInOnBoarding,
+		joinSwash,
+		getReferralRewards
 	};
 }());

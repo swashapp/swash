@@ -1,7 +1,6 @@
 import {databaseHelper} from './databaseHelper.js'
-import {communityHelper} from './communityHelper.js'
 import {configManager} from './configManager.js'
-
+import {swashApiHelper} from "./swashApiHelper.js";
 
 
 var memberManager = (function() {
@@ -21,12 +20,11 @@ var memberManager = (function() {
 			let lastSentDate = await databaseHelper.getLastSentDate();
 			let currentTime = (new Date()).getTime();
 			if (!joined && messageCount >= memberManagerConfig.minimumMessageNumber && lastSentDate + memberManagerConfig.sendTimeWindow >= currentTime) {
-				communityHelper.join();
 				joined = true
 			}
 
 			if (joined && lastSentDate + memberManagerConfig.sendTimeWindow < currentTime) {
-				communityHelper.part();
+				// communityHelper.part();
 				joined = false
 			}
 		}
@@ -36,12 +34,12 @@ var memberManager = (function() {
 			let lastSentDate = await databaseHelper.getLastSentDate();
 			let currentTime = (new Date()).getTime();
 			if (!joined && messageCount >= memberManagerConfig.minimumMessageNumber && (lastSentDate + messageCount*60*1000) >= currentTime) {
-				communityHelper.join();
+				// communityHelper.join();
 				joined = true
 			}
 
 			if (joined && (lastSentDate + messageCount*60*1000) < currentTime) {
-				communityHelper.part();
+				// communityHelper.part();
 				joined = false
 			}
 		}
@@ -50,19 +48,19 @@ var memberManager = (function() {
 			if (joinStatus === "notJoined") {
 				joinStatus = "joining";
 				console.log("try joining");
-				communityHelper.join().then(result => {
-					if (result) {
-						console.log("joined");
-						joinStatus = "joined";
-					} 
-					else {
-						console.log("not joined");
-						joinStatus = "notJoined";
-					}
-				}).catch(res => {
-					console.log(`error on joining: ${res.message}`);
-					joinStatus = "notJoined";
-				})
+				// communityHelper.join().then(result => {
+				// 	if (result) {
+				// 		console.log("joined");
+				// 		joinStatus = "joined";
+				// 	}
+				// 	else {
+				// 		console.log("not joined");
+				// 		joinStatus = "notJoined";
+				// 	}
+				// }).catch(res => {
+				// 	console.log(`error on joining: ${res.message}`);
+				// 	joinStatus = "notJoined";
+				// })
 			}
 		}
 		

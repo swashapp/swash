@@ -15,6 +15,7 @@ import {pageAction} from "./pageAction.js"
 import {transfer} from "./functions/transfer.js"
 import {onBoarding} from "./onBoarding.js"
 import {memberManager} from "./memberManager.js"
+import {swashApiHelper} from "./swashApiHelper.js";
 
 
 
@@ -118,7 +119,8 @@ configManager.loadAll().then(async () => {
 			pageAction: pageAction,
 			transfer: transfer,
 			onBoarding: onBoarding,
-		};		
+			swashApiHelper: swashApiHelper,
+		};
 		sendResponse(objList[message.obj][message.func](...message.params));
 	});
 
