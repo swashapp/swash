@@ -1,0 +1,11 @@
+{
+   "name": "general_surfing",
+   "description": "This module captures a user navigations for URL patterns that has been permitted by the user",
+   "functions": [
+      "browsing",
+      "content"
+   ],
+   "is_enabled": true,
+   "privacyLevel": 3,
+   "anonymityLevel": 2
+}

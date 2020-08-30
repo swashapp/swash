@@ -193,24 +193,6 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function subscribe() {
-		let message = {
-			obj: "pushStream",
-			func: "subscribe",
-			params: []
-		}
-		return sendMessage(message);
-	}
-
-	function unsubscribe() {
-		let message = {
-			obj: "pushStream",
-			func: "unsubscribe",
-			params: []
-		}
-		return sendMessage(message);
-	}
-
 	function enforcePolicy(msg, mSalt, salt, privacyData) {
 		let message = {
 			obj: "dataHandler",
@@ -524,8 +506,6 @@ var helper = (function () {
 		startAuth,
 		removeAuth,
 		isConnected,
-		subscribe,
-		unsubscribe,
 		savePrivacyData,
 		loadPrivacyData,
 		loadMessages,

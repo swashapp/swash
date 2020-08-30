@@ -7,7 +7,6 @@ import {apiCall} from "./functions/apiCall.js"
 import {loader} from "./loader.js"
 import {content} from "./functions/content.js"
 import {dataHandler} from "./dataHandler.js"
-import {pushStream} from "./push.js"
 import {context} from "./functions/context.js"
 import {communityHelper} from "./communityHelper.js"
 import {task} from "./functions/task.js"
@@ -17,13 +16,10 @@ import {onBoarding} from "./onBoarding.js"
 import {memberManager} from "./memberManager.js"
 
 
-
 var isConfigReady = false;
 var tryCount = 0;
 
-
 function initConfigs() {
-	pushStream.init();
 	memberManager.init();
 	dataHandler.init();
 	communityHelper.init();
@@ -111,7 +107,6 @@ configManager.loadAll().then(async () => {
 			loader: loader,
 			content: content,
 			dataHandler: dataHandler,
-			pushStream: pushStream,
 			context: context,
 			task: task,
 			communityHelper: communityHelper,

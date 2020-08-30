@@ -10,7 +10,6 @@ import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
-import {pushStream} from "./push.js"
 import {onBoarding} from "./onBoarding.js"
 
 
@@ -37,7 +36,7 @@ var loader = (function() {
 
         if (!await isDbCreated(db)) {
 			console.log("Creating new DB");
-            db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}, onBoardings: {}};
+            db = {modules: {}, configs: {}, profile: {}, filters: [], privacyData: [], onBoardings: {}};
             db.configs.Id = utils.uuid();
             db.configs.salt = utils.uuid();
             db.configs.delay = 2;
@@ -47,15 +46,14 @@ var loader = (function() {
         }
         try {
 			//backup old database
-			db._backup = JSON.stringify(db);
-			
-            //wallets added from version 1.0.3
-            if (!db.wallets)
-                db.wallets = [];
+			delete db._backup;
+			db._backup = JSON.stringify(db);			           
 
 			//onBoarding added from version 1.0.8
             if (!db.onBoardings)
-                db.onBoardings = {};
+				db.onBoardings = {};
+				
+			
 			//from version 1.0.9 move wallet to profile object for safety
 			console.log(`Update Swash from version ${db.configs.version} to ${ssConfig.version}`);
 			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet) {
@@ -67,13 +65,13 @@ var loader = (function() {
 			
 			//keeping defined filters and updating internal filters
 			console.log(`Updating exculde urls`);
-            let newFilters = db.filters.filter(function (f, index, arr) {
+            let userFilters = db.filters.filter(function (f, index, arr) {
                 return (!f.internal);
             });
             for (let f of internalFilters) {
-                newFilters.push(f)
+                userFilters.push(f)
             }
-            db.filters = newFilters;
+            db.filters = userFilters;
 			
 			//updating modules
 			console.log(`Updating modules`);
@@ -227,28 +225,20 @@ var loader = (function() {
     }
 
 	
-	async function onModulesUpdated() {
-		let dbModules = await storageHelper.retrieveModules();
-		if(!dbModules)
-			dbModules = {};
+	async function onModulesUpdated() {	
+		let dbModules = {};			
 		for (let moduleName in modules){
 			let module = modules[moduleName];
-			if (!dbModules[module.name] || module.version > dbModules[module.name].version) {
-				console.log(`Module ${module.name} updated to ${module.version}`);
-				module.mId = utils.uuid();
-				module.mSalt = utils.uuid();
-				for (let func of functions) {
-					await func.initModule(module);
-				}
-				dbModules[module.name] = module;
+			for (let func of functions) {
+				await func.initModule(module);
 			}
+			dbModules[module.name] = module;
 		}
 		return dbModules;
 	}
 	
 	
 	function onConfigsUpdated() {
-		pushStream.init();
 		memberManager.init();
 		dataHandler.init();
 		communityHelper.init();

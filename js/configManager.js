@@ -57,8 +57,9 @@ var configManager = (function() {
 			if(!configs.manifest)
 				configs.manifest = await (await fetch(`${confPath}config.json`, {cache: "no-store"})).json();			
 			//importing modules
-			for(let file in configs.manifest.modules) {
-				await importModule(file);
+			for(let category in configs.manifest.modules) {
+				for(let name in configs.manifest.modules[category])
+					await importModule(category, name, configs.manifest.modules[category][name]['version']);
 			}
 		}
 		catch(err) {
@@ -78,35 +79,37 @@ var configManager = (function() {
     }
 	
 	
-	async function importModule(name) {
-		const mPath = `${modulePath}${name}/config.json`; 
+	async function importModule(category, name, version) {
+		const mPath = `${modulePath}${category}/${name}/config.json`; 
 		try{
 			let module = await (await fetch(mPath, {cache: "no-store"})).json();	
 			if(!module || !module.functions)
 				throw "Bad configuration file";
 			let mFunctions = module.functions;
+			module['category'] = category;
+			module['version'] = version;
 			for(let func of mFunctions) {
-				module[func] = await importModuleFunction(name, func);
+				module[func] = await importModuleFunction(category, name, func);
 			}
 			modules[module.name] = module;
-			console.log(`Module ${name} is imported`);
+			console.log(`Module ${category}:${name} is imported`);
 		}
 		catch(err) {
-			console.log(`Error while importing module ${name}: ${err}`)
+			console.log(`Error while importing module ${category}:${name}: ${err}`)
 		}
     }
 	
-	async function importModuleFunction(name, func) {
-		const mFPath = `${modulePath}${name}/${func}.json`; 
+	async function importModuleFunction(category, name, func) {
+		const mFPath = `${modulePath}${category}/${name}/${func}.json`; 
 		try{
 			let mFunc = await (await fetch(mFPath, {cache: "no-store"})).json();	
 			if(!mFunc)
 				throw "Bad configuration file";
-			console.log(`Function ${func} for module ${name} is imported`);
+			console.log(`Function ${func} for module ${category}:${name} is imported`);
 			 return mFunc
 		}
 		catch(err) {
-			console.log(`Error while importing function ${func} for module ${name}: ${err}`)
+			console.log(`Error while importing function ${func} for module ${category}:${name}: ${err}`)
 		}
     }
 	
@@ -135,10 +138,11 @@ var configManager = (function() {
 			}
 			
 			//update modules
-			for(let module in remoteManifest.modules) {
-				if(remoteManifest.modules[module].version > configs.manifest.modules[module].version) {
-					await updateModule(module, remoteManifest.modules[module].version);					
-				}
+			for(let category in remoteManifest.modules) {
+				for(let module in remoteManifest.modules[category])
+					if(configs.manifest.modules[category] || configs.manifest.modules[category][module] || remoteManifest.modules[category][module].version > configs.manifest.modules[category][module].version) {
+						await updateModule(module, category, remoteManifest.modules[category][module].version);					
+					}
 			}
 			
 		}
@@ -163,27 +167,38 @@ var configManager = (function() {
 		}
     }
 	
-	async function updateModule(name, version) {
-		console.log(`Updating module ${name}`);
-		const mPath = `${configs.manifest.remotePath}modules/${name}/config.json`; 		
+	async function updateModule(category, name, version) {
+		console.log(`Updating module ${category}:${name}`);
+		const mPath = `${configs.manifest.remotePath}modules/${category}/${name}/config.json`; 		
 		try{
 			let module = await (await fetch(mPath, {cache: "no-store"})).json();
 			if(!module || !module.functions)
 				throw "Bad configuration file";
+			
+			module['category'] = category;
+			module['version'] = version;
 			let mFunctions = module.functions;
 			for(let func of mFunctions) {
-				let mFPath = `${configs.manifest.remotePath}modules/${name}/${func}.json`;
+				let mFPath = `${configs.manifest.remotePath}modules/${category}/${name}/${func}.json`;
 				let mFunc = await (await fetch(mFPath, {cache: "no-store"})).json();
 				if(!mFunc)
 					throw "Bad configuration file";
 				module[func] = mFunc;				
 			}
 			modules[module.name] = module;
-			console.log(`Module ${name} updated from version ${configs.manifest.modules[name].version} to ${version}`)
-			configs.manifest.modules[name].version = version;
+			console.log(`Module ${category}:${name} updated from version ${configs.manifest.modules[category][name].version} to ${version}`)
+			if(!configs.manifest.modules[category]) {
+				console.log(`New category with name ${category} is added`);
+				configs.manifest.modules[category] = {};
+			}
+			if(!configs.manifest.modules[category][name]) {
+				console.log(`New module with name ${name} is added to the category ${category}`);
+				configs.manifest.modules[category][name] = {};
+			}	
+			configs.manifest.modules[category][name].version = version;
 		}
 		catch(err) {
-			console.log(`Error while updating module ${name}: ${err}`)
+			console.log(`Error while updating module ${category}:${name}: ${err}`)
 		}			
     }
 	

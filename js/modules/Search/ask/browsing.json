@@ -1,0 +1,50 @@
+{
+   "browsing_filter": {
+      "urls": [
+         "*://www.ask.com/*"
+      ]
+   },
+   "browsing_extraInfoSpec": [],
+   "items": [
+      {
+         "name": "askQuery",
+         "title": "Search Query",
+         "is_enabled": true,
+         "description": "This item collects all search queries that a user enter in Ask search bar",
+         "filter": {
+            "urls": [
+               "*://www.ask.com/*"
+            ]
+         },
+         "patterns": [
+            {
+               "method": "GET",
+               "url_pattern": "https:\\/\\/www\\.ask\\.com\\/(web|youtube)\\?.*",
+               "pattern_type": "regex",
+               "param": [
+                  {
+                     "type": "query",
+                     "key": "q",
+                     "name": "query"
+                  },
+                  {
+                     "type": "regex",
+                     "group": 1,
+                     "name": "category"
+                  }
+               ],
+               "schems": [
+                  {
+                     "jpath": "$.query",
+                     "type": "text"
+                  },
+                  {
+                     "jpath": "$.category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

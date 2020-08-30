@@ -1,0 +1,10 @@
+{
+	"name": "news_msn",
+	"description": "This module looks through all activities of a user on msn media and captures those activities that the user has permitted",
+	"functions": [
+		"content"
+	],
+	"is_enabled": true,
+	"privacyLevel": 1,
+	"anonymityLevel": 1
+}

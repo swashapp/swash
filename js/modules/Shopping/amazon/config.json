@@ -1,0 +1,11 @@
+{
+  "name": "shopping_amazon",
+  "description": "This module looks through all activities of a user on amazon and captures those activities that the user has permitted",
+  "functions": [
+    "browsing",
+    "content"
+  ],
+  "is_enabled": true,
+  "privacyLevel": 1,
+  "anonymityLevel": 1
+}

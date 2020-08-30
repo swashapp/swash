@@ -1,0 +1,675 @@
+{
+   "content_matches": [
+      "*://www.bing.com/*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [
+      {
+         "name": "bingSearchResult",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects Bing search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .sb_add",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_caption .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".sb_pagS.sb_pagS_bp.b_widePag.sb_bp",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active a",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "bingClickedLink",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects links clicked by user from Bing search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".b_algo h2",
+               "event_name": "click"
+            },
+            {
+               "selector": ".b_algo h2",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .sb_add",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_caption .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".sb_pagS.sb_pagS_bp.b_widePag.sb_bp",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active a",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "bingAdsClickedLink",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects Ads links clicked by user from Bing search result",
+         "title": "Ads clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".b_ad .sb_add",
+               "event_name": "click"
+            },
+            {
+               "selector": ".b_ad .sb_add",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".b_caption .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "h2 a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .sb_add",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_caption .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".sb_pagS.sb_pagS_bp.b_widePag.sb_bp",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active a",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "mobile": [
+		{
+         "name": "bingSearchResult",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects Bing search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .ad_sc",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_attribution .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_pag .b_lipgSpan .sb_pagS",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "bingClickedLink",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects links clicked by user from Bing search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".b_algo h2",
+               "event_name": "click"
+            },
+            {
+               "selector": ".b_algo a",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .ad_sc",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_attribution .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_pag .b_lipgSpan .sb_pagS",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "bingAdsClickedLink",
+         "url_match": "*://www.bing.com/*",
+         "description": "This item collects Ads links clicked by user from Bing search result",
+         "title": "Ads clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".b_ad .ad_sc",
+               "event_name": "click"
+            },
+            {
+               "selector": ".b_ad .ad_sc",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".b_attribution .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_algo",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#b_results .b_ad .ad_sc",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".b_attribution .b_adurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a h2",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_caption p",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#sb_form_q",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_pag .b_lipgSpan .sb_pagS",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".b_active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

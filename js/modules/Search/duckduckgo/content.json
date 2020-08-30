@@ -1,0 +1,682 @@
+{
+   "content_matches": [
+      "*://duckduckgo.com/*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [
+      {
+         "name": "duckduckgoSearchResult",
+         "url_match": "*://duckduckgo.com/?*",
+         "description": "This item collects DuckDuckGo search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "event_name": ".",
+               "selector": "."
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "duckduckgoClickedLink",
+         "url_match": "*://duckduckgo.com/?*",
+         "description": "This item collects links clicked by user from DuckDuckGo search result",
+         "title": "clicked link",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".results .result.results_links_deep",
+               "event_name": "click"
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "duckduckgoAdsClickedLink",
+         "url_match": "*://duckduckgo.com/*",
+         "description": "This item collects advertising links clicked by user from DuckDuckGo search result",
+         "title": "Ads clicked link",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".results--ads .result.results_links",
+               "event_name": "click"
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "mobile": [
+      {
+         "name": "duckduckgoSearchResult",
+         "url_match": "*://duckduckgo.com/?*",
+         "description": "This item collects DuckDuckGo search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "event_name": ".",
+               "selector": "."
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "duckduckgoClickedLink",
+         "url_match": "*://duckduckgo.com/?*",
+         "description": "This item collects links clicked by user from DuckDuckGo search result",
+         "title": "clicked link",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".results .result.results_links_deep",
+               "event_name": "click"
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "duckduckgoAdsClickedLink",
+         "url_match": "*://duckduckgo.com/*",
+         "description": "This item collects advertising links clicked by user from DuckDuckGo search result",
+         "title": "Ads clicked link",
+         "readyAt": "DOMChange",
+         "observingTargetNode": ".results--main",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".results--ads .result.results_links",
+               "event_name": "click"
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results .result.results_links_deep",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".results--ads .result.results_links",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".result__body .result__extras .result__extras__url a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".result__body .result__snippet",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#search_form_input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#duckbar_static .zcm__item a.is-active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]   
+}

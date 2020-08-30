@@ -1,0 +1,51 @@
+{
+   "browsing_filter": {
+      "urls": [
+         "*://*.yahoo.com/*"
+      ]
+   },
+   "browsing_extraInfoSpec": [],
+   "items": [
+      {
+         "name": "yahooQuery",
+         "title": "Search Query",
+         "is_enabled": true,
+         "description": "This item collects all search queries that a user enter in Yahoo search bar",
+         "filter": {
+            "urls": [
+               "*://*.yahoo.com/*"
+            ]
+         },
+         "patterns": [
+            {
+               "method": "GET",
+               "url_pattern": "https:\\/\\/((.*)\\.)?search\\.yahoo\\.com\\/search.*",
+               "pattern_type": "regex",
+               "param": [
+                  {
+                     "type": "query",
+                     "key": "p",
+                     "name": "query"
+                  },
+                  {
+                     "type": "regex",
+                     "group": 2,
+                     "name": "category",
+                     "default": "web"
+                  }
+               ],
+               "schems": [
+                  {
+                     "jpath": "$.query",
+                     "type": "text"
+                  },
+                  {
+                     "jpath": "$.category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

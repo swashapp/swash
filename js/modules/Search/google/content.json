@@ -1,0 +1,858 @@
+{
+   "content_matches": [
+      "*://www.google.com/search?*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [
+      {
+         "name": "googleSearchResult",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects Google search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".g .rc",
+               "conditions": [
+                  [
+                     {
+                        "type": "parent",
+                        "contain": false,
+                        "val": ".related-question-pair"
+                     }
+                  ]
+               ],
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".r a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".r .LC20lb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".s .st",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ads-ad",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".ad_cclk a.V0MxL",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".ad_cclk a h3",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ads-creative",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.gLFyf",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".cur",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "googleClickedLink",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects links clicked by user from Google search result",
+         "title": "Clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".g .rc .r",
+               "conditions": [
+                  [
+                     {
+                        "type": "parent",
+                        "contain": false,
+                        "val": ".related-question-pair"
+                     }
+                  ]
+               ],
+               "event_name": "click"
+            },
+            {
+               "selector": ".g .rc .r",
+               "conditions": [
+                  [
+                     {
+                        "type": "parent",
+                        "contain": false,
+                        "val": ".related-question-pair"
+                     }
+                  ]
+               ],
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".iUh30",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".LC20lb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".bkWMgd .g .rc",
+               "conditions": [
+                  [
+                     {
+                        "type": "parent",
+                        "contain": false,
+                        "val": ".related-question-pair"
+                     }
+                  ]
+               ],
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".r .iUh30",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".r .LC20lb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".s .st",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ads-ad",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".ad_cclk .ads-visurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ad_cclk a h3",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ads-creative",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.gLFyf",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".cur",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "googleAdsClickedLink",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects advertising links clicked by user from Google search result",
+         "title": "Ads clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".ad_cclk",
+               "event_name": "click"
+            },
+            {
+               "selector": ".ad_cclk",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".ads-visurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ad_cclk a h3",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ads-creative",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".bkWMgd .g .rc",
+               "conditions": [
+                  [
+                     {
+                        "type": "parent",
+                        "contain": false,
+                        "val": ".related-question-pair"
+                     }
+                  ]
+               ],
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".r .iUh30",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".r .LC20lb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".s .st",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ads-ad",
+               "name": "adsResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".ad_cclk .ads-visurl cite",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ad_cclk a h3",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ads-creative",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.gLFyf",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".cur",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+	],
+   "mobile": [
+      {
+         "name": "googleSearchResult",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects Google search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".x54gtf"
+                     },
+                     {
+                        "type": "ancestor",
+                        "contain": false,
+                        "val": ".Z8j5ae"
+                     }
+                  ]
+               ],
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "name": "adsResult",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".BUybKe"
+                     }
+                  ]
+               ],
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a .MUxGbd.v0nnCb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".BmP5tf .MUxGbd.yDYNvb",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.noHIxc",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ZINbbc.xpd.O9g5cc.uUPGi.BmP5tf .SAez4c",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".Pg70bf span",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "googleClickedLink",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects links clicked by user from Google search result",
+         "title": "Clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".x54gtf"
+                     },
+                     {
+                        "type": "ancestor",
+                        "contain": false,
+                        "val": ".Z8j5ae"
+                     }
+                  ]
+               ],
+               "event_name": "click"
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".x54gtf"
+                     },
+                     {
+                        "type": "ancestor",
+                        "contain": false,
+                        "val": ".Z8j5ae"
+                     }
+                  ]
+               ],
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".x54gtf"
+                     },
+                     {
+                        "type": "ancestor",
+                        "contain": false,
+                        "val": ".Z8j5ae"
+                     }
+                  ]
+               ],
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "name": "adsResult",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".BUybKe"
+                     }
+                  ]
+               ],
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a .MUxGbd.v0nnCb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".BmP5tf .MUxGbd.yDYNvb",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.noHIxc",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ZINbbc.xpd.O9g5cc.uUPGi.BmP5tf .SAez4c",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".Pg70bf span",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "googleAdsClickedLink",
+         "url_match": "*://www.google.com/search?*",
+         "description": "This item collects advertising links clicked by user from Google search result",
+         "title": "Ads clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".BUybKe"
+                     }
+                  ]
+               ],
+               "event_name": "click"
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".BUybKe"
+                     }
+                  ]
+               ],
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a .MUxGbd.v0nnCb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".BmP5tf .MUxGbd.yDYNvb",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "name": "searchResult",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".x54gtf"
+                     },
+                     {
+                        "type": "ancestor",
+                        "contain": false,
+                        "val": ".Z8j5ae"
+                     }
+                  ]
+               ],
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "name": "adsResult",
+               "conditions": [
+                  [
+                     {
+                        "type": "child",
+                        "contain": true,
+                        "val": ".BUybKe"
+                     }
+                  ]
+               ],
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "a .MUxGbd.v0nnCb",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".BmP5tf .MUxGbd.yDYNvb",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "input.noHIxc",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".ZINbbc.xpd.O9g5cc.uUPGi.BmP5tf .SAez4c",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".Pg70bf span",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]   
+}

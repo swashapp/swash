@@ -1,0 +1,77 @@
+{
+   "browsing_filter": {
+      "urls": [
+         "*://www.bing.com/*"
+      ]
+   },
+   "browsing_extraInfoSpec": [],
+   "items": [
+      {
+         "name": "bingQuery",
+         "title": "Search Query",
+         "is_enabled": true,
+         "description": "This item collects all search queries that a user enter in Bing search bar",
+         "filter": {
+            "urls": [
+               "*://www.bing.com/*"
+            ]
+         },
+         "patterns": [
+            {
+               "method": "GET",
+               "url_pattern": "https:\\/\\/www\\.bing\\.com\\/(([^\\/\\?\\;]*)\\/search)\\?.*",
+               "pattern_type": "regex",
+               "param": [
+                  {
+                     "type": "query",
+                     "key": "q",
+                     "name": "query"
+                  },
+                  {
+                     "type": "regex",
+                     "group": 2,
+                     "name": "category"
+                  }
+               ],
+               "schems": [
+                  {
+                     "jpath": "$.query",
+                     "type": "text"
+                  },
+                  {
+                     "jpath": "$.category",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "method": "GET",
+               "url_pattern": "https:\\/\\/www\\.bing\\.com\\/(shop|maps|search)\\?.*",
+               "pattern_type": "regex",
+               "param": [
+                  {
+                     "type": "query",
+                     "key": "q",
+                     "name": "query"
+                  },
+                  {
+                     "type": "regex",
+                     "group": 1,
+                     "name": "category"
+                  }
+               ],
+               "schems": [
+                  {
+                     "jpath": "$.query",
+                     "type": "text"
+                  },
+                  {
+                     "jpath": "$.category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

@@ -20,26 +20,82 @@
 		}		
 	},
 	"modules": {
-		"amazon": {
-			"version": 4
+		"Beauty": {
+			"bathandbodyworks": {
+				"version": 1
+			},
+			"sephora": {
+				"version": 1
+			}
+
 		},
-		"facebook": {
-			"version": 2
+		"Fashion": {
 		},
-		"search": {
-			"version": 3
+		"General": {
+			"surfing": {
+				"version": 1
+			}
 		},
-		"spotify": {
-			"version": 2
+		"Music": {
+			"youtube": {
+				"version": 1
+			}
 		},
-		"surfing": {
-			"version": 4
+		"News": {
+			"cnn": {
+				"version": 1
+			},
+			"dailymail": {
+				"version": 1
+			},
+			"msn": {
+				"version": 1
+			},
+			"uol": {
+				"version": 1
+			},
+			"yahoo": {
+				"version": 1
+			}
 		},
-		"twitter": {
-			"version": 2
+		"Search": {
+			"aol": {
+				"version": 1
+			},
+			"ask": {
+				"version": 1
+			},
+			"baidu": {
+				"version": 1
+			},
+			"bing": {
+				"version": 1
+			},
+			"duckduckgo": {
+				"version": 1
+			},
+			"google": {
+				"version": 1
+			},
+			"yahoo": {
+				"version": 1
+			}
 		},
-		"youtube": {
-			"version": 3
+		"Shopping": {
+			"amazon": {
+				"version": 1
+			}
+		},
+		"Social": {
+			"facebook": {
+				"version": 1
+			},
+			"twitter": {
+				"version": 1
+			}
+		},
+		"Travel": {
+
 		}
 	}
 }

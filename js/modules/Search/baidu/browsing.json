@@ -1,0 +1,60 @@
+{
+   "browsing_filter": {
+      "urls": [
+         "*://*.baidu.com/*"
+      ]
+   },
+   "browsing_extraInfoSpec": [],
+   "items": [     
+      {
+         "name": "baiduQuery",
+         "title": "Search Query",
+         "is_enabled": false,
+         "description": "This item collects all search queries that a user enter in Baidu search bar",
+         "filter": {
+            "urls": [
+               "*://*.baidu.com/*"
+            ]
+         },
+         "patterns": [
+            {
+               "method": "GET",
+               "url_pattern": "http[s]?:\\/\\/(.*)\\.baidu\\.com\\/([sfqim]\\?|sf\\/|search).*",
+               "pattern_type": "regex",
+               "param": [
+                  {
+                     "type": "query",
+                     "key": "wd",
+                     "name": "query"
+                  },
+                  {
+                     "type": "query",
+                     "key": "kw",
+                     "name": "query"
+                  },
+                  {
+                     "type": "query",
+                     "key": "word",
+                     "name": "query"
+                  },
+                  {
+                     "type": "regex",
+                     "group": 1,
+                     "name": "category"
+                  }
+               ],
+               "schems": [
+                  {
+                     "jpath": "$.query",
+                     "type": "text"
+                  },
+                  {
+                     "jpath": "$.category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
