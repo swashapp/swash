@@ -13,14 +13,14 @@ import {communityHelper} from "./communityHelper.js"
 import {task} from "./functions/task.js"
 import {pageAction} from "./pageAction.js"
 import {transfer} from "./functions/transfer.js"
-import {onBoarding} from "./onBoarding.js"
+import {onboarding} from "./onboarding.js"
 import {memberManager} from "./memberManager.js"
 import {swashApiHelper} from "./swashApiHelper.js";
 
 
 
-var isConfigReady = false;
-var tryCount = 0;
+let isConfigReady = false;
+let tryCount = 0;
 
 
 function initConfigs() {
@@ -28,14 +28,13 @@ function initConfigs() {
 	memberManager.init();
 	dataHandler.init();
 	communityHelper.init();
-	onBoarding.init();
+	onboarding.init();
 	apiCall.init();
 	loader.initConfs();
 }
 
 
 async function installSwash(info) {
-	// debugger;
 	console.log("Start installing...")
 	if(!isConfigReady) {
 		console.log("Configuration files is not ready yet, will try install it later")
@@ -48,18 +47,18 @@ async function installSwash(info) {
 		return;
 	}
 	tryCount = 0;
-	
+
 	await configManager.importAll();
 	initConfigs();
 	if (info.reason === "update" || info.reason === "install") {
-		onBoarding.isNeededOnBoarding().then((isNeeded) => {
-			if (isNeeded)
-				onBoarding.openOnBoarding();
-			else
-				loader.install().then(() => {
-					loader.onInstalled();
-				});
-		});			
+		await loader.createDBIfNotExist();
+		const isNeeded = await onboarding.isNeededOnBoarding();
+		if (isNeeded) {
+			onboarding.openOnBoarding();
+		} else {
+			await loader.install();
+			await loader.onInstalled();
+		}
 	}
 }
 
@@ -87,15 +86,15 @@ browserUtils.getPlatformInfo().then(info => {
 
 configManager.loadAll().then(async () => {
 	console.log("Start loading...")
-	
+
 	//Now the configuration is avaliable
 	initConfigs();
 	isConfigReady = true;
-	
-	
+
+
 	/* Set popup menu for desktop versions */
 
-	
+
 	/* ***
 	Each content script, after successful injection on a page, will send a message to background script to request data.
 	This part handles such requests.
@@ -118,7 +117,7 @@ configManager.loadAll().then(async () => {
 			communityHelper: communityHelper,
 			pageAction: pageAction,
 			transfer: transfer,
-			onBoarding: onBoarding,
+			onboarding: onboarding,
 			swashApiHelper: swashApiHelper,
 		};
 		sendResponse(objList[message.obj][message.func](...message.params));
@@ -141,5 +140,5 @@ configManager.loadAll().then(async () => {
 			loader.onInstalled();
 		}
 	});
-	
+
 })	

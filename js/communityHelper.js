@@ -44,8 +44,7 @@ let communityHelper = (function() {
 			N: (1 << 10)
 		  }
 		};
-		let encryptedWallet = await wallet.encrypt(password, options);
-		return encryptedWallet;
+		return await wallet.encrypt(password, options);
 	}
 
 	async function loadWallet(encryptedWallet, password) {

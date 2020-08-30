@@ -11,41 +11,50 @@ import {ssConfig} from './manifest.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
 import {pushStream} from "./push.js"
-import {onBoarding} from "./onBoarding.js"
+import {onboarding} from "./onboarding.js"
 
 
-var loader = (function() {
+let loader = (function() {
     'use strict';
-    var dbHelperInterval;
-	var configs;
-	var modules;
-	var intervalId = 0;
+    let dbHelperInterval;
+	let configs;
+	let modules;
+	let intervalId = 0;
 
-	
 	function initConfs() {
 		configs = configManager.getAllConfigs();
 		modules = configManager.getAllModules();
 	}
 
-    async function isDbCreated(db) {
+    async function isDBCreated(db) {
         return !(db == null || Object.keys(db).length === 0);
     }
 
-    async function install() {
-        
-        let db = await storageHelper.retrieveAll();		
-
-        if (!await isDbCreated(db)) {
+	async function createDBIfNotExist() {
+		let db = await storageHelper.retrieveAll();
+		if (!await isDBCreated(db)) {
 			console.log("Creating new DB");
-            db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}, onBoardings: {}};
-            db.configs.Id = utils.uuid();
-            db.configs.salt = utils.uuid();
-            db.configs.delay = 2;
-            await communityHelper.createWallet();
-            db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
-            utils.jsonUpdate(db.configs, ssConfig);
-        }
-        try {
+			db = {
+				tasks: {},
+				modules: {},
+				configs: {},
+				profile: {},
+				filters: [],
+				wallets: [],
+				privacyData: [],
+				onboarding: {}
+			};
+			db.configs.Id = utils.uuid();
+			db.configs.delay = 2;
+			utils.jsonUpdate(db.configs, ssConfig);
+			return storageHelper.storeAll(db);
+		}
+	}
+
+	async function install() {
+		try {
+			await createDBIfNotExist();
+			let db = await storageHelper.retrieveAll();
 			//backup old database
 			db._backup = JSON.stringify(db);
 			
@@ -53,9 +62,9 @@ var loader = (function() {
             if (!db.wallets)
                 db.wallets = [];
 
-			//onBoarding added from version 1.0.8
-            if (!db.onBoardings)
-                db.onBoardings = {};
+			//onboarding added from version 1.0.8
+            if (!db.onboarding)
+                db.onboarding = {};
 			//from version 1.0.9 move wallet to profile object for safety
 			console.log(`Update Swash from version ${db.configs.version} to ${ssConfig.version}`);
 			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet) {
@@ -81,21 +90,17 @@ var loader = (function() {
 			
 			//updating configurations
 			utils.jsonUpdate(db.configs, configs)
+			return storageHelper.storeAll(db);
         } catch (exp) {
             console.error(exp);
         }
-        return storageHelper.storeAll(db);
     }
 
-	
-	
-	function onInstalled() {
-		reload();
-		updateSchedule();
+	async function onInstalled() {
+		await reload();
+		await updateSchedule();
 		memberManager.tryJoin();
-
 	}
-
 	
     function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
         if (!changeInfo.url || !tabInfo.active)
@@ -165,7 +170,6 @@ var loader = (function() {
 			loadFunctions();			
 		})	
     }
-    
 
     function stop(){		
 		let config = {is_enabled: false};
@@ -226,7 +230,6 @@ var loader = (function() {
         });
     }
 
-	
 	async function onModulesUpdated() {
 		let dbModules = await storageHelper.retrieveModules();
 		if(!dbModules)
@@ -245,14 +248,13 @@ var loader = (function() {
 		}
 		return dbModules;
 	}
-	
-	
+
 	function onConfigsUpdated() {
 		pushStream.init();
 		memberManager.init();
 		dataHandler.init();
 		communityHelper.init();
-		onBoarding.init();
+		onboarding.init();
 		apiCall.init();
 		initConfs();
 	}
@@ -267,7 +269,6 @@ var loader = (function() {
 		await storageHelper.storeData("modules", dbModules);
 	}
 	
-	
 	async function updateSchedule() {
 		async function update() {
 			await configManager.updateAll();
@@ -278,11 +279,11 @@ var loader = (function() {
 		await update();		
 		intervalId = setInterval(update, configs.manifest.updateInterval)
 	}
-	
-	
+
     return {
 		initConfs,
-        isDbCreated,
+        isDBCreated,
+		createDBIfNotExist,
         install,
 		onInstalled,
         start,

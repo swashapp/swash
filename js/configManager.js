@@ -112,11 +112,11 @@ var configManager = (function() {
 	
 	
 	async function storeConfigs() {
-		storageHelper.storeData("configs", configs);		
+		await storageHelper.storeData("configs", configs);
 	}
 	
 	async function storeModules() {
-		storageHelper.storeData("modules", modules);		
+		await storageHelper.storeData("modules", modules);
 	}
 	
 	async function updateAll() {    
@@ -128,7 +128,7 @@ var configManager = (function() {
 			let remoteManifest = await (await fetch(manifestPath, {cache: "no-store"})).json();
 			//update configuration files
 			for(let file in remoteManifest.files) {
-				if(configs.manifest.files[file] && remoteManifest.files[file].version > configs.manifest.files[file].version)				
+				if(configs.manifest.files[file] && remoteManifest.files[file].version > configs.manifest.files[file].version)
 				{
 					await updateConfig(file, remoteManifest.files[file].version);					
 				}
