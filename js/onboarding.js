@@ -1,88 +1,121 @@
 import {utils} from './utils.js';
 import {loader} from './loader.js';
+import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
 
 
-let onBoarding = (function () {
+let onboarding = (function () {
     let oauthTabId = 0;
     let oauthWinId = 0;
     let parentId = 0;
     let obName = '';
     const extId = "authsaz@gmail.com";
-    var onBoardingConfigs;
+
+    let onboardingConfigs;
+    let onboardingTools;
+    let onboardingFlow;
 
     function init() {
-        onBoardingConfigs = configManager.getConfig('onboarding');
+        onboardingConfigs = configManager.getConfig('onboarding');
+        onboardingTools = onboardingConfigs['tools'];
+        onboardingFlow = onboardingConfigs['flow'];
     }
 
-    function getCallBackURL(onBoardingName) {
-        return "https://callbacks.swashapp.io/" + sha256(extId) + "/" + onBoardingName.toLowerCase();
+    function getCallBackURL(onboardingName) {
+        return "https://callbacks.swashapp.io/" + sha256(extId) + "/" + onboardingName.toLowerCase();
     }
 
-    function isDbValid(db) {
-        return (db && db.configs && db.configs.name && db.configs.name === "Swash");
+    function isValidDB(db) {
+        return (db && db.profile && db.profile.encryptedWallet);
     }
 
     async function isNeededOnBoarding() {
-        let db = await storageHelper.retrieveAll();
-        if (!await loader.isDbCreated(db))
+        let data = await storageHelper.retrieveOnboarding();
+        if (data == null || data.flow == null)
             return true;
-
-        let data = await storageHelper.retrieveOnBoardings();
-
-        if (data == null)
+        else if (data.flow.version < onboardingFlow.version)
             return true;
-        else if (!data.isCompleted)
-            return true;
-
         return false;
     }
 
-    async function isExtensionUpdated() {
-        let db = await storageHelper.retrieveAll();
-        return isDbValid(db);
+    function checkNotExistInDB(currentPage, rule, data) {
+        let entities = currentPage.visible['core'][rule].split('.');
+        delete currentPage.visible['core'][rule];
+        if (entities.length === 0) return true;
+        let _data = data;
+        for (const entity of entities) {
+            if (_data[entity] == null)
+                return true;
+            _data = _data[entity]
+        }
+        return false;
+    }
+
+    function shouldShowThisPage(currentPage, data) {
+        if (typeof currentPage.visible === "object" && currentPage.visible['core'] != null) {
+            for (const rule in currentPage.visible['core']) {
+                if (currentPage.visible['core'].hasOwnProperty(rule)) {
+                    if (rule === 'notExistInDB') {
+                        if (!checkNotExistInDB(currentPage, rule, data))
+                            return false;
+                    }
+                }
+            }
+            delete currentPage.visible['core'];
+            if (currentPage.visible['ui'] == null){
+                delete currentPage.visible;
+                currentPage.visible = 'all';
+            }
+        }
+        return true
+    }
+
+    async function getOnboardingFlow() {
+        let data = await storageHelper.retrieveAll();
+        let result = {...onboardingFlow};
+        for (const page in result['pages']){
+            if (result['pages'].hasOwnProperty(page)){
+                if (!shouldShowThisPage(result['pages'][page], data)) {
+                    result['pages'][page]['visible'] = 'none';
+                }
+            }
+        }
+        return JSON.stringify(result);
     }
 
     async function submitOnBoarding() {
         await loader.install();
         let db = await storageHelper.retrieveAll();
 
-        if (!isDbValid(db))
+        if (!isValidDB(db))
             return false;
 
-        if (!db.onBoardings)
-            db.onBoardings = {};
+        if (!db.onboarding)
+            db.onboarding = {};
 
         let currentDate = new Date().toISOString();
-        db.onBoardings.isCompleted = true;
-        db.onBoardings.completionDate = currentDate;
+        db.onboarding.isCompleted = true;
+        db.onboarding.completionDate = currentDate;
 
         await storageHelper.storeAll(db);
-        loader.onInstalled();
+        await loader.onInstalled();
 
         return true;
     }
 
-    async function startOnBoarding(onBoardingName, tabId) {
-        let db = await storageHelper.retrieveAll();
-
-        if (!await loader.isDbCreated(db)) {
-            let db = {onBoardings: {}};
-            await storageHelper.storeAll(db);
-        }
-
+    async function startOnBoarding(onboardingName, tabId) {
         parentId = tabId;
-        obName = onBoardingName;
-        let data = await storageHelper.retrieveOnBoardings();
+        obName = onboardingName;
+        let data = await storageHelper.retrieveOnboarding();
 
         if (!browser.tabs.onRemoved.hasListener(handleRemoved)) {
             browser.tabs.onRemoved.addListener(handleRemoved);
         }
 
-        if (!data[onBoardingName] || await getOnBoardingAccessToken(onBoardingName) === "") {
-            startOnBoardingOAuth(onBoardingName).then((response) => {
+        if (!data[onboardingName] || await getOnBoardingAccessToken(onboardingName) === "") {
+            startOnBoardingOAuth(onboardingName).then((response) => {
                 let tab = response;
                 if (response.type === "popup")
                     tab = response.tabs[0];
@@ -92,7 +125,7 @@ let onBoarding = (function () {
         } else {
             browser.tabs.sendMessage(
                 parentId,
-                {onBoarding: obName}
+                {onboarding: obName}
             );
         }
     }
@@ -102,12 +135,12 @@ let onBoarding = (function () {
             browser.tabs.onRemoved.removeListener(handleRemoved);
             browser.tabs.sendMessage(
                 parentId,
-                {onBoarding: obName}
+                {onboarding: obName}
             );
         }
     }
 
-    async function startOnBoardingOAuth(onBoardingName) {
+    async function startOnBoardingOAuth(onboardingName) {
         let filter = {
             urls: [
                 "https://callbacks.swashapp.io/*"
@@ -115,12 +148,12 @@ let onBoarding = (function () {
         };
         if (!browser.webRequest.onBeforeRequest.hasListener(extractOnBoardingAccessToken))
             browser.webRequest.onBeforeRequest.addListener(extractOnBoardingAccessToken, filter);
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (onBoarding.name === onBoardingName) {
-                    onBoarding.apiConfig.redirect_url = getCallBackURL(onBoarding.name);
-                    let auth_url = `${onBoarding.apiConfig.auth_url}?client_id=${onBoarding.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(onBoarding.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(onBoarding.apiConfig.scopes.join(' '))}`
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (onboarding.name === onboardingName) {
+                    onboarding.apiConfig.redirect_url = getCallBackURL(onboarding.name);
+                    let auth_url = `${onboarding.apiConfig.auth_url}?client_id=${onboarding.apiConfig.client_id}&response_type=token&redirect_uri=${encodeURIComponent(onboarding.apiConfig.redirect_url)}&state=345354345&scope=${encodeURIComponent(onboarding.apiConfig.scopes.join(' '))}`
                     if (await browserUtils.isMobileDevice()) {
                         return browser.tabs.create({
                             url: auth_url
@@ -136,13 +169,13 @@ let onBoarding = (function () {
     }
 
     function extractOnBoardingAccessToken(details) {
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (details.url.startsWith(getCallBackURL(onBoarding.name))) {
-                    let rst = details.url.match(onBoarding.apiConfig.access_token_regex);
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (details.url.startsWith(getCallBackURL(onboarding.name))) {
+                    let rst = details.url.match(onboarding.apiConfig.access_token_regex);
                     if (rst) {
-                        saveOnBoardingAccessToken(onBoarding, rst[1]);
+                        saveOnBoardingAccessToken(onboarding, rst[1]);
                     }
                     browser.tabs.remove(details.tabId);
                 }
@@ -151,21 +184,21 @@ let onBoarding = (function () {
         return null;
     }
 
-    function saveOnBoardingAccessToken(onBoarding, token) {
+    function saveOnBoardingAccessToken(onboarding, token) {
         let data = {};
-        data[onBoarding.name] = {};
-        data[onBoarding.name].access_token = token;
-        storageHelper.updateOnBoardings(data).then(result => {
+        data[onboarding.name] = {};
+        data[onboarding.name].access_token = token;
+        storageHelper.updateOnboarding(data).then(result => {
         });
     }
 
-    async function getOnBoardingAccessToken(onBoardingName) {
-        let confs = await storageHelper.retrieveOnBoardings();
+    async function getOnBoardingAccessToken(onboardingName) {
+        let confs = await storageHelper.retrieveOnboarding();
         for (let confIndex in confs) {
             if (confs.hasOwnProperty(confIndex)) {
                 let conf = confs[confIndex];
-                if (confIndex === onBoardingName) {
-                    if (await validateOnBoardingToken(onBoardingName))
+                if (confIndex === onboardingName) {
+                    if (await validateOnBoardingToken(onboardingName))
                         return conf.access_token;
                     return "";
                 }
@@ -174,41 +207,41 @@ let onBoarding = (function () {
         return "";
     }
 
-    function purgeOnBoardingAccessToken(onBoardingName) {
-        saveOnBoardingAccessToken(onBoardingName, null);
+    function purgeOnBoardingAccessToken(onboardingName) {
+        saveOnBoardingAccessToken(onboardingName, null);
     }
 
-    async function validateOnBoardingToken(onBoardingName) {
-        let data = await storageHelper.retrieveOnBoardings();
-        let conf = data[onBoardingName];
+    async function validateOnBoardingToken(onboardingName) {
+        let data = await storageHelper.retrieveOnboarding();
+        let conf = data[onboardingName];
 
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (onBoardingName === onBoarding.name) {
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (onboardingName === onboarding.name) {
                     if (conf.access_token) {
-                        let apiInfo = onBoarding.validateToken;
+                        let apiInfo = onboarding.validateToken;
                         apiInfo.params = {};
                         apiInfo.params[apiInfo.token_param_name] = conf.access_token;
 
                         return apiCall(apiInfo, conf.access_token).then(response => {
                             if (response.status !== 200) {
-                                purgeOnBoardingAccessToken(onBoarding);
+                                purgeOnBoardingAccessToken(onboarding);
                                 return false;
                             }
                             return response.json().then((json) => {
-                                let jpointers = JSONPath.JSONPath({path: onBoarding.validateToken.required_jpath, json: json});
+                                let jpointers = JSONPath.JSONPath({path: onboarding.validateToken.required_jpath, json: json});
                                 if (jpointers.length > 0) {
                                     return true;
                                 } else {
-                                    purgeOnBoardingAccessToken(onBoarding);
+                                    purgeOnBoardingAccessToken(onboarding);
                                     return false;
                                 }
                             }).catch(error => {
-                                purgeOnBoardingAccessToken(onBoarding);
+                                purgeOnBoardingAccessToken(onboarding);
                             });
                         }).catch(error => {
-                            purgeOnBoardingAccessToken(onBoarding);
+                            purgeOnBoardingAccessToken(onboarding);
                         });
                     }
                 }
@@ -235,10 +268,15 @@ let onBoarding = (function () {
     }
 
     async function applyConfig(config) {
-        let db = JSON.parse(config);
+        const oldDB = JSON.parse(config);
 
-        if (isDbValid(db)) {
-            await storageHelper.storeAll(JSON.parse(config));
+        if (isValidDB(oldDB)) {
+            let db = await storageHelper.retrieveAll();
+            db.configs.salt = oldDB.configs.salt;
+            db.profile.encryptedWallet = oldDB.profile.encryptedWallet;
+            await storageHelper.storeAll(db);
+
+            await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
             return true;
         }
         return false;
@@ -256,15 +294,15 @@ let onBoarding = (function () {
         browser.downloads.download({url: url, filename: "swash-" + currentDate + ".conf", saveAs: true})
     }
 
-    async function getFilesList(onBoardingName) {
-        let data = await storageHelper.retrieveOnBoardings();
-        let conf = data[onBoardingName];
+    async function getFilesList(onboardingName) {
+        let data = await storageHelper.retrieveOnboarding();
+        let conf = data[onboardingName];
 
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (onBoardingName === onBoarding.name) {
-                    let getListApi = onBoarding.apiCall.listFiles;
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (onboardingName === onboarding.name) {
+                    let getListApi = onboarding.apiCall.listFiles;
 
                     let response = await apiCall(getListApi, conf.access_token);
                     if (response.status === 200)
@@ -276,23 +314,23 @@ let onBoarding = (function () {
         return false;
     }
 
-    async function downloadFile(onBoardingName, fileId) {
-        let data = await storageHelper.retrieveOnBoardings();
-        let conf = data[onBoardingName];
+    async function downloadFile(onboardingName, fileId) {
+        let data = await storageHelper.retrieveOnboarding();
+        let conf = data[onboardingName];
 
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (onBoardingName === onBoarding.name) {
-                    let getFileApi = onBoarding.apiCall.downloadFile;
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (onboardingName === onboarding.name) {
+                    let getFileApi = onboarding.apiCall.downloadFile;
 
                     getFileApi.fileId = fileId;
-                    if (onBoardingName === 'GoogleDrive') {
+                    if (onboardingName === 'GoogleDrive') {
                         getFileApi.params = {
                             'alt': 'media'
                         };
                     }
-                    if (onBoardingName === 'DropBox') {
+                    if (onboardingName === 'DropBox') {
                         getFileApi.headers["Dropbox-API-Arg"] = {
                             path: fileId
                         };
@@ -308,16 +346,16 @@ let onBoarding = (function () {
         return false;
     }
 
-    async function uploadFile(onBoardingName) {
-        let data = await storageHelper.retrieveOnBoardings();
-        let conf = data[onBoardingName];
+    async function uploadFile(onboardingName) {
+        let data = await storageHelper.retrieveOnboarding();
+        let conf = data[onboardingName];
 
-        for (let onBoardingIndex in onBoardingConfigs) {
-            if (onBoardingConfigs.hasOwnProperty(onBoardingIndex)) {
-                let onBoarding = onBoardingConfigs[onBoardingIndex];
-                if (onBoardingName === onBoarding.name) {
+        for (let onboardingIndex in onboardingTools) {
+            if (onboardingTools.hasOwnProperty(onboardingIndex)) {
+                let onboarding = onboardingTools[onboardingIndex];
+                if (onboardingName === onboarding.name) {
                     let db = await storageHelper.retrieveAll();
-                    let uploadFileApi = onBoarding.apiCall.uploadFile;
+                    let uploadFileApi = onboarding.apiCall.uploadFile;
 
                     let currentDate = new Date().toISOString().slice(0, 19);
                     let fileContent = JSON.stringify(db);
@@ -327,7 +365,7 @@ let onBoarding = (function () {
                         'mimeType': 'text/plain'
                     };
 
-                    if (onBoardingName === 'DropBox')
+                    if (onboardingName === 'DropBox')
                         uploadFileApi.headers["Dropbox-API-Arg"].path = "/swash-" + currentDate + ".conf";
 
                     let form = new FormData();
@@ -418,7 +456,7 @@ let onBoarding = (function () {
         const space = await get3BoxSpace(seed);
 
         let db = await storageHelper.retrieveAll();
-        delete db.onBoardings['3Box'];
+        delete db.onboarding['3Box'];
         let data = JSON.stringify(db);
         let currentDate = new Date().toISOString().slice(0, 19);
         return space.private.set("swash-" + currentDate + ".conf", data);
@@ -436,12 +474,12 @@ let onBoarding = (function () {
         let data = {};
         data['3Box'] = {};
         data['3Box'].mnemonic = mnemonic;
-        storageHelper.updateOnBoardings(data).then(result => {
+        storageHelper.updateOnboarding(data).then(result => {
         });
     }
 
     async function get3BoxMnemonic() {
-        let data = await storageHelper.retrieveOnBoardings();
+        let data = await storageHelper.retrieveOnboarding();
         let conf = data['3Box'];
 
         if (conf && conf.mnemonic)
@@ -472,10 +510,18 @@ let onBoarding = (function () {
         }
     }
 
+    async function createAndSaveWallet() {
+        let db = await storageHelper.retrieveAll();
+        db.configs.salt = utils.uuid();
+        await communityHelper.createWallet();
+        db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
+        return storageHelper.storeAll(db);
+    }
+
     return {
         init,
         isNeededOnBoarding,
-        isExtensionUpdated,
+        getOnboardingFlow,
         submitOnBoarding,
         startOnBoarding,
         startOnBoardingOAuth,
@@ -491,6 +537,7 @@ let onBoarding = (function () {
         save3BoxMnemonic,
         get3BoxMnemonic,
         saveProfileInfo,
+        createAndSaveWallet
     };
 }());
-export {onBoarding};
+export {onboarding};

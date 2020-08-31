@@ -6,7 +6,7 @@ import {utils} from './utils.js';
 import {stream} from './stream.js';
 import {configManager} from './configManager.js';
 import {browserUtils} from './browserUtils.js'
-import {gatewayHelper} from './gatewayHelper.js'
+import {swashApiHelper} from './swashApiHelper.js'
 
 
 var dataHandler = (function() {
@@ -119,7 +119,7 @@ var dataHandler = (function() {
         message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);
 
 		let country = '';
-		profile.country ? country = profile.country : country = gatewayHelper.getUserCountry();
+		profile.country ? country = profile.country : country = swashApiHelper.getUserCountry();
 		message.identity.country = country;
 		message.identity.gender = profile.gender;
 		message.identity.age = profile.age;

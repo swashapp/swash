@@ -12,25 +12,24 @@ import {communityHelper} from "./communityHelper.js"
 import {task} from "./functions/task.js"
 import {pageAction} from "./pageAction.js"
 import {transfer} from "./functions/transfer.js"
-import {onBoarding} from "./onBoarding.js"
+import {onboarding} from "./onboarding.js"
 import {memberManager} from "./memberManager.js"
 
 
-var isConfigReady = false;
-var tryCount = 0;
+let isConfigReady = false;
+let tryCount = 0;
 
 function initConfigs() {
 	memberManager.init();
 	dataHandler.init();
 	communityHelper.init();
-	onBoarding.init();
+	onboarding.init();
 	apiCall.init();
 	loader.initConfs();
 }
 
 
 async function installSwash(info) {
-	// debugger;
 	console.log("Start installing...")
 	if(!isConfigReady) {
 		console.log("Configuration files is not ready yet, will try install it later")
@@ -47,14 +46,14 @@ async function installSwash(info) {
 	await configManager.importAll();
 	initConfigs();
 	if (info.reason === "update" || info.reason === "install") {
-		onBoarding.isNeededOnBoarding().then((isNeeded) => {
-			if (isNeeded)
-				onBoarding.openOnBoarding();
-			else
-				loader.install().then(() => {
-					loader.onInstalled();
-				});
-		});			
+		await loader.createDBIfNotExist();
+		const isNeeded = await onboarding.isNeededOnBoarding();
+		if (isNeeded) {
+			onboarding.openOnBoarding();
+		} else {
+			await loader.install();
+			await loader.onInstalled();
+		}
 	}
 }
 
@@ -112,7 +111,8 @@ configManager.loadAll().then(async () => {
 			communityHelper: communityHelper,
 			pageAction: pageAction,
 			transfer: transfer,
-			onBoarding: onBoarding,
+			onboarding: onboarding,
+			swashApiHelper: swashApiHelper
 		};		
 		sendResponse(objList[message.obj][message.func](...message.params));
 	});
