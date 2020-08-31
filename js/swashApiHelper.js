@@ -60,39 +60,54 @@ let swashApiHelper = (function () {
         return 0;
     }
 
-    async function sendSponsoredWithdraw(recipient, signature) {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.widthraw
+    async function sendSponsoredWithdraw(recipient) {
+        try {
+            const signature = communityHelper.getSignCheckForSponsorWithdraw(recipient);
+            const url = APIConfigManager.endpoint + APIConfigManager.APIList.withdraw
+            const req = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer ".concat(communityHelper.generateJWT())
+                },
+                body: JSON.stringify({recipient: recipient, signature: signature})
+            }
+            const resp = await fetch(url, req);
+            if (resp.status === 200) {
+                return true;
+            } else return resp.body.message;
+        } catch (err) {
+            console.error(`Error message: ${err.message}`)
+            return err.message;
+        }
+    }
+
+    async function ip2Location() {
+        const url = 'https://ipapi.co/json'
         const req = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': "Bearer ".concat(communityHelper.generateJWT())
-            },
-            body: JSON.stringify({recipient: recipient, signature: signature})
+            method: 'GET'
         }
         try {
             const resp = await fetch(url, req);
             if (resp.status === 200) {
-                let result = (await resp.json());
+                return (await resp.json())['country_name'];
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
         }
-        return null;
+        throw new Error('Unable to fetch ip2location');
     }
 
-    async function callIP2LocationApi() {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.ip2location
+    async function getDataEthPairPrice() {
+        const url = 'https://api.binance.com/api/v3/ticker/price?symbol=DATAETH'
         const req = {
-            method: 'GET',
-            headers: {
-                'Authorization': "Bearer ".concat(communityHelper.generateJWT())
-            }
+            method: 'GET'
         }
         try {
             const resp = await fetch(url, req);
             if (resp.status === 200) {
-                return (await resp.json()).country;
+                let data = (await resp.json());
+                return data['price'];
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
@@ -121,7 +136,7 @@ let swashApiHelper = (function () {
             return profile.country;
 
         try {
-            let country = await callIP2LocationApi();
+            let country = await ip2Location();
             if (country !== '') {
                 profile.country = country;
                 await storageHelper.updateProfile(profile);
@@ -138,6 +153,7 @@ let swashApiHelper = (function () {
         isJoinedSwash,
         getReferralRewards,
         sendSponsoredWithdraw,
+        getDataEthPairPrice,
         getUserId,
         getUserCountry,
         init

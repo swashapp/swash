@@ -550,6 +550,24 @@ var helper = (function () {
 			obj: "configManager",
 			func: "getCategory",
 			params: [name]
+		}
+		return sendMessage(message);
+	}
+
+	function getDataEthPairPrice() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getDataEthPairPrice",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function sendSponsoredWithdraw(recipient) {
+		let message = {
+			obj: "swashApiHelper",
+			func: "sendSponsoredWithdraw",
+			params: [recipient]
 		};
 		return sendMessage(message);
 	}
@@ -595,6 +613,7 @@ var helper = (function () {
 		withdrawAllTo,
 		getWithdrawAllToTransactionFee,
 		getSponsoredWithdrawTransactionFee,
+		generateJWT,
 		startOnBoarding,
 		isNeededOnBoarding,
 		getOnboardingFlow,
@@ -615,7 +634,8 @@ var helper = (function () {
 		createAndSaveWallet,
 		joinSwash,
 		getReferralRewards,
-		generateJWT,
-		getCategory
+		getCategory,
+		getDataEthPairPrice,
+		sendSponsoredWithdraw
 	};
 }());
