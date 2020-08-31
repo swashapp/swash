@@ -113,11 +113,14 @@ var dataHandler = (function() {
         let profile = db.profile;
 		let privacyData = db.privacyData;
 		let delay = configs.delay;
-		
+
+		message.header.category = modules[message.header.module].category;
+		message.header.privacyLevel = modules[message.header.module].privacyLevel;
+		message.header.anonymityLevel = modules[message.header.module].anonymityLevel;
+        message.header.version = browserUtils.getVersion();
 		
         message.identity = {};
-        message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);
-
+        message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);		
 		let country = '';
 		profile.country ? country = profile.country : country = swashApiHelper.getUserCountry();
 		message.identity.country = country;
@@ -128,10 +131,6 @@ var dataHandler = (function() {
 		message.identity.platform = await browserUtils.getPlatformInfo();
 		message.identity.language = browserUtils.getBrowserLanguage();
 
-		message.header.category = modules[message.header.module].category;
-		message.header.privacyLevel = modules[message.header.module].privacyLevel;
-		message.header.anonymityLevel = modules[message.header.module].anonymityLevel;
-        message.header.version = browserUtils.getVersion();
 		
         enforcePolicy(message, privacyData);
         prepareAndSend(message, modules[message.header.module], delay, tabId)

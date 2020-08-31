@@ -21,7 +21,7 @@
          "is_enabled": true,
          "events": [
             {
-               "selector": "window",
+               "selector": "document",
                "event_name": "DOMContentLoaded"
             }
          ],
@@ -54,6 +54,11 @@
                   {
                      "property": "URL",
                      "name": "location",
+                     "type": "url"
+                  },
+                  {
+                     "property": "referrer",
+                     "name": "referrer",
                      "type": "url"
                   }
                ]
