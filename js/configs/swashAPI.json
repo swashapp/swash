@@ -3,7 +3,7 @@
     "APIList": {
         "join": "/user/join",
         "reward": "/user/reward",
-        "widthraw": "/user/withdraw",
+        "withdraw": "/user/withdraw",
         "ip2location": "/tools/ip2location"
     }
 }

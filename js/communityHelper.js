@@ -244,7 +244,7 @@ let communityHelper = (function() {
 
 	async function getWithdrawAllToTransactionFee(targetAddress) {
 		try {
-			if (!wallet || !provider) return {error: "Wallet is not provided"};
+			if (!wallet || !provider) return 0;
 			if (!client) clientConnect();
 			wallet = wallet.connect(provider);
 
@@ -265,6 +265,23 @@ let communityHelper = (function() {
 		catch(err) {
 			return 0;
 		}
+	}
+
+	async function getSignCheckForSponsorWithdraw(targetAddress) {
+		if (!wallet || !provider) throw Error("Wallet is not provided");
+		if (!client) clientConnect();
+		wallet = wallet.connect(provider);
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+		const withdrawn = await contract.withdrawn(wallet.address)
+		const memberStats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
+		if (memberStats.error || memberStats.withdrawableEarnings < 1) {
+			throw Error("Nothing  to withdraw");
+		}
+		const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
+		const message = targetAddress + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
+
+		const hashData = ethers.utils.arrayify(message);
+		return await wallet.signMessage(hashData);
 	}
 
 	async function getSponsoredWithdrawTransactionFee(targetAddress) {
@@ -322,6 +339,7 @@ let communityHelper = (function() {
 		getStreamrClient,
 		getEthBalance,
 		generateJWT,
+		getSignCheckForSponsorWithdraw,
 		getWithdrawAllToTransactionFee,
 		getSponsoredWithdrawTransactionFee,
     };
