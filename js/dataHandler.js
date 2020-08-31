@@ -9,10 +9,10 @@ import {browserUtils} from './browserUtils.js'
 import {swashApiHelper} from './swashApiHelper.js'
 
 
-var dataHandler = (function() {
+let dataHandler = (function() {
     'use strict';
-    var streams = {}
-	var streamConfig;
+    let streams = {}
+	let streamConfig;
     
 	
 	function init() {
@@ -32,7 +32,12 @@ var dataHandler = (function() {
 		for(let row of rows) {
 			let message = row.message;
 			delete message.origin;
-			streams[message.header.category].produceNewEvent(message);
+			try{
+				streams[message.header.category].produceNewEvent(message);
+			}
+			catch (err) {
+				`failed to produce new event because of: ${err.message}`
+			}
 		}
 		databaseHelper.removeReadyMessages(time);
 	}

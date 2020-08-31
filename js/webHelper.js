@@ -347,11 +347,20 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	async function getSponsoredWithdrawTransactionFee(recipient) {
+	async function getWithdrawAllToTransactionFee(targetAddress) {
+		let message = {
+			obj: "communityHelper",
+			func: "getWithdrawAllToTransactionFee",
+			params: [targetAddress]
+		}
+		return sendMessage(message);
+	}
+
+	async function getSponsoredWithdrawTransactionFee(targetAddress) {
 		let message = {
 			obj: "communityHelper",
 			func: "getSponsoredWithdrawTransactionFee",
-			params: [recipient]
+			params: [targetAddress]
 		}
 		return sendMessage(message);
 	}
@@ -518,11 +527,11 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function joinSwash(recaptchaToken) {
+	function joinSwash() {
 		let message = {
 			obj: "swashApiHelper",
 			func: "joinSwash",
-			params: [recaptchaToken]
+			params: []
 		};
 		return sendMessage(message);
 	}
@@ -575,6 +584,7 @@ var helper = (function () {
 		saveWallets,
 		withdrawTo,
 		withdrawAllTo,
+		getWithdrawAllToTransactionFee,
 		getSponsoredWithdrawTransactionFee,
 		startOnBoarding,
 		isNeededOnBoarding,

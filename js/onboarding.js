@@ -4,6 +4,7 @@ import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
+import {swashApiHelper} from "./swashApiHelper.js";
 
 
 let onboarding = (function () {
@@ -14,13 +15,13 @@ let onboarding = (function () {
     const extId = "authsaz@gmail.com";
 
     let onboardingConfigs;
-    let onboardingTools;
-    let onboardingFlow;
+    let onboardingTools = {};
+    let onboardingFlow = {};
 
     function init() {
         onboardingConfigs = configManager.getConfig('onboarding');
-        onboardingTools = onboardingConfigs['tools'];
-        onboardingFlow = onboardingConfigs['flow'];
+        if (onboardingConfigs) onboardingTools = onboardingConfigs['tools'];
+        if (onboardingConfigs) onboardingFlow = onboardingConfigs['flow'];
     }
 
     function getCallBackURL(onboardingName) {
@@ -94,14 +95,19 @@ let onboarding = (function () {
 
         if (!db.onboarding)
             db.onboarding = {};
-
-        let currentDate = new Date().toISOString();
-        db.onboarding.isCompleted = true;
-        db.onboarding.completionDate = currentDate;
-        db.onboarding.flow = onboardingFlow;
+        
+        let savingFlow = {...onboardingFlow['pages']}
+        for (let page in savingFlow){
+            if (savingFlow.hasOwnProperty(page)) {
+                delete savingFlow[page]['visible']
+                delete savingFlow[page]['next']
+            }
+        }
+        db.onboarding.flow = savingFlow;
 
         await storageHelper.storeAll(db);
         await loader.onInstalled();
+        await swashApiHelper.isJoinedSwash();
 
         return true;
     }

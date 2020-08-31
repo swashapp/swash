@@ -242,31 +242,57 @@ let communityHelper = (function() {
 		}
 	}
 
-	async function getSponsoredWithdrawTransactionFee(recipient) {
-		if (!wallet || !provider) return {error: "Wallet is not provided"};
-		if (!client) clientConnect();
-		const memberAddress = wallet.address;
+	async function getWithdrawAllToTransactionFee(targetAddress) {
+		try {
+			if (!wallet || !provider) return {error: "Wallet is not provided"};
+			if (!client) clientConnect();
+			wallet = wallet.connect(provider);
 
-		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
-		const withdrawn = await contract.withdrawn(memberAddress)
-		const memberStats = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
-		// if (memberStats.error || memberStats.withdrawableEarnings < 1) {
-		// 	return {error: "Nothing  to withdraw"};
-		// }
-		const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
-		const message = recipient + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
-		console.log('message: ')
-		console.log(message)
+			const member = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
+			if (member.error || member.withdrawableEarnings < 1) return 0;
+			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 
-		const hashData = ethers.utils.arrayify(message);
-		const signature = await wallet.signMessage(hashData)
-		console.log('signature: ')
-		console.log(signature)
+			const gasPrice = await provider.getGasPrice();
+			const estimatedGas = await contract.estimate.withdrawAllTo(
+				targetAddress,
+				member.withdrawableBlockNumber,
+				member.withdrawableEarnings,
+				member.proof,
+				overrides
+			);
+			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
+		}
+		catch(err) {
+			return 0;
+		}
+	}
 
-		debugger;
-		const estimatedGas = await contract.estimate.withdrawAllToSigned(recipient, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
-		console.log('estimatedGas')
-		console.log(estimatedGas)
+	async function getSponsoredWithdrawTransactionFee(targetAddress) {
+		try {
+			if (!wallet || !provider) return 0;
+			if (!client) clientConnect();
+			wallet = wallet.connect(provider);
+			const memberAddress = wallet.address;
+
+			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+			const withdrawn = await contract.withdrawn(memberAddress)
+			const memberStats = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
+			if (memberStats.error || memberStats.withdrawableBlockNumber == null) {
+				return 0;
+			}
+			const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
+			const message = targetAddress + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
+
+			const hashData = ethers.utils.arrayify(message);
+			const signature = await wallet.signMessage(hashData)
+
+			const gasPrice = await provider.getGasPrice();
+			const estimatedGas = await contract.estimate.withdrawAllToSigned(targetAddress, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
+			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
+		}
+		catch (err) {
+			return 0;
+		}
 	}
 
 	function generateJWT() {
@@ -296,6 +322,7 @@ let communityHelper = (function() {
 		getStreamrClient,
 		getEthBalance,
 		generateJWT,
+		getWithdrawAllToTransactionFee,
 		getSponsoredWithdrawTransactionFee,
     };
 }())

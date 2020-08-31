@@ -7,7 +7,7 @@ let swashApiHelper = (function () {
     function init() {
 		APIConfigManager = configManager.getConfig('swashAPI');		
     }
-        
+
     async function isJoinedSwash() {
         const url = APIConfigManager.endpoint + APIConfigManager.APIList.join
         const req = {
@@ -20,9 +20,7 @@ let swashApiHelper = (function () {
             const resp = await fetch(url, req);
             if (resp.status === 200) {
                 let user_id = (await resp.json()).id;
-                let profile = await storageHelper.retrieveProfile();
-                profile.user_id = user_id;
-                await storageHelper.updateProfile(profile);
+                await updateUserId(user_id);
                 return true;
             }
         } catch (err) {
@@ -31,29 +29,10 @@ let swashApiHelper = (function () {
         return false;
     }
 
-    async function joinSwash(recaptchaToken) {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.join
-        const req = {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': "Bearer ".concat(communityHelper.generateJWT()),
-                'X-Forwarded-For': '8.8.8.8'
-            },
-            body: JSON.stringify({'g-recaptcha-response': recaptchaToken})
-        }
-        try {
-            const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                let user_id = (await resp.json()).id;
-                let profile = await storageHelper.retrieveProfile();
-                profile.user_id = user_id;
-                await storageHelper.updateProfile(profile);
-            }
-        } catch (err) {
-            console.error(`Error message: ${err.message}`)
-        }
+    function joinSwash() {
+        browser.tabs.create({
+            url: 'https://swashapp.io/join?token='.concat(communityHelper.generateJWT())
+        });
     }
 
     async function getReferralRewards() {
@@ -68,13 +47,11 @@ let swashApiHelper = (function () {
             const resp = await fetch(url, req);
             if (resp.status === 200) {
                 const programs = (await resp.json());
-                console.log(programs);
                 let total = 0;
                 for (const program of programs){
                     if (program.Reward)
                         total += program.Reward;
                 }
-                console.log(total);
                 return total;
             }
         } catch (err) {
@@ -128,6 +105,14 @@ let swashApiHelper = (function () {
         if (profile.user_id)
             return profile.user_id;
         return -1;
+    }
+
+    async function updateUserId(user_id) {
+        let profile = await storageHelper.retrieveProfile();
+        if (profile.user_id == null || profile.user_id !== user_id) {
+            profile.user_id = user_id;
+            await storageHelper.updateProfile(profile);
+        }
     }
 
     async function getUserCountry() {
