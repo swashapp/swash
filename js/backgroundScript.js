@@ -114,7 +114,8 @@ configManager.loadAll().then(async () => {
 			pageAction: pageAction,
 			transfer: transfer,
 			onboarding: onboarding,
-			swashApiHelper: swashApiHelper
+			swashApiHelper: swashApiHelper,
+			configManager: configManager
 		};		
 		sendResponse(objList[message.obj][message.func](...message.params));
 	});

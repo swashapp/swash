@@ -545,6 +545,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function getCategory(name) {
+		let message = {
+			obj: "configManager",
+			func: "getCategory",
+			params: [name]
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -606,6 +615,7 @@ var helper = (function () {
 		createAndSaveWallet,
 		joinSwash,
 		getReferralRewards,
-		generateJWT
+		generateJWT,
+		getCategory
 	};
 }());

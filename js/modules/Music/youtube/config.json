@@ -5,7 +5,7 @@
       "content",
       "browsing"
    ],
-   "is_enabled": false,
+   "is_enabled": true,
    "privacyLevel": 1,
    "anonymityLevel": 1
 }
