@@ -10,7 +10,7 @@ import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
-import {onBoarding} from "./onboarding.js"
+import {onboarding} from "./onboarding.js"
 
 
 let loader = (function() {
