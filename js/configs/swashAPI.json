@@ -1,0 +1,9 @@
+{
+    "endpoint": "https://swashapp.io/api/v1",
+    "APIList": {
+        "join": "/user/join",
+        "reward": "/user/reward",
+        "widthraw": "/user/withdraw",
+        "ip2location": "/tools/ip2location"
+    }
+}

@@ -10,7 +10,8 @@ import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
-import {onboarding} from "./onboarding.js"
+import {onboarding} from "./onboarding.js";
+import {swashApiHelper} from "./swashApiHelper.js";
 
 
 let loader = (function() {
@@ -245,6 +246,7 @@ let loader = (function() {
 		communityHelper.init();
 		onboarding.init();
 		apiCall.init();
+		swashApiHelper.init();
 		initConfs();
 	}
 	

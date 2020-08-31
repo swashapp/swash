@@ -14,6 +14,7 @@ import {pageAction} from "./pageAction.js"
 import {transfer} from "./functions/transfer.js"
 import {onboarding} from "./onboarding.js"
 import {memberManager} from "./memberManager.js"
+import {swashApiHelper} from "./swashApiHelper.js"
 
 
 let isConfigReady = false;
@@ -25,6 +26,7 @@ function initConfigs() {
 	communityHelper.init();
 	onboarding.init();
 	apiCall.init();
+	swashApiHelper.init();
 	loader.initConfs();
 }
 

@@ -1,10 +1,15 @@
 import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from "./storageHelper.js";
+import {configManager} from "./configManager.js";
 
 let swashApiHelper = (function () {
-    const swashEndpoint = 'https://swashapp.io/api/v1';
+    let APIConfigManager;
+    function init() {
+		APIConfigManager = configManager.getConfig('swashAPI');		
+    }
+        
     async function isJoinedSwash() {
-        const url = swashEndpoint + '/user/join'
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.join
         const req = {
             method: 'GET',
             headers: {
@@ -27,7 +32,7 @@ let swashApiHelper = (function () {
     }
 
     async function joinSwash(recaptchaToken) {
-        const url = swashEndpoint + '/user/join'
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.join
         const req = {
             credentials: 'include',
             method: 'POST',
@@ -52,7 +57,7 @@ let swashApiHelper = (function () {
     }
 
     async function getReferralRewards() {
-        const url = swashEndpoint + '/user/reward'
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.reward
         const req = {
             method: 'GET',
             headers: {
@@ -79,7 +84,7 @@ let swashApiHelper = (function () {
     }
 
     async function sendSponsoredWithdraw(recipient, signature) {
-        const url = swashEndpoint + '/user/withdraw'
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.widthraw
         const req = {
             method: 'POST',
             headers: {
@@ -100,7 +105,7 @@ let swashApiHelper = (function () {
     }
 
     async function callIP2LocationApi() {
-        const url = swashEndpoint + '/tools/ip2location'
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.ip2location
         const req = {
             method: 'GET',
             headers: {
@@ -150,6 +155,7 @@ let swashApiHelper = (function () {
         sendSponsoredWithdraw,
         getUserId,
         getUserCountry,
+        init
     };
 }());
 

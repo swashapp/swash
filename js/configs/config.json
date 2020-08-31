@@ -3,6 +3,9 @@
 	"remotePath": "https://raw.githubusercontent.com/swashapp/swash/master/js/",				   
 	"updateInterval": 3600000,
 	"files": {
+		"swashAPI": {
+			"version": 1
+		},
 		"community": {
 			"version": 2
 		},

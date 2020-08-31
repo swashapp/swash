@@ -98,6 +98,7 @@ let onboarding = (function () {
         let currentDate = new Date().toISOString();
         db.onboarding.isCompleted = true;
         db.onboarding.completionDate = currentDate;
+        db.onboarding.flow = onboardingFlow;
 
         await storageHelper.storeAll(db);
         await loader.onInstalled();
@@ -512,7 +513,6 @@ let onboarding = (function () {
 
     async function createAndSaveWallet() {
         let db = await storageHelper.retrieveAll();
-        db.configs.salt = utils.uuid();
         await communityHelper.createWallet();
         db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
         return storageHelper.storeAll(db);
