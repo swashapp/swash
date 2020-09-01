@@ -94,9 +94,11 @@ let loader = (function() {
     }
 
 	async function onInstalled() {
-		await reload();
-		await updateSchedule();
-		memberManager.tryJoin();
+		await reload();		
+		swashApiHelper.isJoinedSwash().then(() => {
+			memberManager.tryJoin();
+			updateSchedule();
+		})		
 	}
 	
     function changeIconOnUpdated(tabId, changeInfo, tabInfo) {

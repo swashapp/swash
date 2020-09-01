@@ -96,7 +96,7 @@ let onboarding = (function () {
         if (!db.onboarding)
             db.onboarding = {};
         
-        let savingFlow = {...onboardingFlow['pages']}
+        let savingFlow = {...onboardingFlow['pages']}        
         for (let page in savingFlow){
             if (savingFlow.hasOwnProperty(page)) {
                 delete savingFlow[page]['visible']
@@ -105,10 +105,8 @@ let onboarding = (function () {
         }
         db.onboarding.flow = savingFlow;
 
-        await storageHelper.storeAll(db);
+        await storageHelper.storeAll(db);        
         await loader.onInstalled();
-        await swashApiHelper.isJoinedSwash();
-
         return true;
     }
 
