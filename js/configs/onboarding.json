@@ -6,24 +6,6 @@
       "Welcome": {
         "version": 1,
         "visible": "all",
-        "next": "YourProfileWarning"
-      },
-      "YourProfileWarning": {
-        "version": 1,
-        "visible": {
-          "core": {
-            "notExistInDB": "profile.age"
-          }
-        },
-        "next": "YourProfile"
-      },
-      "YourProfile": {
-        "version": 1,
-        "visible": {
-          "core": {
-          "notExistInDB": "profile.age"
-          }
-        },
         "next": "New"
       },
       "New": {
@@ -43,11 +25,29 @@
       "OnBoardingResponsibility": {
         "version": 1,
         "visible": "all",
+        "next": "YourProfileWarning"        
+      },
+      "YourProfileWarning": {
+        "version": 1,
+        "visible": {
+          "core": {
+            "notExistInDB": "profile.age"
+          }
+        },
+        "next": "YourProfile"
+      },
+      "YourProfile": {
+        "version": 1,
+        "visible": {
+          "core": {
+          "notExistInDB": "profile.age"
+          }
+        },
         "next": {
           "basedOnPage": "New",
-          "default": "Join"
+          "default": "Create"
         }
-      },
+      },            
       "Create": {
         "version": 1,
         "visible": {

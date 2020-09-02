@@ -95,7 +95,7 @@ let loader = (function() {
 
 	async function onInstalled() {
 		await reload();		
-		await memberManager.tryJoin();
+		memberManager.tryJoin();
 		updateSchedule();
 	}
 	

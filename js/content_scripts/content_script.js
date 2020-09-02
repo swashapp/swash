@@ -385,52 +385,54 @@ var contentScript = (function () {
 		}
     }
     
-	function handleResponse(message) {	  
-		message.content.forEach(obj=>{ 
-			switch(obj.type) {
-				case "event":
-					obj.events.forEach(event=>{
-						let callback = function(x, index){
-								if(event.keyCode && event.keyCode == x.keyCode || !event.keyCode)
-									public_callback(obj, message.moduleName, x, index)
-							};
-                        let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
-						callbacks[cbName] = callback;
-						if(event.selector == "window"){
-							// window
-							window.addEventListener(event.event_name, callback);
-						}else 
-                        if(event.selector == "document"){
-							// document
-							document.addEventListener(event.event_name, callback);
-						}
-                        else{
-                            //doms
-                            switch(obj.readyAt) {
-                                case "windowLoad":
-                                    window.addEventListener("load", function(){documentReadyCallback(event, callback)})
-                                    break;
-                                case "DOMChange":
-                                    window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
-                                    break;
-								case "windowChange":
-                                    window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
-                                    break;
-                                case "DOMLoad":
-                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
-                                    break;
-                                default:
-                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
-                                    
-                            }							
-						}			
-					})            
-				break;
-				case "log":
-					log_callback(obj, message.moduleName);
+	function handleResponse(messages) {
+		for(let message of messages) {
+			message.content.forEach(obj=>{ 
+				switch(obj.type) {
+					case "event":
+						obj.events.forEach(event=>{
+							let callback = function(x, index){
+									if(event.keyCode && event.keyCode == x.keyCode || !event.keyCode)
+										public_callback(obj, message.moduleName, x, index)
+								};
+							let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
+							callbacks[cbName] = callback;
+							if(event.selector == "window"){
+								// window
+								window.addEventListener(event.event_name, callback);
+							}else 
+							if(event.selector == "document"){
+								// document
+								document.addEventListener(event.event_name, callback);
+							}
+							else{
+								//doms
+								switch(obj.readyAt) {
+									case "windowLoad":
+										window.addEventListener("load", function(){documentReadyCallback(event, callback)})
+										break;
+									case "DOMChange":
+										window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										break;
+									case "windowChange":
+										window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										break;
+									case "DOMLoad":
+										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+										break;
+									default:
+										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+										
+								}							
+							}			
+						})            
 					break;
-			}
-		});
+					case "log":
+						log_callback(obj, message.moduleName);
+						break;
+				}
+			});
+		}		
 	}
 
 	function handleError(error) {
