@@ -1,6 +1,7 @@
 import {databaseHelper} from './databaseHelper.js'
 import {configManager} from './configManager.js'
 import {swashApiHelper} from "./swashApiHelper.js";
+import {onboarding} from "./onboarding.js";
 
 
 let memberManager = (function() {
@@ -16,11 +17,14 @@ let memberManager = (function() {
 
 	function updateStatus(strategy) {
 		console.log(`${strategy}: user is ${joined ? 'already' : 'not'} joined`);
-		joined ? failedCount++ : failedCount;
+		joined ? failedCount = 0 : failedCount++;
 
 		if (failedCount > memberManagerConfig.failuresThreshold) {
+			clearInterval(mgmtInterval);
+			mgmtInterval = 0;
+			failedCount = 0;
 			console.log(`need to join swash again`);
-			swashApiHelper.joinSwash();
+			onboarding.repeatOnboarding(["Join"]);
 		}
 	}
 	
@@ -70,9 +74,9 @@ let memberManager = (function() {
 	})()
 
 
-	function tryJoin() {
+	async function tryJoin() {
 		if(!mgmtInterval) {
-			strategies[memberManagerConfig.strategy]();
+			await strategies[memberManagerConfig.strategy]();
 			mgmtInterval = setInterval(strategies[memberManagerConfig.strategy], memberManagerConfig.tryInterval);
 		}
 	}

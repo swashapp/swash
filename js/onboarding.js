@@ -34,11 +34,25 @@ let onboarding = (function () {
 
     async function isNeededOnBoarding() {
         let data = await storageHelper.retrieveOnboarding();
-        if (data == null || data.flow == null)
+        if (data == null || data.flow == null || !data.completed)
             return true;
         else if (data.flow.version < onboardingFlow.version)
             return true;
         return false;
+    }
+
+    async function repeatOnboarding(pages) {
+        let db = await storageHelper.retrieveAll();        
+        db.onboarding.completed = false;
+        await storageHelper.storeAll(db);
+
+        for (let page in db.onboarding.pages){
+            if(pages.find(element => element === page))
+                onboardingFlow.pages[page]['visible'] = 'all';
+            else
+                onboardingFlow.pages[page]['visible'] = 'none';
+        }
+        this.openOnBoarding();
     }
 
     function checkNotExistInDB(currentPage, rule, data) {
@@ -96,14 +110,8 @@ let onboarding = (function () {
         if (!db.onboarding)
             db.onboarding = {};
         
-        let savingFlow = {...onboardingFlow['pages']}        
-        for (let page in savingFlow){
-            if (savingFlow.hasOwnProperty(page)) {
-                delete savingFlow[page]['visible']
-                delete savingFlow[page]['next']
-            }
-        }
-        db.onboarding.flow = savingFlow;
+        db.onboarding.flow = onboardingFlow;
+        db.onboarding.completed = true;
 
         await storageHelper.storeAll(db);        
         await loader.onInstalled();
@@ -541,7 +549,8 @@ let onboarding = (function () {
         save3BoxMnemonic,
         get3BoxMnemonic,
         saveProfileInfo,
-        createAndSaveWallet
+        createAndSaveWallet,
+        repeatOnboarding
     };
 }());
 export {onboarding};
