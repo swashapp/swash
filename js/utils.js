@@ -25,7 +25,7 @@ var utils = (function() {
 					if (Array.isArray(val)) {
 						src[prop] = val;
 					} else {
-						if (typeof src !== "string"){
+						if (typeof src === "string"){
 							src = val;
 							return;
 						}

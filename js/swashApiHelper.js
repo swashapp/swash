@@ -13,7 +13,7 @@ let swashApiHelper = (function () {
         const req = {
             method: 'GET',
             headers: {
-                'Authorization': "Bearer ".concat(communityHelper.generateJWT())
+                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
             },
         }
         try {
@@ -29,9 +29,9 @@ let swashApiHelper = (function () {
         return false;
     }
 
-    function joinSwash() {
+    async function joinSwash() {
         browser.tabs.create({
-            url: 'https://swashapp.io/join?token='.concat(communityHelper.generateJWT())
+            url: 'https://swashapp.io/join?token='.concat(await communityHelper.generateJWT())
         });
     }
 
@@ -40,7 +40,7 @@ let swashApiHelper = (function () {
         const req = {
             method: 'GET',
             headers: {
-                'Authorization': "Bearer ".concat(communityHelper.generateJWT())
+                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
             },
         }
         try {
@@ -68,7 +68,7 @@ let swashApiHelper = (function () {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': "Bearer ".concat(communityHelper.generateJWT())
+                    'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
                 },
                 body: JSON.stringify({recipient: recipient, signature: signature})
             }

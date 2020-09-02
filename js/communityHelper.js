@@ -312,13 +312,22 @@ let communityHelper = (function() {
 		}
 	}
 
-	function generateJWT() {
-		const payload = {
-			address: wallet.address,
-			publicKey: wallet.signingKey.keyPair.compressedPublicKey,
-			timestamp: Date.now()
+	async function generateJWT() {
+		try {
+			const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
+			if (resp.status === 200) {
+				let timestamp = (await resp.json()).timestamp
+				const payload = {
+					address: wallet.address,
+					publicKey: wallet.signingKey.keyPair.compressedPublicKey,
+					timestamp: timestamp
+				}
+				console.log(payload)
+				return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
+			}
+		} catch (err) {
+
 		}
-		return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
 	}
 
 	return {

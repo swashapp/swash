@@ -4,8 +4,6 @@ import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
-import {swashApiHelper} from "./swashApiHelper.js";
-
 
 let onboarding = (function () {
     let oauthTabId = 0;
@@ -47,10 +45,12 @@ let onboarding = (function () {
         await storageHelper.storeAll(db);
 
         for (let page in db.onboarding.pages){
-            if(pages.find(element => element === page))
-                onboardingFlow.pages[page]['visible'] = 'all';
-            else
-                onboardingFlow.pages[page]['visible'] = 'none';
+            if (db.onboarding.pages.hasOwnProperty(page)) {
+                if (pages.find(element => element === page))
+                    onboardingFlow.pages[page]['visible'] = 'all';
+                else
+                    onboardingFlow.pages[page]['visible'] = 'none';
+            }
         }
         this.openOnBoarding();
     }
