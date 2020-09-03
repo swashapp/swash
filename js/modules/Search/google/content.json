@@ -419,38 +419,25 @@
          ],
          "objects": [
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
-               "conditions": [
-                  [
-                     {
-                        "type": "child",
-                        "contain": true,
-                        "val": ".x54gtf"
-                     },
-                     {
-                        "type": "ancestor",
-                        "contain": false,
-                        "val": ".Z8j5ae"
-                     }
-                  ]
-               ],
+               "selector": ".mnr-c.xpd.O9g5cc.uUPGi",
+
                "name": "searchResult",
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
-                     "property": "innerText",
+                     "selector": ".KJDcUb a.C8nzq.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "selector": ".KJDcUb div .V7Sr0.p5AXld.PpBGzd.YcUVQe",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "selector": ".BmP5tf div.MUxGbd.yDYNvb",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -458,7 +445,7 @@
                ]
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.O9g5cc.uUPGi",
                "name": "adsResult",
                "conditions": [
                   [
@@ -472,8 +459,8 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
-                     "property": "innerText",
+                     "selector": "a.C8nzq.d5oMvf.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
@@ -525,39 +512,11 @@
          "is_enabled": true,
          "events": [
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
-               "conditions": [
-                  [
-                     {
-                        "type": "child",
-                        "contain": true,
-                        "val": ".x54gtf"
-                     },
-                     {
-                        "type": "ancestor",
-                        "contain": false,
-                        "val": ".Z8j5ae"
-                     }
-                  ]
-               ],
+               "selector": ".mnr-c.xpd.O9g5cc.uUPGi",
                "event_name": "click"
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
-               "conditions": [
-                  [
-                     {
-                        "type": "child",
-                        "contain": true,
-                        "val": ".x54gtf"
-                     },
-                     {
-                        "type": "ancestor",
-                        "contain": false,
-                        "val": ".Z8j5ae"
-                     }
-                  ]
-               ],
+               "selector": ".mnr-c.xpd.O9g5cc.uUPGi",
                "event_name": "contextmenu"
             }
          ],
@@ -576,13 +535,13 @@
                "selector": "",
                "properties": [
                   {
-                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
-                     "property": "innerText",
+                     "selector": ".KJDcUb a.C8nzq.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "selector": ".KJDcUb div .V7Sr0.p5AXld.PpBGzd.YcUVQe",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
@@ -590,38 +549,25 @@
                ]
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
-               "conditions": [
-                  [
-                     {
-                        "type": "child",
-                        "contain": true,
-                        "val": ".x54gtf"
-                     },
-                     {
-                        "type": "ancestor",
-                        "contain": false,
-                        "val": ".Z8j5ae"
-                     }
-                  ]
-               ],
+               "selector": ".mnr-c.xpd.O9g5cc.uUPGi",
+
                "name": "searchResult",
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
-                     "property": "innerText",
+                     "selector": ".KJDcUb a.C8nzq.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "selector": ".KJDcUb div .V7Sr0.p5AXld.PpBGzd.YcUVQe",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "selector": ".BmP5tf div.MUxGbd.yDYNvb",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -629,7 +575,7 @@
                ]
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.O9g5cc.uUPGi",
                "name": "adsResult",
                "conditions": [
                   [
@@ -643,8 +589,8 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
-                     "property": "innerText",
+                     "selector": "a.C8nzq.d5oMvf.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
@@ -696,7 +642,7 @@
          "is_enabled": true,
          "events": [
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.O9g5cc.uUPGi",
                "conditions": [
                   [
                      {
@@ -709,7 +655,7 @@
                "event_name": "click"
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.O9g5cc.uUPGi",
                "conditions": [
                   [
                      {
@@ -737,58 +683,39 @@
                "selector": "",
                "properties": [
                   {
-                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
-                     "property": "innerText",
+                     "selector": ".KJDcUb a.C8nzq.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
                   {
-                     "selector": "a .MUxGbd.v0nnCb",
+                     "selector": ".KJDcUb div .V7Sr0.p5AXld.PpBGzd.YcUVQe",
                      "property": "innerText",
                      "name": "title",
-                     "type": "text"
-                  },
-                  {
-                     "selector": ".BmP5tf .MUxGbd.yDYNvb",
-                     "property": "innerText",
-                     "name": "description",
                      "type": "text"
                   }
                ]
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.xpd.O9g5cc.uUPGi",
+
                "name": "searchResult",
-               "conditions": [
-                  [
-                     {
-                        "type": "child",
-                        "contain": true,
-                        "val": ".x54gtf"
-                     },
-                     {
-                        "type": "ancestor",
-                        "contain": false,
-                        "val": ".Z8j5ae"
-                     }
-                  ]
-               ],
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".kCrYT a .BNeawe.UPmit.AP7Wnd",
-                     "property": "innerText",
+                     "selector": ".KJDcUb a.C8nzq.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT a .BNeawe.vvjwJb.AP7Wnd",
+                     "selector": ".KJDcUb div .V7Sr0.p5AXld.PpBGzd.YcUVQe",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".kCrYT .BNeawe.s3v9rd.AP7Wnd",
+                     "selector": ".BmP5tf div.MUxGbd.yDYNvb",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -796,7 +723,7 @@
                ]
             },
             {
-               "selector": ".ZINbbc.xpd.O9g5cc.uUPGi",
+               "selector": ".mnr-c.O9g5cc.uUPGi",
                "name": "adsResult",
                "conditions": [
                   [
@@ -810,8 +737,8 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": "a .zbELhe.MUxGbd.lyLwlc.aLF0Z .qzEoUe",
-                     "property": "innerText",
+                     "selector": "a.C8nzq.d5oMvf.BmP5tf",
+                     "property": "href",
                      "name": "link",
                      "type": "text"
                   },
