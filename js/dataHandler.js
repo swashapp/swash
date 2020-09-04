@@ -127,7 +127,7 @@ let dataHandler = (function() {
         message.identity = {};
         message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);		
 		let country = '';
-		profile.country ? country = profile.country : country = swashApiHelper.getUserCountry();
+		profile.country ? country = profile.country : country = (await swashApiHelper.getUserCountry());
 		message.identity.country = country;
 		message.identity.gender = profile.gender;
 		message.identity.age = profile.age;

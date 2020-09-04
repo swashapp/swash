@@ -322,7 +322,6 @@ let communityHelper = (function() {
 					publicKey: wallet.signingKey.keyPair.compressedPublicKey,
 					timestamp: timestamp
 				}
-				console.log(payload)
 				return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
 			}
 		} catch (err) {
