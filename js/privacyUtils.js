@@ -11,9 +11,9 @@ var privacyUtils = (function() {
             case 2:
                 return sha256(`${id}${module.name}`);
             case 3:
-                return sha256(`${id}${message.header.id}`);
+                return sha256(`${sha256(id + module.name)}${message.header.id}`);
             default:
-                return sha256(`${id}${message.header.id}`);
+                return sha256(`${sha256(id + module.name)}${message.header.id}`);
     
         }
     }

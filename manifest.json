@@ -1,10 +1,4 @@
 {
-  "applications": {
-    "gecko": {
-      "id": "authsaz@gmail.com"
-    }
-  },
-
   "background": {
     "page": "background.html"
   },
@@ -23,7 +17,7 @@
   "icons": {
     "48": "icons/green_mark_48.png",
     "96": "icons/green_mark_96.png",
-    "128": "icons/green_mark_128.png"
+	"128": "icons/green_mark_128.png"
   },
 
   "manifest_version": 2,
@@ -34,7 +28,7 @@
 
   "permissions": ["clipboardRead","storage","bookmarks", "tabs", "webRequest", "<all_urls>", "webRequestBlocking", "downloads"],
 
-  "content_security_policy": "script-src 'self' https://www.google.com https://www.gstatic.com/; object-src 'self'",
+  "content_security_policy": "script-src 'self'; object-src 'self';",
 
-  "version": "1.1.5"
+  "version": "1.1.6"
 }

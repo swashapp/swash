@@ -1,10 +1,5 @@
 var internalFilters = [
   {
-    "value": "file:///*",
-    "type": "wildcard",
-    "internal": true
-  },
-  {
     "value": "https://*.dropbox.com/*",
     "type": "wildcard",
     "internal": true
@@ -65,13 +60,13 @@ var internalFilters = [
     "internal": true
   },
   {
-    "value": "moz-extension://*",
-    "type": "wildcard",
+    "value": "^(?!http[s]?:).+",
+    "type": "regex",
     "internal": true
   },
   {
-    "value": "chrome-extension://*",
-    "type": "wildcard",
+    "value": "(http|https):\/\/(localhost|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(\\d{1,3}\\.){3}\\d{1,3}).*",
+    "type": "regex",
     "internal": true
   }  
 ]

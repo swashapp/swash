@@ -7,7 +7,7 @@ var filterUtils = (function() {
     }
 
     function matchFilter(input, match) {
-        if(input == match)
+        if(input === match)
             return true;
         return false;
     }
