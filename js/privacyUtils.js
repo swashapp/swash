@@ -1,19 +1,26 @@
 import {utils} from './utils.js'
 var privacyUtils = (function() {
     'use strict';
+    var basicIdentity = "";
+    var moduleIdentity = {};
+    var categoryIdentity = {};
     
     function anonymiseIdentity(id, message, module) {
+        basicIdentity = basicIdentity ? basicIdentity : sha256(id);                
+
         switch(message.header.anonymityLevel) {
             case 0:
-                return sha256(id);
+                return basicIdentity;
             case 1:
-                return sha256(`${id}${module.category}`)
+                categoryIdentity[module.category] = categoryIdentity[module.category] ? categoryIdentity[module.category] : sha256(`${id}${module.category}`);
+                return sha256(`${basicIdentity}${categoryIdentity[module.category]}`)
             case 2:
-                return sha256(`${id}${module.name}`);
+                moduleIdentity[module.name] = moduleIdentity[module] ? moduleIdentity[module] : sha256(`${id}${module.name}`);
+                return sha256(`${basicIdentity}${moduleIdentity[module.name]}`);
             case 3:
-                return sha256(`${sha256(id + module.name)}${message.header.id}`);
+                return sha256(`${basicIdentity}${message.header.id}`);
             default:
-                return sha256(`${sha256(id + module.name)}${message.header.id}`);
+                return sha256(`${basicIdentity}${message.header.id}`);
     
         }
     }
