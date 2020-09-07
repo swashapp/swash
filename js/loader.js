@@ -183,9 +183,9 @@ let loader = (function() {
     
 	async function load() {		
 		storageHelper.retrieveAll().then(async (db) => {
-			dbHelperInterval = setInterval(function(){
-				databaseHelper.init();
-				dataHandler.sendDelayedMessages();
+			dbHelperInterval = setInterval(async function(){
+				await databaseHelper.init();
+				await dataHandler.sendDelayedMessages();
 				}, 10000);
 			let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
 			if(db.configs.is_enabled) {
@@ -202,9 +202,9 @@ let loader = (function() {
 	async function reload() {		
 		storageHelper.retrieveAll().then(async (db) => {
             clearInterval(dbHelperInterval);
-            dbHelperInterval = setInterval(function () {
-                databaseHelper.init();
-                dataHandler.sendDelayedMessages();
+            dbHelperInterval = setInterval(async function () {
+                await databaseHelper.init();
+                await dataHandler.sendDelayedMessages();
             }, 10000);
             init(false);
             let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);

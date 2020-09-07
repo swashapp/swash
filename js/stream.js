@@ -12,9 +12,9 @@ let stream = function(streamId) {
 	  // Produce the event to the Stream
 	  
 	  client.publish(streamId, msg)
-		.then(() => {
+		.then(async () => {
 			console.log("message published successfully");
-			databaseHelper.updateMessageCount(msg.header.module);
+			await databaseHelper.updateMessageCount(msg.header.module);
 		})
 		.catch((err) => {
 		  console.error(`"Error on publishing message: ${err}`)

@@ -39,12 +39,12 @@ let dataHandler = (function() {
 				`failed to produce new event because of: ${err.message}`
 			}
 		}
-		databaseHelper.removeReadyMessages(time);
+		await databaseHelper.removeReadyMessages(time);
 	}
 	
 	async function sendData(message, delay) {
 		if(delay) {
-			databaseHelper.insertMessage(message);			
+			await databaseHelper.insertMessage(message);			
 		}
 		else {
 			delete message.origin;
@@ -85,18 +85,18 @@ let dataHandler = (function() {
 				  tabId,
 				  {name: "content-attributes"}
 				);            
-				connectPort.onMessage.addListener(function(attrs) {
+				connectPort.onMessage.addListener(async function(attrs) {
 					for(let attrName of Object.keys(attrs)) {
 						message.header[attrName] = attrs[attrName];
 					}
-					sendData(message, delay);
+					await sendData(message, delay);
 				  
 				});
 				return true;
 			}
 			
 		}
-		sendData(message, delay);
+		await sendData(message, delay);
 		return false;
     }
     

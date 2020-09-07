@@ -3,53 +3,47 @@ var databaseHelper = (function() {
 
 	var dbName;
 	var connection;
-	function init() {
+	async function init() {
 		if(!connection) {
-			dbName = 'SwashDB';
-			connection = new JsStore.Instance();
-			initJsStore();			
+			dbName = 'SwashDBV3';
+			connection = new JsStore.Connection();
+			await initJsStore();			
 		}
 	}
 	function getDbSchema() {
 	  var tblMessage = {
 		name: 'messages',
-		columns: [
-		  {
-			  name: 'id',
+		columns: {
+		  id: {
 			  primaryKey: true,
 			  autoIncrement: true
 		  }, 
-		  {
-			  name: 'createTime',
+		  createTime: {
 			  notNull: true,
 			  dataType: JsStore.DATA_TYPE.Number
 		  }, 
-		  {
-			  name: 'message',
+		  message: {			  
 			  notNull: true,
 			  dataType: JsStore.DATA_TYPE.Object
 		  }
-		]
+		}
 	  };
 
 	  var tblStats = {
 		name: 'stats',
-		columns: [
-		  {
-			  name: 'moduleName',
+		columns: {
+			moduleName: {			  
 			  primaryKey: true  
 		  }, 
-		  {
-			  name: 'messageCount',
+		  messageCount: {			  
 			  notNull: true,
 			  dataType: JsStore.DATA_TYPE.Number
 		  }, 
-		  {
-			  name: 'lastSent',
+		  lastSent: {			  
 			  notNull: true,
 			  dataType: JsStore.DATA_TYPE.Number
 		  }
-		]
+		}
 	  };
 	  
 	  var db = {
@@ -59,17 +53,14 @@ var databaseHelper = (function() {
 	  return db;
 	}
 
-	function initJsStore() {
-		connection.isDbExist(dbName).then(function(isExist) {
-			if (isExist) {
-				connection.openDb(dbName);
-			} else {
-				var database = getDbSchema();
-				connection.createDb(database);
-			}
-		}).catch(function(err) {
-			console.error(err);
-		})
+	async function initJsStore() {
+		var isDbCreated = await connection.initDb(getDbSchema());
+		if (isDbCreated) {
+			console.log('Message database created');
+		}
+		else {
+			console.log('Message database opened');
+		}
 	}
 
 	function updateMessageCount(moduleName) {		
@@ -173,7 +164,7 @@ var databaseHelper = (function() {
 		return rows
 	}
 	
-	function removeReadyMessages(time) {
+	async function removeReadyMessages(time) {
 		return connection.remove({
 			from: 'messages',
 			where: {
