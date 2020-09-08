@@ -31,6 +31,9 @@
 				},
 				"sephora": {
 					"version": 1
+				},
+				"ulta": {
+					"version": 1
 				}
 			}
 		},

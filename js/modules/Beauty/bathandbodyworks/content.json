@@ -17,6 +17,7 @@
          "description": "This item collects search results in bathandbodyworks web page",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "Search Result",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
          "events": [
@@ -41,6 +42,7 @@
             {
                "selector": ".product-tile",
 			   "name": "searchResault",
+			   "indexName": "rank",
 			   "properties": [
 				   {
 					 "selector": ".product-tile-link",
@@ -91,6 +93,7 @@
          "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "Selected Product",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
          "events": [
@@ -149,6 +152,7 @@
          "description": "This item collects bathandbodyworks search query",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "search query",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
          "events": [
@@ -182,6 +186,7 @@
          "description": "This item collects all products in bathandbodyworks web pages that has been added by user to love list",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "Add to Love list",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
 		 "readyAt": "DOMChange",
@@ -328,6 +333,7 @@
          "description": "This item collects the products that has been added to the basket by user ",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "Add to Basket",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
 		 "readyAt": "DOMChange",
@@ -517,6 +523,7 @@
          "description": "This item collects information about products that has been selected by user for buying",
          "url_match": "https://www.bathandbodyworks.com/*",
          "title": "checkout",
+         "viewGroup": "UX",
          "type": "event",
          "is_enabled": true,
          "events": [
