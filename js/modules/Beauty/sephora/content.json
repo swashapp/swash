@@ -1,0 +1,948 @@
+{
+	"content_matches": [
+	   "*://*.sephora.com/*"
+	],
+	"content_mapping": {
+	   "win": "desktop",
+	   "mac": "desktop",
+	   "android": "mobile",
+	   "cros": "desktop",
+	   "openbsd": "desktop",
+	   "ios": "mobile",
+	   "ipados": "desktop"
+	},
+	"desktop": [
+		   {
+		  "name": "searchQuery",
+		  "description": "This item collects sephora search query",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "search query",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "events": [
+			 {
+				"selector": ".css-8puhe0",
+				"event_name": "keydown",
+				"keyCode": 13
+			 }
+			
+		  ],
+		  "objects": [
+			 {
+				"selector": "",
+				"properties": [
+				   {
+					  "selector": "",
+					  "property": "value",
+					  "name": "query",
+					  "type": "text"
+				   }
+				 ]
+			 }
+		 ]
+	 },
+	 {
+		  "name": "searchResault",
+		  "description": "This item collects all products information in sephora web pages and search results",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "Search Result",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "events": [
+			 {
+				"selector": "window",
+				"event_name": "load"
+			 }
+			
+		  ],
+		  "objects": [
+			 {   "selector": "ol.css-1yocxgn.e65zztl0",
+				 "properties": [
+				   {
+					  "selector": "",
+					  "property": "innerText",
+					  "name": "categoryName",
+					  "type": "text"
+				   }
+ 
+				 ]
+			 },
+			 {   "selector": ".css-1pcrvr6.eanm77i0",
+				 "properties": [
+				   {
+					  "selector": "",
+					  "property": "innerText",
+					  "name": "searchQuery",
+					  "type": "text"
+				   }
+ 
+				 ]
+			 },
+			 {
+				"selector": ".css-ix8km1",
+				"name":"products",
+				"indexName": "rank",
+				"properties": [
+					{
+					  "selector": "",
+					  "property": "href",
+					  "name": "link",
+					  "type": "url"
+				   },	
+				   {	 
+					  "selector": ".css-182j26q",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-pelz90",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='sku_item_price_list']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+							 
+				   },
+				   {
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rate",
+					  "type": "text"
+					},
+					{
+					  "selector": ".css-1dk1ux",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+					 
+					 },
+					 {
+					  "selector": ".css-8o71lk",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"  
+					 }
+								  
+				]
+					 
+			 }
+			 
+		  ]
+	 },
+	 {
+		  "name": "selectedProducts",
+		  "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "Selected Product",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "readyAt": "DOMChange",
+		  "observingTargetNode": "body",
+		  "observingConfig": {
+			 "attributes": false,
+			 "childList": true,
+			 "subtree": true
+		 },
+		  "events": [
+			 {
+				"selector": ".css-ix8km1",
+				"event_name": "click"
+			 },
+			 {
+				"selector": ".css-ix8km1",
+				"event_name": "contextmenu"
+			 }
+			
+		  ],
+		  "objects": [
+			 {   "selector": "<<<<<<<<ol.css-1yocxgn.e65zztl0",
+				 "properties": [
+				   {
+					  "selector": "",
+					  "property": "innerText",
+					  "name": "categoryName",
+					  "type": "text"
+				   }
+ 
+				 ]
+			 },
+			 {   "selector": "<<<<<<.css-1pcrvr6.eanm77i0",
+				 "properties": [
+				   {
+					  "selector": "",
+					  "property": "innerText",
+					  "name": "searchQuery",
+					  "type": "text"
+				   }
+ 
+				 ]
+			 },
+			 {
+				"selector": "",
+				"properties": [
+					{
+					  "selector": "",
+					  "property": "href",
+					  "name": "link",
+					  "type": "url"
+				   },	
+				   {	 
+					  "selector": ".css-182j26q",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-pelz90",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='sku_item_price_list']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+							 
+				   },
+				   {
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rate",
+					  "type": "text"
+					},
+					{
+					  "selector": ".css-1dk1ux",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+					 
+					 },
+					 {
+					  "selector": ".css-8o71lk",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"  
+					 }
+								  
+				]
+					 
+			 }
+		 
+			 
+		  ]
+	 },	
+	 {
+		  "name": "searchSuggestionSelect",
+		  "description": "This item collects previous search querys and search suggestions that has been selected by user",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "Search Suggestion",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "readyAt": "DOMChange",
+		  "observingTargetNode": ".css-o44is",
+		  "observingConfig": {
+			 "attributes":false,
+			 "childList": true,
+			 "subtree": true
+		  },
+		  "events": [
+			 {
+				"selector": ".css-bkjf0a",
+				"event_name": "click"
+			 }
+			
+		  ],
+		  "objects": [
+			 {
+				"selector": "",
+				"properties": [
+				   {
+					 "selector": "",
+					  "property": "innerText",
+					  "name": "query",
+					  "type": "text"
+				   }
+				 ]
+			 }
+		 ]
+	 },
+	 {
+		  "name": "addToLoveList",
+		  "description": "This item collects all products in bathandbodyworks web pages that has been added by user to love list ",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "Add to Love list",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "readyAt": "DOMChange",
+		  "observingTargetNode": "body",
+		  "observingConfig": {
+			 "attributes": false,
+			 "childList": true,
+			 "subtree": true
+		 },
+		  "events": [
+			 
+			 {
+				 "selector":".css-14be67r.eanm77i0",
+				 "event_name": "click"
+ 
+			 },
+			 {
+				 "selector":".css-14c0dm9.eanm77i0",
+				 "event_name": "click"
+			 },
+			 {
+				 "selector":".css-1omavfm",
+				 "event_name": "click"
+			 },
+			 {
+				 "selector":".css-1v0ggat.eanm77i0",
+				 "event_name": "click"
+			 }
+			 
+			
+		  ],
+		  "objects": [
+			 {
+				"selector": "<<<<",
+				"properties": [
+				   {	 
+					  "selector": ".css-182j26q",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-pelz90",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='sku_item_price_list']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+							 
+				   },
+				   {
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rate",
+					  "type": "text"
+					},
+					{
+					  "selector": ".css-1dk1ux",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+					 
+					 },
+					 {
+					  "selector": ".css-8o71lk",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"  
+					 }
+				   
+				]           
+			 },
+			 {
+				"selector": "<<<<<<<<<",
+				"properties": [
+				   {
+					  "selector": ".css-1kst2rm",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"
+				   },
+				   {	 
+					  "selector": ".css-57kn72",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "h1.css-1wd4e6l.e65zztl0 span.css-0",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },	
+				   {
+					  "selector": ".css-128n72s.e65zztl0",
+					  "property": "innerText",
+					  "name": "size",
+					  "type": "text"
+							 
+				   },
+				   {  
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rank",
+					  "type": "text"
+				 
+				   },
+				   {  
+					 "selector": "a span.css-2rg6q7",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": "[data-at='product_love_count']",
+					  "property": "innerText",
+					  "name": "loveCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-1865ad6.e65zztl0",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-6vmt6d.e65zztl0",
+					  "property": "innerText",
+					  "name": "freeShipping",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-mjt39o",
+					  "property": "value",
+					  "name": "quantity",
+					  "type": "text"
+				   }
+				   
+				]           
+			 },
+			 {
+				"selector": "<<<",
+				"properties": [
+				   {
+					  "selector": "[data-at='bsk_sku_brand']",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='bsk_sku_name']",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-1p4nz1q.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='bsk_sku_price']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   }
+				 ]
+			 },
+			 {
+				"selector": "<<<<<<",
+				"properties": [
+				   {	 
+					  "selector": ".css-1vg6q84.eanm77i0",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "span.Link-target",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },	
+				   {
+					  "selector": ".css-14ni6u3.eanm77i0",
+					  "property": "innerText",
+					  "name": "size",
+					  "type": "text"
+							 
+				   },
+				   {
+					 "selector": ".css-1ka8sp3.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rank",
+					  "type": "text"
+				 
+				   },
+				   {  
+					 "selector": "a span.css-2rg6q7",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": "span [data-at='ql_love_count']",
+					  "property": "innerText",
+					  "name": "loveCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-18y396z.eanm77i0",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+				   }
+				 ]
+			 },
+			 {
+				"selector": "<<<",
+				"properties": [
+				   {
+					  "selector": ".css-14c0dm9.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-1czw99u.eanm77i0",
+					  "property": "innerText",
+					  "name": "size",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-1vg6q84",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   }
+				 ]
+			 }
+				 
+ 
+		 ]
+	 },
+	 {
+		  "name": "addToBasket",
+		  "description": "This item collects the products that has been added to the basket by user ",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "Add to Basket",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "readyAt": "DOMChange",
+		  "observingTargetNode": "body",
+		  "observingConfig": {
+			 "attributes": false,
+			 "childList": true,
+			 "subtree": true
+		 },
+		  "events": [
+			 {
+				 "selector":".css-x04nfy.eanm77i0",
+				 "event_name": "click"
+ 
+			 },
+			 {
+				 "selector":".css-452hp4.eanm77i0 [data-comp='AddToBasketButton Button StyledComponent BaseComponent ']",
+				 "event_name": "click"
+ 
+			 },
+			 {
+				 "selector":".css-ake35l.eanm77i0",
+				 "event_name": "click"
+			 },
+			 {
+				 "selector":".css-1qfo9ol.eanm77i0[data-at='loves_add_to_basket_btn']",
+				 "event_name": "click"
+			 }
+			 
+			
+		  ],
+		  "objects": [
+			 {
+				"selector": "<<<<<",
+				"properties": [
+				   {
+					  "selector": ".css-1kst2rm",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"
+				   },
+				   {	 
+					  "selector": ".css-1vg6q84.eanm77i0",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "span.Link-target",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },	
+				   {
+					  "selector": ".css-14ni6u3.eanm77i0",
+					  "property": "innerText",
+					  "name": "size",
+					  "type": "text"
+							 
+				   },
+				   {
+					 "selector": ".css-1ka8sp3.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rank",
+					  "type": "text"
+				 
+				   },
+				   {  
+					 "selector": "a span.css-2rg6q7",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": "span [data-at='ql_love_count']",
+					  "property": "innerText",
+					  "name": "loveCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-18y396z.eanm77i0",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+				   }
+				   
+				]           
+			 },
+			 {
+				"selector": "<<<<<<<<<<",
+				"properties": [
+				   {
+					  "selector": ".css-1kst2rm",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"
+				   },
+				   {	 
+					  "selector": ".css-57kn72",
+					  "property": "innerText",
+					  "name": "brand",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "h1.css-1wd4e6l.e65zztl0 span.css-0",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"
+				   },	
+				   {
+					  "selector": ".css-128n72s.e65zztl0",
+					  "property": "innerText",
+					  "name": "size",
+					  "type": "text"
+							 
+				   },
+				   {  
+					 "selector": ".css-ychh9y",
+					  "property": "attributes['aria-label'].value",
+					  "name": "rank",
+					  "type": "text"
+				 
+				   },
+				   {  
+					 "selector": "a span.css-2rg6q7",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": "[data-at='product_love_count']",
+					  "property": "innerText",
+					  "name": "loveCount",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-1865ad6.e65zztl0",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-6vmt6d.e65zztl0",
+					  "property": "innerText",
+					  "name": "freeShipping",
+					  "type": "text"
+				   },
+				   {  
+					 "selector": ".css-mjt39o",
+					  "property": "value",
+					  "name": "quantity",
+					  "type": "text"
+				   }
+				   
+				]           
+			 },
+			 {
+				"selector": "<<<<",
+				"properties": [
+				   {
+					  "selector": "[data-at='sku_item_brand']",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='sku_item_name']",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='item_variation_type']",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='sku_item_price_list']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   }
+				 ]
+			 },
+			 {
+				"selector": "<",
+				"properties": [
+				   {
+					  "selector": ".Link-target.css-1dxrypg.eanm77i0",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".Link-target.css-1gqkvvw.eanm77i0",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-1ll2yeh.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='price']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   }
+				 ]
+			 },
+			 {
+				"selector": "<<",
+				"properties": [
+					{
+					  "selector": ".css-8o71lk",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-182j26q",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": ".css-pelz90",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-ychh9y",
+					  "property": "innerText",
+					  "name": "rate",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-68u28a .css-0",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-1dk1ux",
+					  "property": "innerText",
+					  "name": "reviewCount",
+					  "type": "text"  
+				   }
+				 ]
+			 }			
+ 
+		 ]
+	 },
+	 {
+		  "name": "checkout",
+		  "description": "This item collects information about products that has been selected by user for buying ",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "checkout",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "readyAt": "DOMChange",
+		  "observingTargetNode": "body",
+		  "observingConfig": {
+			 "attributes": false,
+			 "childList": true,
+			 "subtree": true
+		 },
+		  "events": [
+			 
+			 {
+				 "selector":".css-x04nfy.eanm77i0",
+				 "event_name": "click"
+ 
+			 }			
+			
+		  ],
+		  "objects": [
+			 
+			 {
+				"selector": "<<<<<.css-8wpmc2.eanm77i0",
+				"name":"products",
+				"properties": [
+				   {
+					  "selector": "[data-at='bsk_sku_brand']",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='bsk_sku_name']",
+					  "property": "innerText",
+					  "name": "productName",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": ".css-1p4nz1q.eanm77i0",
+					  "property": "innerText",
+					  "name": "description",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='bsk_sku_price']",
+					  "property": "innerText",
+					  "name": "price",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='sku_qty']",
+					  "property": "value",
+					  "name": "quantity",
+					  "type": "text"  
+				   }
+				 ]
+			 },
+			 {
+				"selector": "<<",
+				"properties": [
+				   {
+					  "selector": "[data-at='bsk_total_merch']",
+					  "property": "innerText",
+					  "name": "totalItemPrice",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "[data-at='bsk_total_ship']",
+					  "property": "innerText",
+					  "name": "shippingPrice",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='bsk_total_tax']",
+					  "property": "innerText",
+					  "name": "tax",
+					  "type": "text"  
+				   },
+				   {
+					  "selector": "[data-at='bsk_total_cc']",
+					  "property": "innerText",
+					  "name": "totalPrice",
+					  "type": "text"  
+				   }
+				   
+				 ]
+			 }
+ 
+		 ]
+	 },
+	 {
+		  "name": "clickBrands",
+		  "description": "This item collects the Brands in sephora that has been selected by a user",
+		  "url_match": "https://www.sephora.com/*",
+		  "title": "brands",
+		  "viewGroup": "UX",
+		  "type": "event",
+		  "is_enabled": true,
+		  "events": [
+			 {
+				"selector": ".css-xyl2uf.e65zztl0",
+				"event_name": "click"
+			 },
+			 {
+				"selector": ".css-gibayv.e65zztl0",
+				"event_name": "click"
+			 }
+			
+		  ],
+		  "objects": [
+			 {
+				"selector": "",
+				"properties": [
+				   {
+					  "selector": "",
+					  "property": "innerText",
+					  "name": "brandName",
+					  "type": "text"
+				   },
+				   {
+					  "selector": "span.css-16fulbm.e65zztl0",
+					  "property": "innerText",
+					  "name": "newLable",
+					  "type": "text"  
+				   }
+								 
+				 ]
+			 }
+		 ]
+	 }
+	   
+ ]
+	
+ }

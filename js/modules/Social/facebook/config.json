@@ -1,0 +1,10 @@
+{
+   "name": "social_facebook",
+   "description": "This module looks through all activities of a user on Facebook and captures those activities that the user has permitted",
+   "functions": [
+      "browsing"
+   ],
+   "is_enabled": true,
+   "privacyLevel": 1,
+   "anonymityLevel": 2
+}

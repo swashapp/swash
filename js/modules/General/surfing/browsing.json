@@ -1,0 +1,17 @@
+{
+   "browsing_filter": {
+      "urls": [
+         "<all_urls>"
+      ]
+   },
+   "browsing_extraInfoSpec": [],
+   "items": [     
+      {
+         "name": "New Bookmark",
+         "title": "Create Bookmark",
+         "description": "This item collects all bookmarks that created by a user",
+         "is_enabled": true,
+         "hook": "bookmarks"
+      }
+   ]
+}

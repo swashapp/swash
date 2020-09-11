@@ -1,11 +1,9 @@
 import {configManager} from './configManager.js';
-import {storageHelper} from './storageHelper.js';
 
-
-var communityHelper = (function() {
+let communityHelper = (function() {
 
 	let wallet;
-	var communityConfig;
+	let communityConfig;
 	
 	function init() {
 		communityConfig = configManager.getConfig('community');	
@@ -46,8 +44,7 @@ var communityHelper = (function() {
 			N: (1 << 10)
 		  }
 		};
-		let encryptedWallet = await wallet.encrypt(password, options);
-		return encryptedWallet;
+		return await wallet.encrypt(password, options);
 	}
 
 	async function loadWallet(encryptedWallet, password) {
@@ -80,21 +77,9 @@ var communityHelper = (function() {
 		client = new StreamrClient({
 			auth: {
 				privateKey: wallet.privateKey,
-			}
+			},
+			publishWithSignature: 'never'
 		});
-	}
-
-	async function join() {
-		if (!wallet) return false;
-		if (!client) clientConnect();
-		let x = await client.joinDataUnion(communityConfig.communityAddress, communityConfig.secret);
-		return x;
-	}
-
-	function part() {
-		if (!wallet) return;
-		if (!client) clientConnect();
-		//client.partCommunity(communityConfig.communityAddress, wallet.address, communityConfig.secret)
 	}
 
 	async function getEthBalance(address) {
@@ -144,7 +129,7 @@ var communityHelper = (function() {
 		if (!wallet) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
 		const stats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
-		if(stats.error) return {error: "Member status error"};;
+		if(stats.error) return {error: "Member status error"};
 		return ethers.utils.formatEther(stats.earnings);
 	}
 
@@ -238,7 +223,7 @@ var communityHelper = (function() {
 		if (!client) clientConnect();
 
 		const member = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
-		if (member.error || member.withdrawableEarnings < 1) {			
+		if (member.error || member.withdrawableEarnings < 1) {
 			return {error: "Nothing  to withdraw"};
 		}
 		wallet = wallet.connect(provider);
@@ -258,13 +243,98 @@ var communityHelper = (function() {
 		}
 	}
 
+	async function getWithdrawAllToTransactionFee(targetAddress) {
+		try {
+			if (!wallet || !provider) return 0;
+			if (!client) clientConnect();
+			wallet = wallet.connect(provider);
+
+			const member = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
+			if (member.error || member.withdrawableEarnings < 1) return 0;
+			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+
+			const gasPrice = await provider.getGasPrice();
+			const estimatedGas = await contract.estimate.withdrawAllTo(
+				targetAddress,
+				member.withdrawableBlockNumber,
+				member.withdrawableEarnings,
+				member.proof,
+				overrides
+			);
+			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
+		}
+		catch(err) {
+			return 0;
+		}
+	}
+
+	async function getSignCheckForSponsorWithdraw(targetAddress) {
+		if (!wallet || !provider) throw Error("Wallet is not provided");
+		if (!client) clientConnect();
+		wallet = wallet.connect(provider);
+		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+		const withdrawn = await contract.withdrawn(wallet.address)
+		const memberStats = await client.getMemberStats(communityConfig.communityAddress, wallet.address);
+		if (memberStats.error || memberStats.withdrawableEarnings < 1) {
+			throw Error("Nothing  to withdraw");
+		}
+		const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
+		const message = targetAddress + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
+
+		const hashData = ethers.utils.arrayify(message);
+		return await wallet.signMessage(hashData);
+	}
+
+	async function getSponsoredWithdrawTransactionFee(targetAddress) {
+		try {
+			if (!wallet || !provider) return 0;
+			if (!client) clientConnect();
+			wallet = wallet.connect(provider);
+			const memberAddress = wallet.address;
+
+			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
+			const withdrawn = await contract.withdrawn(memberAddress)
+			const memberStats = await client.getMemberStats(communityConfig.communityAddress, memberAddress);
+			if (memberStats.error || memberStats.withdrawableBlockNumber == null) {
+				return 0;
+			}
+			const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
+			const message = targetAddress + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
+
+			const hashData = ethers.utils.arrayify(message);
+			const signature = await wallet.signMessage(hashData)
+
+			const gasPrice = await provider.getGasPrice();
+			const estimatedGas = await contract.estimate.withdrawAllToSigned(targetAddress, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
+			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
+		}
+		catch (err) {
+			return 0;
+		}
+	}
+
+	async function generateJWT() {
+		try {
+			const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
+			if (resp.status === 200) {
+				let timestamp = (await resp.json()).timestamp
+				const payload = {
+					address: wallet.address,
+					publicKey: wallet.signingKey.keyPair.compressedPublicKey,
+					timestamp: timestamp
+				}
+				return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
+			}
+		} catch (err) {
+
+		}
+	}
+
 	return {
 		init,
 		createWallet,
         loadWallet,
 		getEncryptedWallet,
-		join,
-		part,
 		withdrawEarnings,
 		withdrawEarningsFor,
 		withdrawTo,
@@ -276,7 +346,11 @@ var communityHelper = (function() {
 		getCumulativeEarnings,
 		getTotalBalance,
 		getStreamrClient,
-		getEthBalance
+		getEthBalance,
+		generateJWT,
+		getSignCheckForSponsorWithdraw,
+		getWithdrawAllToTransactionFee,
+		getSponsoredWithdrawTransactionFee,
     };
 }())
 

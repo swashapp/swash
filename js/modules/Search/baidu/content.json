@@ -1,0 +1,356 @@
+{
+   "content_matches": [
+      "*://*.baidu.com/*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [      
+      {
+         "name": "baiduSearchResult",
+         "url_match": "*://*.baidu.com/*",
+         "description": "This item collects Baidu search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": "#wrapper_wrapper",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".",
+               "event_name": "."
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".result",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".f13 a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".t",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#kw",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#page .pc",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".s_tab_inner b",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "baiduClickedLink",
+         "url_match": "*://*.baidu.com/*",
+         "description": "This item collects links clicked by user from Baidu search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "readyAt": "DOMChange",
+         "observingTargetNode": "#wrapper_wrapper",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "events": [
+            {
+               "selector": ".result",
+               "event_name": "click"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".f13 a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".t",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".result",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".f13 a",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".t",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#kw",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": "#page .pc",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".s_tab_inner b",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "mobile": [
+	{
+         "name": "baiduSearchResult",
+         "url_match": "*://*.baidu.com/*",
+         "description": "This item collects Baidu search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "readyAt": "DOMChange",
+         "observingTargetNode": "#page",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".",
+               "event_name": "."
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".result",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".c-result-content .c-showurl",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-result-content .c-title-text",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-result-content .c-line-clamp3",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#kw",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".new-nowpage i",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".se-tabitem .se-tab-cur",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "baiduClickedLink",
+         "url_match": "*://*.baidu.com/*",
+         "description": "This item collects links clicked by user from Baidu search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "readyAt": "DOMChange",
+         "observingTargetNode": "#wrapper_wrapper",
+         "observingConfig": {
+            "attributes": false,
+            "childList": true,
+            "subtree": true
+         },
+         "events": [
+            {
+               "selector": ".result",
+               "event_name": "click"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": ".c-result-content .c-showurl",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-result-content .c-title-text",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".result",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".c-result-content .c-showurl",
+                     "property": "innerText",
+                     "name": "link",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-result-content .c-title-text",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".c-result-content .c-line-clamp3",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": "#kw",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".new-nowpage i",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".se-tabitem .se-tab-cur",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

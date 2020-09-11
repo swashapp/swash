@@ -1,0 +1,11 @@
+{
+   "name": "search_aol",
+   "description": "This module Captures a user search queries, search results, and links clicked by the user for AOL",
+   "functions": [
+      "browsing",
+      "content"
+   ],
+   "is_enabled": true,
+   "privacyLevel": 1,
+   "anonymityLevel": 1
+}

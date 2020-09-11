@@ -111,6 +111,7 @@ var pageAction = (function() {
             });
             
         })
+        
     }
 
     return {
@@ -118,7 +119,7 @@ var pageAction = (function() {
         loadIcons,
         handleFilter,
         addFilter,
-        removeFilter
+        removeFilter,     
     };
             
 }());

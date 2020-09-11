@@ -27,7 +27,7 @@ var browsing = (function() {
 			data: {
 				out: {
 					url: requestDetails.url,
-					originUrl: origin		                                                
+					originUrl: (requestDetails.originUrl || requestDetails.initiator)		                                                
 				},
 				schems: [
 					{jpath:"$.url",type:"url"},
@@ -221,6 +221,8 @@ var browsing = (function() {
 
 	async function hook_webrequest(module,data){
         callbacks[module.name + "_" + data.name] = async function(x){
+            if(x.tabId < 0)
+                return;
             let local_data = data;
             let retval = null;
             if(!local_data.target_listener || local_data.target_listener == "inspectRequest")

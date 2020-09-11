@@ -14,25 +14,28 @@ var utils = (function() {
 		if(Array.isArray(newObj))
 		{
 			src.length = 0
-			for(var item of newObj)
+			for(let item of newObj)
 				src.push(item);
 			return;
 		}
-		for (var prop in newObj) { 
-			var val = newObj[prop];
-			if (val != null && typeof val == "object") {// this also applies to arrays or null!
-				if(Array.isArray(val)) {
+		for (let prop in newObj) {
+			if (newObj.hasOwnProperty(prop)) {
+				let val = newObj[prop];
+				if (val != null && typeof val == "object") {// this also applies to arrays or null!
+					if (Array.isArray(val)) {
+						src[prop] = val;
+					} else {
+						if (typeof src === "string"){
+							src = val;
+							return;
+						}
+						if (!src[prop])
+							src[prop] = {};
+						jsonUpdate(src[prop], val);
+					}
+				} else
 					src[prop] = val;
-				}
-				else {
-					if(!src[prop])
-						src[prop] = {};	
-					jsonUpdate(src[prop], val);
-				}
 			}
-			else
-				src[prop] = val;
-			
 		}
 			
 	}

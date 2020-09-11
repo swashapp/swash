@@ -91,7 +91,8 @@ var content = (function() {
     }
 
 	async function injectCollectors(url) {
-        var modules = await storageHelper.retrieveModules();
+		var modules = await storageHelper.retrieveModules();
+		let messages = [];
 		for (var module in modules) {
 			if(modules[module].functions.includes("content")){	
 				if(modules[module].is_enabled)
@@ -100,12 +101,12 @@ var content = (function() {
 							let content = modules[module].content.items.filter(function(cnt, index, arr){
 								return (cnt.is_enabled && utils.wildcard(url, cnt.url_match));
 							});
-							return {moduleName: modules[module].name, content: content};
+							messages.push({moduleName: modules[module].name, content: content});
 						}
 				}											
 			}
 		}    
-		return;	
+		return messages;	
 	}
     return {
 		initModule,

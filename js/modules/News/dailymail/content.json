@@ -1,0 +1,89 @@
+{
+	"content_matches": [
+        "*://*.dailymail.co.uk/*"   
+	],
+	"content_mapping": {
+		"win": "desktop",
+		"mac": "desktop",
+		"android": "desktop",
+		"cros": "desktop",
+		"openbsd": "desktop",
+		"ios": "desktop",
+		"ipados": "desktop"
+	},
+	"desktop": [
+	     {
+			"name": "dailyMailLink",
+			"description": "This item collects news title and news url after click",
+			"title": "dailyMail News",
+			"url_match": "*://*.dailymail.co.uk/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+					"selector": "a",
+					"event_name": "click"
+				},
+				{
+					"selector": "a",
+					"event_name": "contextmenu"
+				}
+			],
+			"objects": [{
+				"selector": "",
+				"properties": [{
+						"property": "innerText",
+						"name": "title",
+						"type": "text"
+					},
+					{
+						"property": "href",
+						"name": "link",
+						"type": "url"
+					}
+				]
+			}]
+		},
+		{
+			"name": "dailyMailNewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"title": "dailyMail News details",
+			"url_match": "*://*.dailymail.co.uk/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h2",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "a:nth-child(2)",
+						"property": "href",
+						"name": "category",
+						"type": "text"
+					},
+					{
+						"selector": ".author-section.byline-plain",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": "time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					}
+				]
+
+			}]
+		}
+	]
+}

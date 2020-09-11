@@ -1,5 +1,5 @@
 function sendMessage(message) {
-	return browser.runtime.sendMessage(message)
+	return browser.runtime.sendMessage(message);
 }
 
 var helper = (function () {
@@ -193,24 +193,6 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function subscribe() {
-		let message = {
-			obj: "pushStream",
-			func: "subscribe",
-			params: []
-		}
-		return sendMessage(message);
-	}
-
-	function unsubscribe() {
-		let message = {
-			obj: "pushStream",
-			func: "unsubscribe",
-			params: []
-		}
-		return sendMessage(message);
-	}
-
 	function enforcePolicy(msg, mSalt, salt, privacyData) {
 		let message = {
 			obj: "dataHandler",
@@ -310,6 +292,15 @@ var helper = (function () {
 		}
 		return sendMessage(message);
 	}
+
+	function generateJWT() {
+		let message = {
+			obj: "communityHelper",
+			func: "generateJWT",
+			params: []
+		}
+		return sendMessage(message);
+	}
 	
 	function getVersion() {
 		let message = {
@@ -356,19 +347,37 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	async function getWithdrawAllToTransactionFee(targetAddress) {
+		let message = {
+			obj: "communityHelper",
+			func: "getWithdrawAllToTransactionFee",
+			params: [targetAddress]
+		}
+		return sendMessage(message);
+	}
+
+	async function getSponsoredWithdrawTransactionFee(targetAddress) {
+		let message = {
+			obj: "communityHelper",
+			func: "getSponsoredWithdrawTransactionFee",
+			params: [targetAddress]
+		}
+		return sendMessage(message);
+	}
+
 	function isNeededOnBoarding() {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "isNeededOnBoarding",
 			params: []
 		};
 		return sendMessage(message);
 	}
 
-	function isExtensionUpdated() {
+	function getOnboardingFlow() {
 		let message = {
-			obj: "onBoarding",
-			func: "isExtensionUpdated",
+			obj: "onboarding",
+			func: "getOnboardingFlow",
 			params: []
 		};
 		return sendMessage(message);
@@ -376,34 +385,34 @@ var helper = (function () {
 
 	function submitOnBoarding() {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "submitOnBoarding",
 			params: []
 		};
 		return sendMessage(message);
 	}
 
-	function startOnBoarding(onBoardingName, tabId) {
+	function startOnBoarding(onboardingName, tabId) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "startOnBoarding",
-			params: [onBoardingName, tabId]
+			params: [onboardingName, tabId]
 		};
 		return sendMessage(message);
 	}
 
-	function startOnBoardingOAuth(onBoardingName) {
+	function startOnBoardingOAuth(onboardingName) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "startOnBoardingOAuth",
-			params: [onBoardingName]
+			params: [onboardingName]
 		};
 		return sendMessage(message);
 	}
 
 	function loadFile(file) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "loadFile",
 			params: [file]
 		};
@@ -412,7 +421,7 @@ var helper = (function () {
 
 	function applyConfig(config) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "applyConfig",
 			params: [config]
 		};
@@ -421,43 +430,43 @@ var helper = (function () {
 
 	function saveConfig() {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "saveConfig",
 			params: []
 		};
 		return sendMessage(message);
 	}
 
-	function getFilesList(onBoardingName) {
+	function getFilesList(onboardingName) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "getFilesList",
-			params: [onBoardingName]
+			params: [onboardingName]
 		};
 		return sendMessage(message);
 	}
 
-	function downloadFile(onBoardingName, fileId) {
+	function downloadFile(onboardingName, fileId) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "downloadFile",
-			params: [onBoardingName, fileId]
+			params: [onboardingName, fileId]
 		};
 		return sendMessage(message);
 	}
 
-	function uploadFile(onBoardingName) {
+	function uploadFile(onboardingName) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "uploadFile",
-			params: [onBoardingName]
+			params: [onboardingName]
 		};
 		return sendMessage(message);
 	}
 
 	function writeTo3BoxSpace(seed) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "writeTo3BoxSpace",
 			params: [seed]
 		};
@@ -466,7 +475,7 @@ var helper = (function () {
 
 	function getFrom3BoxSpace(seed) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "getFrom3BoxSpace",
 			params: [seed]
 		};
@@ -475,7 +484,7 @@ var helper = (function () {
 
 	function save3BoxMnemonic(mnemonic) {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "save3BoxMnemonic",
 			params: [mnemonic]
 		};
@@ -484,7 +493,7 @@ var helper = (function () {
 
 	function get3BoxMnemonic() {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "get3BoxMnemonic",
 			params: []
 		};
@@ -493,9 +502,72 @@ var helper = (function () {
 
 	function openOnBoarding() {
 		let message = {
-			obj: "onBoarding",
+			obj: "onboarding",
 			func: "openOnBoarding",
 			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function saveProfileInOnBoarding(gender, age, income) {
+		let message = {
+			obj: "onboarding",
+			func: "saveProfileInfo",
+			params: [gender, age, income]
+		};
+		return sendMessage(message);
+	}
+
+	function createAndSaveWallet() {
+		let message = {
+			obj: "onboarding",
+			func: "createAndSaveWallet",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function joinSwash() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "joinSwash",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function getReferralRewards() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getReferralRewards",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function getCategory(name) {
+		let message = {
+			obj: "configManager",
+			func: "getCategory",
+			params: [name]
+		}
+		return sendMessage(message);
+	}
+
+	function getDataEthPairPrice() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getDataEthPairPrice",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function sendSponsoredWithdraw(recipient) {
+		let message = {
+			obj: "swashApiHelper",
+			func: "sendSponsoredWithdraw",
+			params: [recipient]
 		};
 		return sendMessage(message);
 	}
@@ -515,8 +587,6 @@ var helper = (function () {
 		startAuth,
 		removeAuth,
 		isConnected,
-		subscribe,
-		unsubscribe,
 		savePrivacyData,
 		loadPrivacyData,
 		loadMessages,
@@ -541,9 +611,12 @@ var helper = (function () {
 		saveWallets,
 		withdrawTo,
 		withdrawAllTo,
+		getWithdrawAllToTransactionFee,
+		getSponsoredWithdrawTransactionFee,
+		generateJWT,
 		startOnBoarding,
 		isNeededOnBoarding,
-		isExtensionUpdated,
+		getOnboardingFlow,
 		submitOnBoarding,
 		startOnBoardingOAuth,
 		loadFile,
@@ -556,6 +629,13 @@ var helper = (function () {
 		getFrom3BoxSpace,
 		save3BoxMnemonic,
 		get3BoxMnemonic,
-		openOnBoarding
+		openOnBoarding,
+		saveProfileInOnBoarding,
+		createAndSaveWallet,
+		joinSwash,
+		getReferralRewards,
+		getCategory,
+		getDataEthPairPrice,
+		sendSponsoredWithdraw
 	};
 }());

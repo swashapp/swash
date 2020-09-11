@@ -151,18 +151,18 @@ var storageHelper = (function () {
         return configs.version;
     }
 
-    function retrieveOnBoardings() {
-        return retrieveData("onBoardings");
+    function retrieveOnboarding() {
+        return retrieveData("onboarding");
     }
 
-    function updateOnBoardings(info) {
-        return updateData("onBoardings", info)
+    function updateOnboarding(info) {
+        return updateData("onboarding", info)
     }
 
-    async function removeOnBoardings(onBoardingName) {
-        let info = await retrieveData("onBoardings");
-        delete info[onBoardingName];
-        browser.storage.local.set({onBoardings: info});
+    async function removeOnboarding(onboardingName) {
+        let info = await retrieveData("onboarding");
+        delete info[onboardingName];
+        browser.storage.local.set({onboarding: info});
     }
 
     return {
@@ -189,9 +189,9 @@ var storageHelper = (function () {
         endTask,
         loadAllModuleTaskIds,
         getVersion,
-        retrieveOnBoardings,
-        updateOnBoardings,
-        removeOnBoardings
+        retrieveOnboarding,
+        updateOnboarding,
+        removeOnboarding
     };
 }());
 export {storageHelper};

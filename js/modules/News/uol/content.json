@@ -1,0 +1,198 @@
+{
+	"content_matches": [
+		"*://*.uol.com.br/*"				
+	],
+	"content_mapping": {
+		"win": "desktop",
+		"mac": "desktop",
+		"android": "desktop",
+		"cros": "desktop",
+		"openbsd": "desktop",
+		"ios": "desktop",
+		"ipados": "desktop"
+	},
+	"desktop": [	     
+		 {
+			"name": "uolLink",
+			"description": "This item collects news title and news url after click",
+			"title": "uol News",
+			"url_match": "*://*.cnn.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+					"selector": "a",
+					"event_name": "click"
+				},
+				{
+					"selector": "a",
+					"event_name": "contextmenu"
+				}
+			],
+			"objects": [{
+				"selector": "",
+				"properties": [{
+						"property": "innerText",
+						"name": "title",
+						"type": "text"
+					},
+					{
+						"property": "href",
+						"name": "link",
+						"type": "url"
+					}
+				]
+			}]
+		},
+		{
+			"name": "uolnewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"title": "uol News details",
+			"url_match": "*://*.cnn.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "a:nth-child(2)",
+						"property": "href",
+						"name": "category",
+						"type": "text"
+					},
+					{
+						"selector": ".metadata__byline",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": ".update-time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					}
+				]
+
+			}]
+		},
+	       {
+			"name": "uolLink",
+			"description": "This item collects news title and news url after click",
+			"title": "uol News",
+			"url_match": "*://*.uol.com.br/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+					"selector": "a",
+					"event_name": "click"
+				},
+				{
+					"selector": "a",
+					"event_name": "contextmenu"
+				}
+			],
+			"objects": [{
+				"selector": "",
+				"properties": [{
+						"property": "innerText",
+						"name": "title",
+						"type": "text"
+					},
+					{
+						"property": "href",
+						"name": "link",
+						"type": "url"
+					}
+				]
+			}]
+		},
+		{
+			"name": "uolnewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"title": "uol News details",
+			"url_match": "*://*.uol.com.br/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".title-name",
+						"property": "innerText",
+						"name": "category",
+						"type": "text"
+					},
+					{
+						"selector": ".p-author-local",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": ".p-author.time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					}
+				]
+
+			}]
+		},
+		{
+			"name": "folha.uolNewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"title": "uol News details",
+			"url_match": "*://*.folha.uol.com.br/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": ".c-content-head__title",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".c-heading.c-heading--tiny.c-heading--light",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": ".c-more-options__published-date",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					}
+				]
+
+			}]
+		}
+	]
+}

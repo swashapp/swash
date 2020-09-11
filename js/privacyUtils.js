@@ -1,34 +1,34 @@
 import {utils} from './utils.js'
 var privacyUtils = (function() {
     'use strict';
+    var basicIdentity = "";
+    var moduleIdentity = {};
+    var categoryIdentity = {};
     
-    
-    function identityPrivacy(id, mId, privacyLevel) {
-        var date = new Date();
-        switch(privacyLevel) {
-            case 0:            
-                return {id: sha256(id), expireTime: -1};
+    function anonymiseIdentity(id, message, module) {
+        basicIdentity = basicIdentity ? basicIdentity : sha256(id);                
+
+        switch(message.header.anonymityLevel) {
+            case 0:
+                return basicIdentity;
             case 1:
-                return {id: sha256(mId), expireTime: -1};
+                categoryIdentity[module.category] = categoryIdentity[module.category] ? categoryIdentity[module.category] : sha256(`${id}${module.category}`);
+                return sha256(`${basicIdentity}${categoryIdentity[module.category]}`)
             case 2:
-                date.setHours(0, 0, 0, 0)
-                return {id: sha256(mId + date.getTime()), expireTime: date.setHours(24, 0, 0, 0)};
+                moduleIdentity[module.name] = moduleIdentity[module] ? moduleIdentity[module] : sha256(`${id}${module.name}`);
+                return sha256(`${basicIdentity}${moduleIdentity[module.name]}`);
             case 3:
-                date.setMinutes(0, 0, 0);
-                return {id: sha256(mId + date.getTime()), expireTime: date.setMinutes(60, 0, 0)};
-            case 4:
-                return {id: sha256(utils.uuid()), expireTime: 0};
+                return sha256(`${basicIdentity}${message.header.id}`);
             default:
-                return {id: sha256(utils.uuid()), expireTime: 0};
+                return sha256(`${basicIdentity}${message.header.id}`);
+    
         }
-                
     }
+    
 	
-    function urlPrivacy(url, privacyLevel, mSalt, salt) {
+    function anonymiseUrl(url, message) {
         let urlObj = new URL(url);
-        var searchParams = (new URL(url)).searchParams;
-        var query = searchParams.get("field-keywords");    
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:            
                 return urlObj.href;
             case 1:
@@ -39,59 +39,45 @@ var privacyUtils = (function() {
                 var path = urlObj.pathname.split("/");
                 for (let item in path) {
                     if(path[item]) {
-                        path[item] = sha256(path[item] + salt).substring(0,path[item].length);
+                        path[item] = sha256(path[item]).substring(0,path[item].length);
                     }
                 }
                 path = path.join("/");                
                 var retUrl = urlObj.origin + path;
-                return retUrl;
+                return retUrl;            
             case 3:
-                var path = urlObj.pathname.split("/");
-                for (let item in path) {
-                    if(path[item]) {
-                        path[item] = sha256(path[item] + mSalt).substring(0,path[item].length);
-                    }
-                }
-                path = path.join("/");                
-                var retUrl = urlObj.origin + path;
-                return retUrl;
-            case 4:
-                return  urlObj.origin;			
+                return  urlObj.origin;
             default:
                 return  urlObj.origin;
         }
     }
         
-    function timePrivacy(time, privacyLevel, mSalt, salt) {
+    function anonymiseTime(time, message) {
         var date = new Date();
         let date2;
         date.setTime(time);
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:        
                 return date.getTime();
             case 1:
-                date.setMinutes(0, 0, 0);
-                return date.getTime();
-            case 2:
                 date.setHours(0, 0, 0, 0)
                 return date.getTime();
-            case 3:
+            case 2:
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), date.getMonth())
                 return date2.getTime();
-            case 4:
+            case 3:
                 date2 = new Date(0);
                 date2.setFullYear(date.getFullYear(), 0)
                 return date2.getTime();
-
 			default:
                 return date.getTime();
         }
     }
 
-    function textPrivacy(text, privacyLevel, mSalt, salt, privacyData) {
+    function anonymisetTxt(text, message, privacyData) {
         var retText = JSON.stringify(text);
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:        
                 for(var i = 0; i < privacyData.length ; i++) {                 
                     retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
@@ -99,7 +85,7 @@ var privacyUtils = (function() {
                 break;
             case 1:
                 for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), (new Array(privacyData[i].value.length + 1).join('*')));
+                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
                 }
                 break;
             case 2:
@@ -108,11 +94,6 @@ var privacyUtils = (function() {
                 }
                 break;
             case 3:
-                for(var i = 0; i < privacyData.length ; i++) {                 
-                    retText = retText.replace(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'), "");
-                }
-                break;
-            case 4:
                 for(var i = 0; i < privacyData.length ; i++) {
 					let res = retText.match(new RegExp("\\b" + privacyData[i].value + "\\b", 'ig'));
                     if(res) {
@@ -127,24 +108,20 @@ var privacyUtils = (function() {
 		return JSON.parse(retText);
     }
     
-    function userInfoPrivacy(user, privacyLevel, mSalt, salt) {
+    function anonymiseUserInfo(user, message) {
         var retUserInfo = user;
         
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:        
                 return retUserInfo;
             case 1:
                 retUserInfo = sha256(user);
                 return retUserInfo;
             case 2:
-                retUserInfo = sha256(user + salt);            
+                retUserInfo = sha256(user + utils.uuid());
                 return retUserInfo;
             case 3:
-                retUserInfo = sha256(user + mSalt);            
-                return retUserInfo;            
-            case 4:
-                return "";
-
+                return "";            
 			default:
                 return "";
         }
@@ -152,24 +129,20 @@ var privacyUtils = (function() {
     }
 
 	
-    function idPrivacy(id, privacyLevel, mSalt, salt) {
+    function anonymiseUserId(id, message) {
         var retId = id;
         
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:        
                 return retId;
             case 1:
                 retId = sha256(id);
                 return retId;
             case 2:
-                retId = sha256(id + salt);            
+                retId = sha256(id + utils.uuid());            
                 return retId;
-            case 3:
-                retId = sha256(id + mSalt);            
-                return retId;            
-            case 4:
+            case 3:        
                 return "";
-
 			default:
                 return "";
         }
@@ -177,63 +150,58 @@ var privacyUtils = (function() {
     }
 	
 	
-    function userAttrPrivacy(userAttr, privacyLevel, mSalt, salt) {
+    function anonymiseUserAttr(userAttr, message, salt) {
         var retAttr = userAttr;
         
-        switch(privacyLevel) {
+        switch(message.header.privacyLevel) {
             case 0:        
                 return retAttr;
             case 1:
                 retAttr = sha256(userAttr);
                 return retAttr;
             case 2:
-                retAttr = sha256(userAttr + salt);            
+                retAttr = sha256(userAttr + utils.uuid());            
                 return retAttr;
-            case 3:
-                retAttr = sha256(userAttr + mSalt);            
-                return retAttr;            
-            case 4:
-                return "";
+            case 3:    
+                return "";            
 			default:
                 return "";
-        }
-        
+        }        
     }
 
-    function timeStringPrivacy(timeStr, privacyLevel, mSalt, salt) {
+    function anonymiseTimeString(timeStr, message) {
         var date = new Date(timeStr);
-        let newTime = timePrivacy(date.getTime(), privacyLevel, mSalt, salt);
+        let newTime = timePrivacy(date.getTime(), message);
         date.setTime(newTime)
         return date.toString();
     }
     
-    function objectPrivacy(object, objectType, message, mSalt, salt, privacyData){
-        let privacyLevel = message.header.privacyLevel;
+    function anonymiseObject(object, objectType, message, privacyData){
 		if(!object)
             return object;
         switch(objectType) {
             case "userInfo" :
-                return userInfoPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymiseUserInfo(object, message);
             case "userAttr" :
-                return userAttrPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymiseUserAttr(object, message);
             case "timeString" :
-                return timeStringPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymiseTimeString(object, message);
             case "url" :
-                return urlPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymiseUrl(object, message);
             case "time" :
-                return timePrivacy(object, privacyLevel,  mSalt, salt, privacyData);
+                return anonymiseTime(object, message);
             case "text" :
-                return textPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymisetTxt(object, message, privacyData);
             case "id" :
-                return idPrivacy(object, privacyLevel, mSalt, salt, privacyData);
+                return anonymiseUserId(object, message);
 			default:
                 return object;
         }
     }
     
     return {
-        objectPrivacy: objectPrivacy,
-        identityPrivacy: identityPrivacy
+        anonymiseObject,
+        anonymiseIdentity
     };
 }());
 export {privacyUtils};    

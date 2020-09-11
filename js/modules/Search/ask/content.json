@@ -1,0 +1,324 @@
+{
+   "content_matches": [
+      "*://www.ask.com/*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [
+      {
+         "name": "askSearchResult",
+         "url_match": "*://www.ask.com/*",
+         "description": "This item collects Ask search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".PartialSearchResults-item",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchBox-input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialWebPagination-pgsel",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialChannelNavigation-nav-links .active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "askClickedLink",
+         "url_match": "*://www.ask.com/*",
+         "description": "This item collects links clicked by user from Ask search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".PartialSearchResults-item-title",
+               "event_name": "click"
+            },
+            {
+               "selector": ".PartialSearchResults-item-title",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".PartialSearchResults-item",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchBox-input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialWebPagination-pgsel",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialChannelNavigation-nav-links .active",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "mobile": [
+   {
+         "name": "askSearchResult",
+         "url_match": "*://www.ask.com/*",
+         "description": "This item collects Ask search results, search category, page number and corresponding search query",
+         "title": "Search Result",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+         ],
+         "objects": [
+            {
+               "selector": ".PartialSearchResults-item",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchBox-input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialWebPagination-selected",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "name": "askClickedLink",
+         "url_match": "*://www.ask.com/*",
+         "description": "This item collects links clicked by user from Ask search result",
+         "title": "clicked link",
+         "type": "event",
+         "is_enabled": true,
+         "events": [
+            {
+               "selector": ".PartialSearchResults-item-title",
+               "event_name": "click"
+            },
+            {
+               "selector": ".PartialSearchResults-item-title",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+            {
+               "selector": "#",
+               "properties": [
+                  {
+                     "property": "index",
+                     "name": "rank",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "",
+               "properties": [
+                  {
+                     "selector": "a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": "a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": ".PartialSearchResults-item",
+               "name": "searchResult",
+               "indexName": "rank",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "href",
+                     "name": "link",
+                     "type": "url"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-title a",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialSearchResults-item-abstract",
+                     "property": "innerText",
+                     "name": "description",
+                     "type": "text"
+                  }
+               ]
+            },
+            {
+               "selector": "body",
+               "properties": [
+                  {
+                     "selector": ".PartialSearchBox-input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+                  {
+                     "selector": ".PartialWebPagination-selected",
+                     "property": "innerText",
+                     "name": "pageNumber",
+                     "type": "text"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

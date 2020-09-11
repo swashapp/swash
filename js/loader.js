@@ -8,55 +8,60 @@ import {functions} from './functions.js';
 import {pageAction} from './pageAction.js';
 import {internalFilters} from './internalFilters.js';
 import {ssConfig} from './manifest.js';
-import {browserUtils} from './browserUtils.js';
 import {memberManager} from './memberManager.js';
 import {apiCall} from "./functions/apiCall.js";
-import {pushStream} from "./push.js"
-import {onBoarding} from "./onBoarding.js"
+import {onboarding} from "./onboarding.js";
+import {swashApiHelper} from "./swashApiHelper.js";
 
 
-var loader = (function() {
+let loader = (function() {
     'use strict';
-    var dbHelperInterval;
-	var configs;
-	var modules;
-	var intervalId = 0;
+    let dbHelperInterval;
+	let configs;
+	let modules;
+	let intervalId = 0;
 
-	
 	function initConfs() {
 		configs = configManager.getAllConfigs();
 		modules = configManager.getAllModules();
 	}
 
-    async function isDbCreated(db) {
+    async function isDBCreated(db) {
         return !(db == null || Object.keys(db).length === 0);
     }
 
-    async function install() {
-        
-        let db = await storageHelper.retrieveAll();		
-
-        if (!await isDbCreated(db)) {
+	async function createDBIfNotExist() {
+		let db = await storageHelper.retrieveAll();
+		if (!await isDBCreated(db)) {
 			console.log("Creating new DB");
-            db = {modules: {}, configs: {}, profile: {}, filters: [], wallets: [], privacyData: [], tasks: {}, onBoardings: {}};
-            db.configs.Id = utils.uuid();
-            db.configs.salt = utils.uuid();
-            db.configs.delay = 2;
-            await communityHelper.createWallet();
-            db.profile.encryptedWallet = await communityHelper.getEncryptedWallet(db.configs.salt);
-            utils.jsonUpdate(db.configs, ssConfig);
-        }
-        try {
-			//backup old database
-			db._backup = JSON.stringify(db);
-			
-            //wallets added from version 1.0.3
-            if (!db.wallets)
-                db.wallets = [];
+			db = {
+				modules: {},
+				configs: {},
+				profile: {},
+				filters: [],
+				privacyData: [],
+				onboarding: {}
+			};
+			db.configs.Id = utils.uuid();
+			db.configs.salt = utils.uuid();
+			db.configs.delay = 2;
+			utils.jsonUpdate(db.configs, ssConfig);
+			return storageHelper.storeAll(db);
+		}
+	}
 
-			//onBoarding added from version 1.0.8
-            if (!db.onBoardings)
-                db.onBoardings = {};
+	async function install() {
+		try {
+			await createDBIfNotExist();
+			let db = await storageHelper.retrieveAll();
+
+			//backup old database
+			delete db._backup;
+			db._backup = JSON.stringify(db);			           
+
+			//onboarding added from version 1.0.8
+            if (!db.onboarding)
+                db.onboarding = {};
 			//from version 1.0.9 move wallet to profile object for safety
 			console.log(`Update Swash from version ${db.configs.version} to ${ssConfig.version}`);
 			if(db.configs.version <= '1.0.8' && db.configs.encryptedWallet) {
@@ -68,13 +73,13 @@ var loader = (function() {
 			
 			//keeping defined filters and updating internal filters
 			console.log(`Updating exculde urls`);
-            let newFilters = db.filters.filter(function (f, index, arr) {
+            let userFilters = db.filters.filter(function (f, index, arr) {
                 return (!f.internal);
             });
             for (let f of internalFilters) {
-                newFilters.push(f)
+                userFilters.push(f)
             }
-            db.filters = newFilters;
+            db.filters = userFilters;
 			
 			//updating modules
 			console.log(`Updating modules`);
@@ -82,20 +87,17 @@ var loader = (function() {
 			
 			//updating configurations
 			utils.jsonUpdate(db.configs, configs)
+			return storageHelper.storeAll(db);
         } catch (exp) {
             console.error(exp);
         }
-        return storageHelper.storeAll(db);
     }
 
-	
-	
-	function onInstalled() {
-		reload();
-		updateSchedule();
+	async function onInstalled() {
+		await reload();		
 		memberManager.tryJoin();
+		updateSchedule();
 	}
-
 	
     function changeIconOnUpdated(tabId, changeInfo, tabInfo) {
         if (!changeInfo.url || !tabInfo.active)
@@ -165,7 +167,6 @@ var loader = (function() {
 			loadFunctions();			
 		})	
     }
-    
 
     function stop(){		
 		let config = {is_enabled: false};
@@ -182,9 +183,9 @@ var loader = (function() {
     
 	async function load() {		
 		storageHelper.retrieveAll().then(async (db) => {
-			dbHelperInterval = setInterval(function(){
-				databaseHelper.init();
-				dataHandler.sendDelayedMessages();
+			dbHelperInterval = setInterval(async function(){
+				await databaseHelper.init();
+				await dataHandler.sendDelayedMessages();
 				}, 10000);
 			let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
 			if(db.configs.is_enabled) {
@@ -201,9 +202,9 @@ var loader = (function() {
 	async function reload() {		
 		storageHelper.retrieveAll().then(async (db) => {
             clearInterval(dbHelperInterval);
-            dbHelperInterval = setInterval(function () {
-                databaseHelper.init();
-                dataHandler.sendDelayedMessages();
+            dbHelperInterval = setInterval(async function () {
+                await databaseHelper.init();
+                await dataHandler.sendDelayedMessages();
             }, 10000);
             init(false);
             let x = await communityHelper.loadWallet(db.profile.encryptedWallet, db.configs.salt);
@@ -227,33 +228,25 @@ var loader = (function() {
     }
 
 	
-	async function onModulesUpdated() {
-		let dbModules = await storageHelper.retrieveModules();
-		if(!dbModules)
-			dbModules = {};
+	async function onModulesUpdated() {	
+		let dbModules = {};			
 		for (let moduleName in modules){
 			let module = modules[moduleName];
-			if (!dbModules[module.name] || module.version > dbModules[module.name].version) {
-				console.log(`Module ${module.name} updated to ${module.version}`);
-				module.mId = utils.uuid();
-				module.mSalt = utils.uuid();
-				for (let func of functions) {
-					await func.initModule(module);
-				}
-				dbModules[module.name] = module;
+			for (let func of functions) {
+				await func.initModule(module);
 			}
+			dbModules[module.name] = module;
 		}
 		return dbModules;
 	}
-	
-	
+
 	function onConfigsUpdated() {
-		pushStream.init();
 		memberManager.init();
 		dataHandler.init();
 		communityHelper.init();
-		onBoarding.init();
+		onboarding.init();
 		apiCall.init();
+		swashApiHelper.init();
 		initConfs();
 	}
 	
@@ -267,7 +260,6 @@ var loader = (function() {
 		await storageHelper.storeData("modules", dbModules);
 	}
 	
-	
 	async function updateSchedule() {
 		async function update() {
 			await configManager.updateAll();
@@ -278,11 +270,11 @@ var loader = (function() {
 		await update();		
 		intervalId = setInterval(update, configs.manifest.updateInterval)
 	}
-	
-	
+
     return {
 		initConfs,
-        isDbCreated,
+        isDBCreated,
+		createDBIfNotExist,
         install,
 		onInstalled,
         start,

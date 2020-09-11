@@ -2,6 +2,28 @@ var contentScript = (function () {
 	var callbacks = {};
     var oCallbacks = {};
 	
+	function querySelectorAll(node, selector) {
+		while(selector && selector.length > 0 && selector[0] == '<') { 
+			if(node)
+				node = node.parentElement;
+			selector = selector.slice(1);
+		}
+		if(selector.length == 0)
+			return node;
+		return node.querySelectorAll(selector)
+	}
+	
+	function querySelector(node, selector) {
+		while(selector && selector.length > 0 && selector[0] == '<') { 
+			if(node)
+				node = node.parentElement;
+			selector = selector.slice(1);
+		}
+		if(selector.length == 0)
+			return node;
+		return node.querySelector(selector)
+	}
+	
 	function uuid() {
         function randomDigit() {
             if (crypto && crypto.getRandomValues) {
@@ -169,7 +191,7 @@ var contentScript = (function () {
 	
 	function hasDescendant(elem, selector) {
 		if (!selector) return true;
-		var childs = elem.querySelectorAll(selector);
+		var childs = querySelectorAll(elem, selector);
 		if(childs.length > 0)
 			return true;
 		return false;
@@ -251,11 +273,14 @@ var contentScript = (function () {
 					objList = event.target;                    
 					break;
 				default:
+					let node = document;
+					if(x.selector[0] === '<')
+						node = event.currentTarget;
                     if(x.name) {                        
-                        objList = document.querySelectorAll(x.selector);
+                        objList = querySelectorAll(node, x.selector);
                     } 
                     else {
-                        objList = document.querySelector(x.selector);
+                        objList = querySelector(node, x.selector);
                     }
 					break;
 			}
@@ -278,7 +303,7 @@ var contentScript = (function () {
                         x.properties.forEach(y=>{
                             let prop;
                             if(y.selector)
-                                prop = obj.querySelector(y.selector);
+                                prop = querySelector(obj, y.selector);
                             else
                                 prop = obj;
 							if(prop)
@@ -299,7 +324,7 @@ var contentScript = (function () {
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
                         if(y.selector)
-                            prop = objList.querySelector(y.selector);
+                            prop = querySelector(objList, y.selector);
                         else
                             prop = objList;
 						if(prop)
@@ -314,7 +339,7 @@ var contentScript = (function () {
 	}
 	
 	function documentReadyCallback(event, callback) {
-		let doms = document.querySelectorAll(event.selector)
+		let doms = querySelectorAll(document, event.selector)
 		if(doms) {			
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
@@ -332,7 +357,7 @@ var contentScript = (function () {
             targetNode.dispatchEvent(ev);
             return;
         }		
-        let doms = document.querySelectorAll(event.selector)
+        let doms = querySelectorAll(document, event.selector)
 		if(doms){
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
@@ -351,7 +376,7 @@ var contentScript = (function () {
 	}
     
     function observeReadyCallback(event, callback, obj,cbName) {
-        let targetNode = document.querySelector(obj.observingTargetNode)
+        let targetNode = querySelector(document, obj.observingTargetNode)
 		let targetEventId = uuid();
         let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId,cbName)});
         observer.observe(targetNode, obj.observingConfig);
@@ -360,52 +385,54 @@ var contentScript = (function () {
 		}
     }
     
-	function handleResponse(message) {	  
-		message.content.forEach(obj=>{ 
-			switch(obj.type) {
-				case "event":
-					obj.events.forEach(event=>{
-						let callback = function(x, index){
-								if(event.keyCode && event.keyCode == x.keyCode || !event.keyCode)
-									public_callback(obj, message.moduleName, x, index)
-							};
-                        let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
-						callbacks[cbName] = callback;
-						if(event.selector == "window"){
-							// window
-							window.addEventListener(event.event_name, callback);
-						}else 
-                        if(event.selector == "document"){
-							// document
-							document.addEventListener(event.event_name, callback);
-						}
-                        else{
-                            //doms
-                            switch(obj.readyAt) {
-                                case "windowLoad":
-                                    window.addEventListener("load", function(){documentReadyCallback(event, callback)})
-                                    break;
-                                case "DOMChange":
-                                    window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
-                                    break;
-								case "windowChange":
-                                    window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
-                                    break;
-                                case "DOMLoad":
-                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
-                                    break;
-                                default:
-                                    window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
-                                    
-                            }							
-						}			
-					})            
-				break;
-				case "log":
-					log_callback(obj, message.moduleName);
+	function handleResponse(messages) {
+		for(let message of messages) {
+			message.content.forEach(obj=>{ 
+				switch(obj.type) {
+					case "event":
+						obj.events.forEach(event=>{
+							let callback = function(x, index){
+									if(event.keyCode && event.keyCode == x.keyCode || !event.keyCode)
+										public_callback(obj, message.moduleName, x, index)
+								};
+							let cbName = message.moduleName + "_" + obj.name + "_" + event.selector + "_" + event.event_name;
+							callbacks[cbName] = callback;
+							if(event.selector == "window"){
+								// window
+								window.addEventListener(event.event_name, callback);
+							}else 
+							if(event.selector == "document"){
+								// document
+								document.addEventListener(event.event_name, callback);
+							}
+							else{
+								//doms
+								switch(obj.readyAt) {
+									case "windowLoad":
+										window.addEventListener("load", function(){documentReadyCallback(event, callback)})
+										break;
+									case "DOMChange":
+										window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										break;
+									case "windowChange":
+										window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										break;
+									case "DOMLoad":
+										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+										break;
+									default:
+										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
+										
+								}							
+							}			
+						})            
 					break;
-			}
-		});
+					case "log":
+						log_callback(obj, message.moduleName);
+						break;
+				}
+			});
+		}		
 	}
 
 	function handleError(error) {

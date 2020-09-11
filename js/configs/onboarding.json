@@ -1,130 +1,210 @@
-[
-    {
-        "name": "File",
-        "type": "None"
-    },
-    {
-        "name": "GoogleDrive",
-        "type": "OAuth",
-        "apiConfig": {
-            "client_id": "1008037433533-fk4mar25609d75s1jv3pvohgfldtl8rj.apps.googleusercontent.com",
-            "api_endpoint": "https://www.googleapis.com/drive/v3",
-            "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
-            "access_token_regex": "access_token=([^&]*)",
-            "scopes": [
-                "https://www.googleapis.com/auth/drive.file",
-                "https://www.googleapis.com/auth/drive.appdata"
-            ]
+{
+  "flow": {
+    "version": 1,
+    "start": "Welcome",
+    "pages": {
+      "Welcome": {
+        "version": 1,
+        "visible": "all",
+        "next": "New"
+      },
+      "New": {
+        "version": 1,
+        "visible": {
+          "core": {
+            "notExistInDB": "profile.encryptedWallet"
+          }
         },
-        "validateToken": {
-            "method": "GET",
-            "URI": "https://www.googleapis.com/oauth2/v3/tokeninfo",
-            "token_param_name": "key",
-            "content_type": "application/x-www-form-urlencoded",
-            "response_type": "json",
-            "required_jpath": "$.expires_in"
+        "next": "PrivacyPolicy"
+      },
+      "PrivacyPolicy": {
+        "version": 1,
+        "visible": "all",
+        "next": "OnBoardingResponsibility"
+      },
+      "OnBoardingResponsibility": {
+        "version": 1,
+        "visible": "all",
+        "next": "YourProfileWarning"        
+      },
+      "YourProfileWarning": {
+        "version": 1,
+        "visible": {
+          "core": {
+            "notExistInDB": "profile.age"
+          }
         },
-        "apiCall": {
-            "listFiles": {
-                "method": "GET",
-                "URI": "https://www.googleapis.com/drive/v3/files",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json"
-                },
-                "content_type": "application/json",
-                "response_type": "json"
-            },
-            "downloadFile": {
-                "method": "GET",
-                "URI": "https://www.googleapis.com/drive/v3/files",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json"
-                },
-                "response_type": "json"
-            },
-            "uploadFile": {
-                "method": "POST",
-                "URI": "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json"
-                },
-                "content_type": "multipart/form-data",
-                "response_type": "json"
-            }
+        "next": "YourProfile"
+      },
+      "YourProfile": {
+        "version": 1,
+        "visible": {
+          "core": {
+          "notExistInDB": "profile.age"
+          }
+        },
+        "next": {
+          "basedOnPage": "New",
+          "default": "Create"
         }
-    },
-    {
-        "name": "DropBox",
-        "type": "OAuth",
-        "apiConfig": {
-            "client_id": "whddvse2klqvglx",
-            "api_endpoint": "https://www.googleapis.com/drive/v3",
-            "auth_url": "https://www.dropbox.com/oauth2/authorize",
-            "access_token_regex": "access_token=([^&]*)",
-            "scopes": []
+      },            
+      "Create": {
+        "version": 1,
+        "visible": {
+          "core": {
+            "notExistInDB": "profile.encryptedWallet"
+          }
         },
-        "validateToken": {
-            "method": "GET",
-            "URI": "https://www.dropbox.com/oauth2/authorize/tokeninfo",
-            "token_param_name": "key",
-            "content_type": "application/x-www-form-urlencoded",
-            "response_type": "json",
-            "required_jpath": "$.expires_in"
+        "next": "Join"
+      },
+      "Import": {
+        "version": 1,
+        "visible": {
+          "core": {
+            "notExistInDB": "profile.encryptedWallet"
+          }
         },
-        "apiCall": {
-            "listFiles": {
-                "method": "POST",
-                "URI": "https://api.dropboxapi.com/2/files/list_folder",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json"
-                },
-                "params": {
-                    "path": "",
-                    "recursive": false,
-                    "include_media_info": false,
-                    "include_deleted": false,
-                    "include_has_explicit_shared_members": false,
-                    "include_mounted_folders": true,
-                    "include_non_downloadable_files": false
-                },
-                "content_type": "application/json",
-                "response_type": "json"
-            },
-            "downloadFile": {
-                "method": "POST",
-                "URI": "https://content.dropboxapi.com/2/files/download",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json"
-                },
-                "content_type": "text/plain; charset=utf-8",
-                "response_type": "json"
-            },
-            "uploadFile": {
-                "method": "POST",
-                "URI": "https://content.dropboxapi.com/2/files/upload",
-                "bearer": true,
-                "headers": {
-                    "Accept": "application/json",
-                    "Dropbox-API-Arg": {
-                        "path": "/swash.conf",
-                        "mode": "add",
-                        "autorename": true,
-                        "mute": false,
-                        "strict_conflict": false
-                    }
-                },
-                "content_type": "application/octet-stream",
-                "response_type": "json"
-            }
-        }
-    },
-    {
-        "name": "3Box",
-        "type": "None"
+        "next": "Join"
+      },
+      "Join": {
+        "version": 1,
+        "visible": "all",
+        "next": "Completed"
+      },
+      "Completed": {
+        "version": 1,
+        "visible": "all"
+      }
     }
-]
+  },
+  "tools": [
+    {
+      "name": "File",
+      "type": "None"
+    },
+    {
+      "name": "GoogleDrive",
+      "type": "OAuth",
+      "apiConfig": {
+        "client_id": "1008037433533-fk4mar25609d75s1jv3pvohgfldtl8rj.apps.googleusercontent.com",
+        "api_endpoint": "https://www.googleapis.com/drive/v3",
+        "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+        "access_token_regex": "access_token=([^&]*)",
+        "scopes": [
+          "https://www.googleapis.com/auth/drive.file",
+          "https://www.googleapis.com/auth/drive.appdata"
+        ]
+      },
+      "validateToken": {
+        "method": "GET",
+        "URI": "https://www.googleapis.com/oauth2/v3/tokeninfo",
+        "token_param_name": "key",
+        "content_type": "application/x-www-form-urlencoded",
+        "response_type": "json",
+        "required_jpath": "$.expires_in"
+      },
+      "apiCall": {
+        "listFiles": {
+          "method": "GET",
+          "URI": "https://www.googleapis.com/drive/v3/files",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "content_type": "application/json",
+          "response_type": "json"
+        },
+        "downloadFile": {
+          "method": "GET",
+          "URI": "https://www.googleapis.com/drive/v3/files",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "response_type": "json"
+        },
+        "uploadFile": {
+          "method": "POST",
+          "URI": "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "content_type": "multipart/form-data",
+          "response_type": "json"
+        }
+      }
+    },
+    {
+      "name": "DropBox",
+      "type": "OAuth",
+      "apiConfig": {
+        "client_id": "whddvse2klqvglx",
+        "api_endpoint": "https://www.googleapis.com/drive/v3",
+        "auth_url": "https://www.dropbox.com/oauth2/authorize",
+        "access_token_regex": "access_token=([^&]*)",
+        "scopes": []
+      },
+      "validateToken": {
+        "method": "GET",
+        "URI": "https://www.dropbox.com/oauth2/authorize/tokeninfo",
+        "token_param_name": "key",
+        "content_type": "application/x-www-form-urlencoded",
+        "response_type": "json",
+        "required_jpath": "$.expires_in"
+      },
+      "apiCall": {
+        "listFiles": {
+          "method": "POST",
+          "URI": "https://api.dropboxapi.com/2/files/list_folder",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "params": {
+            "path": "",
+            "recursive": false,
+            "include_media_info": false,
+            "include_deleted": false,
+            "include_has_explicit_shared_members": false,
+            "include_mounted_folders": true,
+            "include_non_downloadable_files": false
+          },
+          "content_type": "application/json",
+          "response_type": "json"
+        },
+        "downloadFile": {
+          "method": "POST",
+          "URI": "https://content.dropboxapi.com/2/files/download",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json"
+          },
+          "content_type": "text/plain; charset=utf-8",
+          "response_type": "json"
+        },
+        "uploadFile": {
+          "method": "POST",
+          "URI": "https://content.dropboxapi.com/2/files/upload",
+          "bearer": true,
+          "headers": {
+            "Accept": "application/json",
+            "Dropbox-API-Arg": {
+              "path": "/swash.conf",
+              "mode": "add",
+              "autorename": true,
+              "mute": false,
+              "strict_conflict": false
+            }
+          },
+          "content_type": "application/octet-stream",
+          "response_type": "json"
+        }
+      }
+    },
+    {
+      "name": "3Box",
+      "type": "None"
+    }
+  ]
+}
