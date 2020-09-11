@@ -77,7 +77,8 @@ let communityHelper = (function() {
 		client = new StreamrClient({
 			auth: {
 				privateKey: wallet.privateKey,
-			}
+			},
+			publishWithSignature: 'never'
 		});
 	}
 
