@@ -15,16 +15,23 @@ let memberManager = (function() {
 		memberManagerConfig = configManager.getConfig('memberManager');
 	}
 
-	function updateStatus(strategy) {
-		console.log(`${strategy}: user is ${joined ? 'already' : 'not'} joined`);
-		joined ? failedCount = 0 : failedCount++;
+	async function updateStatus(strategy) {
+		const newStatus = await swashApiHelper.isJoinedSwash();
 
-		if (failedCount > memberManagerConfig.failuresThreshold) {
-			clearInterval(mgmtInterval);
-			mgmtInterval = 0;
-			failedCount = 0;
-			console.log(`need to join swash again`);
-			onboarding.repeatOnboarding(["Join"]);
+		if (newStatus === undefined) {
+			console.log(`${strategy}: failed to get user join status`);
+		} else {
+			joined = newStatus;
+			console.log(`${strategy}: user is ${joined ? 'already' : 'not'} joined`);
+			joined ? failedCount = 0 : failedCount++;
+
+			if (failedCount > memberManagerConfig.failuresThreshold) {
+				clearInterval(mgmtInterval);
+				mgmtInterval = 0;
+				failedCount = 0;
+				console.log(`need to join swash again`);
+				onboarding.repeatOnboarding(["Join"]);
+			}
 		}
 	}
 	
@@ -34,12 +41,10 @@ let memberManager = (function() {
 			let lastSentDate = await databaseHelper.getLastSentDate();
 			let currentTime = (new Date()).getTime();
 			if (!joined && messageCount >= memberManagerConfig.minimumMessageNumber && lastSentDate + memberManagerConfig.sendTimeWindow >= currentTime) {
-				joined = await swashApiHelper.isJoinedSwash();
 				updateStatus('FixedTimeWindowStrategy');
 			}
 
 			if (joined && lastSentDate + memberManagerConfig.sendTimeWindow < currentTime) {
-				joined = swashApiHelper.isJoinedSwash();
 				updateStatus('FixedTimeWindowStrategy');
 			}
 		}
@@ -49,19 +54,16 @@ let memberManager = (function() {
 			let lastSentDate = await databaseHelper.getLastSentDate();
 			let currentTime = (new Date()).getTime();
 			if (!joined && messageCount >= memberManagerConfig.minimumMessageNumber && (lastSentDate + messageCount * 60 * 1000) >= currentTime) {
-				joined = await swashApiHelper.isJoinedSwash();
 				updateStatus('DynamicTimeWindowStrategy');
 			}
 
 			if (joined && (lastSentDate + messageCount * 60 * 1000) < currentTime) {
-				joined = swashApiHelper.isJoinedSwash();
 				updateStatus('DynamicTimeWindowStrategy');
 			}
 		}
 
 		async function immediateJoinStrategy() {
 			if (!joined) {
-				joined = await swashApiHelper.isJoinedSwash();
 				updateStatus('ImmediateJoinStrategy');
 			}
 		}

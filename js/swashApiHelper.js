@@ -25,6 +25,7 @@ let swashApiHelper = (function () {
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
+            if (err.message === 'NetworkError when attempting to fetch resource.') return undefined;
         }
         return false;
     }
@@ -112,7 +113,7 @@ let swashApiHelper = (function () {
         } catch (err) {
             console.error(`Error message: ${err.message}`)
         }
-        throw new Error('Unable to fetch ip2location');
+        throw new Error('Unable to fetch DATA price');
     }
 
     async function getUserId() {
