@@ -15,6 +15,7 @@ let onboarding = (function () {
     let onboardingConfigs;
     let onboardingTools = {};
     let onboardingFlow = {};
+    let isOnboardingOpened = false;
 
     function init() {
         onboardingConfigs = configManager.getConfig('onboarding');
@@ -40,19 +41,21 @@ let onboarding = (function () {
     }
 
     async function repeatOnboarding(pages) {
-        let db = await storageHelper.retrieveAll();        
-        db.onboarding.completed = false;
-        await storageHelper.storeAll(db);
+        let data = await storageHelper.retrieveOnboarding();
+        if (data && data.completed != null) {
+            data.completed = false;
+            await storageHelper.storeAll(data);
 
-        for (let page in db.onboarding.pages){
-            if (db.onboarding.pages.hasOwnProperty(page)) {
-                if (pages.find(element => element === page))
-                    onboardingFlow.pages[page]['visible'] = 'all';
-                else
-                    onboardingFlow.pages[page]['visible'] = 'none';
+            for (let page in data.flow.pages) {
+                if (data.flow.pages.hasOwnProperty(page)) {
+                    if (pages.includes(page))
+                        onboardingFlow.pages[page]['visible'] = 'all';
+                    else
+                        onboardingFlow.pages[page]['visible'] = 'none';
+                }
             }
         }
-        this.openOnBoarding();
+        if (!isOnboardingOpened) openOnBoarding();
     }
 
     function checkNotExistInDB(currentPage, rule, data) {
@@ -101,6 +104,7 @@ let onboarding = (function () {
     }
 
     async function submitOnBoarding() {
+        isOnboardingOpened = false;
         await loader.install();
         let db = await storageHelper.retrieveAll();
 
@@ -499,15 +503,14 @@ let onboarding = (function () {
             return conf.mnemonic;
         else
             return "";
-
     }
 
     function openOnBoarding() {
         let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
-
         browser.tabs.create({
             url: fullURL
         });
+        isOnboardingOpened = true;
     }
 
     async function saveProfileInfo(gender, age, income) {

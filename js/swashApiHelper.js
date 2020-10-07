@@ -18,7 +18,10 @@ let swashApiHelper = (function () {
         }
         try {
             const resp = await fetch(url, req);
-            if (resp.status === 200) {
+            if (resp == null) {
+                console.log(`Response of joined message is null`)
+                return undefined;
+            } else if (resp.status === 200) {
                 let user_id = (await resp.json()).id;
                 await updateUserId(user_id);
                 return true;
