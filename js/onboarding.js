@@ -43,9 +43,6 @@ let onboarding = (function () {
     async function repeatOnboarding(pages) {
         let data = await storageHelper.retrieveOnboarding();
         if (data && data.completed != null) {
-            data.completed = false;
-            await storageHelper.storeAll(data);
-
             for (let page in data.flow.pages) {
                 if (data.flow.pages.hasOwnProperty(page)) {
                     if (pages.includes(page))
