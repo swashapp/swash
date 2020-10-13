@@ -159,7 +159,7 @@ var configManager = (function() {
 						console.log(`Adding new module with name ${module} to the category ${category}`);
 					}						
 					if(remoteManifest.categories[category].modules[module].version > configs.manifest.categories[category].modules[module].version) {
-						await updateModule(module, category, remoteManifest.categories[category].modules[module].version);					
+						await updateModule(category, module, remoteManifest.categories[category].modules[module].version);
 					}
 				}
 					
