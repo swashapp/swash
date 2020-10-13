@@ -1,0 +1,10 @@
+{
+  "name": "shopping_ebay",
+  "description": "This module looks through all activities of a user on ebay and captures those activities that the user has permitted",
+  "functions": [
+    "content"
+  ],
+  "is_enabled": true,
+  "privacyLevel": 1,
+  "anonymityLevel": 1
+}

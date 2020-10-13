@@ -1,0 +1,465 @@
+{
+  "content_matches": [
+    "*://faberlic.com/*"
+  ],
+  "content_mapping": {
+    "win": "desktop",
+    "mac": "desktop",
+    "android": "mobile",
+    "cros": "desktop",
+    "openbsd": "desktop",
+    "ios": "mobile",
+    "ipados": "desktop"
+  },
+  "desktop": [
+    {
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search result) by user",
+      "url_match": "*://faberlic.com/*",
+      "title": "Selected Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".card",
+          "event_name": "click"
+        },
+        {
+          "selector": ".card",
+          "event_name": "contextmenu"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<",
+          "properties": [
+            {
+              "selector": "#search_searchword",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": "#search_searchword",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".page-header h1",
+              "property": "innerText",
+              "name": "categoryName",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".page-header h1",
+              "property": "innerText",
+              "name": "categoryName",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".cardTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceSale",
+              "property": "innerText",
+              "name": "cataloguePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceConsultant",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": ".cardTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceSale",
+              "property": "innerText",
+              "name": "cataloguePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceConsultant",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchQueryBox1",
+      "description": "This item collects faberlic search query",
+      "url_match": "*://faberlic.com/*",
+      "title": "search query box1",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "#collapsesearch .btn.btn-default.buttontopsearch",
+          "event_name": "click"
+        },
+        {
+          "selector": "#collapsesearch .form-control.inputbox.inputboxtopsearch",
+          "event_name": "keydown",
+          "keyCode": 13
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".form-control.inputbox.inputboxtopsearch",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchQueryBox2",
+      "description": "This item collects faberlic search query",
+      "url_match": "*://faberlic.com/*",
+      "title": "search query box2",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".button.flbutton.but_submit",
+          "event_name": "click"
+        },
+        {
+          "selector": "#search_searchword",
+          "event_name": "keydown",
+          "keyCode": 13
+        }
+      ],
+      "objects": [
+        {
+          "selector": "document",
+          "properties": [
+            {
+              "selector": "#search_searchword",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchResult",
+      "description": "This item collects search results in faberlic web pages",
+      "url_match": "*://faberlic.com/*",
+      "title": "Search Result",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "window",
+          "event_name": "load"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#search_searchword",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".page-header h1",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "category",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".cardWrapper",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".cardTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceSale",
+              "property": "innerText",
+              "name": "cataloguePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceConsultant",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToLoveList",
+      "description": "This item collects all products in faberlic web pages that has been added by user to love list",
+      "url_match": "*://faberlic.com/*",
+      "title": "Add to Love list",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".cardLike.topline-bfav",
+          "event_name": "click"
+        },
+        {
+          "selector": ".popup_defer-link.setfavorite.out-favorite",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".cardTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceConsultant",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".cardPrice.cardPriceSale",
+              "property": "innerText",
+              "name": "catalogPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".col-lg-40.col-md-40.hidden-xs .popupCatalogTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".popup_price_itself",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".popup_catalog_price",
+              "property": "innerText",
+              "name": "catalogPrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "*://faberlic.com/*",
+      "title": "Add to Basket",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".btn.btn-primary.addcart.inmodal",
+          "event_name": "click"
+        },
+        {
+          "selector": "#submitMresult",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<",
+          "properties": [
+            {
+              "selector": ".popupCatalogTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".popup_price_itself",
+              "property": "innerText",
+              "name": "warehousePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".popup_catalog_price",
+              "property": "innerText",
+              "name": "catalogPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<.tritem_mr",
+          "name": "Products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": "td:nth-child(3)",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "td:nth-child(4)",
+              "property": "innerText",
+              "name": "catalogPrice/warehousePrice",
+              "type": "text"
+            },
+            {
+              "selector": ".count_mrg.count_g.inputbox",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "*://faberlic.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".pull-right.but.addneworderbut.btn.btn-primary.flbutton.but_submit",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<.itms",
+          "name": "products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".goodDescriptionText",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "#cg_1",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": ".goodPriceYours",
+              "property": "innerText",
+              "name": "priceYours",
+              "type": "text"
+            },
+            {
+              "selector": ".goodPriceCatalog span",
+              "property": "innerText",
+              "name": "cataloguePrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".colorRed",
+              "property": "innerText",
+              "name": "cataloguePriceTotal",
+              "type": "text"
+            },
+            {
+              "selector": ".goodsReportRow:nth-child(2) .goodsReportCol.col2",
+              "property": "innerText",
+              "name": "totalPrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
