@@ -6,7 +6,7 @@ import {onboarding} from "./onboarding.js";
 
 let memberManager = (function() {
 
-	let joined = false;
+	let joined = undefined;
 	let failedCount = 0;
 	let mgmtInterval = 0;
 	let memberManagerConfig;
@@ -20,9 +20,9 @@ let memberManager = (function() {
 	function updateStatus(strategy) {
 		console.log(`${strategy}: Trying to join...`);
 		swashApiHelper.isJoinedSwash().then(status => {
+			joined = status;
 			if (status === false) {
 				console.log(`${strategy}: user is not joined`);
-				joined = status;
 				failedCount++;
 
 				if (failedCount > memberManagerConfig.failuresThreshold) {
@@ -33,7 +33,6 @@ let memberManager = (function() {
 				}
 			} else if (status === true) {
 				console.log(`${strategy}: user is already joined`);
-				joined = status;
 				clearJoinStrategy();
 				strategyInterval = memberManagerConfig.tryInterval;
 				tryJoin();
@@ -99,9 +98,14 @@ let memberManager = (function() {
 		mgmtInterval = 0;
 	}
 
+	function isJoined() {
+		return joined;
+	}
+
 	return {
 		init,
-		tryJoin
+		tryJoin,
+		isJoined
     };
 }())
 

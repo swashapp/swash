@@ -4,6 +4,7 @@ import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
+import {memberManager} from "./memberManager.js";
 
 let onboarding = (function () {
     let oauthTabId = 0;
@@ -40,7 +41,11 @@ let onboarding = (function () {
         return false;
     }
 
-    async function repeatOnboarding(pages) {
+    function isNeededJoin(){
+        return memberManager.isJoined() === false;
+    }
+
+    async function repeatOnboarding(pages, clicked=false) {
         let data = await storageHelper.retrieveOnboarding();
         if (data && data.completed != null) {
             for (let page in data.flow.pages) {
@@ -52,7 +57,7 @@ let onboarding = (function () {
                 }
             }
         }
-        if (!isOnboardingOpened) openOnBoarding();
+        if (clicked === true || !isOnboardingOpened) openOnBoarding();
     }
 
     function checkNotExistInDB(currentPage, rule, data) {
@@ -533,6 +538,7 @@ let onboarding = (function () {
     return {
         init,
         isNeededOnBoarding,
+        isNeededJoin,
         getOnboardingFlow,
         submitOnBoarding,
         startOnBoarding,
