@@ -10,29 +10,43 @@ let memberManager = (function() {
 	let failedCount = 0;
 	let mgmtInterval = 0;
 	let memberManagerConfig;
-	
+	let strategyInterval;
+
 	function init() {
 		memberManagerConfig = configManager.getConfig('memberManager');
+		if (memberManagerConfig) strategyInterval = memberManagerConfig.tryInterval;
 	}
 
-	async function updateStatus(strategy) {
-		const newStatus = await swashApiHelper.isJoinedSwash();
+	function updateStatus(strategy) {
+		console.log(`${strategy}: Trying to join...`);
+		swashApiHelper.isJoinedSwash().then(status => {
+			if (status === false) {
+				console.log(`${strategy}: user is not joined`);
+				joined = status;
+				failedCount++;
 
-		if (newStatus === undefined) {
-			console.log(`${strategy}: failed to get user join status`);
-		} else {
-			joined = newStatus;
-			console.log(`${strategy}: user is ${joined ? 'already' : 'not'} joined`);
-			joined ? failedCount = 0 : failedCount++;
-
-			if (failedCount > memberManagerConfig.failuresThreshold) {
-				clearInterval(mgmtInterval);
-				mgmtInterval = 0;
-				failedCount = 0;
-				console.log(`need to join swash again`);
-				onboarding.repeatOnboarding(["Join"]);
+				if (failedCount > memberManagerConfig.failuresThreshold) {
+					clearJoinStrategy();
+					failedCount = 0;
+					console.log(`need to join swash again`);
+					onboarding.repeatOnboarding(["Join"]).then();
+				}
+			} else if (status === true) {
+				console.log(`${strategy}: user is already joined`);
+				joined = status;
+				clearJoinStrategy();
+				strategyInterval = memberManagerConfig.tryInterval;
+				tryJoin();
+			} else {
+				console.log(`${strategy}: failed to get user join status`);
+				if (strategyInterval < memberManagerConfig.maxInterval) {
+					clearJoinStrategy();
+					strategyInterval *= memberManagerConfig.backoffRate;
+					if (strategyInterval > memberManagerConfig.maxInterval) strategyInterval = memberManagerConfig.maxInterval;
+					tryJoin();
+				}
 			}
-		}
+		});
 	}
 	
 	let strategies = (function() {
@@ -76,11 +90,13 @@ let memberManager = (function() {
 	})()
 
 
-	async function tryJoin() {
-		if(!mgmtInterval) {
-			await strategies[memberManagerConfig.strategy]();
-			mgmtInterval = setInterval(strategies[memberManagerConfig.strategy], memberManagerConfig.tryInterval);
-		}
+	function tryJoin() {
+		if(!mgmtInterval) mgmtInterval = setInterval(strategies[memberManagerConfig.strategy], strategyInterval);
+	}
+
+	function clearJoinStrategy() {
+		clearInterval(mgmtInterval);
+		mgmtInterval = 0;
 	}
 
 	return {
