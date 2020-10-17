@@ -4,6 +4,7 @@
         "join": "/user/join",
         "reward": "/user/reward",
         "withdraw": "/user/withdraw",
-        "ip2location": "/tools/ip2location"
+        "ip2location": "/tools/ip2location",
+        "activeReferral": "/referral/active"
     }
 }

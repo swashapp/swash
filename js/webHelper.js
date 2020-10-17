@@ -590,6 +590,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function getActiveReferral() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getActiveReferral",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -656,6 +665,7 @@ var helper = (function () {
 		getReferralRewards,
 		getCategory,
 		getDataEthPairPrice,
-		sendSponsoredWithdraw
+		sendSponsoredWithdraw,
+		getActiveReferral
 	};
 }());

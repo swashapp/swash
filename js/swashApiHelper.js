@@ -64,6 +64,25 @@ let swashApiHelper = (function () {
         return 0;
     }
 
+    async function getActiveReferral() {
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.activeReferral
+        const req = {
+            method: 'GET',
+            headers: {
+                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
+            },
+        }
+        try {
+            const resp = await fetch(url, req);
+            if (resp.status === 200) {
+                return (await resp.json());
+            }
+        } catch (err) {
+            console.error(`Error message: ${err.message}`)
+        }
+        return {};
+    }
+
     async function sendSponsoredWithdraw(recipient) {
         try {
             const signature = communityHelper.getSignCheckForSponsorWithdraw(recipient);
@@ -156,6 +175,7 @@ let swashApiHelper = (function () {
         joinSwash,
         isJoinedSwash,
         getReferralRewards,
+        getActiveReferral,
         sendSponsoredWithdraw,
         getDataEthPairPrice,
         getUserId,

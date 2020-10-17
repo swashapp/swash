@@ -18,8 +18,10 @@ var apiCall = (function() {
 	
 	function init(){
 		apiCallConfig = configManager.getConfig("apiCall")
-		API_CALL_INTERVAL = apiCallConfig.interval;
-		DELAY_BETWEEN_CALLS = apiCallConfig.delay;
+		if (apiCallConfig) {
+			API_CALL_INTERVAL = apiCallConfig.interval;
+			DELAY_BETWEEN_CALLS = apiCallConfig.delay;
+		}
 	}
 	
 	function initModule(module){
