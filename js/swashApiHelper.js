@@ -18,17 +18,14 @@ let swashApiHelper = (function () {
         }
         try {
             const resp = await fetch(url, req);
-            if (resp == null) {
-                console.log(`Response of joined message is null`)
-                return undefined;
-            } else if (resp.status === 200) {
+            if (resp.status === 200) {
                 let user_id = (await resp.json()).id;
                 await updateUserId(user_id);
                 return true;
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
-            if (err.message === 'NetworkError when attempting to fetch resource.') return undefined;
+            return undefined;
         }
         return false;
     }

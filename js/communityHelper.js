@@ -315,16 +315,21 @@ let communityHelper = (function() {
 		}
 	}
 
+	async function updateTimestamp() {
+		if (lastUpdate === 0 || lastUpdate + communityConfig.tokenExpiration < Date.now()) {
+			const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
+			if (resp.status === 200) {
+				timestamp = (await resp.json()).timestamp
+				lastUpdate = Date.now()
+			} else {
+				throw Error("Could not update timestamp")
+			}
+		}
+	}
+
 	async function generateJWT() {
 		try {
-			if (lastUpdate === 0 || lastUpdate + communityConfig.tokenExpiration < Date.now()) {
-				const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
-				if (resp.status === 200) {
-					timestamp = (await resp.json()).timestamp
-					lastUpdate = Date.now()
-				}
-			}
-
+			await updateTimestamp();
 			const payload = {
 				address: wallet.address,
 				publicKey: wallet.signingKey.keyPair.compressedPublicKey,
@@ -332,7 +337,7 @@ let communityHelper = (function() {
 			}
 			return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
 		} catch (err) {
-
+			console.log(err)
 		}
 	}
 
