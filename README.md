@@ -97,12 +97,6 @@ This command starts Firefox and loads Swash temporarily in the browser:
 ./swash.sh run
 ```
 
-## Authors
-
-* **Ebrahim Khalilzadeh**  - [ebkhalilzadeh](https://github.com/ebkhalilzadeh)
-* **Mehrdad Abdi**  - [mabdi](https://github.com/mabdi)
-* **Masoud Sarabadani**  - [sarab2009](https://github.com/sarab2009)
-
 ## License
 
 This project is licensed under the Attribution-NonCommercial-ShareAlike 4.0 International License - see the [LICENSE.md](LICENSE.md) file for details
