@@ -4,6 +4,7 @@ import {communityHelper} from "./communityHelper.js";
 import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
+import {memberManager} from "./memberManager.js";
 
 let onboarding = (function () {
     let oauthTabId = 0;
@@ -15,6 +16,7 @@ let onboarding = (function () {
     let onboardingConfigs;
     let onboardingTools = {};
     let onboardingFlow = {};
+    let isOnboardingOpened = false;
 
     function init() {
         onboardingConfigs = configManager.getConfig('onboarding');
@@ -39,20 +41,23 @@ let onboarding = (function () {
         return false;
     }
 
-    async function repeatOnboarding(pages) {
-        let db = await storageHelper.retrieveAll();        
-        db.onboarding.completed = false;
-        await storageHelper.storeAll(db);
+    function isNeededJoin(){
+        return memberManager.isJoined() === false;
+    }
 
-        for (let page in db.onboarding.pages){
-            if (db.onboarding.pages.hasOwnProperty(page)) {
-                if (pages.find(element => element === page))
-                    onboardingFlow.pages[page]['visible'] = 'all';
-                else
-                    onboardingFlow.pages[page]['visible'] = 'none';
+    async function repeatOnboarding(pages, clicked=false) {
+        let data = await storageHelper.retrieveOnboarding();
+        if (data && data.completed != null) {
+            for (let page in data.flow.pages) {
+                if (data.flow.pages.hasOwnProperty(page)) {
+                    if (pages.includes(page))
+                        onboardingFlow.pages[page]['visible'] = 'all';
+                    else
+                        onboardingFlow.pages[page]['visible'] = 'none';
+                }
             }
         }
-        this.openOnBoarding();
+        if (clicked === true || !isOnboardingOpened) openOnBoarding();
     }
 
     function checkNotExistInDB(currentPage, rule, data) {
@@ -101,6 +106,7 @@ let onboarding = (function () {
     }
 
     async function submitOnBoarding() {
+        isOnboardingOpened = false;
         await loader.install();
         let db = await storageHelper.retrieveAll();
 
@@ -499,15 +505,14 @@ let onboarding = (function () {
             return conf.mnemonic;
         else
             return "";
-
     }
 
     function openOnBoarding() {
         let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
-
         browser.tabs.create({
             url: fullURL
         });
+        isOnboardingOpened = true;
     }
 
     async function saveProfileInfo(gender, age, income) {
@@ -533,6 +538,7 @@ let onboarding = (function () {
     return {
         init,
         isNeededOnBoarding,
+        isNeededJoin,
         getOnboardingFlow,
         submitOnBoarding,
         startOnBoarding,

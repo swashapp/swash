@@ -1,8 +1,6 @@
 var browserUtils = (function() {
 	function getUserAgent()
     {
-		if(typeof browser.runtime.getBrowserInfo === "function")
-			return browser.runtime.getBrowserInfo();
 		return navigator.userAgent;
     }
 
@@ -30,12 +28,9 @@ var browserUtils = (function() {
     
 	async function isMobileDevice() {
 		let os = (await getPlatformInfo()).os;
-		if(os === 'android')
-			return true;
-		return false;
+		return os === 'android';
 	}
-	
-    
+
 	function getVersion(){
         return browser.runtime.getManifest().version;
     }

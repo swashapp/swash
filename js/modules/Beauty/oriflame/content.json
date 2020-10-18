@@ -1,0 +1,484 @@
+{
+  "content_matches": [
+    "*://*.oriflame.com/*"
+  ],
+  "content_mapping": {
+    "win": "desktop",
+    "mac": "desktop",
+    "android": "mobile",
+    "cros": "desktop",
+    "openbsd": "desktop",
+    "ios": "mobile",
+    "ipados": "desktop"
+  },
+  "desktop": [
+    {
+      "name": "searchQuery",
+      "description": "This item collects oriflame search query",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "search query",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".sbc-search__bar",
+          "event_name": "keydown",
+          "keyCode": 13
+        }
+      ],
+      "objects": [
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": "#sbc-search__box",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchSuggestionSelect",
+      "description": "This item collects search suggestions that has been selected by user",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "Search Suggestion",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": ".sbc-search__suggestions",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".sbc-search__suggestion",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchResult",
+      "description": "This item collects search results in oriflame web pages",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "Search Result",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "window",
+          "event_name": "load"
+        }
+      ],
+      "objects": [
+        {
+          "selector": ".query",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".wrapper",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".product-box-brand",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-name",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search result) by user",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "Selected Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".k-button.primary-invert.quick-buy.plus.v-icon-add.overlay",
+          "event_name": "click"
+        },
+        {
+          "selector": ".ui-product-box.js-quick-shop",
+          "event_name": "click"
+        },
+        {
+          "selector": ".ui-product-box.js-quick-shop",
+          "event_name": "contextmenu"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<",
+          "properties": [
+            {
+              "selector": ".query",
+              "property": "innerText",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".query",
+              "property": "innerText",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".banner__title_3tAHh.banner__title--color-white_3vqXD",
+              "property": "innerText",
+              "name": "categoryName",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".banner__title_3tAHh.banner__title--color-white_3vqXD",
+              "property": "innerText",
+              "name": "categoryName",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".product-box-brand",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-name",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": ".product-box-brand",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-name",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-box-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sharedProduct",
+      "description": "This item collects the products that has been shared by user",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "Shared Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".context-menu__text",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".product-brand__link",
+              "property": "innerText",
+              "name": "brandName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-name__text",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-prices__current-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".input__number",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "Add to Basket",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".k-button.add-to-basket.en-in",
+          "event_name": "click"
+        },
+        {
+          "selector": ".buy-section__button",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".brand",
+              "property": "innerText",
+              "name": "brandName",
+              "type": "text"
+            },
+            {
+              "selector": ".name.js-tooltip",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".stars",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": ".price.mainCurrency",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".k-formatted-value.quantity.k-input",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".product-brand__link",
+              "property": "innerText",
+              "name": "brandName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-name__text",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-prices__current-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".input__number",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "*://*.oriflame.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".inner-wrapper.text-ellipsis",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<<.row.row-item",
+          "name": "products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".product-name.product-name-text",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".k-formatted-value.prod-quantity.js-arrows-picker.k-input",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": ".col.col-price",
+              "property": "innerText",
+              "name": "itemPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".w-total-price-medals",
+              "property": "innerText",
+              "name": "totalItemPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".to-pay",
+              "property": "innerText",
+              "name": "totalPrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -374,6 +374,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function isNeededJoin() {
+		let message = {
+			obj: "onboarding",
+			func: "isNeededJoin",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	function getOnboardingFlow() {
 		let message = {
 			obj: "onboarding",
@@ -509,6 +518,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function repeatOnboarding(pages, clicked) {
+		let message = {
+			obj: "onboarding",
+			func: "repeatOnboarding",
+			params: [pages, clicked]
+		};
+		return sendMessage(message);
+	}
+
 	function saveProfileInOnBoarding(gender, age, income) {
 		let message = {
 			obj: "onboarding",
@@ -572,6 +590,15 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function getActiveReferral() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getActiveReferral",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	return {
 		load,
 		save,
@@ -616,6 +643,7 @@ var helper = (function () {
 		generateJWT,
 		startOnBoarding,
 		isNeededOnBoarding,
+		isNeededJoin,
 		getOnboardingFlow,
 		submitOnBoarding,
 		startOnBoardingOAuth,
@@ -630,12 +658,14 @@ var helper = (function () {
 		save3BoxMnemonic,
 		get3BoxMnemonic,
 		openOnBoarding,
+		repeatOnboarding,
 		saveProfileInOnBoarding,
 		createAndSaveWallet,
 		joinSwash,
 		getReferralRewards,
 		getCategory,
 		getDataEthPairPrice,
-		sendSponsoredWithdraw
+		sendSponsoredWithdraw,
+		getActiveReferral
 	};
 }());

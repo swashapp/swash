@@ -25,6 +25,7 @@ let swashApiHelper = (function () {
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
+            return undefined;
         }
         return false;
     }
@@ -58,6 +59,25 @@ let swashApiHelper = (function () {
             console.error(`Error message: ${err.message}`)
         }
         return 0;
+    }
+
+    async function getActiveReferral() {
+        const url = APIConfigManager.endpoint + APIConfigManager.APIList.activeReferral
+        const req = {
+            method: 'GET',
+            headers: {
+                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
+            },
+        }
+        try {
+            const resp = await fetch(url, req);
+            if (resp.status === 200) {
+                return (await resp.json());
+            }
+        } catch (err) {
+            console.error(`Error message: ${err.message}`)
+        }
+        return {};
     }
 
     async function sendSponsoredWithdraw(recipient) {
@@ -112,7 +132,7 @@ let swashApiHelper = (function () {
         } catch (err) {
             console.error(`Error message: ${err.message}`)
         }
-        throw new Error('Unable to fetch ip2location');
+        throw new Error('Unable to fetch DATA price');
     }
 
     async function getUserId() {
@@ -152,6 +172,7 @@ let swashApiHelper = (function () {
         joinSwash,
         isJoinedSwash,
         getReferralRewards,
+        getActiveReferral,
         sendSponsoredWithdraw,
         getDataEthPairPrice,
         getUserId,

@@ -4,6 +4,8 @@ let communityHelper = (function() {
 
 	let wallet;
 	let communityConfig;
+	let timestamp = 0;
+	let lastUpdate = 0;
 	
 	function init() {
 		communityConfig = configManager.getConfig('community');	
@@ -313,20 +315,29 @@ let communityHelper = (function() {
 		}
 	}
 
-	async function generateJWT() {
-		try {
+	async function updateTimestamp() {
+		if (lastUpdate === 0 || lastUpdate + communityConfig.tokenExpiration < Date.now()) {
 			const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
 			if (resp.status === 200) {
-				let timestamp = (await resp.json()).timestamp
-				const payload = {
-					address: wallet.address,
-					publicKey: wallet.signingKey.keyPair.compressedPublicKey,
-					timestamp: timestamp
-				}
-				return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
+				timestamp = (await resp.json()).timestamp
+				lastUpdate = Date.now()
+			} else {
+				throw Error("Could not update timestamp")
 			}
-		} catch (err) {
+		}
+	}
 
+	async function generateJWT() {
+		try {
+			await updateTimestamp();
+			const payload = {
+				address: wallet.address,
+				publicKey: wallet.signingKey.keyPair.compressedPublicKey,
+				timestamp: timestamp
+			}
+			return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
+		} catch (err) {
+			console.log(err)
 		}
 	}
 

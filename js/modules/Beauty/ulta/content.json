@@ -13,7 +13,7 @@
    },
    "desktop": [
     {
-         "name": "searchResault",
+         "name": "searchResult",
          "description": "This item collects search results in ulta web pages",
          "url_match": "https://www.ulta.com/*",
          "title": "Search Result",
@@ -41,7 +41,7 @@
 			},
             {
                "selector": ".productQvContainer",
-			   "name": "searchResault",
+			   "name": "searchResult",
 			   "indexName": "rank",
 			   "properties": [
 				  {	 
@@ -162,7 +162,7 @@
     },
 	{
          "name": "selectedProducts",
-         "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+         "description": "This item collects information about a product that has been selected (or clicked on a search result) by user",
          "url_match": "*://www.ulta.com/*",
          "title": "Selected Product",
          "viewGroup": "UX",

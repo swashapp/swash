@@ -43,7 +43,7 @@
 		 ]
 	 },
 	 {
-		  "name": "searchResault",
+		  "name": "searchResult",
 		  "description": "This item collects all products information in sephora web pages and search results",
 		  "url_match": "https://www.sephora.com/*",
 		  "title": "Search Result",
@@ -138,7 +138,7 @@
 	 },
 	 {
 		  "name": "selectedProducts",
-		  "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+		  "description": "This item collects information about a product that has been selected (or clicked on a search result) by user",
 		  "url_match": "https://www.sephora.com/*",
 		  "title": "Selected Product",
 		  "viewGroup": "UX",

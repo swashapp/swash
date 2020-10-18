@@ -1,0 +1,848 @@
+{
+  "content_matches": [
+    "*://*.ebay.com/*"
+  ],
+  "content_mapping": {
+    "win": "desktop",
+    "mac": "desktop",
+    "android": "mobile",
+    "cros": "desktop",
+    "openbsd": "desktop",
+    "ios": "mobile",
+    "ipados": "desktop"
+  },
+  "desktop": [
+    {
+      "name": "searchQuery",
+      "description": "This item collects ebay search query",
+      "url_match": "https://*.ebay.com/*",
+      "title": "search query",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "windowLoad",
+      "events": [
+        {
+          "selector": "#gh-ac-box2",
+          "event_name": "keydown",
+          "keyCode": 13
+        },
+        {
+          "selector": "#gh-btn",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": ".gh-tbl2",
+          "properties": [
+            {
+              "selector": "#gh-ac",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            },
+            {
+              "selector": "#gh-cat option:checked",
+              "property": "innerText",
+              "name": "category",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchSuggestionSelect",
+      "description": "This item collects search suggestions that has been selected by user",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Search Suggestion",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": ".gh-tbl",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "[role='option']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": "",
+              "property": "text",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "savedSearch",
+      "description": "This item collects the search query that has been saved by user",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Saved Searches",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "windowLoad",
+      "events": [
+        {
+          "selector": ".faux-link",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": ".gh-tbl2",
+          "properties": [
+            {
+              "selector": "#gh-ac",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchResult",
+      "description": "This item collects search results in ebay web pages",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Search Result",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "window",
+          "event_name": "DOMContentLoaded"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#gh-ac",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".b-pageheader__text",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "category",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".s-item__wrapper.clearfix",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".s-item__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".BOLD.NEGATIVE",
+              "property": "innerText",
+              "name": "description",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search result) by user",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Selected Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".s-item__link",
+          "event_name": "click"
+        },
+        {
+          "selector": ".s-item__link",
+          "event_name": "contextmenu"
+        },
+        {
+          "selector": ".s-item__image a",
+          "event_name": "click"
+        },
+        {
+          "selector": ".s-item__image a",
+          "event_name": "contextmenu"
+        },
+        {
+          "selector": ".b-tile",
+          "event_name": "click"
+        },
+        {
+          "selector": ".b-tile",
+          "event_name": "contextmenu"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#gh-ac",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<.b-pageheader__text",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "category",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<.b-pageheader__text",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "category",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": ".b-info__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".b-info__price.clearfix .default",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".b-info__trendlabel",
+              "property": "innerText",
+              "name": "description",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<",
+          "properties": [
+            {
+              "selector": ".s-item__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".BOLD.NEGATIVE",
+              "property": "innerText",
+              "name": "description",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".s-item__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".BOLD.NEGATIVE",
+              "property": "innerText",
+              "name": "description",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToLoveList",
+      "description": "This item collects all products in ebay web pages that has been added by user to love list",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Add to Love list",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".s-item__watchheart-text.s-item__watchheart-text--watch",
+          "event_name": "click"
+        },
+        {
+          "selector": ".s-item__watchheart-icon",
+          "event_name": "click"
+        },
+        {
+          "selector": ".btn.btn--faux.btn--fluid.watch-link",
+          "event_name": "click"
+        },
+        {
+          "selector": "#vi-atl-lnk",
+          "event_name": "click"
+        },
+        {
+          "selector": "#watchLink",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".s-item__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__shipping.s-item__logisticsCost",
+              "property": "innerText",
+              "name": "shippingPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".s-item__title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".s-item__shipping.s-item__logisticsCost",
+              "property": "innerText",
+              "name": "shippingPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".product-card-wrapper.clearfix .product-title",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".display-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".logistics-cost",
+              "property": "innerText",
+              "name": "shippingPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": "#itemTitle",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "#prcIsum",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": "#itemTitle",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "#prcIsum",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".it-ttl",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "#mm-saleDscPrc",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Add to Basket",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "#atcRedesignId_btn",
+          "event_name": "click"
+        },
+        {
+          "selector": ".btn.btn--large.btn--faux.btn--fluid.atc-link",
+          "event_name": "click"
+        },
+        {
+          "selector": ".default.secondary.fake-btn.fake-btn--none.fake-btn--secondary[href*='http://cart.payments.ebay.com']",
+          "event_name": "click"
+        },
+        {
+          "selector": ".saction.addToCart",
+          "event_name": "click"
+        },
+        {
+          "selector": ".btn.btn-scnd.vi-VR-btnWdth-XL",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": "#itemTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "#prcIsum",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "#qtyTextBox",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".product-card-wrapper.clearfix .product-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".display-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "#vi-quantity__select-box",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".product-card-wrapper.clearfix .product-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".display-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "#vi-quantity__select-box",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".product-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".product-details-action.section.clearfix .price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".info-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".vip.item-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cost-label",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<",
+          "properties": [
+            {
+              "selector": ".it-ttl",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "#mm-saleDscPrc",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "buyItNow",
+      "description": "This item collects the products that has been selected by user for buying",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Buy it Now",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "#binBtn_btn",
+          "event_name": "click"
+        },
+        {
+          "selector": ".default.primary.fake-btn.fake-btn--none.fake-btn--primary[href*='https://www.ebay.com/itm']",
+          "event_name": "click"
+        },
+        {
+          "selector": ".paction.btn.buyItNow.btn-m.btn-prim",
+          "event_name": "click"
+        },
+        {
+          "selector": ".btn.btn--large.btn--faux.btn--fluid.btn--primary",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": "#itemTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "#prcIsum",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "#qtyTextBox",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".info-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".vip.item-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".cost-label",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".product-card-wrapper.clearfix .product-title",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".display-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "#vi-quantity__select-box",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "placeBid",
+      "description": "This item collects the products that has been palced bid by user",
+      "url_match": "https://*.ebay.com/*",
+      "title": "Place Bid",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "#bidBtn_btn",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": "#itemTitle",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": "#prcIsum_bidPrice",
+              "property": "innerText",
+              "name": "startingBidPrice",
+              "type": "text"
+            },
+            {
+              "selector": "#MaxBidId",
+              "property": "value",
+              "name": "BidPrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "https://*.ebay.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".call-to-action.btn.btn--large.btn--primary",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<.grid__group.details",
+          "name": "products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".BOLD",
+              "property": "innerText",
+              "name": "productName",
+              "type": "text"
+            },
+            {
+              "selector": ".item-price",
+              "property": "innerText",
+              "name": "itemPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".listbox__control",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".val-col.total-row",
+              "property": "innerText",
+              "name": "totalPrice",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
