@@ -29,7 +29,7 @@ let memberManager = (function() {
 					clearJoinStrategy();
 					failedCount = 0;
 					console.log(`need to join swash again`);
-					onboarding.repeatOnboarding(["Join"]).then();
+					onboarding.repeatOnboarding(['Join', 'Completed']).then();
 				}
 			} else if (status === true) {
 				console.log(`${strategy}: user is already joined`);
