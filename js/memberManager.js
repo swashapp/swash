@@ -2,6 +2,7 @@ import {databaseHelper} from './databaseHelper.js'
 import {configManager} from './configManager.js'
 import {swashApiHelper} from "./swashApiHelper.js";
 import {onboarding} from "./onboarding.js";
+import {pageAction} from "./pageAction.js";
 
 
 let memberManager = (function() {
@@ -36,6 +37,10 @@ let memberManager = (function() {
 				clearJoinStrategy();
 				strategyInterval = memberManagerConfig.tryInterval;
 				tryJoin();
+				browser.tabs.query({currentWindow: true, active: true}).then((tabs) => {
+					let tab = tabs[0];
+					pageAction.loadIcons(tab.url)
+				}, console.error);
 			} else {
 				console.log(`${strategy}: failed to get user join status`);
 				if (strategyInterval < memberManagerConfig.maxInterval) {
