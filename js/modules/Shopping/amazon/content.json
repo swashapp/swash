@@ -13,11 +13,12 @@
     "ios": "mobile",
     "ipados": "desktop"
   },
-    "desktop": [
+  "desktop": [
     {
       "name": "searchQuery",
       "url_match": "*://www.amazon.*/*",
       "description": "This item collects Amazon search query and search category",
+      "viewGroup": "UX",
       "title": "Search Query",
       "type": "event",
       "is_enabled": true,
@@ -56,6 +57,7 @@
       "name": "searchSuggestionSelect",
       "url_match": "*://www.amazon.*/*",
       "description": "This item collects a search suggestion that has been selected by user",
+      "viewGroup": "UX",
       "title": "Search Suggestion",
       "type": "event",
       "readyAt": "DOMChange",
@@ -100,6 +102,7 @@
       "name": "searchResult",
       "url_match": "*://www.amazon.*/s*",
       "description": "This item collects Amazon search results, search category, and corresponding search query",
+      "viewGroup": "UX",
       "title": "Search Result",
       "type": "event",
       "is_enabled": true,
@@ -142,6 +145,68 @@
           ]
         },
         {
+          "selector": ".a-section.a-spacing-medium",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".a-link-normal.a-text-normal",
+              "property": "href",
+              "name": "link",
+              "type": "url"
+            },
+            {
+              "selector": ".a-size-base-plus.a-color-base.a-text-normal",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".a-price-whole",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".a-icon-alt",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".sg-col-4-of-24.sg-col-4-of-12.sg-col-4-of-36.sg-col-4-of-28.sg-col-4-of-16.s-inner-result-item.sg-col.sg-col-4-of-20.sg-col-4-of-32",
+          "name": "searchResult2",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".a-link-normal.a-text-normal",
+              "property": "href",
+              "name": "linkp",
+              "type": "url"
+            },
+            {
+              "selector": ".a-size-base-plus.a-color-base.a-text-normal",
+              "property": "innerText",
+              "name": "titlep",
+              "type": "text"
+            },
+            {
+              "selector": ".a-price-whole",
+              "property": "innerText",
+              "name": "pricep",
+              "type": "text"
+            },
+            {
+              "selector": ".a-icon-alt",
+              "property": "innerText",
+              "name": "ratep",
+              "type": "text"
+            }
+          ]
+        },
+        {
           "selector": "title",
           "properties": [
             {
@@ -174,6 +239,7 @@
       "name": "clickSearchResult",
       "url_match": "*://*.amazon.*/s*",
       "description": "This item collects information about a search result link that has been clicked by user",
+      "viewGroup": "UX",
       "title": "clicked search results",
       "type": "event",
       "is_enabled": true,
@@ -242,6 +308,7 @@
       "name": "selectedItem",
       "url_match": "*://*.amazon.*/*",
       "description": "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
+      "viewGroup": "UX",
       "title": "Selected Items",
       "type": "event",
       "is_enabled": true,
@@ -299,9 +366,17 @@
       "name": "addToCart",
       "url_match": "*://*.amazon.*/*",
       "description": "This item collects all products in amazon web pages that has been added to the cart by user",
+      "viewGroup": "UX",
       "title": "Items in cart",
       "type": "event",
       "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
       "events": [
         {
           "selector": "#add-to-cart-button",
@@ -310,6 +385,18 @@
         {
           "selector": "#add-to-cart-button",
           "event_name": "submit"
+        },
+        {
+          "selector": "button.a-button-text.a-text-center[aria-label*='Add to Cart']",
+          "event_name": "click"
+        },
+        {
+          "selector": ".a-button-text.a-text-center",
+          "event_name": "click"
+        },
+        {
+          "selector": ".a-button-input[value='Add to Cart']",
+          "event_name": "click"
         }
       ],
       "objects": [
@@ -335,6 +422,72 @@
               "name": "price",
               "type": "text"
             }
+          ]
+        },
+        {
+          "selector": "<<<<<<",
+          "properties": [
+            {
+              "selector": ".a-declarative",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".dealPriceText",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+
+          ]
+        },
+        {
+          "selector": "<<<<<<",
+          "properties": [
+            {
+              "selector": ".a-link-normal",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".a-offscreen",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".a-icon-alt",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+
+          ]
+        },
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".p13n-sc-truncate-desktop-type2.p13n-sc-truncated",
+              "property": "title",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".p13n-sc-price",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".a-icon-alt",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+
           ]
         },
         {
@@ -370,6 +523,7 @@
       "name": "addToWishlist",
       "description": "This item collects all products in amazon web pages that has been added by user in wish list",
       "url_match": "*://*.amazon.*/*",
+      "viewGroup": "UX",
       "title": "Items in wishlist",
       "type": "event",
       "is_enabled": true,
@@ -431,6 +585,7 @@
       "name": "buyNow",
       "description": "This item collects all products in amazon web pages that has been selected by user for buying",
       "url_match": "*://*.amazon.*/*",
+      "viewGroup": "UX",
       "title": "Items for buy",
       "type": "event",
       "is_enabled": true,
@@ -494,6 +649,7 @@
       "name": "searchQuery",
       "url_match": "*://www.amazon.*/*",
       "description": "This item collects Amazon search query and search category",
+      "viewGroup": "UX",
       "title": "Search Query",
       "type": "event",
       "is_enabled": true,
@@ -526,6 +682,7 @@
       "name": "searchSuggestionSelect",
       "url_match": "*://www.amazon.*/*",
       "description": "This item collects a search suggestion that has been selected by user",
+      "viewGroup": "UX",
       "title": "Search Suggestion",
       "type": "event",
       "readyAt": "DOMChange",
@@ -559,6 +716,7 @@
       "name": "searchResult",
       "url_match": "*://www.amazon.*/s*",
       "description": "This item collects Amazon search results, search category, and corresponding search query",
+      "viewGroup": "UX",
       "title": "Search Result",
       "type": "event",
       "is_enabled": true,
@@ -616,6 +774,7 @@
       "name": "clickSearchResult",
       "url_match": "*://*.amazon.*/s*",
       "description": "This item collects information about a search result link that has been clicked by user",
+      "viewGroup": "UX",
       "title": "clicked search results",
       "type": "event",
       "is_enabled": true,
@@ -674,6 +833,7 @@
       "name": "selectedItem",
       "url_match": "*://*.amazon.*/*",
       "description": "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
+      "viewGroup": "UX",
       "title": "Selected Items",
       "type": "event",
       "is_enabled": true,
@@ -725,6 +885,7 @@
       "name": "addToCart",
       "url_match": "*://*.amazon.*/*",
       "description": "This item collects all products in amazon web pages that has been added to the cart by user",
+      "viewGroup": "UX",
       "title": "Items in cart",
       "type": "event",
       "is_enabled": true,
@@ -790,6 +951,7 @@
       "name": "addToWishlist",
       "description": "This item collects all products in amazon web pages that has been added by user in wish list",
       "url_match": "*://*.amazon.*/*",
+      "viewGroup": "UX",
       "title": "Items in wishlist",
       "type": "event",
       "is_enabled": true,
@@ -845,6 +1007,7 @@
       "name": "buyNow",
       "description": "This item collects all products in amazon web pages that has been selected by user for buying",
       "url_match": "*://*.amazon.*/*",
+      "viewGroup": "UX",
       "title": "Items for buy",
       "type": "event",
       "is_enabled": true,
@@ -896,5 +1059,5 @@
         }
       ]
     }
-  ]  
+  ]
 }
