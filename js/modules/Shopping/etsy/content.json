@@ -1,0 +1,551 @@
+{
+  "content_matches": [
+    "*://*.etsy.com/*"
+  ],
+  "content_mapping": {
+    "win": "desktop",
+    "mac": "desktop",
+    "android": "mobile",
+    "cros": "desktop",
+    "openbsd": "desktop",
+    "ios": "mobile",
+    "ipados": "desktop"
+  },
+  "desktop": [
+    {
+      "name": "searchQuery",
+      "description": "This item collects etsy search query",
+      "url_match": "*://*.etsy.com/*",
+      "title": "search query",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "windowLoad",
+      "events": [
+        {
+          "selector": "#gnav-search",
+          "event_name": "submit"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#global-enhancements-search-query",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchSuggestionSelect",
+      "description": "This item collects search suggestions that has been selected by user",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Search Suggestion",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "#gnav-header",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".as-suggestion strong",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": "",
+              "property": "textContent",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchResult",
+      "description": "This item collects search results in etsy web pages",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Search Result",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "window",
+          "event_name": "load"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#global-enhancements-search-query",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".js-merch-stash-check-listing.v2-listing-card.position-relative.flex-xs-none",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".text-gray.text-truncate.mb-xs-0.text-body",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars-svg.stars-smaller .screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": ".text-body-smaller.text-gray-lighter.display-inline-block.icon-b-1",
+              "property": "innerText",
+              "name": "reviewCount",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Selected Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".display-inline-block.listing-link",
+          "event_name": "click"
+        },
+        {
+          "selector": ".display-inline-block.listing-link",
+          "event_name": "contextmenu"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#global-enhancements-search-query",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": ".text-gray.text-truncate.mb-xs-0.text-body",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars-svg.stars-smaller .screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": ".text-body-smaller.text-gray-lighter.display-inline-block.icon-b-1",
+              "property": "innerText",
+              "name": "reviewCount",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToLoveList",
+      "description": "This item collects all products in etsy web pages that has been added by user to love list",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Add to Love list",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".position-absolute.favorite-listing-button.p-xs-1.has-hover-state.z-index-1.btn-transparent.position-right.in-search.v2-listing-card__favorite",
+          "event_name": "click"
+        },
+        {
+          "selector": ".wt-position-absolute.wt-btn.wt-btn--light.wt-btn--small.wt-z-index-2.wt-btn--filled.wt-btn--icon.wt-btn--fixed-floating.wt-position-right.wt-mr-xs-2.wt-mt-xs-2",
+          "event_name": "click"
+        },
+        {
+          "selector": "[rel='move-to-favorites']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".text-gray.text-truncate.mb-xs-0.text-body",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".stars-svg.stars-smaller .screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": ".text-body-smaller.text-gray-lighter.display-inline-block.icon-b-1",
+              "property": "innerText",
+              "name": "reviewCount",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".wt-text-body-03.wt-line-height-tight.wt-break-word.wt-mb-xs-1",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-text-title-03.wt-mr-xs-2",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".ssh-review-stars-text-decoration-none .wt-screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".listing-title.text-gray-darker.text-truncate.h5.b.display-block.mt-xs-1.mb-xs-1",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Add to Basket",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".wt-validation .wt-btn.wt-btn--filled.wt-width-full",
+          "event_name": "click"
+        },
+        {
+          "selector": ".btn.btn-primary.text-small.pl-xs-4.pr-xs-4",
+          "event_name": "click"
+        },
+        {
+          "selector": ".height-full.width-full.btn.btn-small.btn-outline.btn-outline-black.cart-cta-btn",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".wt-text-body-03.wt-line-height-tight.wt-break-word.wt-mb-xs-1",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-text-title-03.wt-mr-xs-2",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".ssh-review-stars-text-decoration-none .wt-screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".listing-title.text-gray-darker.text-truncate.h5.b.display-block.mt-xs-1.mb-xs-1",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".text-gray.text-truncate.mb-xs-0.text-body ",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "buyItNow",
+      "description": "This item collects the products that has been selected by user for buying",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Buy it Now",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "button.wt-btn.wt-btn--outline.wt-width-full",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".wt-text-body-03.wt-line-height-tight.wt-break-word.wt-mb-xs-1",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-text-title-03.wt-mr-xs-2",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": ".ssh-review-stars-text-decoration-none .wt-screen-reader-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "saveForLater",
+      "description": "This item collects information about products that has been saved by user for later",
+      "url_match": "*://*.etsy.com/*",
+      "title": "Save for Later",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "[rel='save-for-later'] .wt-btn.wt-btn--transparent.wt-btn--small.wt-btn--transparent-flush-left",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<",
+          "properties": [
+            {
+              "selector": ".wt-text-link-no-underline.wt-text-body-01.wt-line-height-tight.wt-break-word",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-select__element",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "*://*.etsy.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": ".proceed-to-checkout.wt-btn.wt-btn--filled.wt-mt-xs-2.wt-width-full",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<.wt-flex-xs-3.wt-pl-xs-2.wt-pl-lg-3",
+          "name": "products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".wt-text-link-no-underline.wt-text-body-01.wt-line-height-tight.wt-break-word",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-select__element",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": ".currency-value",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".wt-b-xs-none.wt-mt-xs-1 tr:first-child .currency-value",
+              "property": "innerText",
+              "name": "itemsPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-b-xs-none.wt-mt-xs-1 tr:nth-child(2) .currency-value",
+              "property": "innerText",
+              "name": "shipping",
+              "type": "text"
+            },
+            {
+              "selector": ".wt-p-xs-0.wt-b-xs-none.wt-text-right-xs.wt-no-wrap .wt-text-title-01 .currency-value",
+              "property": "innerText",
+              "name": "order total",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

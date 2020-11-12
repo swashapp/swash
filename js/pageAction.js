@@ -26,28 +26,29 @@ var pageAction = (function() {
         let tab = await browser.tabs.get(tabs[0].id);
         return isDomainFiltered(tab);
     }
+
     function loadIcons(url) {
-        if (memberManager.isJoined() === true) {
-            browserUtils.isMobileDevice().then(res => {
-                if(!res) {
-                    storageHelper.retrieveConfigs().then(configs => {
-                        if(configs.is_enabled) {
-                        storageHelper.retrieveFilters().then(filters => {
+        browserUtils.isMobileDevice().then(res => {
+            if(!res) {
+                storageHelper.retrieveConfigs().then(configs => {
+                    if(configs.is_enabled) {
+                        if (memberManager.isJoined() === true) {
+                            storageHelper.retrieveFilters().then(filters => {
                                 if(filterUtils.filter(url, filters))
                                     browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
                                 else
                                     browser.browserAction.setIcon({path: {"38":"icons/green_mark_38.png", "19":"icons/green_mark_19.png"}});
                             });
+                        } else {
+                            browser.browserAction.setIcon({path: {"38":"icons/error_mark_38.png", "19":"icons/error_mark_19.png"}});
                         }
-                        else {
-                            browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
-                        }
-                    })
-                }
-            })
-        } else {
-            browser.browserAction.setIcon({path: {"38":"icons/error_mark_38.png", "19":"icons/error_mark_19.png"}});
-        }
+                    }
+                    else {
+                        browser.browserAction.setIcon({path: {"38":"icons/mono_mark_38.png", "19":"icons/mono_mark_19.png"}});
+                    }
+                });
+            }
+        });
     }
 
     async function handleFilter() {
