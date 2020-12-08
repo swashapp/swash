@@ -13,20 +13,7 @@ let communityHelper = (function() {
 	
 	const provider = ethers.getDefaultProvider();
 	let client;
-	const GAS_PRICE_LIMIT = ethers.utils.parseUnits('18', 'gwei')
-	const overrides = {
-		/*gasPrice: ethers.utils.parseUnits('18', 'gwei'),
-		
-		gasPrice: async () => {
-			const gasPrice = await provider.getGasPrice()
-			if (gasPrice.gt(GAS_PRICE_LIMIT)) {
-				return GAS_PRICE_LIMIT
-			} else {
-				return gasPrice
-			}
-		}
-		*/
-	};
+	const overrides = {};
 
 	function etherjsErrorMapping(error) {
 		if(error.indexOf('insufficient funds') >= 0)
@@ -89,8 +76,7 @@ let communityHelper = (function() {
 		let balance = await provider.getBalance(address);
 		return ethers.utils.formatEther(balance);
 	}
-	
-	
+
 	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
 	async function getDataBalance(address) {
 		if (!provider) return {error: "provider is not provided"};;
@@ -108,7 +94,7 @@ let communityHelper = (function() {
 		if(stats.error) return {error: "Member status error"};
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
-		const earningsBN = ethers.utils.bigNumberify(stats.earnings);
+		const earningsBN = ethers.BigNumber.from(stats.earnings);
 		const balanceBN = earningsBN.sub(withdrawnBN);
 		return ethers.utils.formatEther(balanceBN);
 	}
@@ -121,7 +107,7 @@ let communityHelper = (function() {
 		if(stats.error) return {error: "Member status error"};
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, provider);
 		const withdrawnBN = await contract.withdrawn(wallet.address);
-		const earningsBN = ethers.utils.bigNumberify(stats.withdrawableEarnings);
+		const earningsBN = ethers.BigNumber.from(stats.withdrawableEarnings);
 		const unwithdrawnEarningsBN = earningsBN.sub(withdrawnBN);
 		return ethers.utils.formatEther(unwithdrawnEarningsBN);
 	}
@@ -169,7 +155,7 @@ let communityHelper = (function() {
 			return resp;
 		}
 		catch(err) {
-			return {error: etherjsErrorMapping(err.message)};
+			return {error: etherjsErrorMapping(err.reason)};
 		}
 	}
 
@@ -179,7 +165,7 @@ let communityHelper = (function() {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};;
 		if (!client) clientConnect();
 		let memberAddress = wallet.address;
-		const amountBN = ethers.utils.bigNumberify(ethers.utils.parseEther(amount));
+		const amountBN = ethers.BigNumber.from(ethers.utils.parseEther(amount));
 
 		wallet = wallet.connect(provider);
 		const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
@@ -189,7 +175,7 @@ let communityHelper = (function() {
 		if (member.error || member.withdrawableEarnings < 1) {			
 			return {error: "Nothing to withdraw"};
 		}
-		if (ethers.utils.bigNumberify(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){			
+		if (ethers.BigNumber.from(member.withdrawableEarnings).sub(withdrawn).lt(amountBN)){
 			return {error: "Insufficient balance"};
 		}
 
@@ -216,7 +202,7 @@ let communityHelper = (function() {
 			return resp;
 		}
 		catch(err) {
-			return {error: etherjsErrorMapping(err.message)};
+			return {error: etherjsErrorMapping(err.reason)};
 		}
 	}
 
@@ -241,7 +227,7 @@ let communityHelper = (function() {
 			return resp;
 		}
 		catch(err) {
-			return {error: etherjsErrorMapping(err.message)};
+			return {error: etherjsErrorMapping(err.reason)};
 		}
 	}
 
@@ -256,7 +242,7 @@ let communityHelper = (function() {
 			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
 
 			const gasPrice = await provider.getGasPrice();
-			const estimatedGas = await contract.estimate.withdrawAllTo(
+			const estimatedGas = await contract.estimateGas.withdrawAllTo(
 				targetAddress,
 				member.withdrawableBlockNumber,
 				member.withdrawableEarnings,
@@ -307,7 +293,7 @@ let communityHelper = (function() {
 			const signature = await wallet.signMessage(hashData)
 
 			const gasPrice = await provider.getGasPrice();
-			const estimatedGas = await contract.estimate.withdrawAllToSigned(targetAddress, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
+			const estimatedGas = await contract.estimateGas.withdrawAllToSigned(targetAddress, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
 			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
 		}
 		catch (err) {
@@ -332,7 +318,7 @@ let communityHelper = (function() {
 			await updateTimestamp();
 			const payload = {
 				address: wallet.address,
-				publicKey: wallet.signingKey.keyPair.compressedPublicKey,
+				publicKey: ethers.utils.computePublicKey(wallet.publicKey, true),
 				timestamp: timestamp
 			}
 			return new jsontokens.TokenSigner('ES256K', wallet.privateKey.slice(2)).sign(payload);
