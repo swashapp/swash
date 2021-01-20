@@ -1,0 +1,743 @@
+{
+   "content_matches": [
+      "*://*.walmart.com/*"
+   ],
+   "content_mapping": {
+      "win": "desktop",
+      "mac": "desktop",
+      "android": "mobile",
+      "cros": "desktop",
+      "openbsd": "desktop",
+      "ios": "mobile",
+      "ipados": "desktop"
+   },
+   "desktop": [
+		{
+         "name": "searchQuery",
+         "description": "This item collects walmart search query",
+         "url_match":  "*://*.walmart.com/*",
+         "title": "search query",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "events": [
+			{
+               "selector": "#global-search-submit",
+               "event_name": "click"
+            },
+			{
+               "selector": "#global-search-input",
+               "event_name": "keydown",
+			   "keyCode": 13
+            }	
+					
+         ],
+         "objects": [
+			{
+               "selector": "#global-search-form",
+			   "properties": [
+                  {
+					 "selector": "#global-search-input",
+                     "property": "value",
+                     "name": "query",
+                     "type": "text"
+                  },
+				  {
+					 "selector": "#global-search-category-label",
+                     "property": "innerText",
+                     "name": "category",
+                     "type": "text"
+                  }
+                ]
+            }
+			
+        ]
+    },
+	{
+         "name": "searchSuggestionSelect",
+         "description": "This item collects search suggestions that has been selected by user",
+         "url_match":"*://*.walmart.com/*",
+         "title": "Search Suggestion",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "readyAt": "DOMChange",
+		 "observingTargetNode": ".b_a.bg_b.bg_c.b_f",
+		 "observingConfig": {
+			"attributes":false,
+			"childList": true,
+			"subtree": true
+		 },
+		 "events": [
+            {
+               "selector": ".typeahead-text",
+               "event_name": "click"
+		    }
+           
+         ],
+         "objects": [
+			{
+               "selector": "",
+			   "properties": [
+                  {
+					"selector": "",
+					 "property": "innerText",
+                     "name": "query",
+                     "type": "text"
+                  }
+                ]
+            }
+        ]
+    },
+	{
+         "name": "searchResult",
+         "description": "This item collects search results in walmart web pages",
+         "url_match":  "*://*.walmart.com/*",
+         "title": "Search Result",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "readyAt": "DOMChange",
+	     "observingTargetNode": "body",
+		 "observingConfig": {
+			"attributes": false,
+			"childList": true,
+			"subtree": true
+		},
+		 "events": [
+            {
+               "selector": "window",
+               "event_name": "load"
+            }
+           
+         ],
+         "objects": [
+			{
+               "selector": "#global-search-form",
+			   "properties": [
+                  {
+					 "selector": "#global-search-input",
+                     "property": "value",
+                     "name": "searchQuery",
+                     "type": "text"
+                  },
+				  {
+					 "selector": "#global-search-category-label",
+                     "property": "innerText",
+                     "name": "searchCategory",
+                     "type": "text"
+                  }
+                ]
+            },
+            {
+               "selector": ".search-result-gridview-item.clearfix.arrange-fill",
+			   "name": "searchResult",
+			   "indexName": "rank",
+			   "properties": [
+				  {
+					 "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.price-main:first-child .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".price.price-main:nth-child(3) .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": ".visuallyhidden.seo-avg-rating",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".stars-reviews-count span:first-child",
+					 "property": "innerText",
+					 "name": "reviewCount",
+					 "type": "text"					
+			      }	 
+               ]
+                    
+            }
+			
+         ]
+    },
+	{
+         "name": "selectedProducts",
+         "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+         "url_match":  "*://*.walmart.com/*",
+         "title": "Selected Product",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "readyAt": "DOMChange",
+	     "observingTargetNode": "body",
+		 "observingConfig": {
+			"attributes": false,
+			"childList": true,
+			"subtree": true
+		},
+		 "events": [
+            {
+               "selector": ".search-result-productimage.gridview.display-block",
+               "event_name": "click"
+            },
+			{
+               "selector": ".search-result-productimage.gridview.display-block",
+               "event_name": "contextmenu"
+            },
+			{
+               "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+               "event_name": "click"
+            },
+			{
+               "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+               "event_name": "contextmenu"
+            }
+         ],
+         "objects": [
+			{
+               "selector": "#global-search-form",
+			   "properties": [
+                  {
+					 "selector": "#global-search-input",
+                     "property": "value",
+                     "name": "searchQuery",
+                     "type": "text"
+                  },
+				  {
+					 "selector": "#global-search-category-label",
+                     "property": "innerText",
+                     "name": "searchCategory",
+                     "type": "text"
+                  }
+                ]
+            },
+            {
+               "selector": "<<",
+			   "properties": [
+				 {
+					 "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.price-main:first-child .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".price.price-main:nth-child(3) .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": ".visuallyhidden.seo-avg-rating",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				   },
+				   {
+				     "selector": ".stars-reviews-count span:first-child",
+					 "property": "innerText",
+					 "name": "reviewCount",
+					 "type": "text"					
+			    	}		 
+                ]
+                    
+            },
+			{
+               "selector": "<<<",
+			   "properties": [
+				 {
+					 "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.price-main:first-child .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".price.price-main:nth-child(3) .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": ".visuallyhidden.seo-avg-rating",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				   },
+				   {
+				     "selector": ".stars-reviews-count span:first-child",
+					 "property": "innerText",
+					 "name": "reviewCount",
+					 "type": "text"					
+			    	}		 
+                ]
+                    
+            }
+         ]
+    },
+	{
+         "name": "addToBasket",
+         "description": "This item collects the products that has been added to the basket by user",
+         "url_match": "*://*.walmart.com/*",
+         "title": "Add to Basket",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "readyAt": "DOMChange",
+	     "observingTargetNode": "body",
+		 "observingConfig": {
+			"attributes": false,
+			"childList": true,
+			"subtree": true
+		},
+         "events": [
+            {
+               "selector": ".button.stepper-toggle__bttn.button--ghost.button--small",
+               "event_name": "click"
+			},
+			{
+               "selector": ".spin-button-children",
+               "event_name": "click"
+			},
+			{
+               "selector": ".button-wrapper .hide-content-max-m",
+               "event_name": "click"
+			},
+			{
+               "selector": "[data-automation-id='cart-btn-move-to-cart'] .button-wrapper",
+               "event_name": "click"
+			},
+			{
+               "selector": "[data-automation-id='recommended-item-add-to-cart-button'] .button-wrapper",
+               "event_name": "click"
+			}
+			
+			
+         ],
+        "objects": [
+            {
+               "selector": "<<<<",
+               "properties": [	        
+                  {
+					 "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.price-main:first-child .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".price.price-main:nth-child(3) .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": ".visuallyhidden.seo-avg-rating",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".stars-reviews-count span:first-child",
+					 "property": "innerText",
+					 "name": "reviewCount",
+					 "type": "text"					
+			      }	 
+
+				]           
+            },
+			{
+               "selector": "<<<<<<<<<",
+               "properties": [	        
+                  {
+					 "selector": ".prod-ProductTitle.prod-productTitle-buyBox.font-bold",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".display-inline.PriceRange--section:nth-child(2) .price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".display-inline.PriceRange--section:nth-child(4) .price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": "span[itemprop='ratingValue']",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".field-input.field-input--secondary[aria-label='Quantity']",
+					 "property": "value",
+					 "name": "quantity",
+					 "type": "text"					
+			      }	 
+
+				]           
+            },
+			{
+               "selector": "<<<<<",
+               "properties": [	        
+                  {
+					 "selector": ".LinesEllipsis.font-normal.compact-content.item-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  }
+
+				]           
+            },
+			{
+               "selector": "<<<<<",
+               "properties": [	        
+                  {
+					 "selector": ".js-btn-product.btn-fake-link.cart-item-name-link",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price-main .price .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".js-item-quantity.cart-item-quantity.js-non-adjustable-quantity .visuallyhidden",
+					 "property": "innerText",
+					 "name": "quantity",
+					 "type": "text"					
+			      }	
+
+				]           
+            },
+			{
+               "selector": "<<<",
+               "properties": [	        
+                  {
+					 "selector": ".tile-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price .visuallyhidden",
+					 "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  		  
+				  }
+				]           
+            }
+        ]
+        
+    },
+	{
+         "name": "addToLoveList",
+         "description": "This item collects all products in walmart web pages that has been added by user to love list",
+         "url_match": "*://*.walmart.com/*",
+         "title": "Add to Love list",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		 "readyAt": "DOMChange",
+	     "observingTargetNode": "body",
+		 "observingConfig": {
+			"attributes": false,
+			"childList": true,
+			"subtree": true
+		},
+         "events": [
+            {
+               "selector": ".elc-icon.elc-icon-24.elc-icon-heart.feds-heart-icon--hallway-gm",
+               "event_name": "click"
+			}
+				
+         ],
+        "objects": [
+            {
+               "selector": "<<<<",
+               "properties": [	        
+                {
+					 "selector": ".product-title-link.line-clamp.line-clamp-2.truncate-title",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.price-main:first-child .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".price.price-main:nth-child(3) .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": ".visuallyhidden.seo-avg-rating",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".stars-reviews-count span:first-child",
+					 "property": "innerText",
+					 "name": "reviewCount",
+					 "type": "text"					
+			      }	 
+				]           
+            },
+			{
+               "selector": "<<<<<<",
+               "properties": [	        
+                  {
+					 "selector": ".prod-ProductTitle.prod-productTitle-buyBox.font-bold",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".display-inline.PriceRange--section:nth-child(2) .price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+					 "property": "innerText",
+                     "name": "minPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					 "selector": ".display-inline.PriceRange--section:nth-child(4) .price.display-inline-block.arrange-fit.price.price--stylized .visuallyhidden",
+					 "property": "innerText",
+                     "name": "maxPrice",
+                     "type": "text"
+				  		  
+				  },
+				  {
+					"selector": "span[itemprop='ratingValue']",
+					 "property": "innerText",
+                     "name": "rate",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".field-input.field-input--secondary[aria-label='Quantity']",
+					 "property": "value",
+					 "name": "quantity",
+					 "type": "text"					
+			      }	 
+
+				]           
+            }		
+        ]
+        
+    },
+	{
+         "name": "saveForLater",
+         "description": "This item collects information about products that has been saved by user for later",
+         "url_match":  "*://*.walmart.com/*",
+         "title": "Save for Later",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		  "readyAt": "DOMChange",
+	     "observingTargetNode": "body",
+		 "observingConfig": {
+			"attributes": false,
+			"childList": true,
+			"subtree": true
+		},
+         "events": [
+            {
+               "selector": "[data-automation-id='cart-item-save-for-later'] .button-wrapper",
+               "event_name": "click"
+            }
+					
+
+         ],
+         "objects": [
+			{
+               "selector": "<<<<<",
+			   "properties": [
+				  {
+					 "selector": ".js-btn-product.btn-fake-link.cart-item-name-link",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price-main .price .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".field-input.field-input--secondary",
+					 "property": "value",
+					 "name": "quantity",
+					 "type": "text"					
+			      }	
+               ]       
+            }	
+        ]
+    },
+	{
+         "name": "checkout",
+         "description": "This item collects information about products that has been selected by user for buying",
+         "url_match": "*://*.walmart.com/*",
+         "title": "checkout",
+         "viewGroup": "UX",
+         "type": "event",
+         "is_enabled": true,
+		
+         "events": [
+            {
+               "selector": ".hide-content-max-m .button.ios-primary-btn-touch-fix.hide-content-max-m.checkoutBtn.button--primary",
+               "event_name": "click"
+            }
+         ],
+         "objects": [
+			{
+               "selector": "<<<<<<<.cart-list.cart-list-active .cart-item",
+			   "name":"products",
+			    "indexName": "rank",
+			   "properties": [
+				   {
+					 "selector": ".js-btn-product.btn-fake-link.cart-item-name-link",
+                     "property": "innerText",
+                     "name": "title",
+                     "type": "text"
+				  },
+				  {
+					 "selector": ".price-main .price .visuallyhidden",
+                     "property": "innerText",
+                     "name": "price",
+                     "type": "text"
+				  },
+				  {
+				     "selector": ".field-input.field-input--secondary",
+					 "property": "value",
+					 "name": "quantity",
+					 "type": "text"					
+			      }	
+               ]       
+            },
+			{
+			"selector": "<<<<",
+			"properties": [
+				 
+				 
+				  {
+					 "selector": "[data-automation-id='cart-pos-pos-subtotal-price']",
+                     "property": "innerText",
+                     "name": "itemsPrice",
+                     "type": "text"
+				  },
+				  {
+					 "selector": "[data-automation-id='order-summary-shipping-price-0']",
+                     "property": "innerText",
+                     "name": "shipping",
+                     "type": "text"
+				  },
+				  {
+					 "selector": "[data-automation-id='cart-pos-pos-grand-total-amount']" ,
+                     "property": "innerText",
+                     "name": "order total",
+                     "type": "text"
+				  }
+				  
+			    ]	  	
+			},
+			{
+			"selector": "<<<<<",
+			"properties": [
+				 
+				 
+				  {
+					 "selector": "[data-automation-id='pac-pos-pos-subtotal-price']",
+                     "property": "innerText",
+                     "name": "itemsPrice",
+                     "type": "text"
+				  },
+				  {
+					 "selector": "[data-automation-id='order-summary-shipping-price-0']",
+                     "property": "innerText",
+                     "name": "shipping",
+                     "type": "text"
+				  },
+				  {
+					 "selector": "[data-automation-id='pac-pos-pos-grand-total-amount']" ,
+                     "property": "innerText",
+                     "name": "order total",
+                     "type": "text"
+				  }
+				  
+			    ]	  
+					
+			}
+        ]
+    }
+]
+   
+}

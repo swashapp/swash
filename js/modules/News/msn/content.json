@@ -15,6 +15,7 @@
 		{
 			"name": "msnLink",
 			"description": "This item collects news title and news url after click",
+			"viewGroup": "PInfo",
 			"title": "msn News",
 			"url_match": "*://*.msn.com/*",
 			"type": "event",
@@ -43,9 +44,11 @@
 				]
 			}]
 		},
+
 		{
 			"name": "msnnewsdetail",
 			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
 			"title": "msn News details",
 			"url_match": "*://*.msn.com/*",
 			"type": "event",
@@ -63,7 +66,13 @@
 						"type": "text"
 					},
 					{
-						"selector": ".authorname-txt",
+						"selector": "#articleProviderMainLogo",
+						"property": "alt",
+						"name": "category",
+						"type": "text"
+					},
+					{
+						"selector": "span.truncate",
 						"property": "innerText",
 						"name": "Author",
 						"type": "text"

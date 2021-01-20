@@ -68,19 +68,28 @@
 		"News": {
 			"icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAFiUAABYlAUlSJPAAAAAHdElNRQfkCB8XDgjwOu91AAACfElEQVQ4y23UT2hcVRQG8N+9701mGq1jFCNBxcSCYjeG2lYsuHMTN0q60oXgn42LEelCulUXooIIgotWFG037hSKiAvNorhoFhHJphKIYqOI7aQJKaTNzLsuct/kRbyH9zbnnvOd+33nHAgK3KFnwZbUsL4vnEAUEeQTBEHlWR+ZtmnJFZWAJHjYUdFZp/UVhoK0G1bgdclVPXfnJHW66KjvJb94kP1o85JFhxBE7YZFAW9IltzeDDloxaZDGFMKI1dAVCpxSvIO2Y+e5DWMCeia9bgjjjjmoYwdtCy75q5cIhZsmUKJOX1JJeX/Z1oYw5uS4ygESsdc8pdo4IBPJG/ZFgXbTnjJko8FXMZhlxRIJOdztgnJGbQEEYcln2bfY5L3cz2hRJUpuWHZK+4zEAW3PIIfsv9XvzvlKX+74gOSc2iJmLVsy7oN11237r2sTcTTFq3ZkCyQfIlWJrltQldX153GG4KG7C18LZW1XIIk2rEuSPkrVfl6yhQMbe4+7P9OQjJAUImCYRZ20rBsXAsqbeMjYvbODQMhUzJuvRy1TVSZdd60nVr3jFhY9aKfFSpUihopqIw551HfGTSCqJTmfO64HTGXnSn/r7h79LRwRjKRx+hH/dItkxjipj+c9KftnLGuoOOk32znN3UM+ck19+QGeabRsLVVkr65fOMBOy6ULnjSc84Kgm/NmFGMcHaxhlZtZL2eV/qGKVetuRetfUO4F0RQamHaphUH4VXJRZOIWjr7Br6trZOTTbkoma8Xy7uSFfM6oy5rIgUc8II1SQ9FvcJe9qGuVYtu7i2qEX+3ecL9/tHzVZZYUGLG2y7v461py06bqsf9X7hh3SipQy5qAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIwLTA4LTMxVDIzOjEzOjIzKzAwOjAw/R9gIgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMC0wOC0zMVQyMzoxMzoyMyswMDowMIxC2J4AAAAASUVORK5CYII=",
 			"modules": {
-				"cnn": {
+				"bbc": {
 					"version": 1
 				},
+				"cnn": {
+					"version": 2
+				},
 				"dailymail": {
+					"version": 2
+				},
+				"globo": {
 					"version": 1
 				},
 				"msn": {
-					"version": 1
+					"version": 2
 				},
 				"uol": {
-					"version": 1
+					"version": 2
 				},
 				"yahoo": {
+					"version": 2
+				},
+				"yahooNews": {
 					"version": 1
 				}
 			}			
@@ -121,6 +130,12 @@
 					"version": 1
 				},
 				"etsy": {
+					"version": 1
+				},
+				"flipkart": {
+					"version": 1
+				},
+				"walmart": {
 					"version": 1
 				}
 			}			

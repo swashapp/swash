@@ -1,0 +1,384 @@
+{
+	"content_matches": [
+		"*://*.globo.com/*"
+	],
+	"content_mapping": {
+		"win": "desktop",
+		"mac": "desktop",
+		"android": "desktop",
+		"cros": "desktop",
+		"openbsd": "desktop",
+		"ios": "desktop",
+		"ipados": "desktop"
+	},
+	"desktop": [{
+			"name": "globoLink",
+			"description": "This item collects news title and news url after click",
+			"viewGroup": "PInfo",
+			"title": "globo News",
+			"url_match": "*://*.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+					"selector": "a",
+					"event_name": "click"
+				},
+				{
+					"selector": "a",
+					"event_name": "contextmenu"
+				}
+			],
+			"objects": [{
+				"selector": "",
+				"properties": [{
+						"property": "innerText",
+						"name": "title",
+						"type": "text"
+					},
+					{
+						"property": "href",
+						"name": "link",
+						"type": "url"
+					}
+				]
+			}]
+		},
+		{
+			"name": "globoSportDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo sport details",
+			"url_match": "*://globoesporte.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": ".content-head__title",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__updated",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__from",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+
+				]
+
+			}]
+		},
+		{
+			"name": "globoSportDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo news details",
+			"url_match": "*://revistacrescer.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": "#article-author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+
+				]
+
+			}]
+		},
+		{
+			"name": "globoshowsDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo shows details",
+			"url_match": "*://gshow.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": ".content-head__title",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__updated",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__from",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+			}]
+		},
+
+		{
+			"name": "globoNewsDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo news details",
+			"url_match": "*://revistaglamour.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "time:nth-child(1)",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": ".article-author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": ".authorship",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+			}]
+		},
+		{
+			"name": "globovogueNewsDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo voguenews details",
+			"url_match": "*://vogue.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".last-modified",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": "#article-author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+			}]
+		},
+		{
+			"name": "globovogueNewsDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo voguenews details",
+			"url_match": "*://revistaquem.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": "#article-author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+			}]
+		},
+		{
+			"name": "globoGlobalNewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo details",
+			"url_match": "*://oglobo.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": ".article__title",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".article__date",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": ".article__author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+
+			}]
+		},
+		{
+			"name": "globoNewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo details",
+			"url_match": "*://gq.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": "time",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": "#article-author",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+
+			}]
+		},
+		{
+			"name": "globoNewsdetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "globo news details",
+			"url_match": "*://g1.globo.com/*",
+			"type": "event",
+			"is_enabled": true,
+			"events": [{
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
+			}],
+			"objects": [{
+				"selector": "document",
+				"properties": [{
+						"selector": ".content-head__title",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__updated",
+						"isRequired": true,
+						"property": "innerText",
+						"name": "Time",
+						"type": "text"
+					},
+					{
+						"selector": ".content-publication-data__from",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					}
+				]
+			}]
+		}
+	]
+}
