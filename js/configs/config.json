@@ -135,6 +135,9 @@
 				"flipkart": {
 					"version": 1
 				},
+				"target": {
+					"version": 1
+				},
 				"walmart": {
 					"version": 1
 				}

@@ -1,0 +1,547 @@
+{
+  "content_matches": [
+    "*://*.target.com/*"
+  ],
+  "content_mapping": {
+    "win": "desktop",
+    "mac": "desktop",
+    "android": "mobile",
+    "cros": "desktop",
+    "openbsd": "desktop",
+    "ios": "mobile",
+    "ipados": "desktop"
+  },
+  "desktop": [
+    {
+      "name": "searchQuery",
+      "description": "This item collects target search query",
+      "url_match": "*://*.target.com/*",
+      "title": "search query",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "#search",
+          "event_name": "keydown",
+          "keyCode": 13
+        },
+        {
+          "selector": "[data-test='btnSearch']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#search",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchSuggestionSelect",
+      "description": "This item collects search suggestions that has been selected by user",
+      "url_match": "*://*.target.com/*",
+      "title": "Search Suggestion",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "#header",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".TypeaheadItemText",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "",
+          "properties": [
+            {
+              "selector": "",
+              "property": "innerText",
+              "name": "query",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "searchResult",
+      "description": "This item collects search results in target web pages",
+      "url_match": "*://*.target.com/*",
+      "title": "Search Result",
+      "viewGroup": "UX",
+      "type": "event",
+      "readyAt": "windowChange",
+      "observingTargetNode": "[data-component='WEB-c_web_productgrid_v01']",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": false
+      },
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "",
+          "event_name": "."
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#search",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": ".Col-favj32-0.iXmsJV.h-padding-a-none.h-display-flex",
+          "name": "searchResult",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": "[data-test='itemDetail-brand']",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-title']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-rating'] .h-sr-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+      "url_match": "*://*.target.com/*",
+      "title": "Selected Product",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": ".Col-favj32-0.iXmsJV.h-padding-a-none.h-display-flex",
+          "event_name": "click"
+        },
+        {
+          "selector": ".Col-favj32-0.iXmsJV.h-padding-a-none.h-display-flex",
+          "event_name": "contextmenu"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "#search",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "[data-test='productCardBody']",
+          "properties": [
+            {
+              "selector": "[data-test='itemDetail-brand']",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-title']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-rating'] .h-sr-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToLoveList",
+      "description": "This item collects all products in target web pages that has been added by user to love list",
+      "url_match": "*://*.target.com/*",
+      "title": "Add to Love list",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "[data-test='crushButton']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "[data-test='productCardBody']",
+          "properties": [
+            {
+              "selector": "[data-test='itemDetail-brand']",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-title']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-rating'] .h-sr-only",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": "[data-test='product-title']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='ratings'] .utils__ScreenReaderOnly-sc-1kni3r7-0.jVBsth",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "*://*.target.com/*",
+      "title": "Add to Basket",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "[data-test='orderPickupButton']",
+          "event_name": "click"
+        },
+        {
+          "selector": "[data-test='scheduledDeliveryButton']",
+          "event_name": "click"
+        },
+        {
+          "selector": "[data-test='shipItButton']",
+          "event_name": "click"
+        },
+        {
+          "selector": "[data-test='moveSFLToCartBtn']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".Heading__StyledHeading-sc-1m9kw5a-0.styles__ModalTitle-sc-16b8qhf-0.fhmjpN.gGcMnp",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='custom-quantity-picker']",
+              "property": "innerText",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<<",
+          "properties": [
+            {
+              "selector": "[data-test='product-title']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='ratings'] .utils__ScreenReaderOnly-sc-1kni3r7-0.jVBsth",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='custom-quantity-picker']",
+              "property": "innerText",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<<",
+          "properties": [
+            {
+              "selector": ".Heading__StyledHeading-sc-1m9kw5a-0",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='product-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='custom-quantity-picker']",
+              "property": "innerText",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": "[data-test='cartItem-title-url']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='cartItem-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "saveForLater",
+      "description": "This item collects information about products that has been saved by user for later",
+      "url_match": "*://*.target.com/*",
+      "title": "Save for Later",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "[data-test='SFLBtn']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<",
+          "properties": [
+            {
+              "selector": "[data-test='cartItem-title-url']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='cartItem-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='cartItem-qty']",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "*://*.target.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "is_enabled": true,
+      "events": [
+        {
+          "selector": "[data-test='checkout-button']",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<<<[data-test='cartItem']",
+          "name": "products",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": "[data-test='cartItem-title-url']",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='cartItem-price']",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "[data-test='cartItem-qty']",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<<<",
+          "properties": [
+            {
+              "selector": "[data-test='cart-summary-subTotal'] .Col__StyledCol-sc-1c90kgr-0.bWQhia p.h-text-bs",
+              "property": "innerText",
+              "name": "itemsPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".h-text-bs.h-text-red",
+              "property": "innerText",
+              "name": "shipping",
+              "type": "text"
+            },
+            {
+              "selector": ".h-text-lg.h-text-bold:nth-child(2)",
+              "property": "innerText",
+              "name": "order total",
+              "type": "text"
+            },
+            {
+              "selector": "#summary-amount",
+              "property": "innerText",
+              "name": "tax",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
