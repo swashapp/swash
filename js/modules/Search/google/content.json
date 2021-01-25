@@ -27,13 +27,13 @@
          ],
          "objects": [
             {
-               "selector": ".g .rc",
+               "selector": "#rso .g .tF2Cxc",
                "conditions": [
                   [
                      {
                         "type": "parent",
                         "contain": false,
-                        "val": ".related-question-pair"
+                        "val": ".xpdopen"
                      }
                   ]
                ],
@@ -41,19 +41,19 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".r a",
+                     "selector": ".yuRUbf a",
                      "property": "href",
                      "name": "link",
                      "type": "url"
                   },
                   {
-                     "selector": ".r .LC20lb",
+                     "selector": ".yuRUbf a h3",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".s .st",
+                     "selector": ".IsZvec .aCOpRe",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -61,24 +61,24 @@
                ]
             },
             {
-               "selector": ".ads-ad",
+               "selector": ".uEierd",
                "name": "adsResult",
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".ad_cclk a.V0MxL",
+                     "selector": ".d5oMvf a",
                      "property": "href",
                      "name": "link",
                      "type": "url"
                   },
                   {
-                     "selector": ".ad_cclk a h3",
+                     "selector": ".d5oMvf a .cfxYMc",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".ads-creative",
+                     "selector": ".MUxGbd.yDYNvb.lyLwlc",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -95,13 +95,13 @@
                      "type": "text"
                   },
                   {
-                     "selector": ".cur",
+                     "selector": "td.YyVfkd",
                      "property": "innerText",
                      "name": "pageNumber",
                      "type": "text"
                   },
                   {
-                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "selector": ".hdtb-mitem.hdtb-msel",
                      "property": "innerText",
                      "name": "category",
                      "type": "text"
@@ -119,26 +119,26 @@
          "is_enabled": true,
          "events": [
             {
-               "selector": ".g .rc .r",
+               "selector": "#rso .g .tF2Cxc",
                "conditions": [
                   [
                      {
                         "type": "parent",
                         "contain": false,
-                        "val": ".related-question-pair"
+                        "val": ".xpdopen"
                      }
                   ]
                ],
                "event_name": "click"
             },
             {
-               "selector": ".g .rc .r",
+               "selector": "#rso .g .tF2Cxc",
                "conditions": [
                   [
                      {
                         "type": "parent",
                         "contain": false,
-                        "val": ".related-question-pair"
+                        "val": ".xpdopen"
                      }
                   ]
                ],
@@ -160,13 +160,13 @@
                "selector": "",
                "properties": [
                   {
-                     "selector": ".iUh30",
-                     "property": "innerText",
+                     "selector": ".yuRUbf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".LC20lb",
+                     "selector": ".yuRUbf a h3",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
@@ -174,13 +174,13 @@
                ]
             },
             {
-               "selector": ".bkWMgd .g .rc",
+               "selector": "#rso .g .tF2Cxc",
                "conditions": [
                   [
                      {
                         "type": "parent",
                         "contain": false,
-                        "val": ".related-question-pair"
+                        "val": ".xpdopen"
                      }
                   ]
                ],
@@ -188,19 +188,19 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".r .iUh30",
-                     "property": "innerText",
+                     "selector": ".yuRUbf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".r .LC20lb",
+                     "selector": ".yuRUbf a h3",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".s .st",
+                     "selector": ".IsZvec .aCOpRe",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -208,24 +208,24 @@
                ]
             },
             {
-               "selector": ".ads-ad",
+               "selector": ".uEierd",
                "name": "adsResult",
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".ad_cclk .ads-visurl cite",
-                     "property": "innerText",
+                     "selector": ".d5oMvf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".ad_cclk a h3",
+                     "selector": ".d5oMvf a .cfxYMc",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".ads-creative",
+                     "selector": ".MUxGbd.yDYNvb.lyLwlc",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -242,13 +242,13 @@
                      "type": "text"
                   },
                   {
-                     "selector": ".cur",
+                     "selector": "td.YyVfkd",
                      "property": "innerText",
                      "name": "pageNumber",
                      "type": "text"
                   },
                   {
-                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "selector": ".hdtb-mitem.hdtb-msel",
                      "property": "innerText",
                      "name": "category",
                      "type": "text"
@@ -266,12 +266,8 @@
          "is_enabled": true,
          "events": [
             {
-               "selector": ".ad_cclk",
-               "event_name": "click"
-            },
-            {
-               "selector": ".ad_cclk",
-               "event_name": "contextmenu"
+               "selector": ".d5oMvf a",
+               "event_name": "mousedown"
             }
          ],
          "objects": [
@@ -299,19 +295,19 @@
                "selector": "",
                "properties": [
                   {
-                     "selector": ".ads-visurl cite",
-                     "property": "innerText",
+                     "selector": ".d5oMvf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".ad_cclk a h3",
+                     "selector": ".d5oMvf a .cfxYMc",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".ads-creative",
+                     "selector": ".MUxGbd.yDYNvb.lyLwlc",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -319,13 +315,13 @@
                ]
             },
             {
-               "selector": ".bkWMgd .g .rc",
+               "selector": "#rso .g .tF2Cxc",
                "conditions": [
                   [
                      {
                         "type": "parent",
                         "contain": false,
-                        "val": ".related-question-pair"
+                        "val": ".xpdopen"
                      }
                   ]
                ],
@@ -333,19 +329,19 @@
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".r .iUh30",
-                     "property": "innerText",
+                     "selector": ".yuRUbf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".r .LC20lb",
+                     "selector": ".yuRUbf a h3",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".s .st",
+                     "selector": ".IsZvec .aCOpRe",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -353,24 +349,24 @@
                ]
             },
             {
-               "selector": ".ads-ad",
+               "selector": ".uEierd",
                "name": "adsResult",
                "indexName": "rank",
                "properties": [
                   {
-                     "selector": ".ad_cclk .ads-visurl cite",
-                     "property": "innerText",
+                     "selector": ".d5oMvf a",
+                     "property": "href",
                      "name": "link",
-                     "type": "text"
+                     "type": "url"
                   },
                   {
-                     "selector": ".ad_cclk a h3",
+                     "selector": ".d5oMvf a .cfxYMc",
                      "property": "innerText",
                      "name": "title",
                      "type": "text"
                   },
                   {
-                     "selector": ".ads-creative",
+                     "selector": ".MUxGbd.yDYNvb.lyLwlc",
                      "property": "innerText",
                      "name": "description",
                      "type": "text"
@@ -387,13 +383,13 @@
                      "type": "text"
                   },
                   {
-                     "selector": ".cur",
+                     "selector": "td.YyVfkd",
                      "property": "innerText",
                      "name": "pageNumber",
                      "type": "text"
                   },
                   {
-                     "selector": ".hdtb-mitem.hdtb-msel.hdtb-imb",
+                     "selector": ".hdtb-mitem.hdtb-msel",
                      "property": "innerText",
                      "name": "category",
                      "type": "text"
