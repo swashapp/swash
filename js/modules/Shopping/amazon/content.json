@@ -154,6 +154,30 @@
               "property": "innerText",
               "name": "sponsor",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -196,6 +220,62 @@
               "selector": ".sbv-ad-feedback span",
               "property": "innerText",
               "name": "sponsor",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -270,6 +350,62 @@
               "property": "innerText",
               "name": "title",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         },
@@ -333,6 +469,62 @@
               "selector": "#priceblock_ourprice",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -415,6 +607,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -477,6 +693,38 @@
               "selector": ".a-icon-alt",
               "property": "innerText",
               "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -550,6 +798,62 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         },
@@ -611,6 +915,62 @@
               "selector": "#price_inside_buybox",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -746,6 +1106,62 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         },
@@ -804,6 +1220,62 @@
               "property": "innerText",
               "name": "title",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         },
@@ -855,6 +1327,62 @@
               "selector": "#priceblock_ourprice",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -911,6 +1439,62 @@
               "selector": "#priceblock_ourprice",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -978,6 +1562,62 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         },
@@ -1033,6 +1673,62 @@
               "selector": "#priceblock_ourprice",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]

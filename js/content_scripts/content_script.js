@@ -1,9 +1,9 @@
 var contentScript = (function () {
 	var callbacks = {};
     var oCallbacks = {};
-	
+
 	function querySelectorAll(node, selector) {
-		while(selector && selector.length > 0 && selector[0] == '<') { 
+		while(selector && selector.length > 0 && selector[0] == '<') {
 			if(node)
 				node = node.parentElement;
 			selector = selector.slice(1);
@@ -12,9 +12,9 @@ var contentScript = (function () {
 			return node;
 		return node.querySelectorAll(selector)
 	}
-	
+
 	function querySelector(node, selector) {
-		while(selector && selector.length > 0 && selector[0] == '<') { 
+		while(selector && selector.length > 0 && selector[0] == '<') {
 			if(node)
 				node = node.parentElement;
 			selector = selector.slice(1);
@@ -23,7 +23,7 @@ var contentScript = (function () {
 			return node;
 		return node.querySelector(selector)
 	}
-	
+
 	function uuid() {
         function randomDigit() {
             if (crypto && crypto.getRandomValues) {
@@ -38,14 +38,14 @@ var contentScript = (function () {
         return 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, randomDigit);
     }
 
-	
+
 	function exportLogFunction(level, data, moduleName) {
 		let func = function(x){override_debug(x,level,data, moduleName)};
 		if(typeof exportFunction === 'function')
-			exportLogFunction(func, console, {defineAs: level}); 
-		else 
+			exportLogFunction(func, console, {defineAs: level});
+		else
 			chromeExportFunction(level, data, moduleName);
-	}	
+	}
 	function chromeExportFunction(level, data, moduleName) {
 		var code = '(' + function(level, data, moduleName) {
 			window.console[level] = function(x){override_debug(x,level,data, moduleName)};
@@ -53,9 +53,9 @@ var contentScript = (function () {
 		var script = document.createElement('script');
 		script.textContent = code;
 		(document.head||document.documentElement).appendChild(script);
-		script.remove();		
+		script.remove();
 	}
-	
+
 	function isIterable(obj) {
 	  // checks for null and undefined
 	  if (obj == null) {
@@ -123,13 +123,13 @@ var contentScript = (function () {
 	function log_callback(data, moduleName){
 		switch(data.name) {
 			case "ConsoleErrors":
-				exportLogFunction("error", data, moduleName);            
+				exportLogFunction("error", data, moduleName);
 				break;
 			case "ConsoleWarns":
-				exportLogFunction("warn", data, moduleName);            				           
+				exportLogFunction("warn", data, moduleName);
 				break;
 			case "ConsoleLogs":
-				exportLogFunction("log", data, moduleName);				          
+				exportLogFunction("log", data, moduleName);
 				break;
 		}
 	}
@@ -167,7 +167,7 @@ var contentScript = (function () {
 		}
 		return false;
 	};
-	
+
 	function hasChild(elem, selector) {
 		var childs = elem.children;
 		if (!selector) return true;
@@ -177,8 +177,8 @@ var contentScript = (function () {
 		}
 		return false;
 	};
-	
-	function hasAncestor(elem, selector) {		
+
+	function hasAncestor(elem, selector) {
 		var ancestor = elem.parentElement;
 		if (!selector) return true;
 		while(ancestor) {
@@ -188,7 +188,7 @@ var contentScript = (function () {
 		}
 		return false;
 	};
-	
+
 	function hasDescendant(elem, selector) {
 		if (!selector) return true;
 		var childs = querySelectorAll(elem, selector);
@@ -196,9 +196,9 @@ var contentScript = (function () {
 			return true;
 		return false;
 	};
-	
-	
-	
+
+
+
 	function isCollectable(obj, conditions) {
 		let res;
 		for(let condition of conditions) {
@@ -232,10 +232,10 @@ var contentScript = (function () {
 		}
 		return res;
 	}
-	
-	function public_callback(data, moduleName, event, index){		
+
+	function public_callback(data, moduleName, event, index){
 		let eventInfo = {
-			index: Number(index) + 1			
+			index: Number(index) + 1
 		}
 		let message = {
 			obj: "dataHandler",
@@ -253,46 +253,44 @@ var contentScript = (function () {
 					}
 				}]
 		}
-		debugger
 		for(x of data.objects) {
-		//data.objects.forEach(x=>{
 			var objList = [];
 			switch(x.selector) {
 				case "#":
 					objList = eventInfo;
 					break;
                 case "window":
-                    objList = window;                    
+                    objList = window;
                     break;
                 case "document":
-                    objList = document;                    
+                    objList = document;
                     break;
 				case "":
-					objList = event.currentTarget;                    
+					objList = event.currentTarget;
 					break;
 				case ".":
-					objList = event.target;                    
+					objList = event.target;
 					break;
 				default:
 					let node = document;
 					if(x.selector[0] === '<')
 						node = event.currentTarget;
-                    if(x.name) {                        
+                    if(x.name) {
                         objList = querySelectorAll(node, x.selector);
-                    } 
+                    }
                     else {
                         objList = querySelector(node, x.selector);
                     }
 					break;
 			}
-			if(!objList || (NodeList.prototype.isPrototypeOf(objList) && objList.length == 0))
+			if(!objList || (NodeList.prototype.isPrototypeOf(objList) && objList.length === 0))
 				if(x.isRequired)
 					return;
-			if(objList){                
+			if(objList){
                 if(x.name) {
-                    message.params[0].data.out[x.name] = [];                    
+                    message.params[0].data.out[x.name] = [];
                     x.properties.forEach(y=>{
-                        message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  y.name,type:y.type}); 
+                        message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  y.name,type:y.type});
                     });
 					if(x.indexName)
 						message.params[0].data.schems.push({jpath:"$." + x.name + "[*]." +  x.indexName,type:"text"});
@@ -301,21 +299,19 @@ var contentScript = (function () {
 						if(x.conditions && !isCollectable(obj, x.conditions))
 							return;
 						if (x.property) {
-							if (x.property === 'getBoundingClientRect') {
-								obj = obj.getBoundingClientRect();
-							} else {
-								obj = obj[x.property];
-							}
+							obj = obj[x.property];
 						}
                         let item = {};
                         x.properties.forEach(y=>{
                             let prop;
-                            if(y.selector)
+                            if (y.selector)
                                 prop = querySelector(obj, y.selector);
+                            else if (y.function && y.function === 'getBoundingClientRect')
+                            	prop = obj[y.function]();
                             else
                                 prop = obj;
 							if(prop)
-								item[y.name] = prop[y.property];                            
+								item[y.name] = prop[y.property];
                         })
 						if(!isEmpty(item)) {
 							objectIndex++;
@@ -323,86 +319,83 @@ var contentScript = (function () {
 								item[x.indexName] = objectIndex;
 							}
 							message.params[0].data.out[x.name].push(item);
-									
 						}
                     })
                 }
                 else {
 					if (x.property) {
-						if (x.property === 'getBoundingClientRect') {
-							objList = objList.getBoundingClientRect();
-						} else {
-							objList = objList[x.property];
-						}
+						objList = objList[x.property];
 					}
-                    x.properties.forEach(y=>{                        
+                    x.properties.forEach(y=>{
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
                         if(y.selector)
                             prop = querySelector(objList, y.selector);
+						else if (y.function && y.function === 'getBoundingClientRect')
+							prop = objList[y.function]();
                         else
                             prop = objList;
 						if(prop)
 							message.params[0].data.out[y.name] = prop[y.property];
                     });
                 }
-			}			
+			}
 		}
-		//);
+
 		if(!isEmpty(message.params[0].data.out))
-			send_msg(message);	
+			send_msg(message);
 	}
-	
+
 	function documentReadyCallback(event, callback) {
 		let doms = querySelectorAll(document, event.selector)
-		if(doms) {			
+		if(doms) {
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
 				if(event.conditions && !isCollectable(dom, event.conditions))
-					return;				
-				dom.addEventListener(event.event_name, (function(index){return function(x) {callback(x, index)}})(objIndex));	
+					return;
+				dom.addEventListener(event.event_name, (function(index){return function(x) {callback(x, index)}})(objIndex));
 				objIndex++;
-			})					                        
-		}			
+			})
+		}
 	}
-	
+
     function observingCallback(mutationsList, observer, event, callback, targetNode,targetEventId, cbName) {
         if(event.event_name == "."){
 			var ev = new Event(targetEventId);
             targetNode.dispatchEvent(ev);
             return;
-        }		
+        }
         let doms = querySelectorAll(document, event.selector)
 		if(doms){
 			let objIndex = 0;
 			doms.forEach((dom, domIndex) => {
 				if(event.conditions && !isCollectable(dom, event.conditions))
-					return;				
+					return;
 				let cb = oCallbacks[cbName+objIndex]
 				if(!cb) {
-					cb = (function(index){ return function(x) {callback(x, index)}})(objIndex);	
+					cb = (function(index){ return function(x) {callback(x, index)}})(objIndex);
 					oCallbacks[cbName+objIndex] = cb;
 				}
 				dom.removeEventListener(event.event_name, cb);
 				dom.addEventListener(event.event_name, cb);
 				objIndex++;
-			})			
-		}		
+			})
+		}
 	}
-    
+
     function observeReadyCallback(event, callback, obj,cbName) {
         let targetNode = querySelector(document, obj.observingTargetNode)
 		let targetEventId = uuid();
         let observer = new MutationObserver(function(x,y){observingCallback(x,y,event,callback,targetNode,targetEventId,cbName)});
         observer.observe(targetNode, obj.observingConfig);
-		if(event.event_name == "."){	
-			targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});					
+		if(event.event_name == "."){
+			targetNode.addEventListener(targetEventId, function(x) {callback(x, 0)});
 		}
     }
-    
+
 	function handleResponse(messages) {
 		for(let message of messages) {
-			message.content.forEach(obj=>{ 
+			message.content.forEach(obj=>{
 				switch(obj.type) {
 					case "event":
 						obj.events.forEach(event=>{
@@ -415,7 +408,7 @@ var contentScript = (function () {
 							if(event.selector == "window"){
 								// window
 								window.addEventListener(event.event_name, callback);
-							}else 
+							}else
 							if(event.selector == "document"){
 								// document
 								document.addEventListener(event.event_name, callback);
@@ -427,27 +420,27 @@ var contentScript = (function () {
 										window.addEventListener("load", function(){documentReadyCallback(event, callback)})
 										break;
 									case "DOMChange":
-										window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										window.addEventListener("DOMContentLoaded", function(){observeReadyCallback(event, callback, obj, cbName)})
 										break;
 									case "windowChange":
-										window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})                                    
+										window.addEventListener("load", function(){observeReadyCallback(event, callback, obj, cbName)})
 										break;
 									case "DOMLoad":
 										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
 										break;
 									default:
 										window.addEventListener("DOMContentLoaded", function(){documentReadyCallback(event, callback)})
-										
-								}							
-							}			
-						})            
+
+								}
+							}
+						})
 					break;
 					case "log":
 						log_callback(obj, message.moduleName);
 						break;
 				}
 			});
-		}		
+		}
 	}
 
 	function handleError(error) {
@@ -478,9 +471,9 @@ else */{
 			obj: "content",
 			func: "injectCollectors",
 			params: [window.location.href]
-		}		
+		}
 		browser.runtime.sendMessage(window.surfStreamrContentMessage).then(contentScript.handleResponse, contentScript.handleError);
-	}	
+	}
 }
 
 
