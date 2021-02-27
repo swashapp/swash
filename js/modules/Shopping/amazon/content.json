@@ -2,7 +2,8 @@
   "content_matches": [
     "*://*.amazon.com/*",
     "*://*.amazon.de/*",
-    "*://*.amazon.nl/*"
+    "*://*.amazon.nl/*",
+    "*://*.amazon.ca/*"
   ],
   "content_mapping": {
     "win": "desktop",
@@ -109,13 +110,13 @@
       "events": [
         {
           "selector": "window",
-          "event_name": "DOMContentLoaded"
+          "event_name": "load"
         }
       ],
       "objects": [
         {
           "selector": ".s-result-list.sg-row .s-result-item",
-          "name": "searchResult",
+          "name": "ColSearchResult",
           "indexName": "rank",
           "properties": [
             {
@@ -141,12 +142,24 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
+            },
+            {
+              "selector": ".a-badge-label-inner.a-text-ellipsis",
+              "property": "innerText",
+              "name": "label",
+              "type": "text"
+            },
+            {
+              "selector": ".sbv-ad-feedback span",
+              "property": "innerText",
+              "name": "sponsor",
+              "type": "text"
             }
           ]
         },
         {
           "selector": ".a-section.a-spacing-medium",
-          "name": "searchResult",
+          "name": "RowSearchResult",
           "indexName": "rank",
           "properties": [
             {
@@ -156,7 +169,7 @@
               "type": "url"
             },
             {
-              "selector": ".a-size-base-plus.a-color-base.a-text-normal",
+              "selector": "h2 a",
               "property": "innerText",
               "name": "title",
               "type": "text"
@@ -172,36 +185,17 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": ".sg-col-4-of-24.sg-col-4-of-12.sg-col-4-of-36.sg-col-4-of-28.sg-col-4-of-16.s-inner-result-item.sg-col.sg-col-4-of-20.sg-col-4-of-32",
-          "name": "searchResult2",
-          "indexName": "rank",
-          "properties": [
-            {
-              "selector": ".a-link-normal.a-text-normal",
-              "property": "href",
-              "name": "linkp",
-              "type": "url"
             },
             {
-              "selector": ".a-size-base-plus.a-color-base.a-text-normal",
+              "selector": ".a-badge-label-inner.a-text-ellipsis",
               "property": "innerText",
-              "name": "titlep",
+              "name": "label",
               "type": "text"
             },
             {
-              "selector": ".a-price-whole",
+              "selector": ".sbv-ad-feedback span",
               "property": "innerText",
-              "name": "pricep",
-              "type": "text"
-            },
-            {
-              "selector": ".a-icon-alt",
-              "property": "innerText",
-              "name": "ratep",
+              "name": "sponsor",
               "type": "text"
             }
           ]
@@ -439,7 +433,6 @@
               "name": "price",
               "type": "text"
             }
-
           ]
         },
         {
@@ -463,7 +456,6 @@
               "name": "rate",
               "type": "text"
             }
-
           ]
         },
         {
@@ -487,7 +479,6 @@
               "name": "rate",
               "type": "text"
             }
-
           ]
         },
         {
