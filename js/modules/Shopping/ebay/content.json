@@ -175,6 +175,62 @@
               "property": "innerText",
               "name": "description",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         }
@@ -268,6 +324,30 @@
               "property": "innerText",
               "name": "description",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -291,6 +371,30 @@
               "property": "innerText",
               "name": "description",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -313,6 +417,62 @@
               "selector": ".BOLD.NEGATIVE",
               "property": "innerText",
               "name": "description",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -370,6 +530,30 @@
               "property": "innerText",
               "name": "shippingPrice",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -392,6 +576,30 @@
               "selector": ".s-item__shipping.s-item__logisticsCost",
               "property": "innerText",
               "name": "shippingPrice",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -416,6 +624,30 @@
               "property": "innerText",
               "name": "shippingPrice",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -432,6 +664,30 @@
               "selector": "#prcIsum",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -450,6 +706,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -466,6 +746,62 @@
               "selector": "#mm-saleDscPrc",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -523,6 +859,30 @@
               "property": "value",
               "name": "quantity",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -545,6 +905,30 @@
               "selector": "#vi-quantity__select-box",
               "property": "value",
               "name": "quantity",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -569,6 +953,30 @@
               "property": "value",
               "name": "quantity",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -585,6 +993,30 @@
               "selector": ".product-details-action.section.clearfix .price",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -603,6 +1035,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -620,6 +1076,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -636,6 +1116,62 @@
               "selector": "#mm-saleDscPrc",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -689,6 +1225,30 @@
               "property": "value",
               "name": "quantity",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -706,6 +1266,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -722,6 +1306,30 @@
               "selector": ".cost-label",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -745,6 +1353,62 @@
               "selector": "#vi-quantity__select-box",
               "property": "value",
               "name": "quantity",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -785,6 +1449,62 @@
               "selector": "#MaxBidId",
               "property": "value",
               "name": "BidPrice",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -828,6 +1548,30 @@
               "property": "value",
               "name": "quantity",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -838,6 +1582,38 @@
               "selector": ".val-col.total-row",
               "property": "innerText",
               "name": "totalPrice",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]

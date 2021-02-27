@@ -137,6 +137,62 @@
               "property": "innerText",
               "name": "reviewCount",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         }
@@ -205,6 +261,62 @@
               "property": "innerText",
               "name": "reviewCount",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         }
@@ -266,6 +378,30 @@
               "property": "innerText",
               "name": "reviewCount",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -289,6 +425,30 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -299,6 +459,62 @@
               "selector": ".listing-title.text-gray-darker.text-truncate.h5.b.display-block.mt-xs-1.mb-xs-1",
               "property": "innerText",
               "name": "title",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -355,6 +571,30 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -365,6 +605,30 @@
               "selector": ".listing-title.text-gray-darker.text-truncate.h5.b.display-block.mt-xs-1.mb-xs-1",
               "property": "innerText",
               "name": "title",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -382,6 +646,62 @@
               "selector": ".currency-value",
               "property": "innerText",
               "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
@@ -430,6 +750,62 @@
               "property": "innerText",
               "name": "rate",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         }
@@ -477,6 +853,62 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
+              "type": "text"
             }
           ]
         }
@@ -519,6 +951,30 @@
               "property": "innerText",
               "name": "price",
               "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
             }
           ]
         },
@@ -541,6 +997,62 @@
               "selector": ".wt-p-xs-0.wt-b-xs-none.wt-text-right-xs.wt-no-wrap .wt-text-title-01 .currency-value",
               "property": "innerText",
               "name": "order total",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "property": "screen",
+          "properties": [
+            {
+              "property": "height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "property": "documentElement",
+          "properties": [
+            {
+              "property": "clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]
