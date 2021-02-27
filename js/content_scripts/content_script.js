@@ -253,6 +253,7 @@ var contentScript = (function () {
 					}
 				}]
 		}
+		debugger
 		for(x of data.objects) {
 		//data.objects.forEach(x=>{
 			var objList = [];
@@ -299,6 +300,13 @@ var contentScript = (function () {
                     objList.forEach((obj, objId)=>{
 						if(x.conditions && !isCollectable(obj, x.conditions))
 							return;
+						if (x.property) {
+							if (x.property === 'getBoundingClientRect') {
+								obj = obj.getBoundingClientRect();
+							} else {
+								obj = obj[x.property];
+							}
+						}
                         let item = {};
                         x.properties.forEach(y=>{
                             let prop;
@@ -319,7 +327,14 @@ var contentScript = (function () {
 						}
                     })
                 }
-                else {											
+                else {
+					if (x.property) {
+						if (x.property === 'getBoundingClientRect') {
+							objList = objList.getBoundingClientRect();
+						} else {
+							objList = objList[x.property];
+						}
+					}
                     x.properties.forEach(y=>{                        
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
