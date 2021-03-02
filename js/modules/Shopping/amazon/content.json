@@ -250,15 +250,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -266,15 +265,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -379,15 +377,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -395,15 +392,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -499,15 +495,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -515,15 +510,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -699,15 +693,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -715,15 +708,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -827,15 +819,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -843,15 +834,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -945,15 +935,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -961,15 +950,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1135,15 +1123,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1151,15 +1138,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1249,15 +1235,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1265,15 +1250,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1357,15 +1341,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1373,15 +1356,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1469,15 +1451,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1485,15 +1466,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1591,15 +1571,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1607,15 +1586,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }
@@ -1703,15 +1681,14 @@
         },
         {
           "selector": "window",
-          "property": "screen",
           "properties": [
             {
-              "property": "height",
+              "property": "screen.height",
               "name": "screenHeight",
               "type": "text"
             },
             {
-              "property": "width",
+              "property": "screen.width",
               "name": "screenWidth",
               "type": "text"
             }
@@ -1719,15 +1696,14 @@
         },
         {
           "selector": "document",
-          "property": "documentElement",
           "properties": [
             {
-              "property": "clientHeight",
+              "property": "documentElement.clientHeight",
               "name": "documentHeight",
               "type": "text"
             },
             {
-              "property": "clientWidth",
+              "property": "documentElement.clientWidth",
               "name": "documentWidth",
               "type": "text"
             }

@@ -233,6 +233,16 @@ var contentScript = (function () {
 		return res;
 	}
 
+	function getPropertyValue(obj, property) {
+		let propertyPath = property.split('.');
+		let result = obj;
+
+		propertyPath.forEach((prop) => {
+			result = result[prop];
+		})
+		return result;
+	}
+
 	function public_callback(data, moduleName, event, index){
 		let eventInfo = {
 			index: Number(index) + 1
@@ -298,20 +308,17 @@ var contentScript = (function () {
                     objList.forEach((obj, objId)=>{
 						if(x.conditions && !isCollectable(obj, x.conditions))
 							return;
-						if (x.property) {
-							obj = obj[x.property];
-						}
                         let item = {};
                         x.properties.forEach(y=>{
                             let prop;
                             if (y.selector)
                                 prop = querySelector(obj, y.selector);
-                            else if (y.function && y.function === 'getBoundingClientRect')
-                            	prop = obj[y.function]();
                             else
                                 prop = obj;
+							if (y.function && y.function === 'getBoundingClientRect')
+								prop = obj[y.function]();
 							if(prop)
-								item[y.name] = prop[y.property];
+								item[y.name] = getPropertyValue(prop, y.property);
                         })
 						if(!isEmpty(item)) {
 							objectIndex++;
@@ -323,20 +330,17 @@ var contentScript = (function () {
                     })
                 }
                 else {
-					if (x.property) {
-						objList = objList[x.property];
-					}
                     x.properties.forEach(y=>{
                         message.params[0].data.schems.push({jpath:"$." + y.name,type:y.type});
                         let prop;
                         if(y.selector)
                             prop = querySelector(objList, y.selector);
-						else if (y.function && y.function === 'getBoundingClientRect')
-							prop = objList[y.function]();
                         else
                             prop = objList;
+						if (y.function && y.function === 'getBoundingClientRect')
+							prop = objList[y.function]();
 						if(prop)
-							message.params[0].data.out[y.name] = prop[y.property];
+							message.params[0].data.out[y.name] = getPropertyValue(prop, y.property);
                     });
                 }
 			}
