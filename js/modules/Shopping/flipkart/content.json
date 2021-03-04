@@ -1,9 +1,6 @@
 {
   "content_matches": [
-    "*://*.amazon.com/*",
-    "*://*.amazon.de/*",
-    "*://*.amazon.nl/*",
-    "*://*.amazon.ca/*"
+    "*://*.flipkart.com/*"
   ],
   "content_mapping": {
     "win": "desktop",
@@ -17,37 +14,32 @@
   "desktop": [
     {
       "name": "searchQuery",
-      "url_match": "*://www.amazon.*/*",
-      "description": "This item collects Amazon search query and search category",
+      "description": "This item collects flipkart search query",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "search query",
       "viewGroup": "UX",
-      "title": "Search Query",
       "type": "event",
       "is_enabled": true,
+      "readyAt": "windowLoad",
       "events": [
         {
-          "selector": "#nav-search input[type=submit]",
+          "selector": ".L0Z3Pu",
           "event_name": "click"
         },
         {
-          "selector": "#twotabsearchtextbox",
+          "selector": "._3704LK",
           "event_name": "keydown",
           "keyCode": 13
         }
       ],
       "objects": [
         {
-          "selector": "#nav-search",
+          "selector": "._3704LK",
           "properties": [
             {
-              "selector": "#twotabsearchtextbox",
+              "selector": "",
               "property": "value",
               "name": "query",
-              "type": "text"
-            },
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
               "type": "text"
             }
           ]
@@ -56,41 +48,31 @@
     },
     {
       "name": "searchSuggestionSelect",
-      "url_match": "*://www.amazon.*/*",
-      "description": "This item collects a search suggestion that has been selected by user",
-      "viewGroup": "UX",
+      "description": "This item collects search suggestions that has been selected by user",
+      "url_match": "*://*.flipkart.com/*",
       "title": "Search Suggestion",
+      "viewGroup": "UX",
       "type": "event",
+      "is_enabled": true,
       "readyAt": "DOMChange",
-      "observingTargetNode": "#nav-belt",
+      "observingTargetNode": "._2M8cLY.header-form-search",
       "observingConfig": {
         "attributes": false,
         "childList": true,
         "subtree": true
       },
-      "is_enabled": true,
       "events": [
         {
-          "selector": ".s-suggestion",
+          "selector": ".r85cly",
           "event_name": "click"
         }
       ],
       "objects": [
         {
-          "selector": "#nav-search",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            }
-          ]
-        },
-        {
           "selector": "",
           "properties": [
             {
+              "selector": "",
               "property": "innerText",
               "name": "query",
               "type": "text"
@@ -101,10 +83,10 @@
     },
     {
       "name": "searchResult",
-      "url_match": "*://www.amazon.*/s*",
-      "description": "This item collects Amazon search results, search category, and corresponding search query",
-      "viewGroup": "UX",
+      "description": "This item collects search results in flipkart web pages",
+      "url_match": "*://*.flipkart.com/*",
       "title": "Search Result",
+      "viewGroup": "UX",
       "type": "event",
       "is_enabled": true,
       "events": [
@@ -115,44 +97,37 @@
       ],
       "objects": [
         {
-          "selector": ".s-result-list.sg-row .s-result-item",
-          "name": "ColSearchResult",
+          "selector": "._3704LK",
+          "properties": [
+            {
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "._1xHGtK._373qXS",
+          "name": "searchResult1",
           "indexName": "rank",
           "properties": [
             {
-              "selector": "h2 a",
-              "property": "href",
-              "name": "link",
-              "type": "url"
+              "selector": "._2WkVRV",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
             },
             {
-              "selector": "h2 a",
+              "selector": ".IRpwTa",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": ".a-price .a-offscreen",
+              "selector": "._30jeq3",
               "property": "innerText",
               "name": "price",
-              "type": "text"
-            },
-            {
-              "selector": ".a-icon-star-small",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": ".a-badge-label-inner.a-text-ellipsis",
-              "property": "innerText",
-              "name": "label",
-              "type": "text"
-            },
-            {
-              "selector": ".sbv-ad-feedback span",
-              "property": "innerText",
-              "name": "sponsor",
               "type": "text"
             },
             {
@@ -182,44 +157,26 @@
           ]
         },
         {
-          "selector": ".a-section.a-spacing-medium",
-          "name": "RowSearchResult",
+          "selector": "._3pLy-c.row",
+          "name": "searchResult2",
           "indexName": "rank",
           "properties": [
             {
-              "selector": ".a-link-normal.a-text-normal",
-              "property": "href",
-              "name": "link",
-              "type": "url"
-            },
-            {
-              "selector": "h2 a",
+              "selector": "._4rR01T",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": ".a-price-whole",
+              "selector": "._30jeq3._1_WHN1",
               "property": "innerText",
               "name": "price",
               "type": "text"
             },
             {
-              "selector": ".a-icon-alt",
+              "selector": "._3LWZlK",
               "property": "innerText",
               "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": ".a-badge-label-inner.a-text-ellipsis",
-              "property": "innerText",
-              "name": "label",
-              "type": "text"
-            },
-            {
-              "selector": ".sbv-ad-feedback span",
-              "property": "innerText",
-              "name": "sponsor",
               "type": "text"
             },
             {
@@ -249,225 +206,78 @@
           ]
         },
         {
-          "selector": "window",
+          "selector": "._3YgSsQ",
+          "name": "searchResult3",
+          "indexName": "rank",
           "properties": [
             {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "title",
-          "properties": [
-            {
-              "property": "innerText",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "body",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": ".a-pagination .a-selected a",
-              "property": "innerText",
-              "name": "pageNumber",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "clickSearchResult",
-      "url_match": "*://*.amazon.*/s*",
-      "description": "This item collects information about a search result link that has been clicked by user",
-      "viewGroup": "UX",
-      "title": "clicked search results",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": ".s-result-list.sg-row .s-result-item h2 a",
-          "event_name": "click"
-        },
-        {
-          "selector": ".s-result-list.sg-row .s-result-item h2 a",
-          "event_name": "contextmenu"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#",
-          "properties": [
-            {
-              "property": "index",
-              "name": "rank",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "",
-          "properties": [
-            {
-              "property": "href",
-              "name": "link",
-              "type": "url"
-            },
-            {
+              "selector": ".s1Q9rs",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "window",
-          "properties": [
-            {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "body",
-          "properties": [
-            {
-              "selector": "#twotabsearchtextbox",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            },
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": ".a-pagination .a-selected a",
-              "property": "innerText",
-              "name": "pageNumber",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "selectedItem",
-      "url_match": "*://*.amazon.*/*",
-      "description": "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
-      "viewGroup": "UX",
-      "title": "Selected Items",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": "window",
-          "event_name": "DOMContentLoaded"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#dp-container",
-          "isRequired": true,
-          "properties": [
-            {
-              "selector": "#productTitle",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": "#averageCustomerReviews .a-icon-star",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#priceblock_ourprice",
+              "selector": "._30jeq3",
               "property": "innerText",
               "name": "price",
               "type": "text"
             },
             {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "._4ddWXP",
+          "name": "searchResult4",
+          "indexName": "rank",
+          "properties": [
+            {
+              "selector": ".s1Q9rs",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
               "function": "getBoundingClientRect",
               "property": "height",
               "name": "height",
@@ -522,32 +332,15 @@
               "type": "text"
             }
           ]
-        },
-        {
-          "selector": "#nav-search",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": "#twotabsearchtextbox",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
         }
       ]
     },
     {
-      "name": "addToCart",
-      "url_match": "*://*.amazon.*/*",
-      "description": "This item collects all products in amazon web pages that has been added to the cart by user",
+      "name": "selectedProducts",
+      "description": "This item collects information about a product that has been selected (or clicked on a search resault) by user",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Selected Product",
       "viewGroup": "UX",
-      "title": "Items in cart",
       "type": "event",
       "is_enabled": true,
       "readyAt": "DOMChange",
@@ -559,635 +352,156 @@
       },
       "events": [
         {
-          "selector": "#add-to-cart-button",
+          "selector": "._2UzuFa",
           "event_name": "click"
         },
         {
-          "selector": "#add-to-cart-button",
-          "event_name": "submit"
+          "selector": "._2UzuFa",
+          "event_name": "contextmenu"
         },
         {
-          "selector": "button.a-button-text.a-text-center[aria-label*='Add to Cart']",
+          "selector": ".IRpwTa",
           "event_name": "click"
         },
         {
-          "selector": ".a-button-text.a-text-center",
+          "selector": ".IRpwTa",
+          "event_name": "contextmenu"
+        },
+        {
+          "selector": "._3bPFwb",
           "event_name": "click"
         },
         {
-          "selector": ".a-button-input[value='Add to Cart']",
-          "event_name": "click"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#dp-container",
-          "isRequired": true,
-          "properties": [
-            {
-              "selector": "#productTitle",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": "#averageCustomerReviews .a-icon-star",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#price_inside_buybox",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
+          "selector": "._3bPFwb",
+          "event_name": "contextmenu"
         },
         {
-          "selector": "<<<<<<",
-          "properties": [
-            {
-              "selector": ".a-declarative",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": ".dealPriceText",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "<<<<<<",
-          "properties": [
-            {
-              "selector": ".a-link-normal",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": ".a-offscreen",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "selector": ".a-icon-alt",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "<<<<<",
-          "properties": [
-            {
-              "selector": ".p13n-sc-truncate-desktop-type2.p13n-sc-truncated",
-              "property": "title",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": ".p13n-sc-price",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "selector": ".a-icon-alt",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "window",
-          "properties": [
-            {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#nav-search",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": "#twotabsearchtextbox",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#feature-bullets",
-          "properties": [
-            {
-              "property": "innerText",
-              "name": "features",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "addToWishlist",
-      "description": "This item collects all products in amazon web pages that has been added by user in wish list",
-      "url_match": "*://*.amazon.*/*",
-      "viewGroup": "UX",
-      "title": "Items in wishlist",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": "#wishListMainButton-announce",
+          "selector": "._1fQZEK",
           "event_name": "click"
         },
         {
-          "selector": "#wishListMainButton-announce",
-          "event_name": "submit"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#dp-container",
-          "isRequired": true,
-          "properties": [
-            {
-              "selector": "#productTitle",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": "#averageCustomerReviews .a-icon-star",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#price_inside_buybox",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
+          "selector": "._1fQZEK",
+          "event_name": "contextmenu"
         },
         {
-          "selector": "window",
-          "properties": [
-            {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#nav-search",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": "#twotabsearchtextbox",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "buyNow",
-      "description": "This item collects all products in amazon web pages that has been selected by user for buying",
-      "url_match": "*://*.amazon.*/*",
-      "viewGroup": "UX",
-      "title": "Items for buy",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": "#buy-now-button",
+          "selector": "._2rpwqI",
           "event_name": "click"
         },
         {
-          "selector": "#buy-now-button",
-          "event_name": "submit"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#dp-container",
-          "isRequired": true,
-          "properties": [
-            {
-              "selector": "#productTitle",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": "#averageCustomerReviews .a-icon-star",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#price_inside_buybox",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
+          "selector": "._2rpwqI",
+          "event_name": "contextmenu"
         },
         {
-          "selector": "window",
-          "properties": [
-            {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#nav-search",
-          "properties": [
-            {
-              "selector": "#searchDropdownBox option:checked",
-              "property": "innerText",
-              "name": "category",
-              "type": "text"
-            },
-            {
-              "selector": "#twotabsearchtextbox",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "mobile": [
-    {
-      "name": "searchQuery",
-      "url_match": "*://www.amazon.*/*",
-      "description": "This item collects Amazon search query and search category",
-      "viewGroup": "UX",
-      "title": "Search Query",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": "#nav-search-form input[type=submit]",
+          "selector": ".s1Q9rs",
           "event_name": "click"
         },
         {
-          "selector": "#nav-search-keywords",
-          "event_name": "keydown",
-          "keyCode": 13
-        }
-      ],
-      "objects": [
-        {
-          "selector": "#nav-search-form",
-          "properties": [
-            {
-              "selector": "#nav-search-keywords",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "searchSuggestionSelect",
-      "url_match": "*://www.amazon.*/*",
-      "description": "This item collects a search suggestion that has been selected by user",
-      "viewGroup": "UX",
-      "title": "Search Suggestion",
-      "type": "event",
-      "readyAt": "DOMChange",
-      "observingTargetNode": "#nav-search-form",
-      "observingConfig": {
-        "attributes": false,
-        "childList": true,
-        "subtree": true
-      },
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": ".suggest_row",
-          "event_name": "click"
-        }
-      ],
-      "objects": [
-        {
-          "selector": "",
-          "properties": [
-            {
-              "property": "innerText",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "searchResult",
-      "url_match": "*://www.amazon.*/s*",
-      "description": "This item collects Amazon search results, search category, and corresponding search query",
-      "viewGroup": "UX",
-      "title": "Search Result",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": "window",
-          "event_name": "DOMContentLoaded"
-        }
-      ],
-      "objects": [
-        {
-          "selector": ".s-result-list.sg-row .s-result-item",
-          "name": "searchResult",
-          "indexName": "rank",
-          "properties": [
-            {
-              "selector": "a[title=status-badge]",
-              "property": "href",
-              "name": "link",
-              "type": "url"
-            },
-            {
-              "selector": "a h2",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": ".a-price .a-offscreen",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "selector": ".a-icon-star-small",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "window",
-          "properties": [
-            {
-              "property": "screen.height",
-              "name": "screenHeight",
-              "type": "text"
-            },
-            {
-              "property": "screen.width",
-              "name": "screenWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "document",
-          "properties": [
-            {
-              "property": "documentElement.clientHeight",
-              "name": "documentHeight",
-              "type": "text"
-            },
-            {
-              "property": "documentElement.clientWidth",
-              "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "title",
-          "properties": [
-            {
-              "property": "innerText",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "clickSearchResult",
-      "url_match": "*://*.amazon.*/s*",
-      "description": "This item collects information about a search result link that has been clicked by user",
-      "viewGroup": "UX",
-      "title": "clicked search results",
-      "type": "event",
-      "is_enabled": true,
-      "events": [
-        {
-          "selector": ".s-result-list.sg-row .s-result-item",
-          "event_name": "click"
-        },
-        {
-          "selector": ".s-result-list.sg-row .s-result-item",
+          "selector": ".s1Q9rs",
           "event_name": "contextmenu"
         }
       ],
       "objects": [
         {
-          "selector": "#",
+          "selector": "._3704LK",
           "properties": [
             {
-              "property": "index",
-              "name": "rank",
+              "selector": "",
+              "property": "value",
+              "name": "searchQuery",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<",
+          "properties": [
+            {
+              "selector": "._2WkVRV",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".IRpwTa",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": "._2WkVRV",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".IRpwTa",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
               "type": "text"
             }
           ]
@@ -1196,15 +510,68 @@
           "selector": "",
           "properties": [
             {
-              "selector": "a[title=status-badge]",
-              "property": "href",
-              "name": "link",
-              "type": "url"
-            },
-            {
-              "selector": "a h2",
+              "selector": "._4rR01T",
               "property": "innerText",
               "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3._1_WHN1",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": ".s1Q9rs",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
               "type": "text"
             },
             {
@@ -1262,53 +629,48 @@
               "type": "text"
             }
           ]
-        },
-        {
-          "selector": "#nav-search-form",
-          "properties": [
-            {
-              "selector": "#nav-search-keywords",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
         }
       ]
     },
     {
-      "name": "selectedItem",
-      "url_match": "*://*.amazon.*/*",
-      "description": "This item collects product title, product category and page title for products in amazon web pages that has been selected by user",
+      "name": "addToLoveList",
+      "description": "This item collects all products in flipkart web pages that has been added by user to love list",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Add to Love list",
       "viewGroup": "UX",
-      "title": "Selected Items",
       "type": "event",
       "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
       "events": [
         {
-          "selector": "window",
-          "event_name": "DOMContentLoaded"
+          "selector": "._2hVSre",
+          "event_name": "click"
         }
       ],
       "objects": [
         {
-          "selector": "#productTitleGroupAnchor",
-          "isRequired": true,
+          "selector": "<<",
           "properties": [
             {
-              "selector": "#title",
+              "selector": "._2WkVRV",
+              "property": "innerText",
+              "name": "brand",
+              "type": "text"
+            },
+            {
+              "selector": ".IRpwTa",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": "#acrCustomerReviewLink .a-icon-star-mini",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#priceblock_ourprice",
+              "selector": "._30jeq3",
               "property": "innerText",
               "name": "price",
               "type": "text"
@@ -1340,6 +702,147 @@
           ]
         },
         {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": "._4rR01T",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3._1_WHN1",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<",
+          "properties": [
+            {
+              "selector": ".s1Q9rs",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<",
+          "properties": [
+            {
+              "selector": ".B_NuCI",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._30jeq3._16Jk6d",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
           "selector": "window",
           "properties": [
             {
@@ -1368,57 +871,99 @@
               "type": "text"
             }
           ]
-        },
-        {
-          "selector": "#nav-search-form",
-          "properties": [
-            {
-              "selector": "#nav-search-keywords",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
         }
       ]
     },
     {
-      "name": "addToCart",
-      "url_match": "*://*.amazon.*/*",
-      "description": "This item collects all products in amazon web pages that has been added to the cart by user",
+      "name": "addToBasket",
+      "description": "This item collects the products that has been added to the basket by user",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Add to Basket",
       "viewGroup": "UX",
-      "title": "Items in cart",
       "type": "event",
       "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
       "events": [
         {
-          "selector": "#add-to-cart-button",
+          "selector": "._2KpZ6l._2U9uOA._3v1-ww",
           "event_name": "click"
         },
         {
-          "selector": "#add-to-cart-button",
-          "event_name": "submit"
+          "selector": "._1YokD2._3Mn1Gg.col-12-12:nth-child(2) ._3dsJAO:first-child",
+          "event_name": "click"
         }
       ],
       "objects": [
         {
-          "selector": "#productTitleGroupAnchor",
-          "isRequired": true,
+          "selector": "<<<<<<",
           "properties": [
             {
-              "selector": "#title",
+              "selector": ".B_NuCI",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": "#acrCustomerReviewLink .a-icon-star-mini",
+              "selector": "._30jeq3._16Jk6d",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
               "property": "innerText",
               "name": "rate",
               "type": "text"
             },
             {
-              "selector": "#priceblock_ourprice",
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": "._2Kn22P.gBNbID",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._253qQJ",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": "._2-ut7f._1WpvJ7",
               "property": "innerText",
               "name": "price",
               "type": "text"
@@ -1475,27 +1020,6 @@
             {
               "property": "documentElement.clientWidth",
               "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#nav-search-form",
-          "properties": [
-            {
-              "selector": "#nav-search-keywords",
-              "property": "value",
-              "name": "query",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#feature-bullets",
-          "properties": [
-            {
-              "property": "innerText",
-              "name": "features",
               "type": "text"
             }
           ]
@@ -1503,44 +1027,41 @@
       ]
     },
     {
-      "name": "addToWishlist",
-      "description": "This item collects all products in amazon web pages that has been added by user in wish list",
-      "url_match": "*://*.amazon.*/*",
+      "name": "addToBasketMultipleItem",
+      "description": "This item collects the multiple products that has been added to the basket by user",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Add to Basket Multiple Items",
       "viewGroup": "UX",
-      "title": "Items in wishlist",
       "type": "event",
       "is_enabled": true,
       "events": [
         {
-          "selector": "#wishListMainButton-announce",
+          "selector": "._2KpZ6l._1t_O3S._2ti6Tf._3AWRsL",
           "event_name": "click"
-        },
-        {
-          "selector": "#wishListMainButton-announce",
-          "event_name": "submit"
         }
       ],
       "objects": [
         {
-          "selector": "#productTitleGroupAnchor",
-          "isRequired": true,
+          "selector": "<<<._3E8aIl.mtoPr4",
+          "name": "addToBasket",
+          "indexName": "rank",
           "properties": [
             {
-              "selector": "#title",
+              "selector": ".s1Q9rs",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": "#acrCustomerReviewLink .a-icon-star-mini",
+              "selector": "._30jeq3",
               "property": "innerText",
-              "name": "rate",
+              "name": "price",
               "type": "text"
             },
             {
-              "selector": "#priceblock_ourprice",
+              "selector": "._3LWZlK",
               "property": "innerText",
-              "name": "price",
+              "name": "rate",
               "type": "text"
             },
             {
@@ -1595,17 +1116,6 @@
             {
               "property": "documentElement.clientWidth",
               "name": "documentWidth",
-              "type": "text"
-            }
-          ]
-        },
-        {
-          "selector": "#nav-search-form",
-          "properties": [
-            {
-              "selector": "#nav-search-keywords",
-              "property": "value",
-              "name": "query",
               "type": "text"
             }
           ]
@@ -1613,42 +1123,138 @@
       ]
     },
     {
-      "name": "buyNow",
-      "description": "This item collects all products in amazon web pages that has been selected by user for buying",
-      "url_match": "*://*.amazon.*/*",
+      "name": "buyItNow",
+      "description": "This item collects the products that has been selected by user for buying",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Buy it Now",
       "viewGroup": "UX",
-      "title": "Items for buy",
       "type": "event",
       "is_enabled": true,
       "events": [
         {
-          "selector": "#buy-now-button",
+          "selector": "._2KpZ6l._2U9uOA.ihZ75k._3AWRsL",
           "event_name": "click"
-        },
-        {
-          "selector": "#buy-now-button",
-          "event_name": "submit"
         }
       ],
       "objects": [
         {
-          "selector": "#productTitleGroupAnchor",
-          "isRequired": true,
+          "selector": "<<<<<<<",
           "properties": [
             {
-              "selector": "#title",
+              "selector": ".B_NuCI",
               "property": "innerText",
               "name": "title",
               "type": "text"
             },
             {
-              "selector": "#acrCustomerReviewLink .a-icon-star-mini",
+              "selector": "._30jeq3._16Jk6d",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "selector": "._3LWZlK",
               "property": "innerText",
               "name": "rate",
               "type": "text"
             },
             {
-              "selector": "#priceblock_ourprice",
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "properties": [
+            {
+              "property": "screen.height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "screen.width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "properties": [
+            {
+              "property": "documentElement.clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "documentElement.clientWidth",
+              "name": "documentWidth",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "saveForLater",
+      "description": "This item collects information about products that has been saved by user for later",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "Save for Later",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
+        {
+          "selector": "._1YokD2._3Mn1Gg.col-12-12:first-child ._3dsJAO:first-child",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<",
+          "properties": [
+            {
+              "selector": "._2Kn22P.gBNbID",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._253qQJ",
+              "property": "value",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": "._2-ut7f._1WpvJ7",
               "property": "innerText",
               "name": "price",
               "type": "text"
@@ -1708,14 +1314,153 @@
               "type": "text"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "description": "This item collects information about products that has been selected by user for buying",
+      "url_match": "*://*.flipkart.com/*",
+      "title": "checkout",
+      "viewGroup": "UX",
+      "type": "event",
+      "is_enabled": true,
+      "readyAt": "DOMChange",
+      "observingTargetNode": "body",
+      "observingConfig": {
+        "attributes": false,
+        "childList": true,
+        "subtree": true
+      },
+      "events": [
         {
-          "selector": "#nav-search-form",
+          "selector": "._2KpZ6l._2ObVJD._3AWRsL",
+          "event_name": "click"
+        }
+      ],
+      "objects": [
+        {
+          "selector": "<<<<.zab8Yh._10k93p",
+          "name": "products",
+          "indexName": "rank",
           "properties": [
             {
-              "selector": "#nav-search-keywords",
+              "selector": "._2Kn22P.gBNbID",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "._253qQJ",
               "property": "value",
-              "name": "query",
+              "name": "quantity",
+              "type": "text"
+            },
+            {
+              "selector": "._2-ut7f._1WpvJ7",
+              "property": "innerText",
+              "name": "price",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "<<<<<<._35mLK5",
+          "properties": [
+            {
+              "selector": "._I_XQO > .Ob17DV:first-child span",
+              "property": "innerText",
+              "name": "itemsPrice",
+              "type": "text"
+            },
+            {
+              "selector": "._I_XQO > .Ob17DV:nth-child(3) span",
+              "property": "innerText",
+              "name": "shipping",
+              "type": "text"
+            },
+            {
+              "selector": ".Ob17DV._3X7Jj1",
+              "property": "innerText",
+              "name": "totalAmount",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "height",
+              "name": "height",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "width",
+              "name": "width",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "top",
+              "name": "top",
+              "type": "text"
+            },
+            {
+              "function": "getBoundingClientRect",
+              "property": "left",
+              "name": "left",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "window",
+          "properties": [
+            {
+              "property": "screen.height",
+              "name": "screenHeight",
+              "type": "text"
+            },
+            {
+              "property": "screen.width",
+              "name": "screenWidth",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "document",
+          "properties": [
+            {
+              "property": "documentElement.clientHeight",
+              "name": "documentHeight",
+              "type": "text"
+            },
+            {
+              "property": "documentElement.clientWidth",
+              "name": "documentWidth",
               "type": "text"
             }
           ]

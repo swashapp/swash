@@ -3,7 +3,7 @@ var ssConfig = (function() {
     
     return {
         name: browser.runtime.getManifest().name,        
-        description: "Swash is a Streamr Community Product that collects information about users browsing activities and gives users the ability to sell their data through Streamr Marketplace",
+        description: "Get paid for your data as you browse the web. Gain control and help create a better, more dignified internet.",
         path: "/",
         is_enabled: true,
 		privacyLevel: 'auto',

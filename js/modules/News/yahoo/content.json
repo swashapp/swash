@@ -1,8 +1,6 @@
 {
 	"content_matches": [
-		"*://news.yahoo.com/*",
-		"*://yahoo.com/*",
-		"*://*.yahoo.co.jp/*"				
+		"*://*.yahoo.com/*"				
 	],
 	"content_mapping": {
 		"win": "desktop",
@@ -15,16 +13,22 @@
 	},
 	"desktop": [
 		{
-			"name": "yahooNewsLink",
+			"name": "yahooLink",
 			"description": "This item collects news title and news url after click",
-			"title": "Yahoo News",
-			"url_match": "*://news.yahoo.com/*",
+			"viewGroup": "PInfo",
+			"title": "Yahoo",
+			"url_match": "*://*.yahoo.com/*",
 			"type": "event",
 			"is_enabled": true,
 			"events": [{
-				"selector": "a",
-				"event_name": "click"
-			}],
+					"selector": "a",
+					"event_name": "click"
+				},
+				{
+					"selector": "a",
+					"event_name": "contextmenu"
+				}
+			],
 			"objects": [{
 				"selector": "",
 				"properties": [{
@@ -41,24 +45,88 @@
 			}]
 		},
 		{
-			"name": "yahooNewsDetails",
+			"name": "yahooDetails",
 			"description": "This item collects category, title, author, date and time of news",
-			"title": "Yahoo News",
-			"url_match": "*://news.yahoo.com/*",
+			"viewGroup": "PInfo",
+			"title": "Yahoo",
+			"url_match": "*://*.yahoo.com/*",
 			"type": "event",
 			"is_enabled": true,
 			"events": [{
-				"selector": "click",
-				"event_name": "a"
+				"selector": "window",
+				"event_name": "DOMContentLoaded"
 			}],
 			"objects": [{
 				"selector": "document",
 				"properties": [{
-					"selector": "h1",
-					"property": "innerText",
-					"name": "Title",
-					"type": "text"
-				}]
+						"selector": "h1:first-child",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".caas-attr-meta",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": "time:first-child",
+						"property": "innerText",
+						"name": "date",
+						"type": "text"
+					},
+					{
+						"selector": ".caas-category-label:first-child",
+						"property": "innerText",
+						"name": "category",
+						"type": "text"
+					}
+				]
+
+			}]
+		},
+		
+			{
+			"name": "yahooDetail",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "Yahoo News",
+			"url_match": "*://*yahoo.com/news/*",
+			"type": "event",
+			"readyAt": "DOMChange",
+			"observingTargetNode": "#homepage-viewer",
+			"observingConfig": {
+				"attributes": false,
+				"childList": true,
+				"subtree": true
+			},
+			"is_enabled": true,
+			"events": [{
+				"selector": "#homepage-viewer",
+				"event_name": "mouseenter"
+			}],
+			"objects": [{
+				"selector": "article",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".caas-attr-meta",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": ".caas-attr-time-style",
+						"property": "innerText",
+						"name": "time",
+						"type": "text"
+					}					
+				]
 
 			}]
 		}

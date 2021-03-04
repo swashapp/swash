@@ -1,0 +1,60 @@
+{
+	"content_matches": [
+		"*://news.yahoo.com/*",
+		"*://*.yahoo.co.jp/*"
+	],
+	"content_mapping": {
+		"win": "desktop",
+		"mac": "desktop",
+		"android": "desktop",
+		"cros": "desktop",
+		"openbsd": "desktop",
+		"ios": "desktop",
+		"ipados": "desktop"
+	},
+	"desktop": [
+	{
+			"name": "yahooNewsDetails",
+			"description": "This item collects category, title, author, date and time of news",
+			"viewGroup": "PInfo",
+			"title": "Yahoo News",
+			"url_match": "*://*yahoo.com/*",
+			"type": "event",
+			"readyAt": "DOMChange",
+			"observingTargetNode": "article",
+			"observingConfig": {
+				"attributes": false,
+				"childList": true,
+				"subtree": true
+			},
+			"is_enabled": true,
+			"events": [{
+				"selector": "article",
+				"event_name": "mouseenter"
+			}],
+			"objects": [{
+				"selector": "",
+				"properties": [{
+						"selector": "h1",
+						"property": "innerText",
+						"name": "Title",
+						"type": "text"
+					},
+					{
+						"selector": ".author.Mb\\(4px\\).D\\(ib\\)",
+						"property": "innerText",
+						"name": "Author",
+						"type": "text"
+					},
+					{
+						"selector": "time",
+						"property": "innerText",
+						"name": "date",
+						"type": "text"
+					}
+				]
+
+			}]
+		}
+	]
+}

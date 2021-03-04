@@ -1,6 +1,6 @@
 {
 	"content_matches": [
-	    "*://*.cnn.com/*"				
+		"*://*.cnn.com*"
 	],
 	"content_mapping": {
 		"win": "desktop",
@@ -11,15 +11,15 @@
 		"ios": "desktop",
 		"ipados": "desktop"
 	},
-	"desktop": [
-		 {
-			"name": "uolLink",
+	"desktop": [{
+			"name": "CNNLink",
 			"description": "This item collects news title and news url after click",
-			"title": "uol News",
-			"url_match": "*://*.cnn.com/*",
+			"viewGroup": "PInfo",
+			"title": "CNN News",
+			"url_match": "*://*.cnn.com*",
 			"type": "event",
 			"is_enabled": true,
-			"events": [{
+		"events": [{
 					"selector": "a",
 					"event_name": "click"
 				},
@@ -30,23 +30,25 @@
 			],
 			"objects": [{
 				"selector": "",
-				"properties": [{
-						"property": "innerText",
-						"name": "title",
-						"type": "text"
-					},
-					{
+				"properties": [
+				{
 						"property": "href",
 						"name": "link",
 						"type": "url"
-					}
+					},{
+						"property": "innerText",
+						"name": "title",
+						"type": "text"
+					}					
 				]
 			}]
 		},
+		
 		{
-			"name": "uolnewsdetail",
+			"name": "cnnnewsdetail",
 			"description": "This item collects category, title, author, date and time of news",
-			"title": "uol News details",
+			"viewGroup": "PInfo",
+			"title": "cnn News details",
 			"url_match": "*://*.cnn.com/*",
 			"type": "event",
 			"is_enabled": true,
@@ -63,8 +65,8 @@
 						"type": "text"
 					},
 					{
-						"selector": "a:nth-child(2)",
-						"property": "href",
+						"selector": "#header-nav-container a[data-test=section-link]",
+						"property": "attributes['aria-label'].value",
 						"name": "category",
 						"type": "text"
 					},
