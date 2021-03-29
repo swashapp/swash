@@ -134,7 +134,13 @@
             {
               "selector": ".a-price .a-offscreen",
               "property": "innerText",
-              "name": "price",
+              "name": "discountPrice",
+              "type": "text"
+            },
+			{
+              "selector": ".a-price.a-text-price .a-offscreen",
+              "property": "innerText",
+              "name": "regularPrice",
               "type": "text"
             },
             {
@@ -153,6 +159,24 @@
               "selector": ".sbv-ad-feedback span",
               "property": "innerText",
               "name": "sponsor",
+              "type": "text"
+            },
+            {
+              "selector": ".a-row.a-size-base.a-color-secondary.s-align-children-center .a-row:nth-child(2)",
+              "property": "innerText",
+              "name": "shippingFee",
+              "type": "text"
+            },
+            {
+              "selector": ".a-row.a-size-base.a-color-secondary.s-align-children-center .a-text-bold",
+              "property": "innerText",
+              "name": "deliveryTime",
+              "type": "text"
+            },
+            {
+              "selector": ".a-section.a-spacing-none.a-spacing-top-small .a-badge-label-inner.a-text-ellipsis .a-badge-text",
+              "property": "innerText",
+              "name": "limitedTimeOffer",
               "type": "text"
             },
             {
@@ -201,7 +225,13 @@
             {
               "selector": ".a-price-whole",
               "property": "innerText",
-              "name": "price",
+              "name": "discountPrice",
+              "type": "text"
+            },
+			{
+              "selector": ".a-price.a-text-price .a-offscreen",
+              "property": "innerText",
+              "name": "regularPrice",
               "type": "text"
             },
             {
@@ -220,6 +250,12 @@
               "selector": ".sbv-ad-feedback span",
               "property": "innerText",
               "name": "sponsor",
+              "type": "text"
+            },
+            {
+              "selector": ".a-section.a-spacing-none.a-spacing-top-micro .a-row.a-size-base.a-color-secondary:nth-child(2)",
+              "property": "innerText",
+              "name": "deliveryTime",
               "type": "text"
             },
             {
@@ -250,6 +286,7 @@
         },
         {
           "selector": "window",
+          "name": "window",
           "properties": [
             {
               "property": "screen.height",
@@ -265,6 +302,7 @@
         },
         {
           "selector": "document",
+          "name": "document",
           "properties": [
             {
               "property": "documentElement.clientHeight",
@@ -425,6 +463,24 @@
               "property": "innerText",
               "name": "pageNumber",
               "type": "text"
+            },
+			{
+              "selector": ".a-badge-label-inner.a-text-ellipsis",
+              "property": "innerText",
+              "name": "label",
+              "type": "text"
+            },
+			{
+              "selector": ".sbv-ad-feedback span",
+              "property": "innerText",
+              "name": "sponsor",
+              "type": "text"
+            },
+			{
+              "selector": ".a-section.a-spacing-none.a-spacing-top-micro .a-row.a-size-base.a-color-secondary:nth-child(2)",
+              "property": "innerText",
+              "name": "deliveryTime",
+              "type": "text"
             }
           ]
         }
@@ -464,7 +520,25 @@
             {
               "selector": "#priceblock_ourprice",
               "property": "innerText",
-              "name": "price",
+              "name": "discountPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".priceBlockStrikePriceString.a-text-strike",
+              "property": "innerText",
+              "name": "regularPrice",
+              "type": "text"
+            },
+            {
+              "selector": "#mir-layout-DELIVERY_BLOCK-slot-DELIVERY_MESSAGE",
+              "property": "innerText",
+              "name": "arriveTime",
+              "type": "text"
+            },
+            {
+              "selector": "[data-feature-name='exports_desktop_qualifiedBuybox_tlc']",
+              "property": "innerText",
+              "name": "shippingFee",
               "type": "text"
             },
             {
@@ -581,54 +655,6 @@
       ],
       "objects": [
         {
-          "selector": "#dp-container",
-          "isRequired": true,
-          "properties": [
-            {
-              "selector": "#productTitle",
-              "property": "innerText",
-              "name": "title",
-              "type": "text"
-            },
-            {
-              "selector": "#averageCustomerReviews .a-icon-star",
-              "property": "innerText",
-              "name": "rate",
-              "type": "text"
-            },
-            {
-              "selector": "#price_inside_buybox",
-              "property": "innerText",
-              "name": "price",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "height",
-              "name": "height",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "width",
-              "name": "width",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "top",
-              "name": "top",
-              "type": "text"
-            },
-            {
-              "function": "getBoundingClientRect",
-              "property": "left",
-              "name": "left",
-              "type": "text"
-            }
-          ]
-        },
-        {
           "selector": "<<<<<<",
           "properties": [
             {
@@ -646,10 +672,10 @@
           ]
         },
         {
-          "selector": "<<<<<<",
+          "selector": "<<<<<<<<<<<",
           "properties": [
             {
-              "selector": ".a-link-normal",
+              "selector": ".a-column.a-span12.g-span12when-narrow.g-span7when-wide .a-link-normal",
               "property": "innerText",
               "name": "title",
               "type": "text"
@@ -664,6 +690,18 @@
               "selector": ".a-icon-alt",
               "property": "innerText",
               "name": "rate",
+              "type": "text"
+            },
+			{
+              "selector": ".a-section.price-section .a-color-secondary.a-size-base",
+              "property": "innerText",
+              "name": "shippingFee",
+              "type": "text"
+            },
+			{
+              "selector": ".a-badge-label-inner.a-text-ellipsis .a-badge-text",
+              "property": "innerText",
+              "name": "label",
               "type": "text"
             }
           ]
@@ -687,6 +725,47 @@
               "selector": ".a-icon-alt",
               "property": "innerText",
               "name": "rate",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "selector": "#dp-container",
+          "properties": [
+            {
+              "selector": "#productTitle",
+              "property": "innerText",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "selector": "#averageCustomerReviews .a-icon-star",
+              "property": "innerText",
+              "name": "rate",
+              "type": "text"
+            },
+            {
+              "selector": "#priceblock_ourprice",
+              "property": "innerText",
+              "name": "discountPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".priceBlockStrikePriceString.a-text-strike",
+              "property": "innerText",
+              "name": "regularPrice",
+              "type": "text"
+            },
+            {
+              "selector": "#mir-layout-DELIVERY_BLOCK-slot-DELIVERY_MESSAGE",
+              "property": "innerText",
+              "name": "arriveTime",
+              "type": "text"
+            },
+            {
+              "selector": "[data-feature-name='exports_desktop_qualifiedBuybox_tlc']",
+              "property": "innerText",
+              "name": "shippingFee",
               "type": "text"
             }
           ]
@@ -786,9 +865,27 @@
               "type": "text"
             },
             {
-              "selector": "#price_inside_buybox",
+              "selector": "#priceblock_ourprice",
               "property": "innerText",
-              "name": "price",
+              "name": "discountPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".priceBlockStrikePriceString.a-text-strike",
+              "property": "innerText",
+              "name": "regularPrice",
+              "type": "text"
+            },
+            {
+              "selector": "#mir-layout-DELIVERY_BLOCK-slot-DELIVERY_MESSAGE",
+              "property": "innerText",
+              "name": "arriveTime",
+              "type": "text"
+            },
+            {
+              "selector": "[data-feature-name='exports_desktop_qualifiedBuybox_tlc']",
+              "property": "innerText",
+              "name": "shippingFee",
               "type": "text"
             },
             {
@@ -902,9 +999,27 @@
               "type": "text"
             },
             {
-              "selector": "#price_inside_buybox",
+              "selector": "#priceblock_ourprice",
               "property": "innerText",
-              "name": "price",
+              "name": "discountPrice",
+              "type": "text"
+            },
+            {
+              "selector": ".priceBlockStrikePriceString.a-text-strike",
+              "property": "innerText",
+              "name": "regularPrice",
+              "type": "text"
+            },
+            {
+              "selector": "#mir-layout-DELIVERY_BLOCK-slot-DELIVERY_MESSAGE",
+              "property": "innerText",
+              "name": "arriveTime",
+              "type": "text"
+            },
+            {
+              "selector": "[data-feature-name='exports_desktop_qualifiedBuybox_tlc']",
+              "property": "innerText",
+              "name": "shippingFee",
               "type": "text"
             },
             {
