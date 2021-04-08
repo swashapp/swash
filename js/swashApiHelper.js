@@ -8,71 +8,27 @@ let swashApiHelper = (function () {
 		APIConfigManager = configManager.getConfig('swashAPI');		
     }
 
-    async function isJoinedSwash() {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.join
-        const req = {
-            method: 'GET',
+    async function callSwashAPIData(api, method='GET', body=undefined) {
+        const url = APIConfigManager.endpoint + api
+        let req = {
+            method: method,
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
             },
+        }
+
+        if (body){
+            req = {...req, body: JSON.stringify(body)}
         }
         try {
             const resp = await fetch(url, req);
             if (resp.status === 200) {
-                let user_id = (await resp.json()).id;
-                await updateUserId(user_id);
-                return true;
-            }
-        } catch (err) {
-            console.error(`Error message: ${err.message}`)
-            return undefined;
-        }
-        return false;
-    }
-
-    async function joinSwash() {
-        browser.tabs.create({
-            url: 'https://swashapp.io/join?token='.concat(await communityHelper.generateJWT())
-        });
-    }
-
-    async function getReferralRewards() {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.reward
-        const req = {
-            method: 'GET',
-            headers: {
-                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
-            },
-        }
-        try {
-            const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                const programs = (await resp.json());
-                let total = 0;
-                for (const program of programs){
-                    if (program.Reward)
-                        total += program.Reward;
-                }
-                return total;
-            }
-        } catch (err) {
-            console.error(`Error message: ${err.message}`)
-        }
-        return 0;
-    }
-
-    async function getActiveReferral() {
-        const url = APIConfigManager.endpoint + APIConfigManager.APIList.activeReferral
-        const req = {
-            method: 'GET',
-            headers: {
-                'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
-            },
-        }
-        try {
-            const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                return (await resp.json());
+                const result = (await resp.json());
+                if (result.status === 'success')
+                    return result.data;
+                else
+                    console.log(result.reason)
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
@@ -80,42 +36,62 @@ let swashApiHelper = (function () {
         return {};
     }
 
-    async function sendSponsoredWithdraw(recipient) {
-        try {
-            const signature = communityHelper.getSignCheckForSponsorWithdraw(recipient);
-            const url = APIConfigManager.endpoint + APIConfigManager.APIList.withdraw
-            const req = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': "Bearer ".concat(await communityHelper.generateJWT())
-                },
-                body: JSON.stringify({recipient: recipient, signature: signature})
-            }
-            const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                return true;
-            } else return resp.body.message;
-        } catch (err) {
-            console.error(`Error message: ${err.message}`)
-            return err.message;
+    async function isJoinedSwash() {
+        const data = await callSwashAPIData(APIConfigManager.APIs.userJoin);
+        if (data.id) {
+            await updateUserId(data.id);
+            return true;
         }
+        return false;
+    }
+
+    async function joinSwash() {
+        browser.tabs.create({
+            url: 'https://test.swashapp.io/join?token='.concat(await communityHelper.generateJWT())
+        });
+    }
+
+    async function getReferralRewards() {
+        const data = await callSwashAPIData(APIConfigManager.APIs.userReferralReward);
+        if (data.reward) {
+            return ethers.utils.formatEther(data.reward);
+        }
+        return '0';
+    }
+
+    async function withdrawToTarget(recipient, amount, useSponsor, sendToMainnet) {
+        const signature = await communityHelper.signWithdrawAllTo(recipient);
+        if (!signature.error) {
+            const amountInWei = ethers.utils.parseEther(amount);
+            const body = {
+                recipient: recipient,
+                signature: signature,
+                amount: amountInWei.toString(),
+                useSponsor: useSponsor,
+                sendToMainnet: sendToMainnet
+            };
+            const data = await callSwashAPIData(APIConfigManager.APIs.userBalanceWithdraw, 'POST', body);
+            if (data.tx)
+                return data
+            else if (data.message) {
+                const tx = await communityHelper.transportMessage(message)
+                return tx.transactionHash;
+            }
+            return data;
+        }
+        return signature;
+    }
+
+    async function getActiveReferral() {
+        return await callSwashAPIData(APIConfigManager.APIs.referralActive);
     }
 
     async function ip2Location() {
-        const url = 'https://ipapi.co/json'
-        const req = {
-            method: 'GET'
+        const data = await callSwashAPIData(APIConfigManager.APIs.userReferralReward);
+        if (data.country) {
+            return data.country;
         }
-        try {
-            const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                return (await resp.json())['country_name'];
-            }
-        } catch (err) {
-            console.error(`Error message: ${err.message}`)
-        }
-        throw new Error('Unable to fetch ip2location');
+        return undefined;
     }
 
     async function getDataEthPairPrice() {
@@ -173,7 +149,7 @@ let swashApiHelper = (function () {
         isJoinedSwash,
         getReferralRewards,
         getActiveReferral,
-        sendSponsoredWithdraw,
+        withdrawToTarget,
         getDataEthPairPrice,
         getUserId,
         getUserCountry,

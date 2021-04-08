@@ -1,10 +1,12 @@
 {
-    "endpoint": "https://swashapp.io/api/v1",
-    "APIList": {
-        "join": "/user/join",
-        "reward": "/user/reward",
-        "withdraw": "/user/withdraw",
-        "ip2location": "/tools/ip2location",
-        "activeReferral": "/referral/active"
+    "endpoint": "https://api.swashapp.io/v1",
+    "APIs": {
+        "userJoin": "/user/join",
+        "userReferralReward": "/user/referral/reward",
+        "userReferralClaim": "/user/referral/claim",
+        "userBalanceWithdraw": "/user/balance/withdraw",
+        "referralActive": "/referral/active",
+        "ipLookup": "/tools/ip/lookup",
+        "charityList": "/charity/list"
     }
 }

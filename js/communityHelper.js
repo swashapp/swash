@@ -79,8 +79,8 @@ let communityHelper = (function() {
 
 	// In UI: "current DATA balance in your wallet", your DATA + withdrawn tokens
 	async function getDataBalance(address) {
-		const mainnetTokens = await StreamrClient.getTokenBalance(address)
-		const sidechainTokens = await StreamrClient.getSidechainTokenBalance(address)
+		const mainnetTokens = await client.getTokenBalance(address)
+		const sidechainTokens = await client.getSidechainTokenBalance(address)
 		const balance = mainnetTokens.add(sidechainTokens);
 		return ethers.utils.formatEther(balance);
 	}
@@ -89,7 +89,7 @@ let communityHelper = (function() {
 	async function getAvailableBalance() {
 		if (!wallet) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
-		const withdrawableEarnings = duHandler.getWithdrawableEarnings(wallet.address);
+		const withdrawableEarnings = await duHandler.getWithdrawableEarnings(wallet.address);
 		return ethers.utils.formatEther(withdrawableEarnings);
 	}
 
@@ -110,125 +110,50 @@ let communityHelper = (function() {
 		return ethers.utils.formatEther(balance.add(aBalance));
 	}
 
-	async function withdrawEarnings() {
+	async function signWithdrawAllTo(targetAddress) {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
 
 		try {
-			return await duHandler.withdrawAll();
+			return await duHandler.signWithdrawAllTo(targetAddress);
 		}
 		catch(err) {
 			return {error: etherjsErrorMapping(err.reason)};
 		}
 	}
 
-	// Click Transfer button in Wallet
-	async function withdrawAllTo(targetAddress) {
-		if (!wallet || !provider) return {error: "Wallet is not provided"};
-		if (!client) clientConnect();
-
-		try {
-			return await duHandler.withdrawAllTo(targetAddress);
-		}
-		catch(err) {
-			return {error: etherjsErrorMapping(err.reason)};
-		}
-	}
-
-	// Click Transfer button in Wallet with specified amount
-	async function withdrawTo(targetAddress, amount) {
+	async function signWithdrawAmountTo(targetAddress, amount) {
 		if (!wallet || !provider) return {error: "Wallet is not provided"};
 		if (!client) clientConnect();
 		wallet = wallet.connect(provider);
 
-		const memberAddress = wallet.address;
-		const amountInWei = ethers.utils.formatEther(amount);
-		const amountInBN = ethers.BigNumber.from(ethers.utils.parseEther(amount));
+		const amountBN = ethers.utils.parseEther(amount);
 
-		const withdrawableEarnings = await duHandler.getWithdrawableEarnings(memberAddress);
-		if (amountInBN.gt(withdrawableEarnings)) {
+		const withdrawableEarnings = await duHandler.getWithdrawableEarnings(wallet.address);
+		if (amountBN.gt(withdrawableEarnings)) {
 			return {error: "Nothing to withdraw"};
 		}
 
 		try {
-			const signature = await duHandler.signWithdrawAmountTo(targetAddress, amountInWei)
-			return await dataUnion.withdrawAllToSigned(memberAddress, targetAddress, signature)
+			return await duHandler.signWithdrawAmountTo(targetAddress, amountBN.toString())
 		}
 		catch(err) {
 			return {error: etherjsErrorMapping(err.reason)};
 		}
 	}
 
-	// TODO: Broken, should fix
-	async function getWithdrawAllToTransactionFee(targetAddress) {
+	async function transportMessage(message) {
 		try {
-			if (!wallet || !provider) return 0;
-			if (!client) clientConnect();
-			wallet = wallet.connect(provider);
-
-			const member = await duHandler.getMemberStats(wallet.address);
-			if (member.error || member.withdrawableEarnings < 1) return 0;
-			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
-
-			const gasPrice = await provider.getGasPrice();
-			const estimatedGas = await contract.estimateGas.withdrawAllTo(
-				targetAddress,
-				member.withdrawableBlockNumber,
-				member.withdrawableEarnings,
-				member.proof,
-				overrides
-			);
-			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
-		}
-		catch(err) {
-			return 0;
-		}
-	}
-
-	async function getSignCheckForSponsorWithdraw(targetAddress) {
-		if (!wallet || !provider) throw Error("Wallet is not provided");
-		if (!client) clientConnect();
-
-		try {
-			return await duHandler.signWithdrawAllTo(targetAddress)
-		}
-		catch(err) {
+			const tx = await duHandler.transportMessage(message);
+			return {tx: tx.transactionHash};
+		} catch (err) {
 			return {error: etherjsErrorMapping(err.reason)};
-		}
-	}
-
-	// TODO: Broken, should fix
-	async function getSponsoredWithdrawTransactionFee(targetAddress) {
-		try {
-			if (!wallet || !provider) return 0;
-			if (!client) clientConnect();
-			wallet = wallet.connect(provider);
-			const memberAddress = wallet.address;
-
-			const memberStats = await duHandler.getMemberStats(memberAddress);
-			if (memberStats.error || memberStats.withdrawableBlockNumber == null) {
-				return 0;
-			}
-			const contract = new ethers.Contract(communityConfig.communityAddress, communityConfig.communityAbi, wallet);
-			const withdrawn = await contract.withdrawn(memberAddress)
-			const withdrawnHexString = ethers.utils.hexZeroPad(withdrawn.toHexString(), 32).slice(2).toString()
-			const message = targetAddress + "0".repeat(64) + communityConfig.communityAddress.slice(2) + withdrawnHexString
-
-			const hashData = ethers.utils.arrayify(message);
-			const signature = await wallet.signMessage(hashData)
-
-			const gasPrice = await provider.getGasPrice();
-			const estimatedGas = await contract.estimateGas.withdrawAllToSigned(targetAddress, memberAddress, signature, memberStats.withdrawableBlockNumber, memberStats.withdrawableEarnings, memberStats.proof);
-			return ethers.utils.formatEther(estimatedGas.mul(gasPrice));
-		}
-		catch (err) {
-			return 0;
 		}
 	}
 
 	async function updateTimestamp() {
 		if (lastUpdate === 0 || lastUpdate + communityConfig.tokenExpiration < Date.now()) {
-			const resp = await fetch('https://swashapp.io/api/v1/sync/timestamp', {method: 'GET'})
+			const resp = await fetch('https://api.swashapp.io/v1/sync/timestamp', {method: 'GET'})
 			if (resp.status === 200) {
 				timestamp = (await resp.json()).timestamp
 				lastUpdate = Date.now()
@@ -257,9 +182,8 @@ let communityHelper = (function() {
 		createWallet,
         loadWallet,
 		getEncryptedWallet,
-		withdrawEarnings,
-		withdrawTo,
-		withdrawAllTo,
+		signWithdrawAllTo,
+		signWithdrawAmountTo,
 		getWalletInfo,
 		getDataBalance,
 		decryptWallet,
@@ -268,10 +192,8 @@ let communityHelper = (function() {
 		getTotalBalance,
 		getStreamrClient,
 		getEthBalance,
+		transportMessage,
 		generateJWT,
-		getSignCheckForSponsorWithdraw,
-		getWithdrawAllToTransactionFee,
-		getSponsoredWithdrawTransactionFee,
     };
 }())
 
