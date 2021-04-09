@@ -545,6 +545,24 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
+	function claimRewards() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "claimRewards",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function getWithdrawBalance() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getWithdrawBalance",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
 	function getActiveReferral() {
 		let message = {
 			obj: "swashApiHelper",
@@ -616,6 +634,8 @@ var helper = (function () {
 		getCategory,
 		getDataEthPairPrice,
 		withdrawToTarget,
+		claimRewards,
+		getWithdrawBalance,
 		getActiveReferral
 	};
 }());

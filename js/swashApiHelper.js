@@ -23,12 +23,12 @@ let swashApiHelper = (function () {
         }
         try {
             const resp = await fetch(url, req);
-            if (resp.status === 200) {
-                const result = (await resp.json());
-                if (result.status === 'success')
-                    return result.data;
-                else
-                    console.log(result.reason)
+            const result = (await resp.json());
+            if (result.status === 'success')
+                return result.data;
+            else {
+                console.log(result.reason)
+                return {reason: result.reason}
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
@@ -59,6 +59,14 @@ let swashApiHelper = (function () {
         return '0';
     }
 
+    async function getWithdrawBalance() {
+        const data = await callSwashAPIData(APIConfigManager.APIs.userBalanceWithdraw);
+        if (data.minimum) {
+            return ethers.utils.formatEther(data.minimum);
+        }
+        return '0';
+    }
+
     async function withdrawToTarget(recipient, amount, useSponsor, sendToMainnet) {
         const signature = await communityHelper.signWithdrawAllTo(recipient);
         if (!signature.error) {
@@ -75,11 +83,15 @@ let swashApiHelper = (function () {
                 return data
             else if (data.message) {
                 const tx = await communityHelper.transportMessage(message)
-                return tx.transactionHash;
+                return {tx: tx.transactionHash};
             }
             return data;
         }
         return signature;
+    }
+
+    async function claimRewards() {
+        return  await callSwashAPIData(APIConfigManager.APIs.userReferralClaim, 'POST');
     }
 
     async function getActiveReferral() {
@@ -150,6 +162,8 @@ let swashApiHelper = (function () {
         getReferralRewards,
         getActiveReferral,
         withdrawToTarget,
+        claimRewards,
+        getWithdrawBalance,
         getDataEthPairPrice,
         getUserId,
         getUserCountry,
