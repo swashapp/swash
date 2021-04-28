@@ -141,7 +141,7 @@ let dataHandler = (function() {
         prepareAndSend(message, modules[message.header.module], delay, tabId)
     }
     function enforcePolicy(message, privacyData) {		
-        let data = {};
+        let data = message.data.out;
         let schems = message.data.schems;               
         var ptr = JsonPointer;
         for(let d of schems) {
