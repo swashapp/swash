@@ -27,8 +27,8 @@ let swashApiHelper = (function () {
             if (result.status === 'success')
                 return result.data;
             else {
-                console.log(result.reason)
-                return {reason: result.reason}
+                console.log(result.message)
+                return {reason: result.message}
             }
         } catch (err) {
             console.error(`Error message: ${err.message}`)
@@ -60,11 +60,16 @@ let swashApiHelper = (function () {
     }
 
     async function getWithdrawBalance() {
-        const data = await callSwashAPIData(APIConfigManager.APIs.userBalanceWithdraw);
-        if (data.minimum) {
-            return ethers.utils.formatEther(data.minimum);
+        const data = await callSwashAPIData(APIConfigManager.APIs.balanceWithdraw);
+        const result = {};
+
+        if (data.sponsor && data.sponsor.minimum) {
+            result.minimum = Number(ethers.utils.formatEther(data.sponsor.minimum))
         }
-        return '0';
+        if (data.gas && data.gas.etherEquivalent) {
+            result.gas = Number(ethers.utils.formatEther(data.gas.etherEquivalent))
+        }
+        return result;
     }
 
     async function withdrawToTarget(recipient, amount, useSponsor, sendToMainnet) {

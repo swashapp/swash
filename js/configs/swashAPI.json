@@ -5,6 +5,7 @@
         "userReferralReward": "/user/referral/reward",
         "userReferralClaim": "/user/referral/claim",
         "userBalanceWithdraw": "/user/balance/withdraw",
+        "balanceWithdraw": "/balance/withdraw",
         "referralActive": "/referral/active",
         "ipLookup": "/tools/ip/lookup",
         "charityList": "/charity/list"
