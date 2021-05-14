@@ -5,6 +5,7 @@ import {storageHelper} from './storageHelper.js';
 import {browserUtils} from "./browserUtils.js";
 import {configManager} from './configManager.js';
 import {memberManager} from "./memberManager.js";
+import {swashApiHelper} from "./swashApiHelper.js";
 
 let onboarding = (function () {
     let oauthTabId = 0;
@@ -121,6 +122,9 @@ let onboarding = (function () {
 
         await storageHelper.storeAll(db);        
         await loader.onInstalled();
+        swashApiHelper.getUserCountry().then((location) => {
+            console.log(`User is joined from ${location.country}`)
+        })
         return true;
     }
 

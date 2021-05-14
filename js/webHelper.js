@@ -284,15 +284,6 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function withdraw() {
-		let message = {
-			obj: "communityHelper",
-			func: "withdrawEarnings",
-			params: []
-		}
-		return sendMessage(message);
-	}
-
 	function generateJWT() {
 		let message = {
 			obj: "communityHelper",
@@ -325,42 +316,6 @@ var helper = (function () {
 			obj: "storageHelper",
 			func: "updateData",
 			params: ["wallets", data]
-		}
-		return sendMessage(message);
-	}
-
-	function withdrawTo(address, amount) {
-		let message = {
-			obj: "communityHelper",
-			func: "withdrawTo",
-			params: [address, amount]
-		}
-		return sendMessage(message);
-	}
-
-	function withdrawAllTo(address, amount) {
-		let message = {
-			obj: "communityHelper",
-			func: "withdrawAllTo",
-			params: [address, amount]
-		}
-		return sendMessage(message);
-	}
-
-	async function getWithdrawAllToTransactionFee(targetAddress) {
-		let message = {
-			obj: "communityHelper",
-			func: "getWithdrawAllToTransactionFee",
-			params: [targetAddress]
-		}
-		return sendMessage(message);
-	}
-
-	async function getSponsoredWithdrawTransactionFee(targetAddress) {
-		let message = {
-			obj: "communityHelper",
-			func: "getSponsoredWithdrawTransactionFee",
-			params: [targetAddress]
 		}
 		return sendMessage(message);
 	}
@@ -581,11 +536,29 @@ var helper = (function () {
 		return sendMessage(message);
 	}
 
-	function sendSponsoredWithdraw(recipient) {
+	function withdrawToTarget(recipient, amount, useSponsor, sendToMainnet) {
 		let message = {
 			obj: "swashApiHelper",
-			func: "sendSponsoredWithdraw",
-			params: [recipient]
+			func: "withdrawToTarget",
+			params: [recipient, amount, useSponsor, sendToMainnet]
+		};
+		return sendMessage(message);
+	}
+
+	function claimRewards() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "claimRewards",
+			params: []
+		};
+		return sendMessage(message);
+	}
+
+	function getWithdrawBalance() {
+		let message = {
+			obj: "swashApiHelper",
+			func: "getWithdrawBalance",
+			params: []
 		};
 		return sendMessage(message);
 	}
@@ -625,7 +598,6 @@ var helper = (function () {
 		getKeyInfo,
 		getDataBalance,
 		getEthBalance,
-		withdraw,
 		getAvailableBalance,
 		getCumulativeEarnings,
 		getTotalBalance,
@@ -636,10 +608,6 @@ var helper = (function () {
 		isCurrentDomainFiltered,
 		loadWallets,
 		saveWallets,
-		withdrawTo,
-		withdrawAllTo,
-		getWithdrawAllToTransactionFee,
-		getSponsoredWithdrawTransactionFee,
 		generateJWT,
 		startOnBoarding,
 		isNeededOnBoarding,
@@ -665,7 +633,9 @@ var helper = (function () {
 		getReferralRewards,
 		getCategory,
 		getDataEthPairPrice,
-		sendSponsoredWithdraw,
+		withdrawToTarget,
+		claimRewards,
+		getWithdrawBalance,
 		getActiveReferral
 	};
 }());
