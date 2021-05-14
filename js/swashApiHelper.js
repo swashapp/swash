@@ -47,7 +47,7 @@ let swashApiHelper = (function () {
 
     async function joinSwash() {
         browser.tabs.create({
-            url: 'https://test.swashapp.io/join?token='.concat(await communityHelper.generateJWT())
+            url: 'https://swashapp.io/user/join?token='.concat(await communityHelper.generateJWT())
         });
     }
 
