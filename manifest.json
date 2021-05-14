@@ -1,4 +1,10 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "authsaz@gmail.com"
+    }
+  },
+
   "background": {
     "page": "background.html"
   },
@@ -17,7 +23,7 @@
   "icons": {
     "48": "icons/green_mark_48.png",
     "96": "icons/green_mark_96.png",
-	"128": "icons/green_mark_128.png"
+    "128": "icons/green_mark_128.png"
   },
 
   "manifest_version": 2,
