@@ -104,9 +104,9 @@ let swashApiHelper = (function () {
     }
 
     async function ip2Location() {
-        const data = await callSwashAPIData(APIConfigManager.APIs.userReferralReward);
+        const data = await callSwashAPIData(APIConfigManager.APIs.ipLookup);
         if (data.country) {
-            return data.country;
+            return {country: data.country, city: data.city};
         }
         return undefined;
     }
@@ -145,13 +145,15 @@ let swashApiHelper = (function () {
 
     async function getUserCountry() {
         let profile = await storageHelper.retrieveProfile();
-        if (profile.country)
-            return profile.country;
+        if (profile.country) {
+            return {country: profile.country, city: profile.city};
+        }
 
         try {
-            let country = await ip2Location();
+            let {country, city} = await ip2Location();
             if (country !== '') {
                 profile.country = country;
+                profile.city = city;
                 await storageHelper.updateProfile(profile);
                 return country;
             }

@@ -125,10 +125,9 @@ let dataHandler = (function() {
         message.header.version = browserUtils.getVersion();
 		
         message.identity = {};
-        message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);		
-		let country = '';
-		profile.country ? country = profile.country : country = (await swashApiHelper.getUserCountry());
-		message.identity.country = country;
+        message.identity.uid = privacyUtils.anonymiseIdentity(configs.Id, message, modules[message.header.module]);
+		message.identity.country = profile.country || (await swashApiHelper.getUserCountry());
+		message.identity.city = profile.city || '';
 		message.identity.gender = profile.gender;
 		message.identity.age = profile.age;
 		message.identity.income = profile.income;
