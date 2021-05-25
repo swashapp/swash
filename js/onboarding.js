@@ -512,7 +512,7 @@ let onboarding = (function () {
     }
 
     function openOnBoarding() {
-        let fullURL = browser.extension.getURL("dashboard/index.html/OnBoarding");
+        let fullURL = browser.extension.getURL("dashboard/index.html#/OnBoarding");
         browser.tabs.create({
             url: fullURL
         });

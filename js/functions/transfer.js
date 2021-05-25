@@ -17,7 +17,7 @@ var transfer = (function() {
 	}
 
 	function openTransferDialog(wallet){
-		let url = browser.runtime.getURL("dashboard/index.html/Transfer/" + wallet);
+		let url = browser.runtime.getURL("dashboard/index.html#/Transfer/" + wallet);
 		return browser.windows.create({
 			url: url,
 			type: "popup"
@@ -25,7 +25,7 @@ var transfer = (function() {
 	}
 	function listener(requestDetails){
 		let res = requestDetails.url.match(regexp);
-	    let url = browser.runtime.getURL("dashboard/index.html/Transfer/"+ res[1]);
+	    let url = browser.runtime.getURL("dashboard/index.html#/Transfer/"+ res[1]);
 		showPageOnTab(url);
 	}
 

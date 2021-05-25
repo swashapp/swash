@@ -73,7 +73,7 @@ browserUtils.getPlatformInfo().then(info => {
 	browserUtils.isMobileDevice().then(res => {
 		if (res) {
 			browser.browserAction.onClicked.addListener(async () =>
-				browser.tabs.create({url: '/dashboard/index.html/Settings',})
+				browser.tabs.create({url: '/dashboard/index.html#/Settings',})
 			);
 		} else {
 			browser.browserAction.setPopup({popup: 'popup/popup.html',});
