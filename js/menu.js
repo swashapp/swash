@@ -11,7 +11,7 @@ function filterIconStat(filtered) {
 function showPageOnTab(url_to_show) {
 	window.helper.isNeededOnBoarding().then((result) => {
 		if (result)
-			url_to_show = browser.runtime.getURL("dashboard/index.html#/OnBoarding");
+			url_to_show = browser.runtime.getURL("dashboard/index.html/OnBoarding");
 		return browser.windows.getAll({
 			populate: true,
 			windowTypes: ["normal"]
@@ -42,13 +42,13 @@ document.getElementById("open_setting").addEventListener('click', function(event
 });
 
 document.getElementById("open_messages").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html#/Data");
+    let url = browser.runtime.getURL("dashboard/index.html/Data");
     showPageOnTab(url);
 });
 
 
 document.getElementById("open_logs").addEventListener('click', function(eventObj) {
-    let url = browser.runtime.getURL("dashboard/index.html#/Help");
+    let url = browser.runtime.getURL("dashboard/index.html/Help");
     showPageOnTab(url);
 });
 
