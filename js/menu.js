@@ -77,7 +77,7 @@ window.helper.load().then(db => {
 		if (!result) {			
 			document.getElementById("streaming").checked = db.configs.is_enabled;
 
-			window.helper.getTotalBalance().then(balance => {
+			window.helper.getAvailableBalance().then(balance => {
 				balance = (balance === '' || balance === 'undefined' || typeof (balance) === 'undefined') ? '0.00' : balance;
 				updateBalance(purgeNumber(balance));
 			})

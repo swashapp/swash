@@ -36,5 +36,5 @@
 
   "content_security_policy": "script-src 'self' https://www.youtube.com/ https://s.ytimg.com/; object-src 'self';",
 
-  "version": "1.3.2"
+  "version": "1.3.3"
 }
